@@ -30,13 +30,6 @@ namespace CloudMapUI
 
         public MainForm parent { get; set; }
 
-        
-
-        private void btnAddModule_Click(object sender, EventArgs e)
-        {
-            
-
-        }
 
         private void SelectedModule_SelectedIndexChanged(object sender, EventArgs e)
         {

@@ -131,6 +131,39 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Data\Data.csproj">
+      <Project>{97978d3d-3265-469f-b969-894f09d2dd0d}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="icons\1192268.gif" />
+    <Content Include="icons\add_project.gif" />
+    <Content Include="icons\BlueSmoke256.png" />
+    <Content Include="icons\borderColor.png" />
+    <Content Include="icons\color filling.png" />
+    <Content Include="icons\delete.gif" />
+    <Content Include="icons\display.png" />
+    <Content Include="icons\done.gif" />
+    <Content Include="icons\edit.gif" />
+    <Content Include="icons\if_Help_27853.png" />
+    <Content Include="icons\image.png" />
+    <Content Include="icons\import.png" />
+    <Content Include="icons\Info.png" />
+    <Content Include="icons\lineColor.png" />
+    <Content Include="icons\lineWidth.png" />
+    <Content Include="icons\module.png" />
+    <Content Include="icons\open.png" />
+    <Content Include="icons\pen.png" />
+    <Content Include="icons\Printer.png" />
+    <Content Include="icons\relation.png" />
+    <Content Include="icons\save.png" />
+    <Content Include="icons\setting.gif" />
+    <Content Include="icons\帮助.png" />
+    <Content Include="icons\退出.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
