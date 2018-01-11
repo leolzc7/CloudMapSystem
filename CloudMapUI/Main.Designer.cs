@@ -41,6 +41,7 @@
             this.ToolStripMenuItem_Print = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripMenuItem_Exit = new System.Windows.Forms.ToolStripMenuItem();
+            this.历史记录ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Item = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_AddModule = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_AddRelation = new System.Windows.Forms.ToolStripMenuItem();
@@ -106,7 +107,6 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
@@ -120,7 +120,6 @@
             this.tabPage_module = new System.Windows.Forms.TabPage();
             this.tabPage_relation = new System.Windows.Forms.TabPage();
             this.saveFileDialog_saveImage = new System.Windows.Forms.SaveFileDialog();
-            this.历史记录ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -230,6 +229,12 @@
             this.ToolStripMenuItem_Exit.Text = "退出(&X)";
             this.ToolStripMenuItem_Exit.Click += new System.EventHandler(this.ToolStripMenuItem_Exit_Click);
             // 
+            // 历史记录ToolStripMenuItem
+            // 
+            this.历史记录ToolStripMenuItem.Name = "历史记录ToolStripMenuItem";
+            this.历史记录ToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.历史记录ToolStripMenuItem.Text = "历史记录";
+            // 
             // ToolStripMenuItem_Item
             // 
             this.ToolStripMenuItem_Item.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -280,13 +285,13 @@
             this.ToolStripMenuItem_level2,
             this.ToolStripMenuItem_Level3});
             this.ToolStripMenuItem_SysLevel.Name = "ToolStripMenuItem_SysLevel";
-            this.ToolStripMenuItem_SysLevel.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_SysLevel.Size = new System.Drawing.Size(142, 22);
             this.ToolStripMenuItem_SysLevel.Text = "系统等级";
             // 
             // ToolStripMenuItem_Level1
             // 
             this.ToolStripMenuItem_Level1.Name = "ToolStripMenuItem_Level1";
-            this.ToolStripMenuItem_Level1.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Level1.Size = new System.Drawing.Size(100, 22);
             this.ToolStripMenuItem_Level1.Text = "一级";
             this.ToolStripMenuItem_Level1.Click += new System.EventHandler(this.ToolStripMenuItem_Level1_Click);
             // 
@@ -787,7 +792,6 @@
             // 
             this.panel4.AutoScroll = true;
             this.panel4.BackColor = System.Drawing.Color.Transparent;
-            this.panel4.Controls.Add(this.button1);
             this.panel4.Controls.Add(this.label3);
             this.panel4.Controls.Add(this.label2);
             this.panel4.Controls.Add(this.textBox2);
@@ -799,15 +803,6 @@
             this.panel4.Size = new System.Drawing.Size(635, 443);
             this.panel4.TabIndex = 0;
             this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.panel4_Paint);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(126, 62);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(102, 53);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "module1";
-            this.button1.UseVisualStyleBackColor = true;
             // 
             // label3
             // 
@@ -931,12 +926,6 @@
             // saveFileDialog_saveImage
             // 
             this.saveFileDialog_saveImage.Filter = "Painter 文件|*.pat|BMP 文件|*.bmp|JPG 文件|*.jpg|JPEG 文件|*.jpeg|Gif 文件|*.gif";
-            // 
-            // 历史记录ToolStripMenuItem
-            // 
-            this.历史记录ToolStripMenuItem.Name = "历史记录ToolStripMenuItem";
-            this.历史记录ToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
-            this.历史记录ToolStripMenuItem.Text = "历史记录";
             // 
             // MainForm
             // 
@@ -1062,7 +1051,6 @@
         public System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label2;
         public System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ToolStripMenuItem 历史记录ToolStripMenuItem;
     }
