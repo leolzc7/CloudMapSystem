@@ -28,8 +28,7 @@ namespace CloudMapUI
             textBox2.Text = dbSelfPath;
         }
 
-        public static string dbPath;
-        public static string dbName;
+        string dbName;
         string dbSelfPath;
         
         private void btnNewProjectSure_Click(object sender, EventArgs e)
