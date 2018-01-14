@@ -33,15 +33,14 @@
             this.NToolStripMenuItem_newProject = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripMenuItem_OpenProject = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItem_SaveProject = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_saveImage = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_SaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripMenuItem_PrePrint = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Print = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.ToolStripMenuItem_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.历史记录ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Item = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_AddModule = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_AddRelation = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,7 +59,7 @@
             this.ToolStripMenuItem_Line = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_LineColor = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_LineWidth = new System.Windows.Forms.ToolStripMenuItem();
-            this.注释ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_comment = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Help = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_About = new System.Windows.Forms.ToolStripMenuItem();
             this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -120,6 +119,7 @@
             this.tabPage_module = new System.Windows.Forms.TabPage();
             this.tabPage_relation = new System.Windows.Forms.TabPage();
             this.saveFileDialog_saveImage = new System.Windows.Forms.SaveFileDialog();
+            this.ToolStripMenuItem_colorFilling = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -137,15 +137,14 @@
             this.NToolStripMenuItem_newProject,
             this.toolStripSeparator1,
             this.ToolStripMenuItem_OpenProject,
-            this.ToolStripMenuItem_SaveProject,
             this.ToolStripMenuItem_saveImage,
             this.ToolStripMenuItem_SaveAs,
             this.toolStripSeparator2,
             this.ToolStripMenuItem_PrePrint,
             this.ToolStripMenuItem_Print,
             this.toolStripSeparator3,
-            this.ToolStripMenuItem_Exit,
-            this.历史记录ToolStripMenuItem});
+            this.历史记录ToolStripMenuItem,
+            this.ToolStripMenuItem_Exit});
             this.ToolStripMenuItem_File.Name = "ToolStripMenuItem_File";
             this.ToolStripMenuItem_File.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F)));
             this.ToolStripMenuItem_File.Size = new System.Drawing.Size(58, 21);
@@ -173,17 +172,10 @@
             this.ToolStripMenuItem_OpenProject.Text = "打开项目(&O)";
             this.ToolStripMenuItem_OpenProject.Click += new System.EventHandler(this.ToolStripMenuItem_OpenProject_Click);
             // 
-            // ToolStripMenuItem_SaveProject
-            // 
-            this.ToolStripMenuItem_SaveProject.Name = "ToolStripMenuItem_SaveProject";
-            this.ToolStripMenuItem_SaveProject.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.ToolStripMenuItem_SaveProject.Size = new System.Drawing.Size(189, 22);
-            this.ToolStripMenuItem_SaveProject.Text = "保存项目(&S)";
-            this.ToolStripMenuItem_SaveProject.Click += new System.EventHandler(this.ToolStripMenuItem_SaveProject_Click);
-            // 
             // ToolStripMenuItem_saveImage
             // 
             this.ToolStripMenuItem_saveImage.Name = "ToolStripMenuItem_saveImage";
+            this.ToolStripMenuItem_saveImage.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.ToolStripMenuItem_saveImage.Size = new System.Drawing.Size(189, 22);
             this.ToolStripMenuItem_saveImage.Text = "保存云图";
             this.ToolStripMenuItem_saveImage.Click += new System.EventHandler(this.保存云图ToolStripMenuItem_Click);
@@ -221,6 +213,13 @@
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(186, 6);
             // 
+            // 历史记录ToolStripMenuItem
+            // 
+            this.历史记录ToolStripMenuItem.Name = "历史记录ToolStripMenuItem";
+            this.历史记录ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
+            this.历史记录ToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.历史记录ToolStripMenuItem.Text = "历史记录";
+            // 
             // ToolStripMenuItem_Exit
             // 
             this.ToolStripMenuItem_Exit.Name = "ToolStripMenuItem_Exit";
@@ -228,12 +227,6 @@
             this.ToolStripMenuItem_Exit.Size = new System.Drawing.Size(189, 22);
             this.ToolStripMenuItem_Exit.Text = "退出(&X)";
             this.ToolStripMenuItem_Exit.Click += new System.EventHandler(this.ToolStripMenuItem_Exit_Click);
-            // 
-            // 历史记录ToolStripMenuItem
-            // 
-            this.历史记录ToolStripMenuItem.Name = "历史记录ToolStripMenuItem";
-            this.历史记录ToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
-            this.历史记录ToolStripMenuItem.Text = "历史记录";
             // 
             // ToolStripMenuItem_Item
             // 
@@ -249,21 +242,21 @@
             // ToolStripMenuItem_AddModule
             // 
             this.ToolStripMenuItem_AddModule.Name = "ToolStripMenuItem_AddModule";
-            this.ToolStripMenuItem_AddModule.Size = new System.Drawing.Size(124, 22);
+            this.ToolStripMenuItem_AddModule.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_AddModule.Text = "添加系统";
             this.ToolStripMenuItem_AddModule.Click += new System.EventHandler(this.ToolStripMenuItem_AddModule_Click);
             // 
             // ToolStripMenuItem_AddRelation
             // 
             this.ToolStripMenuItem_AddRelation.Name = "ToolStripMenuItem_AddRelation";
-            this.ToolStripMenuItem_AddRelation.Size = new System.Drawing.Size(124, 22);
+            this.ToolStripMenuItem_AddRelation.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_AddRelation.Text = "添加关系";
             this.ToolStripMenuItem_AddRelation.Click += new System.EventHandler(this.ToolStripMenuItem_AddRelation_Click);
             // 
             // ToolStripMenuItem_import
             // 
             this.ToolStripMenuItem_import.Name = "ToolStripMenuItem_import";
-            this.ToolStripMenuItem_import.Size = new System.Drawing.Size(124, 22);
+            this.ToolStripMenuItem_import.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_import.Text = "导入";
             this.ToolStripMenuItem_import.Click += new System.EventHandler(this.ToolStripMenuItem_import_Click);
             // 
@@ -285,39 +278,39 @@
             this.ToolStripMenuItem_level2,
             this.ToolStripMenuItem_Level3});
             this.ToolStripMenuItem_SysLevel.Name = "ToolStripMenuItem_SysLevel";
-            this.ToolStripMenuItem_SysLevel.Size = new System.Drawing.Size(142, 22);
+            this.ToolStripMenuItem_SysLevel.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_SysLevel.Text = "系统等级";
             // 
             // ToolStripMenuItem_Level1
             // 
             this.ToolStripMenuItem_Level1.Name = "ToolStripMenuItem_Level1";
-            this.ToolStripMenuItem_Level1.Size = new System.Drawing.Size(100, 22);
+            this.ToolStripMenuItem_Level1.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_Level1.Text = "一级";
             this.ToolStripMenuItem_Level1.Click += new System.EventHandler(this.ToolStripMenuItem_Level1_Click);
             // 
             // ToolStripMenuItem_level2
             // 
             this.ToolStripMenuItem_level2.Name = "ToolStripMenuItem_level2";
-            this.ToolStripMenuItem_level2.Size = new System.Drawing.Size(100, 22);
+            this.ToolStripMenuItem_level2.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_level2.Text = "二级";
             // 
             // ToolStripMenuItem_Level3
             // 
             this.ToolStripMenuItem_Level3.Name = "ToolStripMenuItem_Level3";
-            this.ToolStripMenuItem_Level3.Size = new System.Drawing.Size(100, 22);
+            this.ToolStripMenuItem_Level3.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_Level3.Text = "三级";
             // 
             // ToolStripMenuItem_Refresh
             // 
             this.ToolStripMenuItem_Refresh.Name = "ToolStripMenuItem_Refresh";
             this.ToolStripMenuItem_Refresh.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.ToolStripMenuItem_Refresh.Size = new System.Drawing.Size(142, 22);
+            this.ToolStripMenuItem_Refresh.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_Refresh.Text = "刷新(&F5)";
             // 
             // ToolStripMenuItem_DisplayScale
             // 
             this.ToolStripMenuItem_DisplayScale.Name = "ToolStripMenuItem_DisplayScale";
-            this.ToolStripMenuItem_DisplayScale.Size = new System.Drawing.Size(142, 22);
+            this.ToolStripMenuItem_DisplayScale.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_DisplayScale.Text = "显示比例";
             this.ToolStripMenuItem_DisplayScale.Click += new System.EventHandler(this.ToolStripMenuItem_DisplayScale_Click);
             // 
@@ -326,7 +319,7 @@
             this.ToolStripMenuItem_Setting.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_Border,
             this.ToolStripMenuItem_Line,
-            this.注释ToolStripMenuItem});
+            this.ToolStripMenuItem_comment});
             this.ToolStripMenuItem_Setting.Name = "ToolStripMenuItem_Setting";
             this.ToolStripMenuItem_Setting.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.S)));
             this.ToolStripMenuItem_Setting.Size = new System.Drawing.Size(59, 21);
@@ -336,22 +329,23 @@
             // 
             this.ToolStripMenuItem_Border.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_BorderColor,
+            this.ToolStripMenuItem_colorFilling,
             this.ToolStripMenuItem_BorderWidth});
             this.ToolStripMenuItem_Border.Name = "ToolStripMenuItem_Border";
-            this.ToolStripMenuItem_Border.Size = new System.Drawing.Size(112, 22);
+            this.ToolStripMenuItem_Border.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_Border.Text = "边框";
             // 
             // ToolStripMenuItem_BorderColor
             // 
             this.ToolStripMenuItem_BorderColor.Name = "ToolStripMenuItem_BorderColor";
-            this.ToolStripMenuItem_BorderColor.Size = new System.Drawing.Size(100, 22);
-            this.ToolStripMenuItem_BorderColor.Text = "颜色";
+            this.ToolStripMenuItem_BorderColor.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_BorderColor.Text = "边框颜色";
             this.ToolStripMenuItem_BorderColor.Click += new System.EventHandler(this.ToolStripMenuItem_BorderColor_Click);
             // 
             // ToolStripMenuItem_BorderWidth
             // 
             this.ToolStripMenuItem_BorderWidth.Name = "ToolStripMenuItem_BorderWidth";
-            this.ToolStripMenuItem_BorderWidth.Size = new System.Drawing.Size(100, 22);
+            this.ToolStripMenuItem_BorderWidth.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_BorderWidth.Text = "粗细";
             // 
             // ToolStripMenuItem_Line
@@ -360,28 +354,28 @@
             this.ToolStripMenuItem_LineColor,
             this.ToolStripMenuItem_LineWidth});
             this.ToolStripMenuItem_Line.Name = "ToolStripMenuItem_Line";
-            this.ToolStripMenuItem_Line.Size = new System.Drawing.Size(112, 22);
+            this.ToolStripMenuItem_Line.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_Line.Text = "关系线";
             // 
             // ToolStripMenuItem_LineColor
             // 
             this.ToolStripMenuItem_LineColor.Name = "ToolStripMenuItem_LineColor";
-            this.ToolStripMenuItem_LineColor.Size = new System.Drawing.Size(100, 22);
+            this.ToolStripMenuItem_LineColor.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_LineColor.Text = "颜色";
             this.ToolStripMenuItem_LineColor.Click += new System.EventHandler(this.ToolStripMenuItem_LineColor_Click);
             // 
             // ToolStripMenuItem_LineWidth
             // 
             this.ToolStripMenuItem_LineWidth.Name = "ToolStripMenuItem_LineWidth";
-            this.ToolStripMenuItem_LineWidth.Size = new System.Drawing.Size(100, 22);
+            this.ToolStripMenuItem_LineWidth.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_LineWidth.Text = "粗细";
             // 
-            // 注释ToolStripMenuItem
+            // ToolStripMenuItem_comment
             // 
-            this.注释ToolStripMenuItem.Name = "注释ToolStripMenuItem";
-            this.注释ToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
-            this.注释ToolStripMenuItem.Text = "注释";
-            this.注释ToolStripMenuItem.Click += new System.EventHandler(this.注释ToolStripMenuItem_Click);
+            this.ToolStripMenuItem_comment.Name = "ToolStripMenuItem_comment";
+            this.ToolStripMenuItem_comment.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_comment.Text = "注释";
+            this.ToolStripMenuItem_comment.Click += new System.EventHandler(this.注释ToolStripMenuItem_Click);
             // 
             // ToolStripMenuItem_Help
             // 
@@ -396,14 +390,14 @@
             // ToolStripMenuItem_About
             // 
             this.ToolStripMenuItem_About.Name = "ToolStripMenuItem_About";
-            this.ToolStripMenuItem_About.Size = new System.Drawing.Size(124, 22);
+            this.ToolStripMenuItem_About.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_About.Text = "关于云图";
             this.ToolStripMenuItem_About.Click += new System.EventHandler(this.ToolStripMenuItem_About_Click);
             // 
             // 帮助ToolStripMenuItem
             // 
             this.帮助ToolStripMenuItem.Name = "帮助ToolStripMenuItem";
-            this.帮助ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.帮助ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.帮助ToolStripMenuItem.Text = "帮助";
             this.帮助ToolStripMenuItem.Click += new System.EventHandler(this.帮助ToolStripMenuItem_Click);
             // 
@@ -928,6 +922,12 @@
             // 
             this.saveFileDialog_saveImage.Filter = "Painter 文件|*.pat|BMP 文件|*.bmp|JPG 文件|*.jpg|JPEG 文件|*.jpeg|Gif 文件|*.gif";
             // 
+            // ToolStripMenuItem_colorFilling
+            // 
+            this.ToolStripMenuItem_colorFilling.Name = "ToolStripMenuItem_colorFilling";
+            this.ToolStripMenuItem_colorFilling.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_colorFilling.Text = "填充颜色";
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -963,43 +963,15 @@
 
         #endregion
 
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_OpenProject;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_SaveProject;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_SaveAs;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Print;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Exit;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Item;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_AddModule;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_AddRelation;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_View;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_SysLevel;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Level1;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_level2;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Level3;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Refresh;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Setting;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Border;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_BorderColor;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_BorderWidth;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Line;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_LineColor;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_LineWidth;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Help;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_About;
         private System.Windows.Forms.MenuStrip menuStrip2;
-        private System.Windows.Forms.ToolStripMenuItem NToolStripMenuItem_newProject;
         private System.Windows.Forms.OpenFileDialog openFileDialog_OpenProject;
         private System.Windows.Forms.SaveFileDialog saveFileDialog_SaveProject;
         private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
         private System.Windows.Forms.PrintDialog printDialog1;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_PrePrint;
         private System.Windows.Forms.ColorDialog BorderColor;
         private System.Windows.Forms.ColorDialog LineColor;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DisplayScale;
-        private System.Windows.Forms.ToolStripMenuItem 注释ToolStripMenuItem;
         private System.Windows.Forms.FontDialog fontDialog1;
-        private System.Windows.Forms.ToolStripMenuItem 帮助ToolStripMenuItem;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.Panel panel3;
@@ -1012,32 +984,15 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripButton toolStripButton_newProject;
-        private System.Windows.Forms.ToolStripButton toolStripButton_openProject;
-        private System.Windows.Forms.ToolStripButton toolStripButton_saveProject;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ToolStripButton toolStripButton_import;
-        private System.Windows.Forms.ToolStripButton toolStripButton_addModule;
-        private System.Windows.Forms.ToolStripButton toolStripButton_addRelation;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_import;
-        private System.Windows.Forms.ToolStripButton toolStripButton_prePrint;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton_colorFilling;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton_borderLIne;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton_comment;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
-        private System.Windows.Forms.ToolStripButton toolStripButton_information;
         private System.Windows.Forms.Label label1;
         public System.Windows.Forms.TrackBar trackBar_displaySacle;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
         private System.Windows.Forms.Button btn_generateMap;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_saveImage;
-        private System.Windows.Forms.ToolStripButton toolStripButton_saveImage;
         private System.Windows.Forms.SaveFileDialog saveFileDialog_saveImage;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton_lineWidth;
         private System.Windows.Forms.ToolStripMenuItem 磅ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 磅ToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem 磅ToolStripMenuItem2;
@@ -1047,13 +1002,58 @@
         private System.Windows.Forms.ToolStripMenuItem 磅ToolStripMenuItem6;
         private System.Windows.Forms.ToolStripMenuItem 磅ToolStripMenuItem7;
         private System.Windows.Forms.ToolStripMenuItem 其他ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton_lineColor;
         public System.Windows.Forms.Panel panel4;
         public System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label2;
         public System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ToolStripMenuItem 历史记录ToolStripMenuItem;
+        public System.Windows.Forms.ToolStripButton toolStripButton_import;
+        public System.Windows.Forms.ToolStripButton toolStripButton_saveImage;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_OpenProject;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_SaveAs;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Print;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Exit;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Item;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_AddModule;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_AddRelation;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_View;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_SysLevel;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Level1;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_level2;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Level3;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Refresh;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Setting;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Border;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_BorderColor;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_BorderWidth;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Line;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_LineColor;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_LineWidth;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_About;
+        public System.Windows.Forms.ToolStripMenuItem NToolStripMenuItem_newProject;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_PrePrint;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DisplayScale;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_comment;
+        public System.Windows.Forms.ToolStripMenuItem 帮助ToolStripMenuItem;
+        public System.Windows.Forms.ToolStripButton toolStripButton_newProject;
+        public System.Windows.Forms.ToolStripButton toolStripButton_openProject;
+        public System.Windows.Forms.ToolStripButton toolStripButton_saveProject;
+        public System.Windows.Forms.ToolStripButton toolStripButton_addModule;
+        public System.Windows.Forms.ToolStripButton toolStripButton_addRelation;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_import;
+        public System.Windows.Forms.ToolStripButton toolStripButton_prePrint;
+        public System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton_colorFilling;
+        public System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton_borderLIne;
+        public System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton_comment;
+        public System.Windows.Forms.ToolStripButton toolStripButton_information;
+        public System.Windows.Forms.ToolStripButton toolStripButton1;
+        public System.Windows.Forms.ToolStripButton toolStripButton2;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_saveImage;
+        public System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton_lineWidth;
+        public System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton_lineColor;
+        public System.Windows.Forms.ToolStripMenuItem 历史记录ToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_colorFilling;
     }
 }
 

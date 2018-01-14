@@ -20,8 +20,60 @@ namespace CloudMapUI
             InitializeComponent();
         }
 
+        //在没有打开项目时，和项目相关的控件不可用
+        public void mainFormStatus()
+        {
+            if (globalParameters.dbName == null)
+            {
+                ToolStripMenuItem_saveImage.Enabled = false;
+                ToolStripMenuItem_SaveAs.Enabled = false;
+                ToolStripMenuItem_PrePrint.Enabled = false;
+                ToolStripMenuItem_Print.Enabled = false;
+                ToolStripMenuItem_AddModule.Enabled = false;
+                ToolStripMenuItem_AddRelation.Enabled = false;
+                ToolStripMenuItem_import.Enabled = false;
+                //ToolStripMenuItem_SysLevel.Enabled = false;
+                //ToolStripMenuItem_DisplayScale.Enabled = false;
+                //ToolStripMenuItem_Border.Enabled = false;
+                //ToolStripMenuItem_Line.Enabled = false;
+                //ToolStripMenuItem_comment.Enabled = false;
+
+
+                toolStripButton_saveProject.Enabled = false;
+                toolStripButton_saveImage.Enabled = false;
+                toolStripButton_prePrint.Enabled = false;
+                toolStripButton_import.Enabled = false;
+                toolStripButton_addModule.Enabled = false;
+                toolStripButton_addRelation.Enabled = false;
+                //toolStripDropDownButton_colorFilling.Enabled = false;
+                //toolStripDropDownButton_borderLIne.Enabled = false;
+                //toolStripDropDownButton_lineWidth.Enabled = false;
+                //toolStripDropDownButton_lineColor.Enabled = false;
+                //toolStripDropDownButton_comment.Enabled = false;
+            }
+            else
+            {
+                ToolStripMenuItem_saveImage.Enabled = true;
+                ToolStripMenuItem_SaveAs.Enabled = true;
+                ToolStripMenuItem_PrePrint.Enabled = true;
+                ToolStripMenuItem_Print.Enabled = true;
+                ToolStripMenuItem_AddModule.Enabled = true;
+                ToolStripMenuItem_AddRelation.Enabled = true;
+                ToolStripMenuItem_import.Enabled = true;
+
+                toolStripButton_saveProject.Enabled = true;
+                toolStripButton_saveImage.Enabled = true;
+                toolStripButton_prePrint.Enabled = true;
+                toolStripButton_import.Enabled = true;
+                toolStripButton_addModule.Enabled = true;
+                toolStripButton_addRelation.Enabled = true;
+            }
+        }
+
         private void MainForm_Load(object sender, EventArgs e)
         {
+            ToolStripMenuItem_saveImage.Enabled = false;
+            mainFormStatus();
             panelWidth = panel4.Size.Width;
             panelHeight = panel4.Size.Height;
             textBox2.Text = panel4.Size.Width.ToString() + " * " + panel4.Size.Height.ToString();

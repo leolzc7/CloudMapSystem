@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControlStatus.cs" />
     <Compile Include="DisplayScale.cs">
       <SubType>Form</SubType>
     </Compile>
