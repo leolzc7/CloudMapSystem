@@ -7,7 +7,7 @@ using System.Data;
 
 namespace Data
 {
-    class ModuleData:DataSet
+    public class ModuleData:DataSet
     {
         public const string MODULES_TABLE = "modules";
         public const string NAME_FIELD = "name";
