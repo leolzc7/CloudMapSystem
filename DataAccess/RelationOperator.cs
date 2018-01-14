@@ -73,7 +73,7 @@ namespace DataAccess
             cmdUpdate = "UPDATE relation SET " + change + " WHERE " + condition1 + " and " + condition2;
             return cmdUpdate;
         }
-        public bool DeleteModulesInfo(string selectSource, string selectTarget)
+        public bool DeleteRelationInfo(string selectSource, string selectTarget)
         {
             string cmdDelete;
             string condition1 = @"sourceName = '" + selectSource + "'";
