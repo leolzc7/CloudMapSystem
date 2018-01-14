@@ -224,9 +224,9 @@ namespace DrawLineRules
         public int getPosy() { return posy; }
         static void Main(string[] args)
         {
-            String PositionFile = "d:\\Position.txt";
-            String RelationFile = "d:\\RelationArray.txt";
-            String LineFile = "d:\\Line.txt";
+            String PositionFile = "E:\\Cloud Map\\Position.txt";
+            String RelationFile = "E:\\Cloud Map\\RelationArray.txt";
+            String LineFile = "E:\\Cloud Map\\Line.txt";
             Grid myGrid = new Grid(2000, 1600); // Grid class instance initialization
             ModuleOne[] modules = myGrid.readModule(PositionFile);
             int num_par = 0;

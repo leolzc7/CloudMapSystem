@@ -333,7 +333,7 @@
             this.ToolStripMenuItem_BorderWidth});
             this.ToolStripMenuItem_Border.Name = "ToolStripMenuItem_Border";
             this.ToolStripMenuItem_Border.Size = new System.Drawing.Size(152, 22);
-            this.ToolStripMenuItem_Border.Text = "边框";
+            this.ToolStripMenuItem_Border.Text = "模块";
             // 
             // ToolStripMenuItem_BorderColor
             // 

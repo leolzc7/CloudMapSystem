@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Data
 {
-    class RelationData:DataSet
+    public class RelationData:DataSet
     {
         public const string RELATION_TABLE = "relation";
         public const string SOURCENAME_FIELD = "sourceName";
