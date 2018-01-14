@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Data;
+using DataAccess;
 
 namespace CloudMapUI
 {
@@ -107,12 +108,9 @@ namespace CloudMapUI
         }
 
         private void ToolStripMenuItem_OpenProject_Click(object sender, EventArgs e)
-        {
+        {   
             openFileDialog_OpenProject.ShowDialog();
-            string[] text = openFileDialog_OpenProject.FileName.Split('\\');
-            NewProjectForm.dbName = text[text.Length - 1];
-
-            NewProjectForm.dbPath = "Data Source = " + openFileDialog_OpenProject.FileName;
+            SystemOperator.OpenProject(openFileDialog_OpenProject.FileName);
         }
 
         private void ToolStripMenuItem_SaveProject_Click(object sender, EventArgs e)

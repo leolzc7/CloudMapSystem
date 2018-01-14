@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//using System.Data.SQLite;
+using System.Data.SQLite;
+using System.Data;
 
 namespace Data
 {
@@ -12,6 +13,6 @@ namespace Data
         public static string dbPath;
         public static string dbName;
         public static Queue<string> dbHistory = new Queue<string> ();
-        //public static SQLiteConnection conn = null;
+        public static SQLiteConnection conn = null;
     }
 }

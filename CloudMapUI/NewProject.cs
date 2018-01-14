@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DataAccess;
+using Data;
 
 namespace CloudMapUI
 {
@@ -28,13 +30,12 @@ namespace CloudMapUI
             textBox2.Text = dbSelfPath;
         }
 
-        public static string dbPath;
-        public static string dbName;
+        string dbName;
         string dbSelfPath;
         
         private void btnNewProjectSure_Click(object sender, EventArgs e)
         {
-           
+            SystemOperator.NewProject(dbName, dbSelfPath);
         }
 
         public void connect_open_db()
