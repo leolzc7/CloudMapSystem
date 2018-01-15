@@ -48,6 +48,7 @@ namespace DrawLineRules
                     map[index].positionY = y;
                 }
             }
+
             return map;
         }
 
