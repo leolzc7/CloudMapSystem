@@ -321,5 +321,10 @@ namespace CloudMapUI
 
         }
 
+        private void aLine1_Click(object sender, EventArgs e)
+        {
+            ((ALine)sender).Penwidth = 2;  
+        }
+
     }
 }

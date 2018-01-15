@@ -58,6 +58,12 @@
     <Compile Include="import.Designer.cs">
       <DependentUpon>import.cs</DependentUpon>
     </Compile>
+    <Compile Include="LineControl\Aline.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="LineControl\Aline.Designer.cs">
+      <DependentUpon>Aline.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
