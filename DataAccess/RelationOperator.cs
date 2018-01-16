@@ -9,7 +9,7 @@ using Data;
 
 namespace DataAccess
 {
-    class RelationOperator
+    public class RelationOperator
     {
         static SQLiteDataAdapter command;
         public static RelationData LoadRelationInfo()
@@ -89,7 +89,37 @@ namespace DataAccess
                 return false;
             }
         }
+        public static SQLiteDataReader ExecuteReaderSql(string sql)
+        {
+            SQLiteCommand cmdReader = new SQLiteCommand(sql, globalParameters.conn);
+            SQLiteDataReader reader = cmdReader.ExecuteReader();
+            return reader;
+        }
+        public static List<relation> GetRelationArray()
+        {
+            List<relation> relationArray = new List<relation>();
+            string sql = "select sourceName,targetName,bidirection from relation";
+            SQLiteDataReader reader = ExecuteReaderSql(sql);
+            while (reader.Read())
+            {
+                relation relationOne = new relation();
+                relationOne.sourceName = reader.GetString(0);
+                relationOne.targetName = reader.GetString(1);
+                relationOne.bidirection = reader.GetString(2);
+                relationArray.Add(relationOne);
+                //int index = Array.IndexOf(list,reader.GetString(0));
+                //RelationArray[i][index] = 1;
+                //i++;
+            }
+            return relationArray;
+        }
 
+        public struct relation
+        {
+            public string sourceName;
+            public string targetName;
+            public string bidirection;
+        }
 
     }
 }
