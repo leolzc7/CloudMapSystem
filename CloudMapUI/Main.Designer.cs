@@ -107,10 +107,6 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.trackBar_displaySacle = new System.Windows.Forms.TrackBar();
             this.panel2 = new System.Windows.Forms.Panel();
             this.btn_generateMap = new System.Windows.Forms.Button();
@@ -120,6 +116,7 @@
             this.tabPage_module = new System.Windows.Forms.TabPage();
             this.tabPage_relation = new System.Windows.Forms.TabPage();
             this.saveFileDialog_saveImage = new System.Windows.Forms.SaveFileDialog();
+            this.ModuleColor = new System.Windows.Forms.ColorDialog();
             this.menuStrip2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -278,7 +275,7 @@
             this.ToolStripMenuItem_level2,
             this.ToolStripMenuItem_Level3});
             this.ToolStripMenuItem_SysLevel.Name = "ToolStripMenuItem_SysLevel";
-            this.ToolStripMenuItem_SysLevel.Size = new System.Drawing.Size(142, 22);
+            this.ToolStripMenuItem_SysLevel.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_SysLevel.Text = "系统等级";
             // 
             // ToolStripMenuItem_Level1
@@ -304,13 +301,13 @@
             // 
             this.ToolStripMenuItem_Refresh.Name = "ToolStripMenuItem_Refresh";
             this.ToolStripMenuItem_Refresh.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.ToolStripMenuItem_Refresh.Size = new System.Drawing.Size(142, 22);
+            this.ToolStripMenuItem_Refresh.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_Refresh.Text = "刷新(&F5)";
             // 
             // ToolStripMenuItem_DisplayScale
             // 
             this.ToolStripMenuItem_DisplayScale.Name = "ToolStripMenuItem_DisplayScale";
-            this.ToolStripMenuItem_DisplayScale.Size = new System.Drawing.Size(142, 22);
+            this.ToolStripMenuItem_DisplayScale.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_DisplayScale.Text = "显示比例";
             this.ToolStripMenuItem_DisplayScale.Click += new System.EventHandler(this.ToolStripMenuItem_DisplayScale_Click);
             // 
@@ -332,27 +329,29 @@
             this.ToolStripMenuItem_colorFilling,
             this.ToolStripMenuItem_BorderWidth});
             this.ToolStripMenuItem_Border.Name = "ToolStripMenuItem_Border";
-            this.ToolStripMenuItem_Border.Size = new System.Drawing.Size(112, 22);
+            this.ToolStripMenuItem_Border.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_Border.Text = "模块";
             // 
             // ToolStripMenuItem_BorderColor
             // 
             this.ToolStripMenuItem_BorderColor.Name = "ToolStripMenuItem_BorderColor";
-            this.ToolStripMenuItem_BorderColor.Size = new System.Drawing.Size(124, 22);
+            this.ToolStripMenuItem_BorderColor.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_BorderColor.Text = "边框颜色";
             this.ToolStripMenuItem_BorderColor.Click += new System.EventHandler(this.ToolStripMenuItem_BorderColor_Click);
             // 
             // ToolStripMenuItem_colorFilling
             // 
             this.ToolStripMenuItem_colorFilling.Name = "ToolStripMenuItem_colorFilling";
-            this.ToolStripMenuItem_colorFilling.Size = new System.Drawing.Size(124, 22);
+            this.ToolStripMenuItem_colorFilling.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_colorFilling.Text = "填充颜色";
+            this.ToolStripMenuItem_colorFilling.Click += new System.EventHandler(this.ToolStripMenuItem_colorFilling_Click);
             // 
             // ToolStripMenuItem_BorderWidth
             // 
             this.ToolStripMenuItem_BorderWidth.Name = "ToolStripMenuItem_BorderWidth";
-            this.ToolStripMenuItem_BorderWidth.Size = new System.Drawing.Size(124, 22);
+            this.ToolStripMenuItem_BorderWidth.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_BorderWidth.Text = "粗细";
+            this.ToolStripMenuItem_BorderWidth.Click += new System.EventHandler(this.ToolStripMenuItem_BorderWidth_Click);
             // 
             // ToolStripMenuItem_Line
             // 
@@ -360,26 +359,26 @@
             this.ToolStripMenuItem_LineColor,
             this.ToolStripMenuItem_LineWidth});
             this.ToolStripMenuItem_Line.Name = "ToolStripMenuItem_Line";
-            this.ToolStripMenuItem_Line.Size = new System.Drawing.Size(112, 22);
+            this.ToolStripMenuItem_Line.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_Line.Text = "关系线";
             // 
             // ToolStripMenuItem_LineColor
             // 
             this.ToolStripMenuItem_LineColor.Name = "ToolStripMenuItem_LineColor";
-            this.ToolStripMenuItem_LineColor.Size = new System.Drawing.Size(100, 22);
+            this.ToolStripMenuItem_LineColor.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_LineColor.Text = "颜色";
             this.ToolStripMenuItem_LineColor.Click += new System.EventHandler(this.ToolStripMenuItem_LineColor_Click);
             // 
             // ToolStripMenuItem_LineWidth
             // 
             this.ToolStripMenuItem_LineWidth.Name = "ToolStripMenuItem_LineWidth";
-            this.ToolStripMenuItem_LineWidth.Size = new System.Drawing.Size(100, 22);
+            this.ToolStripMenuItem_LineWidth.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_LineWidth.Text = "粗细";
             // 
             // ToolStripMenuItem_comment
             // 
             this.ToolStripMenuItem_comment.Name = "ToolStripMenuItem_comment";
-            this.ToolStripMenuItem_comment.Size = new System.Drawing.Size(112, 22);
+            this.ToolStripMenuItem_comment.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_comment.Text = "注释";
             this.ToolStripMenuItem_comment.Click += new System.EventHandler(this.注释ToolStripMenuItem_Click);
             // 
@@ -451,6 +450,7 @@
             // 
             // BorderColor
             // 
+            this.BorderColor.Color = System.Drawing.Color.DarkRed;
             this.BorderColor.ShowHelp = true;
             // 
             // toolStrip1
@@ -792,10 +792,6 @@
             // 
             this.panel4.AutoScroll = true;
             this.panel4.BackColor = System.Drawing.Color.Transparent;
-            this.panel4.Controls.Add(this.label3);
-            this.panel4.Controls.Add(this.label2);
-            this.panel4.Controls.Add(this.textBox2);
-            this.panel4.Controls.Add(this.textBox1);
             this.panel4.Controls.Add(this.trackBar_displaySacle);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(0, 0);
@@ -803,39 +799,6 @@
             this.panel4.Size = new System.Drawing.Size(635, 443);
             this.panel4.TabIndex = 0;
             this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.panel4_Paint);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(104, 177);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(65, 12);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "改变后大小";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(104, 221);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(41, 12);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "原大小";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(237, 218);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(142, 21);
-            this.textBox2.TabIndex = 2;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(237, 174);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(142, 21);
-            this.textBox1.TabIndex = 1;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // trackBar_displaySacle
             // 
@@ -860,6 +823,7 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(635, 43);
             this.panel2.TabIndex = 8;
+            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
             // btn_generateMap
             // 
@@ -927,6 +891,10 @@
             // saveFileDialog_saveImage
             // 
             this.saveFileDialog_saveImage.Filter = "Painter 文件|*.pat|BMP 文件|*.bmp|JPG 文件|*.jpg|JPEG 文件|*.jpeg|Gif 文件|*.gif";
+            // 
+            // ModuleColor
+            // 
+            this.ModuleColor.Color = System.Drawing.Color.DarkRed;
             // 
             // MainForm
             // 
@@ -1003,10 +971,6 @@
         private System.Windows.Forms.ToolStripMenuItem 磅ToolStripMenuItem7;
         private System.Windows.Forms.ToolStripMenuItem 其他ToolStripMenuItem;
         public System.Windows.Forms.Panel panel4;
-        public System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label2;
-        public System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Label label3;
         public System.Windows.Forms.ToolStripButton toolStripButton_import;
         public System.Windows.Forms.ToolStripButton toolStripButton_saveImage;
         public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File;
@@ -1054,6 +1018,7 @@
         public System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton_lineColor;
         public System.Windows.Forms.ToolStripMenuItem 历史记录ToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_colorFilling;
+        private System.Windows.Forms.ColorDialog ModuleColor;
     }
 }
 

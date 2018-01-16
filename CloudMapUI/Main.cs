@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Data;
 using DataAccess;
+using DrawLineRules;
 
 namespace CloudMapUI
 {
@@ -77,7 +78,7 @@ namespace CloudMapUI
             mainFormStatus();
             panelWidth = panel4.Size.Width;
             panelHeight = panel4.Size.Height;
-            textBox2.Text = panel4.Size.Width.ToString() + " * " + panel4.Size.Height.ToString();
+            //textBox2.Text = panel4.Size.Width.ToString() + " * " + panel4.Size.Height.ToString();
             //panel1.Left = 0;
             //panel1.Top = 25;
         }
@@ -161,6 +162,7 @@ namespace CloudMapUI
         private void ToolStripMenuItem_BorderColor_Click(object sender, EventArgs e)
         {
             BorderColor.ShowDialog();
+            btn_generateMap_Click(sender, e);
         }
 
         private void ToolStripMenuItem_LineColor_Click(object sender, EventArgs e)
@@ -196,11 +198,11 @@ namespace CloudMapUI
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (DialogResult.Yes == MessageBox.Show("确定退出系统？", "企业云图", MessageBoxButtons.YesNo, MessageBoxIcon.Information))
-                //Application.Exit();
-                System.Environment.Exit(0);
-            else
-                e.Cancel = true;
+            //if (DialogResult.Yes == MessageBox.Show("确定退出系统？", "企业云图", MessageBoxButtons.YesNo, MessageBoxIcon.Information))
+            //    //Application.Exit();
+            //    //System.Environment.Exit(0);
+            //else
+            //    e.Cancel = true;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -305,10 +307,28 @@ namespace CloudMapUI
         {
             ToolStripMenuItem_LineColor_Click(sender,e);
         }
-
         private void btn_generateMap_Click(object sender, EventArgs e)
         {
-
+            Graphics g1 = panel4.CreateGraphics();
+            Pen boderpen = new Pen(BorderColor.Color, 1);
+            List<Module> modPosition = new List<Module>();
+            modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height);
+            int NumCount=modPosition.Count;
+            RichTextBox[] textBox = new RichTextBox[NumCount];
+            for (int i = 2; i < NumCount; i++)
+            {
+                g1.DrawRectangle(boderpen, modPosition[i].x-1, modPosition[i].y-1, modPosition[0].x+1, modPosition[0].y+1);
+                textBox[i] = new RichTextBox();
+                textBox[i].Size = new System.Drawing.Size(modPosition[0].x, modPosition[0].y);
+                textBox[i].Location = new Point(modPosition[i].x, modPosition[i].y);
+                textBox[i].BackColor = ModuleColor.Color;
+                textBox[i].Text = modPosition[i].moduleName;//显示文字
+                textBox[i].SelectionAlignment = HorizontalAlignment.Center;//居中显示，目前只能水平居中不能垂直居中。
+                textBox[i].ReadOnly = true;//只读
+                textBox[i].BorderStyle = BorderStyle.None;
+                //textBox[i].Multiline = true;
+                panel4.Controls.Add(textBox[i]);
+            }
         }
 
         private void ToolStripMenuItem_Level1_Click(object sender, EventArgs e)
@@ -316,15 +336,20 @@ namespace CloudMapUI
 
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void panel2_Paint(object sender, PaintEventArgs e)
         {
 
         }
 
-        private void aLine1_Click(object sender, EventArgs e)
+        private void ToolStripMenuItem_colorFilling_Click(object sender, EventArgs e)
         {
-            ((ALine)sender).Penwidth = 2;  
+            ModuleColor.ShowDialog();
+            btn_generateMap_Click(sender, e);
         }
 
+        private void ToolStripMenuItem_BorderWidth_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -9,7 +9,7 @@ using Data;
 
 namespace DataAccess
 {
-    class RelationOperator
+    public class RelationOperator
     {
         static SQLiteDataAdapter command;
         public static RelationData LoadRelationInfo()

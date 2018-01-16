@@ -26,6 +26,7 @@ namespace CloudMapUI
         int[] points = { 20, 20, 20, 80, 2 };
         private int penwidth = 1;
         private Color pencolor = Color.Black;
+        private int penid = 0;
         private int controlwidth;
         private int controlheight;
         //private int penid = 0;
@@ -49,7 +50,7 @@ namespace CloudMapUI
             base.SetBoundsCore(x, y, this.controlwidth, this.controlheight, specified);
         }
 
-        [Browsable(true), Category("自定义"), Description("设置控件")]
+        [Browsable(true), Category("自定义"), Description("设置控件起始和终止点坐标")]
         public int[] Points
         {
             get { return points; }
@@ -70,6 +71,7 @@ namespace CloudMapUI
                 this.Invalidate();
             }
         }
+
         [Browsable(true), Category("自定义"), Description("设置控件画笔颜色")]
         public Color Pencolor
         {
@@ -77,6 +79,17 @@ namespace CloudMapUI
             set
             {
                 pencolor = value;
+                this.Invalidate();
+            }
+        }
+
+        [Browsable(true), Category("自定义"), Description("设置控件所属id号")]
+        public int Penid
+        {
+            get { return penid; }
+            set
+            {
+                penid = value;
                 this.Invalidate();
             }
         }
@@ -93,19 +106,39 @@ namespace CloudMapUI
             if (points[1] == points[3])
             {
                 e.Graphics.DrawLine(pen, 0, 4 * Penwidth, points[2] - points[0], points[3] - points[1] + 4 * Penwidth);
-                //箭头显示位置
+                //箭头显示位置，从数组中获取的一个标志位，代表该线段的某一端或两端有箭头
                 switch (points[4])
                 {
-                    case 1://左边有箭头
-                        Point[] pointLeftarrow = this.DrawLeftArrow(0, 4 * Penwidth);
-                        e.Graphics.DrawLine(pen, pointLeftarrow[0], pointLeftarrow[1]);
-                        e.Graphics.DrawLine(pen, pointLeftarrow[0], pointLeftarrow[2]);
+                    case 1://右边有箭头
+                        if (points[0] < points[2])
+                        {
+                            Point[] pointRightarrow = this.DrawRightArrow(points[2] - points[0], points[3] - points[1] + 4 * Penwidth);
+                            e.Graphics.DrawLine(pen, pointRightarrow[0], pointRightarrow[1]);
+                            e.Graphics.DrawLine(pen, pointRightarrow[0], pointRightarrow[2]);
+                        }
+                        else
+                        {
+                            Point[] pointRightarrow = this.DrawRightArrow(0, 4 * Penwidth);
+                            e.Graphics.DrawLine(pen, pointRightarrow[0], pointRightarrow[1]);
+                            e.Graphics.DrawLine(pen, pointRightarrow[0], pointRightarrow[2]);
+                        }
                         break;
-                    case 2://右边有箭头
-                        Point[] pointRightarrow = this.DrawRightArrow(points[2] - points[0], points[3] - points[1] + 4 * Penwidth);
-                        e.Graphics.DrawLine(pen, pointRightarrow[0], pointRightarrow[1]);
-                        e.Graphics.DrawLine(pen, pointRightarrow[0], pointRightarrow[2]);
+
+                    case 2://左边有箭头
+                        if (points[0] < points[2])
+                        {
+                            Point[] pointLeftarrow = this.DrawLeftArrow(0, 4 * Penwidth);
+                            e.Graphics.DrawLine(pen, pointLeftarrow[0], pointLeftarrow[1]);
+                            e.Graphics.DrawLine(pen, pointLeftarrow[0], pointLeftarrow[2]);
+                        }
+                        else
+                        {
+                            Point[] pointLeftarrow = this.DrawLeftArrow(points[2] - points[0], points[3] - points[1] + 4 * Penwidth);
+                            e.Graphics.DrawLine(pen, pointLeftarrow[0], pointLeftarrow[1]);
+                            e.Graphics.DrawLine(pen, pointLeftarrow[0], pointLeftarrow[2]);
+                        }
                         break;
+
                     case 3://两边都有
                         Point[] pointAllarrowL = this.DrawLeftArrow(0, 4 * Penwidth);
                         e.Graphics.DrawLine(pen, pointAllarrowL[0], pointAllarrowL[1]);
@@ -125,16 +158,35 @@ namespace CloudMapUI
                 switch (points[4])
                 {
                     case 1:
+                        if (points[1] < points[3])
+                        {
+                            Point[] pointDownarrow = this.DrawDownArrow(points[2] - points[0] + 4 * Penwidth, points[3] - points[1]);
+                            e.Graphics.DrawLine(pen, pointDownarrow[0], pointDownarrow[1]);
+                            e.Graphics.DrawLine(pen, pointDownarrow[0], pointDownarrow[2]);
+                        }
+                        else
+                        {
+                            Point[] pointDowntarrow = this.DrawDownArrow(4 * Penwidth, 0);
+                            e.Graphics.DrawLine(pen, pointDowntarrow[0], pointDowntarrow[1]);
+                            e.Graphics.DrawLine(pen, pointDowntarrow[0], pointDowntarrow[2]);
+                        }
+                        break;
 
-                        Point[] pointLeftarrow = this.DrawUpArrow(4 * Penwidth, 0);
-                        e.Graphics.DrawLine(pen, pointLeftarrow[0], pointLeftarrow[1]);
-                        e.Graphics.DrawLine(pen, pointLeftarrow[0], pointLeftarrow[2]);
-                        break;
                     case 2:
-                        Point[] pointRightarrow = this.DrawDownArrow(points[2] - points[0] + 4 * Penwidth, points[3] - points[1]);
-                        e.Graphics.DrawLine(pen, pointRightarrow[0], pointRightarrow[1]);
-                        e.Graphics.DrawLine(pen, pointRightarrow[0], pointRightarrow[2]);
+                        if (points[1] < points[3])
+                        {
+                            Point[] pointUparrow = this.DrawUpArrow(4 * Penwidth, 0);
+                            e.Graphics.DrawLine(pen, pointUparrow[0], pointUparrow[1]);
+                            e.Graphics.DrawLine(pen, pointUparrow[0], pointUparrow[2]);
+                        }
+                        else
+                        {
+                            Point[] pointLeftarrow = this.DrawUpArrow(points[2] - points[0] + 4 * Penwidth, points[3] - points[1]);
+                            e.Graphics.DrawLine(pen, pointLeftarrow[0], pointLeftarrow[1]);
+                            e.Graphics.DrawLine(pen, pointLeftarrow[0], pointLeftarrow[2]);
+                        }
                         break;
+
                     case 3:
                         Point[] pointAllarrowU = this.DrawUpArrow(4 * Penwidth, 0);
                         e.Graphics.DrawLine(pen, pointAllarrowU[0], pointAllarrowU[1]);

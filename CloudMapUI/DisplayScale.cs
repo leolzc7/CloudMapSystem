@@ -28,7 +28,7 @@ namespace CloudMapUI
             int newPanelWidth = (int)(MainForm.panelWidth * numericUpDown_DisplayScale.Value / 100);
             int newPanelHeight = (int)(MainForm.panelHeight * numericUpDown_DisplayScale.Value / 100);
             paf.panel4.Size = new Size(newPanelWidth, newPanelHeight);
-            paf.textBox1.Text = newPanelWidth.ToString() + " * " + newPanelHeight.ToString();
+           // paf.textBox1.Text = newPanelWidth.ToString() + " * " + newPanelHeight.ToString();
             this.Hide();
 
         }
