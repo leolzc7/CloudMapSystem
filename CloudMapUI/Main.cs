@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Data;
 using DataAccess;
+using DrawLineRules;
 
 namespace CloudMapUI
 {
@@ -77,7 +78,7 @@ namespace CloudMapUI
             mainFormStatus();
             panelWidth = panel4.Size.Width;
             panelHeight = panel4.Size.Height;
-            textBox2.Text = panel4.Size.Width.ToString() + " * " + panel4.Size.Height.ToString();
+            //textBox2.Text = panel4.Size.Width.ToString() + " * " + panel4.Size.Height.ToString();
             //panel1.Left = 0;
             //panel1.Top = 25;
         }
@@ -196,11 +197,11 @@ namespace CloudMapUI
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (DialogResult.Yes == MessageBox.Show("确定退出系统？", "企业云图", MessageBoxButtons.YesNo, MessageBoxIcon.Information))
-                //Application.Exit();
-                System.Environment.Exit(0);
-            else
-                e.Cancel = true;
+            //if (DialogResult.Yes == MessageBox.Show("确定退出系统？", "企业云图", MessageBoxButtons.YesNo, MessageBoxIcon.Information))
+            //    //Application.Exit();
+            //    System.Environment.Exit(0);
+            //else
+            //    e.Cancel = true;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -308,7 +309,20 @@ namespace CloudMapUI
 
         private void btn_generateMap_Click(object sender, EventArgs e)
         {
-
+            List<Module> modPosition = new List<Module>();
+            modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height);
+            int NumCount = modPosition.Count;
+            TextBox[] textBox = new TextBox[NumCount];
+            for (int i = 2; i < NumCount; i++)
+            {
+                textBox[i] = new TextBox();
+                textBox[i].Size = new System.Drawing.Size(modPosition[0].x, modPosition[0].y);
+                textBox[i].Location = new Point(modPosition[i].x, modPosition[i].y);
+                textBox[i].BackColor = Color.Gray;
+                textBox[i].Multiline = true;
+                panel4.Controls.Add(textBox[i]);
+            }
+            int[][] line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height);
         }
 
         private void ToolStripMenuItem_Level1_Click(object sender, EventArgs e)

@@ -1,20 +1,21 @@
 ﻿using System.Data.SQLite;
 using System.Data;
+using System;
 using Data;
+using System.Collections.Generic;
 
 namespace DataAccess
 {
 
-    class ModulesOperator
+    public class ModulesOperator
     {
         static SQLiteDataAdapter command;
-
         public static ModuleData LoadModulesInfo()
         {
             ModuleData data = new ModuleData();
             string sql0 = "select * from modules";
             command = new SQLiteDataAdapter(sql0, globalParameters.conn);
-            command.Fill(data);
+            command.Fill(data.Tables[ModuleData.MODULES_TABLE]);
             return data;
         }
 
@@ -84,6 +85,63 @@ namespace DataAccess
                 return false;
             }
         }
+        private static SQLiteDataReader ExecuteReaderSql(string sql)
+        {
+            SQLiteCommand cmdReader = new SQLiteCommand(sql, globalParameters.conn);
+            SQLiteDataReader reader = cmdReader.ExecuteReader();
+            return reader;
+        }
+        public static string[] read_modules()
+        {
+            int num = 0;
+            string sql0 = "select count(*) from modules";
+            SQLiteDataReader reader0 = ExecuteReaderSql(sql0);
+            while (reader0.Read())
+            {
+                num = reader0.GetInt32(0);
+            }
+            string[] modulesList = new string[num];
+            int i = 0;
+            string sql = "select name from modules";
+
+            SQLiteDataReader reader = ExecuteReaderSql(sql);
+            while (reader.Read())
+            {
+                modulesList[i] = reader.GetString(0);
+                i = i + 1;
+            }
+            return modulesList;
+        }
+
+
+        public static List<ModulesList> GetModuleCount()
+        {
+
+            string[] modulesList = read_modules();
+            int num = modulesList.Length;
+            ModulesList[] mod = new ModulesList[num];
+            List<ModulesList> modules = new List<ModulesList>();
+            int i = 0;
+            foreach (string moduleName in modulesList)
+            {
+                string sql = "select count(*) from relation where sourceName = '" + moduleName + "' or targetName = '" + moduleName + "'"; ;
+                SQLiteDataReader reader = ExecuteReaderSql(sql);
+                while (reader.Read())
+                {
+                    mod[i].name = moduleName;
+                    mod[i].count = reader.GetInt16(0);
+                    modules.Add(mod[i]);
+                    i++;
+                }
+            }
+            return modules;
+        }
+
+        public struct ModulesList
+        {
+            public string name;
+            public int count;
+        };  
 
     }
 }
