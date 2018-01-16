@@ -86,14 +86,9 @@
             this.toolStripDropDownButton_colorFilling = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripDropDownButton_borderLIne = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripDropDownButton_lineWidth = new System.Windows.Forms.ToolStripDropDownButton();
-            this.磅ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.磅ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.磅ToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.磅ToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.磅ToolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.磅ToolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.磅ToolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
-            this.磅ToolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
             this.其他ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripDropDownButton_lineColor = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripDropDownButton_comment = new System.Windows.Forms.ToolStripDropDownButton();
@@ -117,7 +112,10 @@
             this.dataGridView_module = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage_relation = new System.Windows.Forms.TabPage();
+            this.dataGridView_relation = new System.Windows.Forms.DataGridView();
             this.saveFileDialog_saveImage = new System.Windows.Forms.SaveFileDialog();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ModuleColor = new System.Windows.Forms.ColorDialog();
             this.menuStrip2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -129,6 +127,8 @@
             this.tabControl1.SuspendLayout();
             this.tabPage_module.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_module)).BeginInit();
+            this.tabPage_relation.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_relation)).BeginInit();
             this.SuspendLayout();
             // 
             // ToolStripMenuItem_File
@@ -219,6 +219,7 @@
             this.ToolStripMenuItem_history.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
             this.ToolStripMenuItem_history.Size = new System.Drawing.Size(189, 22);
             this.ToolStripMenuItem_history.Text = "历史记录";
+            //this.ToolStripMenuItem_history.Click += new System.EventHandler(this.历史记录ToolStripMenuItem_Click);
             // 
             // ToolStripMenuItem_Exit
             // 
@@ -347,12 +348,14 @@
             this.ToolStripMenuItem_colorFilling.Name = "ToolStripMenuItem_colorFilling";
             this.ToolStripMenuItem_colorFilling.Size = new System.Drawing.Size(124, 22);
             this.ToolStripMenuItem_colorFilling.Text = "填充颜色";
+            this.ToolStripMenuItem_colorFilling.Click += new System.EventHandler(this.ToolStripMenuItem_colorFilling_Click);
             // 
             // ToolStripMenuItem_BorderWidth
             // 
             this.ToolStripMenuItem_BorderWidth.Name = "ToolStripMenuItem_BorderWidth";
             this.ToolStripMenuItem_BorderWidth.Size = new System.Drawing.Size(124, 22);
             this.ToolStripMenuItem_BorderWidth.Text = "粗细";
+            this.ToolStripMenuItem_BorderWidth.Click += new System.EventHandler(this.ToolStripMenuItem_BorderWidth_Click);
             // 
             // ToolStripMenuItem_Line
             // 
@@ -451,7 +454,12 @@
             // 
             // BorderColor
             // 
+            this.BorderColor.Color = System.Drawing.Color.DarkRed;
             this.BorderColor.ShowHelp = true;
+            // 
+            // LineColor
+            // 
+            this.LineColor.ShowHelp = true;
             // 
             // toolStrip1
             // 
@@ -616,14 +624,9 @@
             // 
             this.toolStripDropDownButton_lineWidth.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripDropDownButton_lineWidth.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.磅ToolStripMenuItem,
-            this.磅ToolStripMenuItem1,
-            this.磅ToolStripMenuItem2,
             this.磅ToolStripMenuItem3,
-            this.磅ToolStripMenuItem4,
             this.磅ToolStripMenuItem5,
             this.磅ToolStripMenuItem6,
-            this.磅ToolStripMenuItem7,
             this.其他ToolStripMenuItem});
             this.toolStripDropDownButton_lineWidth.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton_lineWidth.Image")));
             this.toolStripDropDownButton_lineWidth.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -631,59 +634,33 @@
             this.toolStripDropDownButton_lineWidth.Size = new System.Drawing.Size(45, 40);
             this.toolStripDropDownButton_lineWidth.Text = "toolStripDropDownButton1";
             this.toolStripDropDownButton_lineWidth.ToolTipText = "关系线粗细";
-            // 
-            // 磅ToolStripMenuItem
-            // 
-            this.磅ToolStripMenuItem.Name = "磅ToolStripMenuItem";
-            this.磅ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-            this.磅ToolStripMenuItem.Text = "0.25 磅";
-            // 
-            // 磅ToolStripMenuItem1
-            // 
-            this.磅ToolStripMenuItem1.Name = "磅ToolStripMenuItem1";
-            this.磅ToolStripMenuItem1.Size = new System.Drawing.Size(124, 22);
-            this.磅ToolStripMenuItem1.Text = "0.5 磅";
-            // 
-            // 磅ToolStripMenuItem2
-            // 
-            this.磅ToolStripMenuItem2.Name = "磅ToolStripMenuItem2";
-            this.磅ToolStripMenuItem2.Size = new System.Drawing.Size(124, 22);
-            this.磅ToolStripMenuItem2.Text = "0.75 磅";
+            this.toolStripDropDownButton_lineWidth.Click += new System.EventHandler(this.toolStripDropDownButton_lineWidth_Click);
             // 
             // 磅ToolStripMenuItem3
             // 
             this.磅ToolStripMenuItem3.Name = "磅ToolStripMenuItem3";
-            this.磅ToolStripMenuItem3.Size = new System.Drawing.Size(124, 22);
-            this.磅ToolStripMenuItem3.Text = "1 磅";
-            // 
-            // 磅ToolStripMenuItem4
-            // 
-            this.磅ToolStripMenuItem4.Name = "磅ToolStripMenuItem4";
-            this.磅ToolStripMenuItem4.Size = new System.Drawing.Size(124, 22);
-            this.磅ToolStripMenuItem4.Text = "1.5 磅";
+            this.磅ToolStripMenuItem3.Size = new System.Drawing.Size(152, 22);
+            this.磅ToolStripMenuItem3.Text = "1 倍";
+            this.磅ToolStripMenuItem3.Click += new System.EventHandler(this.磅ToolStripMenuItem3_Click);
             // 
             // 磅ToolStripMenuItem5
             // 
             this.磅ToolStripMenuItem5.Name = "磅ToolStripMenuItem5";
-            this.磅ToolStripMenuItem5.Size = new System.Drawing.Size(124, 22);
-            this.磅ToolStripMenuItem5.Text = "2.25 磅";
+            this.磅ToolStripMenuItem5.Size = new System.Drawing.Size(152, 22);
+            this.磅ToolStripMenuItem5.Text = "2 倍";
+            this.磅ToolStripMenuItem5.Click += new System.EventHandler(this.磅ToolStripMenuItem5_Click);
             // 
             // 磅ToolStripMenuItem6
             // 
             this.磅ToolStripMenuItem6.Name = "磅ToolStripMenuItem6";
-            this.磅ToolStripMenuItem6.Size = new System.Drawing.Size(124, 22);
-            this.磅ToolStripMenuItem6.Text = "3 磅";
-            // 
-            // 磅ToolStripMenuItem7
-            // 
-            this.磅ToolStripMenuItem7.Name = "磅ToolStripMenuItem7";
-            this.磅ToolStripMenuItem7.Size = new System.Drawing.Size(124, 22);
-            this.磅ToolStripMenuItem7.Text = "4.6 磅";
+            this.磅ToolStripMenuItem6.Size = new System.Drawing.Size(152, 22);
+            this.磅ToolStripMenuItem6.Text = "5 倍";
+            this.磅ToolStripMenuItem6.Click += new System.EventHandler(this.磅ToolStripMenuItem6_Click);
             // 
             // 其他ToolStripMenuItem
             // 
             this.其他ToolStripMenuItem.Name = "其他ToolStripMenuItem";
-            this.其他ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.其他ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.其他ToolStripMenuItem.Text = "其它线条";
             // 
             // toolStripDropDownButton_lineColor
@@ -823,6 +800,7 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(635, 43);
             this.panel2.TabIndex = 8;
+            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
             // btn_generateMap
             // 
@@ -882,6 +860,9 @@
             // dataGridView_module
             // 
             this.dataGridView_module.AllowUserToAddRows = false;
+            this.dataGridView_module.AllowUserToDeleteRows = false;
+            this.dataGridView_module.AllowUserToResizeColumns = false;
+            this.dataGridView_module.AllowUserToResizeRows = false;
             this.dataGridView_module.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_module.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1});
@@ -904,6 +885,7 @@
             // 
             // tabPage_relation
             // 
+            this.tabPage_relation.Controls.Add(this.dataGridView_relation);
             this.tabPage_relation.Location = new System.Drawing.Point(4, 4);
             this.tabPage_relation.Name = "tabPage_relation";
             this.tabPage_relation.Padding = new System.Windows.Forms.Padding(3);
@@ -912,9 +894,33 @@
             this.tabPage_relation.Text = "关系";
             this.tabPage_relation.UseVisualStyleBackColor = true;
             // 
+            // dataGridView_relation
+            // 
+            this.dataGridView_relation.AllowUserToAddRows = false;
+            this.dataGridView_relation.AllowUserToDeleteRows = false;
+            this.dataGridView_relation.AllowUserToResizeColumns = false;
+            this.dataGridView_relation.AllowUserToResizeRows = false;
+            this.dataGridView_relation.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_relation.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column2});
+            this.dataGridView_relation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView_relation.Location = new System.Drawing.Point(3, 3);
+            this.dataGridView_relation.MultiSelect = false;
+            this.dataGridView_relation.Name = "dataGridView_relation";
+            this.dataGridView_relation.ReadOnly = true;
+            this.dataGridView_relation.RowHeadersVisible = false;
+            this.dataGridView_relation.RowTemplate.Height = 23;
+            this.dataGridView_relation.Size = new System.Drawing.Size(186, 454);
+            this.dataGridView_relation.TabIndex = 0;
+            // 
             // saveFileDialog_saveImage
             // 
             this.saveFileDialog_saveImage.Filter = "Painter 文件|*.pat|BMP 文件|*.bmp|JPG 文件|*.jpg|JPEG 文件|*.jpeg|Gif 文件|*.gif";
+            // 
+            // ModuleColor
+            // 
+            this.ModuleColor.Color = System.Drawing.Color.LightGray;
+            this.ModuleColor.ShowHelp = true;
             // 
             // MainForm
             // 
@@ -928,8 +934,10 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "企业云图";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.Resize += new System.EventHandler(this.Form_Changed);
             this.menuStrip2.ResumeLayout(false);
             this.menuStrip2.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
@@ -946,6 +954,8 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage_module.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_module)).EndInit();
+            this.tabPage_relation.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_relation)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1042,6 +1052,9 @@
         public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_colorFilling;
         private System.Windows.Forms.DataGridView dataGridView_module;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridView dataGridView_relation;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.ColorDialog ModuleColor;
     }
 }
 
