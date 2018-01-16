@@ -309,20 +309,7 @@ namespace CloudMapUI
 
         private void btn_generateMap_Click(object sender, EventArgs e)
         {
-            List<Module> modPosition = new List<Module>();
-            modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height);
-            int NumCount = modPosition.Count;
-            TextBox[] textBox = new TextBox[NumCount];
-            for (int i = 2; i < NumCount; i++)
-            {
-                textBox[i] = new TextBox();
-                textBox[i].Size = new System.Drawing.Size(modPosition[0].x, modPosition[0].y);
-                textBox[i].Location = new Point(modPosition[i].x, modPosition[i].y);
-                textBox[i].BackColor = Color.Gray;
-                textBox[i].Multiline = true;
-                panel4.Controls.Add(textBox[i]);
-            }
-            int[][] line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height);
+
         }
 
         private void ToolStripMenuItem_Level1_Click(object sender, EventArgs e)
