@@ -77,7 +77,7 @@ namespace CloudMapUI
             mainFormStatus();
             panelWidth = panel4.Size.Width;
             panelHeight = panel4.Size.Height;
-            textBox2.Text = panel4.Size.Width.ToString() + " * " + panel4.Size.Height.ToString();
+            //textBox2.Text = panel4.Size.Width.ToString() + " * " + panel4.Size.Height.ToString();
             //panel1.Left = 0;
             //panel1.Top = 25;
         }
