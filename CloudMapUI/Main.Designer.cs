@@ -114,8 +114,8 @@
             this.tabPage_relation = new System.Windows.Forms.TabPage();
             this.dataGridView_relation = new System.Windows.Forms.DataGridView();
             this.saveFileDialog_saveImage = new System.Windows.Forms.SaveFileDialog();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ModuleColor = new System.Windows.Forms.ColorDialog();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -219,7 +219,6 @@
             this.ToolStripMenuItem_history.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
             this.ToolStripMenuItem_history.Size = new System.Drawing.Size(189, 22);
             this.ToolStripMenuItem_history.Text = "历史记录";
-            //this.ToolStripMenuItem_history.Click += new System.EventHandler(this.历史记录ToolStripMenuItem_Click);
             // 
             // ToolStripMenuItem_Exit
             // 
@@ -639,28 +638,28 @@
             // 磅ToolStripMenuItem3
             // 
             this.磅ToolStripMenuItem3.Name = "磅ToolStripMenuItem3";
-            this.磅ToolStripMenuItem3.Size = new System.Drawing.Size(152, 22);
+            this.磅ToolStripMenuItem3.Size = new System.Drawing.Size(124, 22);
             this.磅ToolStripMenuItem3.Text = "1 倍";
             this.磅ToolStripMenuItem3.Click += new System.EventHandler(this.磅ToolStripMenuItem3_Click);
             // 
             // 磅ToolStripMenuItem5
             // 
             this.磅ToolStripMenuItem5.Name = "磅ToolStripMenuItem5";
-            this.磅ToolStripMenuItem5.Size = new System.Drawing.Size(152, 22);
+            this.磅ToolStripMenuItem5.Size = new System.Drawing.Size(124, 22);
             this.磅ToolStripMenuItem5.Text = "2 倍";
             this.磅ToolStripMenuItem5.Click += new System.EventHandler(this.磅ToolStripMenuItem5_Click);
             // 
             // 磅ToolStripMenuItem6
             // 
             this.磅ToolStripMenuItem6.Name = "磅ToolStripMenuItem6";
-            this.磅ToolStripMenuItem6.Size = new System.Drawing.Size(152, 22);
+            this.磅ToolStripMenuItem6.Size = new System.Drawing.Size(124, 22);
             this.磅ToolStripMenuItem6.Text = "5 倍";
             this.磅ToolStripMenuItem6.Click += new System.EventHandler(this.磅ToolStripMenuItem6_Click);
             // 
             // 其他ToolStripMenuItem
             // 
             this.其他ToolStripMenuItem.Name = "其他ToolStripMenuItem";
-            this.其他ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.其他ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.其他ToolStripMenuItem.Text = "其它线条";
             // 
             // toolStripDropDownButton_lineColor
@@ -922,6 +921,14 @@
             this.ModuleColor.Color = System.Drawing.Color.LightGray;
             this.ModuleColor.ShowHelp = true;
             // 
+            // Column2
+            // 
+            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column2.DataPropertyName = "rname";
+            this.Column2.HeaderText = "名称";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1053,8 +1060,8 @@
         private System.Windows.Forms.DataGridView dataGridView_module;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridView dataGridView_relation;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.ColorDialog ModuleColor;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
     }
 }
 
