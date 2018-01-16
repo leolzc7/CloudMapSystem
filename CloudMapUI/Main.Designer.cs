@@ -275,7 +275,7 @@
             this.ToolStripMenuItem_level2,
             this.ToolStripMenuItem_Level3});
             this.ToolStripMenuItem_SysLevel.Name = "ToolStripMenuItem_SysLevel";
-            this.ToolStripMenuItem_SysLevel.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_SysLevel.Size = new System.Drawing.Size(142, 22);
             this.ToolStripMenuItem_SysLevel.Text = "系统等级";
             // 
             // ToolStripMenuItem_Level1
@@ -301,13 +301,13 @@
             // 
             this.ToolStripMenuItem_Refresh.Name = "ToolStripMenuItem_Refresh";
             this.ToolStripMenuItem_Refresh.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.ToolStripMenuItem_Refresh.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Refresh.Size = new System.Drawing.Size(142, 22);
             this.ToolStripMenuItem_Refresh.Text = "刷新(&F5)";
             // 
             // ToolStripMenuItem_DisplayScale
             // 
             this.ToolStripMenuItem_DisplayScale.Name = "ToolStripMenuItem_DisplayScale";
-            this.ToolStripMenuItem_DisplayScale.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_DisplayScale.Size = new System.Drawing.Size(142, 22);
             this.ToolStripMenuItem_DisplayScale.Text = "显示比例";
             this.ToolStripMenuItem_DisplayScale.Click += new System.EventHandler(this.ToolStripMenuItem_DisplayScale_Click);
             // 
@@ -329,27 +329,27 @@
             this.ToolStripMenuItem_colorFilling,
             this.ToolStripMenuItem_BorderWidth});
             this.ToolStripMenuItem_Border.Name = "ToolStripMenuItem_Border";
-            this.ToolStripMenuItem_Border.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Border.Size = new System.Drawing.Size(112, 22);
             this.ToolStripMenuItem_Border.Text = "模块";
             // 
             // ToolStripMenuItem_BorderColor
             // 
             this.ToolStripMenuItem_BorderColor.Name = "ToolStripMenuItem_BorderColor";
-            this.ToolStripMenuItem_BorderColor.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_BorderColor.Size = new System.Drawing.Size(124, 22);
             this.ToolStripMenuItem_BorderColor.Text = "边框颜色";
             this.ToolStripMenuItem_BorderColor.Click += new System.EventHandler(this.ToolStripMenuItem_BorderColor_Click);
             // 
             // ToolStripMenuItem_colorFilling
             // 
             this.ToolStripMenuItem_colorFilling.Name = "ToolStripMenuItem_colorFilling";
-            this.ToolStripMenuItem_colorFilling.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_colorFilling.Size = new System.Drawing.Size(124, 22);
             this.ToolStripMenuItem_colorFilling.Text = "填充颜色";
             this.ToolStripMenuItem_colorFilling.Click += new System.EventHandler(this.ToolStripMenuItem_colorFilling_Click);
             // 
             // ToolStripMenuItem_BorderWidth
             // 
             this.ToolStripMenuItem_BorderWidth.Name = "ToolStripMenuItem_BorderWidth";
-            this.ToolStripMenuItem_BorderWidth.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_BorderWidth.Size = new System.Drawing.Size(124, 22);
             this.ToolStripMenuItem_BorderWidth.Text = "粗细";
             this.ToolStripMenuItem_BorderWidth.Click += new System.EventHandler(this.ToolStripMenuItem_BorderWidth_Click);
             // 
@@ -359,26 +359,26 @@
             this.ToolStripMenuItem_LineColor,
             this.ToolStripMenuItem_LineWidth});
             this.ToolStripMenuItem_Line.Name = "ToolStripMenuItem_Line";
-            this.ToolStripMenuItem_Line.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Line.Size = new System.Drawing.Size(112, 22);
             this.ToolStripMenuItem_Line.Text = "关系线";
             // 
             // ToolStripMenuItem_LineColor
             // 
             this.ToolStripMenuItem_LineColor.Name = "ToolStripMenuItem_LineColor";
-            this.ToolStripMenuItem_LineColor.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_LineColor.Size = new System.Drawing.Size(100, 22);
             this.ToolStripMenuItem_LineColor.Text = "颜色";
             this.ToolStripMenuItem_LineColor.Click += new System.EventHandler(this.ToolStripMenuItem_LineColor_Click);
             // 
             // ToolStripMenuItem_LineWidth
             // 
             this.ToolStripMenuItem_LineWidth.Name = "ToolStripMenuItem_LineWidth";
-            this.ToolStripMenuItem_LineWidth.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_LineWidth.Size = new System.Drawing.Size(100, 22);
             this.ToolStripMenuItem_LineWidth.Text = "粗细";
             // 
             // ToolStripMenuItem_comment
             // 
             this.ToolStripMenuItem_comment.Name = "ToolStripMenuItem_comment";
-            this.ToolStripMenuItem_comment.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_comment.Size = new System.Drawing.Size(112, 22);
             this.ToolStripMenuItem_comment.Text = "注释";
             this.ToolStripMenuItem_comment.Click += new System.EventHandler(this.注释ToolStripMenuItem_Click);
             // 
@@ -452,6 +452,10 @@
             // 
             this.BorderColor.Color = System.Drawing.Color.DarkRed;
             this.BorderColor.ShowHelp = true;
+            // 
+            // LineColor
+            // 
+            this.LineColor.ShowHelp = true;
             // 
             // toolStrip1
             // 
@@ -802,14 +806,13 @@
             // 
             // trackBar_displaySacle
             // 
-            this.trackBar_displaySacle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.trackBar_displaySacle.Cursor = System.Windows.Forms.Cursors.HSplit;
-            this.trackBar_displaySacle.Location = new System.Drawing.Point(578, 6);
+            this.trackBar_displaySacle.Location = new System.Drawing.Point(595, 6);
             this.trackBar_displaySacle.Maximum = 800;
             this.trackBar_displaySacle.Minimum = 50;
             this.trackBar_displaySacle.Name = "trackBar_displaySacle";
             this.trackBar_displaySacle.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_displaySacle.Size = new System.Drawing.Size(45, 180);
+            this.trackBar_displaySacle.Size = new System.Drawing.Size(45, 155);
             this.trackBar_displaySacle.TabIndex = 0;
             this.trackBar_displaySacle.Value = 100;
             // 
@@ -894,7 +897,8 @@
             // 
             // ModuleColor
             // 
-            this.ModuleColor.Color = System.Drawing.Color.DarkRed;
+            this.ModuleColor.Color = System.Drawing.Color.LightGray;
+            this.ModuleColor.ShowHelp = true;
             // 
             // MainForm
             // 

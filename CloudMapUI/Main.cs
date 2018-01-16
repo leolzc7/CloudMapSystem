@@ -162,6 +162,7 @@ namespace CloudMapUI
         private void ToolStripMenuItem_BorderColor_Click(object sender, EventArgs e)
         {
             BorderColor.ShowDialog();
+
             btn_generateMap_Click(sender, e);
         }
 
@@ -309,26 +310,72 @@ namespace CloudMapUI
         }
         private void btn_generateMap_Click(object sender, EventArgs e)
         {
+            
             Graphics g1 = panel4.CreateGraphics();
             Pen boderpen = new Pen(BorderColor.Color, 1);
             List<Module> modPosition = new List<Module>();
             modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height);
             int NumCount=modPosition.Count;
             RichTextBox[] textBox = new RichTextBox[NumCount];
+            
             for (int i = 2; i < NumCount; i++)
             {
-                g1.DrawRectangle(boderpen, modPosition[i].x-1, modPosition[i].y-1, modPosition[0].x+1, modPosition[0].y+1);
+                g1.DrawRectangle(boderpen, modPosition[i].x - 1, modPosition[i].y - 1, modPosition[0].x + 1, modPosition[0].y + 1);
                 textBox[i] = new RichTextBox();
+                textBox[i].BackColor = ModuleColor.Color;
+                //textBox[i].BackColor = Color.Red;
+
                 textBox[i].Size = new System.Drawing.Size(modPosition[0].x, modPosition[0].y);
                 textBox[i].Location = new Point(modPosition[i].x, modPosition[i].y);
-                textBox[i].BackColor = ModuleColor.Color;
                 textBox[i].Text = modPosition[i].moduleName;//显示文字
                 textBox[i].SelectionAlignment = HorizontalAlignment.Center;//居中显示，目前只能水平居中不能垂直居中。
                 textBox[i].ReadOnly = true;//只读
-                textBox[i].BorderStyle = BorderStyle.None;
+                textBox[i].BorderStyle = BorderStyle.Fixed3D;
                 //textBox[i].Multiline = true;
                 panel4.Controls.Add(textBox[i]);
             }
+            int[][] line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height);
+            //Pen linePen = new Pen(Color.Black, 1);
+            int LineCount = 0; 
+            for (int i = 0; i < line.Length; i++)
+            {
+                if (line[i] != null)
+                {
+                    LineCount++;
+                }
+
+            }
+            for (int i = 0; i < LineCount; i++)
+            {
+                if (line[i][0] > line[i][2] || line[i][1] > line[i][3])
+                {
+                    int x = line[i][0];
+                    int y = line[i][1];
+                    line[i][0] = line[i][2];
+                    line[i][1] = line[i][3];
+                    line[i][2] = x;
+                    line[i][3] = y;
+                }
+            }
+            ALine[] aline = new ALine[LineCount];
+            for (int i = 0; i < LineCount; i++)
+            {
+                //g1.DrawLine(linePen, line[i][0], line[i][1], line[i][2], line[i][3]);
+                aline[i] = new ALine();
+                aline[i].Points = line[i];
+                aline[i].Pencolor = Color.Black;
+                if (line[i][0] == line[i][2])
+                {
+                    aline[i].Location = new Point(line[i][0] - 4 * aline[i].Penwidth, line[i][1]);
+                }else
+                    aline[i].Location = new Point(line[i][0], line[i][1] - 4 * aline[i].Penwidth);
+                panel4.Controls.Add(aline[i]);
+            }
+        }
+        public void DrawLine(int[] points)
+        {
+            Graphics g1 = panel4.CreateGraphics();
+            Pen linePen = new Pen(BorderColor.Color, 1);
         }
 
         private void ToolStripMenuItem_Level1_Click(object sender, EventArgs e)
@@ -344,6 +391,7 @@ namespace CloudMapUI
         private void ToolStripMenuItem_colorFilling_Click(object sender, EventArgs e)
         {
             ModuleColor.ShowDialog();
+
             btn_generateMap_Click(sender, e);
         }
 
