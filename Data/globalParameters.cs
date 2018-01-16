@@ -14,5 +14,6 @@ namespace Data
         public static string dbName;
         public static Queue<string> dbHistory = new Queue<string> ();
         public static SQLiteConnection conn = null;
+        public static string dbHistoryPath = @"C:\CloudMap\history.ini";
     }
 }

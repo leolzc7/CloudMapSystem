@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Data;
 using DataAccess;
+using DrawLineRules;
+using System.IO;
 
 namespace CloudMapUI
 {
@@ -86,9 +88,28 @@ namespace CloudMapUI
             
             panelWidth = panel4.Size.Width;
             panelHeight = panel4.Size.Height;
+            AddHistoryItem();
             //textBox2.Text = panel4.Size.Width.ToString() + " * " + panel4.Size.Height.ToString();
             //panel1.Left = 0;
             //panel1.Top = 25;
+        }
+        private void AddHistoryItem()
+        {
+            SystemOperator.ReadHistory();
+            foreach (string history in globalParameters.dbHistory)
+            {
+                ToolStripMenuItem item = new ToolStripMenuItem();
+                item.Name = history;
+                item.Text = history;
+                item.Click += new EventHandler(historyItemClik);
+                ToolStripMenuItem_history.DropDownItems.Add(item);
+            }
+        }
+        private void historyItemClik(object sender, EventArgs e)
+        {
+            string path = ((ToolStripMenuItem)sender).Text;
+            SystemOperator.OpenProject(path);
+            mainFormStatus();
         }
         private void menuStrip2_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
@@ -133,6 +154,10 @@ namespace CloudMapUI
         private void ToolStripMenuItem_SaveAs_Click(object sender, EventArgs e)
         {
             saveFileDialog_SaveProject.ShowDialog();
+            string filePath = saveFileDialog_SaveProject.FileName;
+            string[] text = globalParameters.dbPath.Split('=');
+            string oldFilePath = text[1];
+            File.Copy(oldFilePath,filePath);
         }
 
         private void 保存云图ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -207,6 +232,7 @@ namespace CloudMapUI
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            SystemOperator.WriteHistory();
             //if (DialogResult.Yes == MessageBox.Show("确定退出系统？", "企业云图", MessageBoxButtons.YesNo, MessageBoxIcon.Information))
             //    //Application.Exit();
             //    System.Environment.Exit(0);
@@ -319,11 +345,35 @@ namespace CloudMapUI
 
         private void btn_generateMap_Click(object sender, EventArgs e)
         {
+            Graphics g1 = panel4.CreateGraphics();
+            Pen boderpen = new Pen(BorderColor.Color, 1);
+            List<Module> modPosition = new List<Module>();
+            modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height);
+            int NumCount = modPosition.Count;
+            RichTextBox[] textBox = new RichTextBox[NumCount];
 
+            for (int i = 2; i < NumCount; i++)
+            {
+                g1.DrawRectangle(boderpen, modPosition[i].x - 1, modPosition[i].y - 1, modPosition[0].x + 1, modPosition[0].y + 1);
+                textBox[i] = new RichTextBox();
+                //textBox[i].BackColor = ModuleColor.Color;
+                //textBox[i].BackColor = Color.Red;
+
+                textBox[i].Size = new System.Drawing.Size(modPosition[0].x, modPosition[0].y);
+                textBox[i].Location = new Point(modPosition[i].x, modPosition[i].y);
+                textBox[i].Text = modPosition[i].moduleName;//显示文字
+                textBox[i].SelectionAlignment = HorizontalAlignment.Center;//居中显示，目前只能水平居中不能垂直居中。
+                textBox[i].ReadOnly = true;//只读
+                textBox[i].BorderStyle = BorderStyle.Fixed3D;
+                //textBox[i].Multiline = true;
+                panel4.Controls.Add(textBox[i]);
+            }
+            ModuleOne.LineInfo[] line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height);
         }
 
         private void ToolStripMenuItem_Level1_Click(object sender, EventArgs e)
         {
+
 
         }
 

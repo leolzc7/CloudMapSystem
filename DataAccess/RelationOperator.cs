@@ -67,7 +67,7 @@ namespace DataAccess
         {
             DataRow data = relation.Tables[RelationData.RELATION_TABLE].Rows[0];
             string cmdUpdate;
-            string change = @"sourceName = '" + data[RelationData.SOURCENAME_FIELD] + "'," + "targetName = '" + data[RelationData.TARGETNAME_FIELD] + "'," + "name = '" + data[RelationData.NAME_FIELD] + "'," + "type = '" + data[RelationData.TYPE_FIELD] + "'," + "bidirection = '" + data[RelationData.BIDIRECTION_FIELD] + "'," + "comment = '" + data[RelationData.COMMENT_FIELD] + "'";
+            string change = @"sourceName = '" + data[RelationData.SOURCENAME_FIELD] + "'," + "targetName = '" + data[RelationData.TARGETNAME_FIELD] + "'," + "rname = '" + data[RelationData.NAME_FIELD] + "'," + "type = '" + data[RelationData.TYPE_FIELD] + "'," + "bidirection = '" + data[RelationData.BIDIRECTION_FIELD] + "'," + "comment = '" + data[RelationData.COMMENT_FIELD] + "'";
             string condition1 = @"sourceName = '" + selectSource + "'";
             string condition2 = @"targetName = '" + selectTarget + "'";
             cmdUpdate = "UPDATE relation SET " + change + " WHERE " + condition1 + " and " + condition2;
@@ -98,7 +98,7 @@ namespace DataAccess
         public static List<relation> GetRelationArray()
         {
             List<relation> relationArray = new List<relation>();
-            string sql = "select sourceName,targetName,bidirection from relation";
+            string sql = "select sourceName,targetName,bidirection,rname from relation";
             SQLiteDataReader reader = ExecuteReaderSql(sql);
             while (reader.Read())
             {
@@ -106,6 +106,7 @@ namespace DataAccess
                 relationOne.sourceName = reader.GetString(0);
                 relationOne.targetName = reader.GetString(1);
                 relationOne.bidirection = reader.GetString(2);
+                relationOne.relationName = reader.GetString(3);
                 relationArray.Add(relationOne);
                 //int index = Array.IndexOf(list,reader.GetString(0));
                 //RelationArray[i][index] = 1;
@@ -119,6 +120,7 @@ namespace DataAccess
             public string sourceName;
             public string targetName;
             public string bidirection;
+            public string relationName;
         }
 
     }

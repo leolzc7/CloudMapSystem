@@ -12,7 +12,7 @@ namespace Data
         public const string RELATION_TABLE = "relation";
         public const string SOURCENAME_FIELD = "sourceName";
         public const string TARGETNAME_FIELD = "targetName";
-        public const string NAME_FIELD = "name";
+        public const string NAME_FIELD = "rname";
         public const string BIDIRECTION_FIELD = "bidirection";
         public const string TYPE_FIELD = "type";
         public const string COMMENT_FIELD = "comment";

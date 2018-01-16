@@ -39,7 +39,7 @@
             this.ToolStripMenuItem_PrePrint = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Print = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.历史记录ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_history = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Item = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_AddModule = new System.Windows.Forms.ToolStripMenuItem();
@@ -143,7 +143,7 @@
             this.ToolStripMenuItem_PrePrint,
             this.ToolStripMenuItem_Print,
             this.toolStripSeparator3,
-            this.历史记录ToolStripMenuItem,
+            this.ToolStripMenuItem_history,
             this.ToolStripMenuItem_Exit});
             this.ToolStripMenuItem_File.Name = "ToolStripMenuItem_File";
             this.ToolStripMenuItem_File.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F)));
@@ -213,12 +213,12 @@
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(186, 6);
             // 
-            // 历史记录ToolStripMenuItem
+            // ToolStripMenuItem_history
             // 
-            this.历史记录ToolStripMenuItem.Name = "历史记录ToolStripMenuItem";
-            this.历史记录ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.历史记录ToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
-            this.历史记录ToolStripMenuItem.Text = "历史记录";
+            this.ToolStripMenuItem_history.Name = "ToolStripMenuItem_history";
+            this.ToolStripMenuItem_history.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
+            this.ToolStripMenuItem_history.Size = new System.Drawing.Size(189, 22);
+            this.ToolStripMenuItem_history.Text = "历史记录";
             // 
             // ToolStripMenuItem_Exit
             // 
@@ -1038,7 +1038,7 @@
         public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_saveImage;
         public System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton_lineWidth;
         public System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton_lineColor;
-        public System.Windows.Forms.ToolStripMenuItem 历史记录ToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_history;
         public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_colorFilling;
         private System.Windows.Forms.DataGridView dataGridView_module;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
