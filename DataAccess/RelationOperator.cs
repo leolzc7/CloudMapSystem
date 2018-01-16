@@ -9,7 +9,7 @@ using Data;
 
 namespace DataAccess
 {
-    class RelationOperator
+    public class RelationOperator
     {
         static SQLiteDataAdapter command;
         public static RelationData LoadRelationInfo()
@@ -20,7 +20,7 @@ namespace DataAccess
             command.Fill(data.Tables[RelationData.RELATION_TABLE]);
             return data;
         }
-        public bool InsertRelationInfo(RelationData relation)
+        public static bool InsertRelationInfo(RelationData relation)
         {
             string insertCommand = GetInsertCommand(relation);
             SystemOperator.ExecuteSql(insertCommand);
@@ -35,7 +35,7 @@ namespace DataAccess
                 return true;
             }
         }
-        private string GetInsertCommand(RelationData relation)
+        private static string GetInsertCommand(RelationData relation)
         {
             DataRow data = relation.Tables[RelationData.RELATION_TABLE].Rows[0];
             string cmdInsert;
@@ -48,7 +48,7 @@ namespace DataAccess
             cmdInsert = "INSERT INTO relation VALUES(" + source + target + name + bidirection + type + comment + ")";
             return cmdInsert;
         }
-        public bool UpdateRelationInfo(RelationData relation, string selectSource, string selectTarget)
+        public static bool UpdateRelationInfo(RelationData relation, string selectSource, string selectTarget)
         {
             string updateCommand = GetUpdateCommand(relation, selectSource, selectTarget);
             SystemOperator.ExecuteSql(updateCommand);
@@ -63,17 +63,17 @@ namespace DataAccess
                 return true;
             }
         }
-        private string GetUpdateCommand(RelationData relation, string selectSource, string selectTarget)
+        private static string GetUpdateCommand(RelationData relation, string selectSource, string selectTarget)
         {
             DataRow data = relation.Tables[RelationData.RELATION_TABLE].Rows[0];
             string cmdUpdate;
-            string change = @"sourceName = '" + data[RelationData.SOURCENAME_FIELD] + "'," + "targetName = '" + data[RelationData.TARGETNAME_FIELD] + "'," + "name = '" + data[RelationData.NAME_FIELD] + "'," + "type = '" + data[RelationData.TYPE_FIELD] + "'," + "bidirection = '" + data[RelationData.BIDIRECTION_FIELD] + "'," + "comment = '" + data[RelationData.COMMENT_FIELD] + "'";
+            string change = @"sourceName = '" + data[RelationData.SOURCENAME_FIELD] + "'," + "targetName = '" + data[RelationData.TARGETNAME_FIELD] + "'," + "rname = '" + data[RelationData.NAME_FIELD] + "'," + "type = '" + data[RelationData.TYPE_FIELD] + "'," + "bidirection = '" + data[RelationData.BIDIRECTION_FIELD] + "'," + "comment = '" + data[RelationData.COMMENT_FIELD] + "'";
             string condition1 = @"sourceName = '" + selectSource + "'";
             string condition2 = @"targetName = '" + selectTarget + "'";
             cmdUpdate = "UPDATE relation SET " + change + " WHERE " + condition1 + " and " + condition2;
             return cmdUpdate;
         }
-        public bool DeleteRelationInfo(string selectSource, string selectTarget)
+        public static bool DeleteRelationInfo(string selectSource, string selectTarget)
         {
             string cmdDelete;
             string condition1 = @"sourceName = '" + selectSource + "'";

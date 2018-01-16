@@ -35,13 +35,10 @@ namespace CloudMapUI
 
         private void ModuleEditForm_Load(object sender, EventArgs e)
         {
-            pageStatus = RecordStatus.View;
-            textBox_ProjectName.Text = globalParameters.dbName;
-            textBox_ProjectName.ReadOnly = true;
-            textBox_ProjectName.BackColor = Color.Gainsboro;
             dataGridView_module.AutoGenerateColumns = false;
             moduledata = ModulesOperator.LoadModulesInfo();
             dataGridView_module.DataSource = moduledata.Tables[ModuleData.MODULES_TABLE].DefaultView;
+            pageStatus = RecordStatus.View;
             SetFormControlerStatus();
             SetFormControlerData();
         }
@@ -106,55 +103,12 @@ namespace CloudMapUI
             moduleName = name.Text;
         }
 
-        public static bool isPress = false;
-        private void btn_EditModuleFinish_Click(object sender, EventArgs e)
-        {
-            
-        }
-
-        
-
-        private void btnModuleCommit_Click(object sender, EventArgs e)
-        {
-            //read_modules(); //读取moduleList传到relation中
-            //close_db();
-            //this.Hide();
-        }
-
         private void comboBox_Type_SelectedIndexChanged(object sender, EventArgs e)
         {
             moduleType = comboBox_Type.Text;
         }
 
-        public class Item
-        {
-            private string text;
-            public Item(string text)
-            {
-                this.text = text;
-            }
-            public string Text
-            {
-                get
-                {
-                    return text;
-                }
-            }
-        }
-
-        public void flushDataGrid()
-        {
-          
-        }
-
-        private void clearAllWidget()
-        {
-            comboBox_Level.Text = null;
-            name.Text = null;
-            comboBox_Type.Text = null;
-            comment.Text = null;
-        }
-
+        //保存
         private void btnSave_Click(object sender, EventArgs e)
         {
             if (pageStatus == RecordStatus.Edit)
@@ -194,12 +148,14 @@ namespace CloudMapUI
                     MessageBox.Show("添加成功！");
                 }
             }
-           
         }
 
         //设置页面控件状态
         private void SetFormControlerStatus()
         {
+            textBox_ProjectName.Text = globalParameters.dbName;
+            textBox_ProjectName.ReadOnly = true;
+            textBox_ProjectName.BackColor = Color.Gainsboro;
             if (pageStatus == RecordStatus.View)
             {
                 name.ReadOnly = true;
@@ -231,31 +187,25 @@ namespace CloudMapUI
             }
             else if (pageStatus == RecordStatus.Edit)
             {
-                btnUpdate.Visible = false;
-                btnAdd.Visible = false;
-                btnDelete.Visible = false;
-                btnSave.Visible = true;
-
                 name.ReadOnly = false;
                 comboBox_Type.Visible = true;
                 type.Visible = false;
                 comboBox_Level.Visible = true;
                 level.Visible= false;
                 comment.ReadOnly = false;
-                comment.Text = "";
 
-                name.BackColor = Color.Gainsboro;
-                comboBox_Type.BackColor = Color.White;
-                comboBox_Level.BackColor = Color.White;
-                comment.BackColor = Color.White;
-            }
-            else if (pageStatus == RecordStatus.Add)
-            {
                 btnUpdate.Visible = false;
                 btnAdd.Visible = false;
                 btnDelete.Visible = false;
                 btnSave.Visible = true;
 
+                name.BackColor = Color.White;
+                comboBox_Type.BackColor = Color.White;
+                comboBox_Level.BackColor = Color.White;
+                comment.BackColor = Color.White;
+            }
+            else if (pageStatus == RecordStatus.Add)
+            {               
                 name.ReadOnly = false;
                 comboBox_Type.Visible = true;
                 type.Visible = false;
@@ -263,10 +213,15 @@ namespace CloudMapUI
                 level.Visible = false;
                 comment.ReadOnly = false;
 
-                name.BackColor = Color.Gainsboro;
-                comboBox_Type.BackColor = Color.Pink;
-                comboBox_Level.BackColor = Color.PaleTurquoise;
-                comment.BackColor = Color.PaleTurquoise;
+                btnUpdate.Visible = false;
+                btnAdd.Visible = false;
+                btnDelete.Visible = false;
+                btnSave.Visible = true;
+
+                name.BackColor = Color.White;
+                comboBox_Type.BackColor = Color.White;
+                comboBox_Level.BackColor = Color.White;
+                comment.BackColor = Color.White;
             }
         }
 
@@ -283,6 +238,7 @@ namespace CloudMapUI
                     type.Text = odr[ModuleData.TYPE_FIELD].ToString();
                     level.Text = odr[ModuleData.LEVEL_FIELD].ToString();
                     comment.Text = odr[ModuleData.COMMENT_FIELD].ToString();
+
                 }
                 else
                 {
@@ -294,12 +250,17 @@ namespace CloudMapUI
             }
             else if (pageStatus == RecordStatus.Edit)
             {
+                selectModule = dataGridView_module.CurrentCell.Value.ToString();
+                DataRow odr = moduledata.Tables[ModuleData.MODULES_TABLE].Select(ModuleData.NAME_FIELD + "='" + selectModule + "'")[0];
+                name.Text = odr[ModuleData.NAME_FIELD].ToString();
+                comboBox_Type.Text = odr[ModuleData.TYPE_FIELD].ToString();              
+                comboBox_Level.Text = odr[ModuleData.COMMENT_FIELD].ToString();
             }
             else if (pageStatus == RecordStatus.Add)
             {
                 name.Text = "";
-                type.Text = "";
-                level.Text = "";
+                comboBox_Type.Text = "";
+                comboBox_Level.Text = "";
                 comment.Text = "";
             }
         }

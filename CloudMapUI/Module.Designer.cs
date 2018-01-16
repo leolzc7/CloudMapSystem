@@ -105,14 +105,14 @@
             // 
             // level
             // 
-            this.level.Location = new System.Drawing.Point(333, 48);
+            this.level.Location = new System.Drawing.Point(333, 49);
             this.level.Name = "level";
             this.level.Size = new System.Drawing.Size(220, 21);
             this.level.TabIndex = 34;
             // 
             // type
             // 
-            this.type.Location = new System.Drawing.Point(333, 80);
+            this.type.Location = new System.Drawing.Point(333, 81);
             this.type.Name = "type";
             this.type.Size = new System.Drawing.Size(220, 21);
             this.type.TabIndex = 33;
@@ -147,12 +147,14 @@
             this.dataGridView_module.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_module.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1});
-            this.dataGridView_module.Location = new System.Drawing.Point(12, 6);
+            this.dataGridView_module.Dock = System.Windows.Forms.DockStyle.Top;
+            this.dataGridView_module.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_module.MultiSelect = false;
             this.dataGridView_module.Name = "dataGridView_module";
             this.dataGridView_module.ReadOnly = true;
             this.dataGridView_module.RowHeadersVisible = false;
             this.dataGridView_module.RowTemplate.Height = 23;
-            this.dataGridView_module.Size = new System.Drawing.Size(214, 280);
+            this.dataGridView_module.Size = new System.Drawing.Size(241, 280);
             this.dataGridView_module.TabIndex = 32;
             this.dataGridView_module.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_module_CellClick);
             // 

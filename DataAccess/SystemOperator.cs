@@ -35,7 +35,7 @@ namespace DataAccess
             ExecuteSql(sql);
 
             string sq2 = "CREATE TABLE IF NOT EXISTS relation(sourceName STRING NOT NULL, " +
-                "targetName STRING NOT NULL, name varchar(50), bidirection varchar(50), type varchar(50), " +
+                "targetName STRING NOT NULL, rname varchar(50), bidirection varchar(50), type varchar(50), " +
                 "comment varchar(100), PRIMARY KEY(sourceName, targetName),FOREIGN KEY (sourceName) " +
                 "REFERENCES modules(name) on delete cascade on update cascade, " +
                 "FOREIGN KEY(targetName) REFERENCES modules(name) on delete cascade on update cascade); ";//建表语句
@@ -51,6 +51,8 @@ namespace DataAccess
             globalParameters.dbName = text[text.Length - 1];
             globalParameters.dbPath = "Data Source = " + filePath;
             Connect_open_db();
+            string sq3 = "PRAGMA foreign_keys = 'on';";
+            ExecuteSql(sq3);
         }
 
     }

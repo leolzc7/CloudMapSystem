@@ -39,7 +39,7 @@
             this.ToolStripMenuItem_PrePrint = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Print = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.历史记录ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_history = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Item = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_AddModule = new System.Windows.Forms.ToolStripMenuItem();
@@ -117,7 +117,9 @@
             this.dataGridView_module = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage_relation = new System.Windows.Forms.TabPage();
+            this.dataGridView_relation = new System.Windows.Forms.DataGridView();
             this.saveFileDialog_saveImage = new System.Windows.Forms.SaveFileDialog();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -129,6 +131,8 @@
             this.tabControl1.SuspendLayout();
             this.tabPage_module.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_module)).BeginInit();
+            this.tabPage_relation.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_relation)).BeginInit();
             this.SuspendLayout();
             // 
             // ToolStripMenuItem_File
@@ -143,7 +147,7 @@
             this.ToolStripMenuItem_PrePrint,
             this.ToolStripMenuItem_Print,
             this.toolStripSeparator3,
-            this.历史记录ToolStripMenuItem,
+            this.ToolStripMenuItem_history,
             this.ToolStripMenuItem_Exit});
             this.ToolStripMenuItem_File.Name = "ToolStripMenuItem_File";
             this.ToolStripMenuItem_File.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F)));
@@ -213,12 +217,13 @@
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(186, 6);
             // 
-            // 历史记录ToolStripMenuItem
+            // ToolStripMenuItem_history
             // 
-            this.历史记录ToolStripMenuItem.Name = "历史记录ToolStripMenuItem";
-            this.历史记录ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.历史记录ToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
-            this.历史记录ToolStripMenuItem.Text = "历史记录";
+            this.ToolStripMenuItem_history.Name = "ToolStripMenuItem_history";
+            this.ToolStripMenuItem_history.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
+            this.ToolStripMenuItem_history.Size = new System.Drawing.Size(189, 22);
+            this.ToolStripMenuItem_history.Text = "历史记录";
+            this.ToolStripMenuItem_history.Click += new System.EventHandler(this.历史记录ToolStripMenuItem_Click);
             // 
             // ToolStripMenuItem_Exit
             // 
@@ -882,6 +887,9 @@
             // dataGridView_module
             // 
             this.dataGridView_module.AllowUserToAddRows = false;
+            this.dataGridView_module.AllowUserToDeleteRows = false;
+            this.dataGridView_module.AllowUserToResizeColumns = false;
+            this.dataGridView_module.AllowUserToResizeRows = false;
             this.dataGridView_module.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_module.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1});
@@ -904,6 +912,7 @@
             // 
             // tabPage_relation
             // 
+            this.tabPage_relation.Controls.Add(this.dataGridView_relation);
             this.tabPage_relation.Location = new System.Drawing.Point(4, 4);
             this.tabPage_relation.Name = "tabPage_relation";
             this.tabPage_relation.Padding = new System.Windows.Forms.Padding(3);
@@ -912,9 +921,36 @@
             this.tabPage_relation.Text = "关系";
             this.tabPage_relation.UseVisualStyleBackColor = true;
             // 
+            // dataGridView_relation
+            // 
+            this.dataGridView_relation.AllowUserToAddRows = false;
+            this.dataGridView_relation.AllowUserToDeleteRows = false;
+            this.dataGridView_relation.AllowUserToResizeColumns = false;
+            this.dataGridView_relation.AllowUserToResizeRows = false;
+            this.dataGridView_relation.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_relation.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column2});
+            this.dataGridView_relation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView_relation.Location = new System.Drawing.Point(3, 3);
+            this.dataGridView_relation.MultiSelect = false;
+            this.dataGridView_relation.Name = "dataGridView_relation";
+            this.dataGridView_relation.ReadOnly = true;
+            this.dataGridView_relation.RowHeadersVisible = false;
+            this.dataGridView_relation.RowTemplate.Height = 23;
+            this.dataGridView_relation.Size = new System.Drawing.Size(186, 454);
+            this.dataGridView_relation.TabIndex = 0;
+            // 
             // saveFileDialog_saveImage
             // 
             this.saveFileDialog_saveImage.Filter = "Painter 文件|*.pat|BMP 文件|*.bmp|JPG 文件|*.jpg|JPEG 文件|*.jpeg|Gif 文件|*.gif";
+            // 
+            // Column2
+            // 
+            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column2.DataPropertyName = "rname";
+            this.Column2.HeaderText = "名称";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
             // 
             // MainForm
             // 
@@ -946,6 +982,8 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage_module.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_module)).EndInit();
+            this.tabPage_relation.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_relation)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1038,10 +1076,12 @@
         public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_saveImage;
         public System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton_lineWidth;
         public System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton_lineColor;
-        public System.Windows.Forms.ToolStripMenuItem 历史记录ToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_history;
         public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_colorFilling;
         private System.Windows.Forms.DataGridView dataGridView_module;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridView dataGridView_relation;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
     }
 }
 

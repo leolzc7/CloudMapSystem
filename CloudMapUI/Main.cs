@@ -14,7 +14,9 @@ namespace CloudMapUI
 {
     public partial class MainForm : Form
     {
-        ModuleData moduledata;
+        public static ModuleData moduledata;
+        public static RelationData relationdata;
+        public static MainForm mainform;
         public static int panelWidth;
         public static int panelHeight;
         public MainForm()
@@ -22,6 +24,16 @@ namespace CloudMapUI
             InitializeComponent();
         }
 
+        //public static void fresh()
+        //{
+        //    mainform = new MainForm();
+        //    mainform.dataGridView_module.AutoGenerateColumns = false;
+        //    moduledata = ModulesOperator.LoadModulesInfo();
+        //    mainform.dataGridView_module.DataSource = moduledata.Tables[ModuleData.MODULES_TABLE].DefaultView;
+        //    mainform.dataGridView_relation.AutoGenerateColumns = false;
+        //    relationdata = RelationOperator.LoadRelationInfo();
+        //    mainform.dataGridView_relation.DataSource = relationdata.Tables[RelationData.RELATION_TABLE].DefaultView;
+        //}
         //在没有打开项目时，和项目相关的控件不可用
         public void mainFormStatus()
         {
@@ -76,6 +88,11 @@ namespace CloudMapUI
                 dataGridView_module.AutoGenerateColumns = false;
                 moduledata = ModulesOperator.LoadModulesInfo();
                 dataGridView_module.DataSource = moduledata.Tables[ModuleData.MODULES_TABLE].DefaultView;
+
+                dataGridView_relation.Visible = true;
+                dataGridView_relation.AutoGenerateColumns = false;
+                relationdata = RelationOperator.LoadRelationInfo();
+                dataGridView_relation.DataSource = relationdata.Tables[RelationData.RELATION_TABLE].DefaultView;
                 
             }
         }
@@ -99,15 +116,12 @@ namespace CloudMapUI
         {
             NewProjectForm newProjrctFrom = new NewProjectForm(this);
             newProjrctFrom.ShowDialog();
-            
 
-            ModuleEditForm newModuleEditForm = new ModuleEditForm(this);
-            newModuleEditForm.ShowDialog();
+            //ModuleEditForm newModuleEditForm = new ModuleEditForm(this);
+            //newModuleEditForm.ShowDialog();
 
-            RelationEditForm newRelationEditForm = new RelationEditForm(this);
-            newRelationEditForm.ShowDialog();
-
-                
+            //RelationEditForm newRelationEditForm = new RelationEditForm(this);
+            //newRelationEditForm.ShowDialog();       
         }
 
         private void ToolStripMenuItem_import_Click(object sender, EventArgs e)
@@ -330,6 +344,11 @@ namespace CloudMapUI
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void 历史记录ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
         }
 
     }
