@@ -17,7 +17,7 @@ namespace DataAccess
             RelationData data = new RelationData();
             string sql0 = "select * from relation";
             command = new SQLiteDataAdapter(sql0, globalParameters.conn);
-            command.Fill(data);
+            command.Fill(data.Tables[RelationData.RELATION_TABLE]);
             return data;
         }
         public bool InsertRelationInfo(RelationData relation)

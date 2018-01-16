@@ -55,6 +55,7 @@
             this.ToolStripMenuItem_Setting = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Border = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_BorderColor = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_colorFilling = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_BorderWidth = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Line = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_LineColor = new System.Windows.Forms.ToolStripMenuItem();
@@ -119,7 +120,8 @@
             this.tabPage_module = new System.Windows.Forms.TabPage();
             this.tabPage_relation = new System.Windows.Forms.TabPage();
             this.saveFileDialog_saveImage = new System.Windows.Forms.SaveFileDialog();
-            this.ToolStripMenuItem_colorFilling = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataGridView_module = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -129,6 +131,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_displaySacle)).BeginInit();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.tabPage_module.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_module)).BeginInit();
             this.SuspendLayout();
             // 
             // ToolStripMenuItem_File
@@ -242,21 +246,21 @@
             // ToolStripMenuItem_AddModule
             // 
             this.ToolStripMenuItem_AddModule.Name = "ToolStripMenuItem_AddModule";
-            this.ToolStripMenuItem_AddModule.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_AddModule.Size = new System.Drawing.Size(124, 22);
             this.ToolStripMenuItem_AddModule.Text = "添加系统";
             this.ToolStripMenuItem_AddModule.Click += new System.EventHandler(this.ToolStripMenuItem_AddModule_Click);
             // 
             // ToolStripMenuItem_AddRelation
             // 
             this.ToolStripMenuItem_AddRelation.Name = "ToolStripMenuItem_AddRelation";
-            this.ToolStripMenuItem_AddRelation.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_AddRelation.Size = new System.Drawing.Size(124, 22);
             this.ToolStripMenuItem_AddRelation.Text = "添加关系";
             this.ToolStripMenuItem_AddRelation.Click += new System.EventHandler(this.ToolStripMenuItem_AddRelation_Click);
             // 
             // ToolStripMenuItem_import
             // 
             this.ToolStripMenuItem_import.Name = "ToolStripMenuItem_import";
-            this.ToolStripMenuItem_import.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_import.Size = new System.Drawing.Size(124, 22);
             this.ToolStripMenuItem_import.Text = "导入";
             this.ToolStripMenuItem_import.Click += new System.EventHandler(this.ToolStripMenuItem_import_Click);
             // 
@@ -278,39 +282,39 @@
             this.ToolStripMenuItem_level2,
             this.ToolStripMenuItem_Level3});
             this.ToolStripMenuItem_SysLevel.Name = "ToolStripMenuItem_SysLevel";
-            this.ToolStripMenuItem_SysLevel.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_SysLevel.Size = new System.Drawing.Size(142, 22);
             this.ToolStripMenuItem_SysLevel.Text = "系统等级";
             // 
             // ToolStripMenuItem_Level1
             // 
             this.ToolStripMenuItem_Level1.Name = "ToolStripMenuItem_Level1";
-            this.ToolStripMenuItem_Level1.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Level1.Size = new System.Drawing.Size(100, 22);
             this.ToolStripMenuItem_Level1.Text = "一级";
             this.ToolStripMenuItem_Level1.Click += new System.EventHandler(this.ToolStripMenuItem_Level1_Click);
             // 
             // ToolStripMenuItem_level2
             // 
             this.ToolStripMenuItem_level2.Name = "ToolStripMenuItem_level2";
-            this.ToolStripMenuItem_level2.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_level2.Size = new System.Drawing.Size(100, 22);
             this.ToolStripMenuItem_level2.Text = "二级";
             // 
             // ToolStripMenuItem_Level3
             // 
             this.ToolStripMenuItem_Level3.Name = "ToolStripMenuItem_Level3";
-            this.ToolStripMenuItem_Level3.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Level3.Size = new System.Drawing.Size(100, 22);
             this.ToolStripMenuItem_Level3.Text = "三级";
             // 
             // ToolStripMenuItem_Refresh
             // 
             this.ToolStripMenuItem_Refresh.Name = "ToolStripMenuItem_Refresh";
             this.ToolStripMenuItem_Refresh.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.ToolStripMenuItem_Refresh.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Refresh.Size = new System.Drawing.Size(142, 22);
             this.ToolStripMenuItem_Refresh.Text = "刷新(&F5)";
             // 
             // ToolStripMenuItem_DisplayScale
             // 
             this.ToolStripMenuItem_DisplayScale.Name = "ToolStripMenuItem_DisplayScale";
-            this.ToolStripMenuItem_DisplayScale.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_DisplayScale.Size = new System.Drawing.Size(142, 22);
             this.ToolStripMenuItem_DisplayScale.Text = "显示比例";
             this.ToolStripMenuItem_DisplayScale.Click += new System.EventHandler(this.ToolStripMenuItem_DisplayScale_Click);
             // 
@@ -332,20 +336,26 @@
             this.ToolStripMenuItem_colorFilling,
             this.ToolStripMenuItem_BorderWidth});
             this.ToolStripMenuItem_Border.Name = "ToolStripMenuItem_Border";
-            this.ToolStripMenuItem_Border.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Border.Size = new System.Drawing.Size(112, 22);
             this.ToolStripMenuItem_Border.Text = "模块";
             // 
             // ToolStripMenuItem_BorderColor
             // 
             this.ToolStripMenuItem_BorderColor.Name = "ToolStripMenuItem_BorderColor";
-            this.ToolStripMenuItem_BorderColor.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_BorderColor.Size = new System.Drawing.Size(124, 22);
             this.ToolStripMenuItem_BorderColor.Text = "边框颜色";
             this.ToolStripMenuItem_BorderColor.Click += new System.EventHandler(this.ToolStripMenuItem_BorderColor_Click);
+            // 
+            // ToolStripMenuItem_colorFilling
+            // 
+            this.ToolStripMenuItem_colorFilling.Name = "ToolStripMenuItem_colorFilling";
+            this.ToolStripMenuItem_colorFilling.Size = new System.Drawing.Size(124, 22);
+            this.ToolStripMenuItem_colorFilling.Text = "填充颜色";
             // 
             // ToolStripMenuItem_BorderWidth
             // 
             this.ToolStripMenuItem_BorderWidth.Name = "ToolStripMenuItem_BorderWidth";
-            this.ToolStripMenuItem_BorderWidth.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_BorderWidth.Size = new System.Drawing.Size(124, 22);
             this.ToolStripMenuItem_BorderWidth.Text = "粗细";
             // 
             // ToolStripMenuItem_Line
@@ -354,26 +364,26 @@
             this.ToolStripMenuItem_LineColor,
             this.ToolStripMenuItem_LineWidth});
             this.ToolStripMenuItem_Line.Name = "ToolStripMenuItem_Line";
-            this.ToolStripMenuItem_Line.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Line.Size = new System.Drawing.Size(112, 22);
             this.ToolStripMenuItem_Line.Text = "关系线";
             // 
             // ToolStripMenuItem_LineColor
             // 
             this.ToolStripMenuItem_LineColor.Name = "ToolStripMenuItem_LineColor";
-            this.ToolStripMenuItem_LineColor.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_LineColor.Size = new System.Drawing.Size(100, 22);
             this.ToolStripMenuItem_LineColor.Text = "颜色";
             this.ToolStripMenuItem_LineColor.Click += new System.EventHandler(this.ToolStripMenuItem_LineColor_Click);
             // 
             // ToolStripMenuItem_LineWidth
             // 
             this.ToolStripMenuItem_LineWidth.Name = "ToolStripMenuItem_LineWidth";
-            this.ToolStripMenuItem_LineWidth.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_LineWidth.Size = new System.Drawing.Size(100, 22);
             this.ToolStripMenuItem_LineWidth.Text = "粗细";
             // 
             // ToolStripMenuItem_comment
             // 
             this.ToolStripMenuItem_comment.Name = "ToolStripMenuItem_comment";
-            this.ToolStripMenuItem_comment.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_comment.Size = new System.Drawing.Size(112, 22);
             this.ToolStripMenuItem_comment.Text = "注释";
             this.ToolStripMenuItem_comment.Click += new System.EventHandler(this.注释ToolStripMenuItem_Click);
             // 
@@ -390,14 +400,14 @@
             // ToolStripMenuItem_About
             // 
             this.ToolStripMenuItem_About.Name = "ToolStripMenuItem_About";
-            this.ToolStripMenuItem_About.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_About.Size = new System.Drawing.Size(124, 22);
             this.ToolStripMenuItem_About.Text = "关于云图";
             this.ToolStripMenuItem_About.Click += new System.EventHandler(this.ToolStripMenuItem_About_Click);
             // 
             // 帮助ToolStripMenuItem
             // 
             this.帮助ToolStripMenuItem.Name = "帮助ToolStripMenuItem";
-            this.帮助ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.帮助ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.帮助ToolStripMenuItem.Text = "帮助";
             this.帮助ToolStripMenuItem.Click += new System.EventHandler(this.帮助ToolStripMenuItem_Click);
             // 
@@ -876,6 +886,7 @@
             // 
             // comboBox_level
             // 
+            this.comboBox_level.BackColor = System.Drawing.SystemColors.Window;
             this.comboBox_level.FormattingEnabled = true;
             this.comboBox_level.Items.AddRange(new object[] {
             "一级",
@@ -901,6 +912,7 @@
             // tabPage_module
             // 
             this.tabPage_module.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.tabPage_module.Controls.Add(this.dataGridView_module);
             this.tabPage_module.Location = new System.Drawing.Point(4, 4);
             this.tabPage_module.Name = "tabPage_module";
             this.tabPage_module.Padding = new System.Windows.Forms.Padding(3);
@@ -922,11 +934,28 @@
             // 
             this.saveFileDialog_saveImage.Filter = "Painter 文件|*.pat|BMP 文件|*.bmp|JPG 文件|*.jpg|JPEG 文件|*.jpeg|Gif 文件|*.gif";
             // 
-            // ToolStripMenuItem_colorFilling
+            // dataGridView_module
             // 
-            this.ToolStripMenuItem_colorFilling.Name = "ToolStripMenuItem_colorFilling";
-            this.ToolStripMenuItem_colorFilling.Size = new System.Drawing.Size(152, 22);
-            this.ToolStripMenuItem_colorFilling.Text = "填充颜色";
+            this.dataGridView_module.AllowUserToAddRows = false;
+            this.dataGridView_module.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_module.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1});
+            this.dataGridView_module.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView_module.Location = new System.Drawing.Point(3, 3);
+            this.dataGridView_module.Name = "dataGridView_module";
+            this.dataGridView_module.ReadOnly = true;
+            this.dataGridView_module.RowHeadersVisible = false;
+            this.dataGridView_module.RowTemplate.Height = 23;
+            this.dataGridView_module.Size = new System.Drawing.Size(186, 454);
+            this.dataGridView_module.TabIndex = 0;
+            // 
+            // Column1
+            // 
+            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column1.DataPropertyName = "name";
+            this.Column1.HeaderText = "系统";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
             // 
             // MainForm
             // 
@@ -956,6 +985,8 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.tabControl1.ResumeLayout(false);
+            this.tabPage_module.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_module)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1054,6 +1085,8 @@
         public System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton_lineColor;
         public System.Windows.Forms.ToolStripMenuItem 历史记录ToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_colorFilling;
+        private System.Windows.Forms.DataGridView dataGridView_module;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
     }
 }
 
