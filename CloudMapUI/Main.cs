@@ -14,6 +14,7 @@ namespace CloudMapUI
 {
     public partial class MainForm : Form
     {
+        ModuleData moduledata;
         public static int panelWidth;
         public static int panelHeight;
         public MainForm()
@@ -51,6 +52,8 @@ namespace CloudMapUI
                 //toolStripDropDownButton_lineWidth.Enabled = false;
                 //toolStripDropDownButton_lineColor.Enabled = false;
                 //toolStripDropDownButton_comment.Enabled = false;
+
+                dataGridView_module.Visible = false;
             }
             else
             {
@@ -68,13 +71,19 @@ namespace CloudMapUI
                 toolStripButton_import.Enabled = true;
                 toolStripButton_addModule.Enabled = true;
                 toolStripButton_addRelation.Enabled = true;
+
+                dataGridView_module.Visible = true;
+                dataGridView_module.AutoGenerateColumns = false;
+                moduledata = ModulesOperator.LoadModulesInfo();
+                dataGridView_module.DataSource = moduledata.Tables[ModuleData.MODULES_TABLE].DefaultView;
+                
             }
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            ToolStripMenuItem_saveImage.Enabled = false;
             mainFormStatus();
+            
             panelWidth = panel4.Size.Width;
             panelHeight = panel4.Size.Height;
             //textBox2.Text = panel4.Size.Width.ToString() + " * " + panel4.Size.Height.ToString();
@@ -90,6 +99,7 @@ namespace CloudMapUI
         {
             NewProjectForm newProjrctFrom = new NewProjectForm(this);
             newProjrctFrom.ShowDialog();
+            
 
             ModuleEditForm newModuleEditForm = new ModuleEditForm(this);
             newModuleEditForm.ShowDialog();
@@ -111,6 +121,7 @@ namespace CloudMapUI
         {   
             openFileDialog_OpenProject.ShowDialog();
             SystemOperator.OpenProject(openFileDialog_OpenProject.FileName);
+            mainFormStatus();
         }
 
         private void ToolStripMenuItem_SaveProject_Click(object sender, EventArgs e)
@@ -196,11 +207,11 @@ namespace CloudMapUI
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (DialogResult.Yes == MessageBox.Show("确定退出系统？", "企业云图", MessageBoxButtons.YesNo, MessageBoxIcon.Information))
-                //Application.Exit();
-                System.Environment.Exit(0);
-            else
-                e.Cancel = true;
+            //if (DialogResult.Yes == MessageBox.Show("确定退出系统？", "企业云图", MessageBoxButtons.YesNo, MessageBoxIcon.Information))
+            //    //Application.Exit();
+            //    System.Environment.Exit(0);
+            //else
+            //    e.Cancel = true;
         }
 
         private void button1_Click(object sender, EventArgs e)

@@ -5,7 +5,7 @@ using Data;
 namespace DataAccess
 {
 
-    class ModulesOperator
+    public class ModulesOperator
     {
         static SQLiteDataAdapter command;
 
@@ -14,11 +14,11 @@ namespace DataAccess
             ModuleData data = new ModuleData();
             string sql0 = "select * from modules";
             command = new SQLiteDataAdapter(sql0, globalParameters.conn);
-            command.Fill(data);
+            command.Fill(data.Tables[ModuleData.MODULES_TABLE]);
             return data;
         }
 
-        public bool InsertModulesInfo(ModuleData module)
+        public static bool InsertModulesInfo(ModuleData module)
         {
             string insertCommand = GetInsertCommand(module);
             SystemOperator.ExecuteSql(insertCommand);
@@ -34,7 +34,7 @@ namespace DataAccess
             }
         }
 
-        private string GetInsertCommand(ModuleData module)
+        private static string GetInsertCommand(ModuleData module)
         {
             DataRow data = module.Tables[ModuleData.MODULES_TABLE].Rows[0];
             string cmdInsert;
@@ -45,7 +45,7 @@ namespace DataAccess
             cmdInsert = "INSERT INTO modules VALUES(" + name + type + level + comment + ")";
             return cmdInsert;
         }
-        public bool UpdateModulesInfo(ModuleData module, string selectModule)
+        public static bool UpdateModulesInfo(ModuleData module, string selectModule)
         {
             string updateCommand = GetUpdateCommand(module, selectModule);
             SystemOperator.ExecuteSql(updateCommand);
@@ -60,7 +60,7 @@ namespace DataAccess
                 return true;
             }
         }
-        private string GetUpdateCommand(ModuleData module, string selectModule)
+        private static string GetUpdateCommand(ModuleData module, string selectModule)
         {
             DataRow data = module.Tables[ModuleData.MODULES_TABLE].Rows[0];
             string cmdUpdate;
@@ -69,7 +69,7 @@ namespace DataAccess
             cmdUpdate = "UPDATE modules SET " + change + " WHERE " + condition;
             return cmdUpdate;
         }
-        public bool DeleteModulesInfo(string selectModule)
+        public static bool DeleteModulesInfo(string selectModule)
         {
             string cmdDelete;
             string condition = @"name = '" + selectModule + "'";

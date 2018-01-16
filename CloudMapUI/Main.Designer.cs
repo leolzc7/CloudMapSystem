@@ -114,6 +114,8 @@
             this.comboBox_level = new System.Windows.Forms.ComboBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage_module = new System.Windows.Forms.TabPage();
+            this.dataGridView_module = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage_relation = new System.Windows.Forms.TabPage();
             this.saveFileDialog_saveImage = new System.Windows.Forms.SaveFileDialog();
             this.menuStrip2.SuspendLayout();
@@ -125,6 +127,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_displaySacle)).BeginInit();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.tabPage_module.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_module)).BeginInit();
             this.SuspendLayout();
             // 
             // ToolStripMenuItem_File
@@ -841,6 +845,7 @@
             // 
             // comboBox_level
             // 
+            this.comboBox_level.BackColor = System.Drawing.SystemColors.Window;
             this.comboBox_level.FormattingEnabled = true;
             this.comboBox_level.Items.AddRange(new object[] {
             "一级",
@@ -866,12 +871,36 @@
             // tabPage_module
             // 
             this.tabPage_module.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.tabPage_module.Controls.Add(this.dataGridView_module);
             this.tabPage_module.Location = new System.Drawing.Point(4, 4);
             this.tabPage_module.Name = "tabPage_module";
             this.tabPage_module.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage_module.Size = new System.Drawing.Size(192, 460);
             this.tabPage_module.TabIndex = 0;
             this.tabPage_module.Text = "系统";
+            // 
+            // dataGridView_module
+            // 
+            this.dataGridView_module.AllowUserToAddRows = false;
+            this.dataGridView_module.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_module.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1});
+            this.dataGridView_module.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView_module.Location = new System.Drawing.Point(3, 3);
+            this.dataGridView_module.Name = "dataGridView_module";
+            this.dataGridView_module.ReadOnly = true;
+            this.dataGridView_module.RowHeadersVisible = false;
+            this.dataGridView_module.RowTemplate.Height = 23;
+            this.dataGridView_module.Size = new System.Drawing.Size(186, 454);
+            this.dataGridView_module.TabIndex = 0;
+            // 
+            // Column1
+            // 
+            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column1.DataPropertyName = "name";
+            this.Column1.HeaderText = "系统";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
             // 
             // tabPage_relation
             // 
@@ -915,6 +944,8 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.tabControl1.ResumeLayout(false);
+            this.tabPage_module.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_module)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1009,6 +1040,8 @@
         public System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton_lineColor;
         public System.Windows.Forms.ToolStripMenuItem 历史记录ToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_colorFilling;
+        private System.Windows.Forms.DataGridView dataGridView_module;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
     }
 }
 

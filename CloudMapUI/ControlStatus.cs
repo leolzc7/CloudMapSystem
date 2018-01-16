@@ -7,8 +7,13 @@ using Data;
 
 namespace CloudMapUI
 {
-    class ControlStatus
-    {
-        
-    }
+    //class ControlStatus
+    //{
+        public enum RecordStatus
+        {
+            View,
+            Add,
+            Edit
+        }
+    //}
 }

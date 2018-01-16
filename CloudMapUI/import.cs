@@ -118,6 +118,7 @@ namespace CloudMapUI
         private void btnFolderBrowser_Click(object sender, EventArgs e)
         {
             folderBrowserDialog1.ShowDialog();
+            //textBox1.Text = folderBrowserDialog1;
         }
 
         private void button1_Click(object sender, EventArgs e)

@@ -32,12 +32,15 @@
             this.textBox_ProjectName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.level = new System.Windows.Forms.TextBox();
+            this.type = new System.Windows.Forms.TextBox();
+            this.btnSave = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
             this.dataGridView_module = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
-            this.text_comment = new System.Windows.Forms.TextBox();
+            this.comment = new System.Windows.Forms.TextBox();
             this.comboBox_Level = new System.Windows.Forms.ComboBox();
             this.comboBox_Type = new System.Windows.Forms.ComboBox();
             this.name = new System.Windows.Forms.TextBox();
@@ -81,9 +84,11 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.button1);
+            this.panel2.Controls.Add(this.level);
+            this.panel2.Controls.Add(this.type);
+            this.panel2.Controls.Add(this.btnSave);
             this.panel2.Controls.Add(this.panel4);
-            this.panel2.Controls.Add(this.text_comment);
+            this.panel2.Controls.Add(this.comment);
             this.panel2.Controls.Add(this.comboBox_Level);
             this.panel2.Controls.Add(this.comboBox_Type);
             this.panel2.Controls.Add(this.name);
@@ -98,15 +103,29 @@
             this.panel2.Size = new System.Drawing.Size(590, 328);
             this.panel2.TabIndex = 19;
             // 
-            // button1
+            // level
             // 
-            this.button1.Location = new System.Drawing.Point(440, 189);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(50, 24);
-            this.button1.TabIndex = 32;
-            this.button1.Text = "完成";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.level.Location = new System.Drawing.Point(333, 48);
+            this.level.Name = "level";
+            this.level.Size = new System.Drawing.Size(220, 21);
+            this.level.TabIndex = 34;
+            // 
+            // type
+            // 
+            this.type.Location = new System.Drawing.Point(333, 80);
+            this.type.Name = "type";
+            this.type.Size = new System.Drawing.Size(220, 21);
+            this.type.TabIndex = 33;
+            // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(451, 189);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(50, 24);
+            this.btnSave.TabIndex = 32;
+            this.btnSave.Text = "保存";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // panel4
             // 
@@ -121,13 +140,29 @@
             // 
             // dataGridView_module
             // 
+            this.dataGridView_module.AllowUserToAddRows = false;
+            this.dataGridView_module.AllowUserToDeleteRows = false;
+            this.dataGridView_module.AllowUserToResizeColumns = false;
+            this.dataGridView_module.AllowUserToResizeRows = false;
             this.dataGridView_module.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_module.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1});
             this.dataGridView_module.Location = new System.Drawing.Point(12, 6);
             this.dataGridView_module.Name = "dataGridView_module";
+            this.dataGridView_module.ReadOnly = true;
             this.dataGridView_module.RowHeadersVisible = false;
             this.dataGridView_module.RowTemplate.Height = 23;
             this.dataGridView_module.Size = new System.Drawing.Size(214, 280);
             this.dataGridView_module.TabIndex = 32;
+            this.dataGridView_module.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_module_CellClick);
+            // 
+            // Column1
+            // 
+            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column1.DataPropertyName = "name";
+            this.Column1.HeaderText = "系统";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
             // 
             // btnAdd
             // 
@@ -137,7 +172,7 @@
             this.btnAdd.TabIndex = 18;
             this.btnAdd.Text = "新增";
             this.btnAdd.UseVisualStyleBackColor = true;
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click_1);
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // btnDelete
             // 
@@ -147,18 +182,19 @@
             this.btnDelete.TabIndex = 20;
             this.btnDelete.Text = "删除";
             this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click_1);
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
-            // text_comment
+            // comment
             // 
-            this.text_comment.Location = new System.Drawing.Point(333, 113);
-            this.text_comment.Multiline = true;
-            this.text_comment.Name = "text_comment";
-            this.text_comment.Size = new System.Drawing.Size(220, 58);
-            this.text_comment.TabIndex = 28;
+            this.comment.Location = new System.Drawing.Point(333, 113);
+            this.comment.Multiline = true;
+            this.comment.Name = "comment";
+            this.comment.Size = new System.Drawing.Size(220, 58);
+            this.comment.TabIndex = 28;
             // 
             // comboBox_Level
             // 
+            this.comboBox_Level.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_Level.FormattingEnabled = true;
             this.comboBox_Level.Items.AddRange(new object[] {
             "1",
@@ -227,13 +263,13 @@
             // 
             // btnUpdate
             // 
-            this.btnUpdate.Location = new System.Drawing.Point(333, 189);
+            this.btnUpdate.Location = new System.Drawing.Point(357, 189);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(50, 24);
             this.btnUpdate.TabIndex = 19;
             this.btnUpdate.Text = "修改";
             this.btnUpdate.UseVisualStyleBackColor = true;
-            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click_1);
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
             // ModuleEditForm
             // 
@@ -269,7 +305,7 @@
         private System.Windows.Forms.DataGridView dataGridView_module;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.TextBox text_comment;
+        private System.Windows.Forms.TextBox comment;
         private System.Windows.Forms.ComboBox comboBox_Level;
         private System.Windows.Forms.ComboBox comboBox_Type;
         private System.Windows.Forms.TextBox name;
@@ -278,6 +314,9 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnUpdate;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.TextBox type;
+        private System.Windows.Forms.TextBox level;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
     }
 }

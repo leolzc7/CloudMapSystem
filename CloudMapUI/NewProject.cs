@@ -36,6 +36,8 @@ namespace CloudMapUI
         private void btnNewProjectSure_Click(object sender, EventArgs e)
         {
             SystemOperator.NewProject(dbName, dbSelfPath);
+            paf.mainFormStatus();
+            this.Hide();
         }
 
         public void connect_open_db()
