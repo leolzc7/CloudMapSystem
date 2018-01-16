@@ -213,7 +213,6 @@ namespace CloudMapUI
 
                 btnAdd.Visible = true;
                 btnSave.Visible = true;
-                btnFinish.Visible = false;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
                 if (moduledata.Tables[ModuleData.MODULES_TABLE].Rows.Count > 0)
                 {
                     btnUpdate.Visible = true;
@@ -236,8 +235,6 @@ namespace CloudMapUI
                 btnAdd.Visible = false;
                 btnDelete.Visible = false;
                 btnSave.Visible = true;
-                btnSave.Location = new Point(366,189);
-                btnFinish.Visible = true;
 
                 name.ReadOnly = false;
                 comboBox_Type.Visible = true;
@@ -257,9 +254,7 @@ namespace CloudMapUI
                 btnUpdate.Visible = false;
                 btnAdd.Visible = false;
                 btnDelete.Visible = false;
-                btnSave.Location = new Point(366, 189);
                 btnSave.Visible = true;
-                btnFinish.Visible = true;
 
                 name.ReadOnly = false;
                 comboBox_Type.Visible = true;

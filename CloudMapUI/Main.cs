@@ -86,7 +86,7 @@ namespace CloudMapUI
             
             panelWidth = panel4.Size.Width;
             panelHeight = panel4.Size.Height;
-            textBox2.Text = panel4.Size.Width.ToString() + " * " + panel4.Size.Height.ToString();
+            //textBox2.Text = panel4.Size.Width.ToString() + " * " + panel4.Size.Height.ToString();
             //panel1.Left = 0;
             //panel1.Top = 25;
         }
@@ -207,11 +207,11 @@ namespace CloudMapUI
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (DialogResult.Yes == MessageBox.Show("确定退出系统？", "企业云图", MessageBoxButtons.YesNo, MessageBoxIcon.Information))
-                //Application.Exit();
-                System.Environment.Exit(0);
-            else
-                e.Cancel = true;
+            //if (DialogResult.Yes == MessageBox.Show("确定退出系统？", "企业云图", MessageBoxButtons.YesNo, MessageBoxIcon.Information))
+            //    //Application.Exit();
+            //    System.Environment.Exit(0);
+            //else
+            //    e.Cancel = true;
         }
 
         private void button1_Click(object sender, EventArgs e)

@@ -32,7 +32,6 @@
             this.textBox_ProjectName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.btnFinish = new System.Windows.Forms.Button();
             this.level = new System.Windows.Forms.TextBox();
             this.type = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
@@ -85,7 +84,6 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.btnFinish);
             this.panel2.Controls.Add(this.level);
             this.panel2.Controls.Add(this.type);
             this.panel2.Controls.Add(this.btnSave);
@@ -104,15 +102,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(590, 328);
             this.panel2.TabIndex = 19;
-            // 
-            // btnFinish
-            // 
-            this.btnFinish.Location = new System.Drawing.Point(451, 189);
-            this.btnFinish.Name = "btnFinish";
-            this.btnFinish.Size = new System.Drawing.Size(50, 24);
-            this.btnFinish.TabIndex = 35;
-            this.btnFinish.Text = "完成";
-            this.btnFinish.UseVisualStyleBackColor = true;
             // 
             // level
             // 
@@ -328,7 +317,6 @@
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.TextBox type;
         private System.Windows.Forms.TextBox level;
-        private System.Windows.Forms.Button btnFinish;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
     }
 }
