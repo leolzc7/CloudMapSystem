@@ -22,7 +22,11 @@ namespace DrawLineRules
         private int num_south;
         private int num_east;
         private int num_west;
-
+        public struct LineInfo
+        {
+            public int[] line;
+            public string lineName;
+        }
         //构造函数
         public ModuleOne()
         {
@@ -234,7 +238,7 @@ namespace DrawLineRules
             }
             return -1;
         }
-        public static int[][] GetLineInfo(List<Module> modulesList, int X, int Y)
+        public static LineInfo[] GetLineInfo2(List<Module> modulesList, int X, int Y)
         {
             Grid myGrid = new Grid(X, Y); // Grid class instance initialization
             ModuleOne[] modules = myGrid.readModule(modulesList);
@@ -248,7 +252,7 @@ namespace DrawLineRules
             {
                 num_par = (int)num_partition;
             }
-            int[][] allLine = new int[1000][];
+            LineInfo[] allLine = new LineInfo[1000];
             int[] rows = new int[num_par];
             int[] columns = new int[num_par];
             // 调用DataAccess中的方法，读入关系表，包含源模块、目标模块和是否双向
@@ -260,7 +264,7 @@ namespace DrawLineRules
             Console.Write("successful!");
             return allLine;
         }
-
+        
         //public static void Main(string[] args)
         //{
         //    Grid myGrid = new Grid(2000, 1600); // Grid class instance initialization

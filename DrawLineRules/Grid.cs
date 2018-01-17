@@ -90,7 +90,7 @@ namespace DrawLineRules
         //		}
         //	}
 
-        public void setRouteForModules(ModuleOne[] modules, List<RelationOperator.relation> relation, int[] rows, int[] columns,int[][] allLine )
+        public void setRouteForModules(ModuleOne[] modules, List<RelationOperator.relation> relation, int[] rows, int[] columns, ModuleOne.LineInfo[] allLine)
         {
             ModuleOne.gapy = ModuleOne.mody - ModuleOne.getHeight();
             ModuleOne.gapx = ModuleOne.modx - ModuleOne.getWidth();
@@ -111,6 +111,7 @@ namespace DrawLineRules
                 ModuleOne moduleSource = modules[ModuleOne.GetIndex(modules, relationOne.sourceName)];
                 ModuleOne moduleTarget = modules[ModuleOne.GetIndex(modules, relationOne.targetName)];
                 string bidirection = relationOne.bidirection;
+                string relationName = relationOne.relationName;
                 int com = moduleSource.compareModuleAdd(moduleTarget);
                 switch (com)
                 {
@@ -153,7 +154,7 @@ namespace DrawLineRules
                         break;
                 }
                 int[][] lineOne = Route(start, target, com, rows, columns, r, c, step_row, step_column, moduleSource, moduleTarget, bidirection);
-                saveLine(lineOne, allLine);
+                saveLine(lineOne, allLine,relationName);
             }     
         }
 
@@ -372,13 +373,13 @@ namespace DrawLineRules
             }
             return line;
         }
-        public int saveLine(int[][] lineOne, int[][] lineAll)
+        public int saveLine(int[][] lineOne, ModuleOne.LineInfo[] lineAll, string relationName)
         {
             for (int i = 0; i < lineAll.Length; i++)
             {
                 /////////////////找到没有用到的地方
                 //if (lineAll[i][0] == 0 && lineAll[i][1] == 0 && lineAll[i][2] == 0 && lineAll[i][3] == 0)
-                if(lineAll[i]==null)
+                if(lineAll[i].line==null)
                 {
                     for (int j = 0; j < lineOne.Length; j++)
                     {
@@ -388,7 +389,8 @@ namespace DrawLineRules
                         }
                         else
                         {
-                            lineAll[i] = lineOne[j];
+                            lineAll[i].line = lineOne[j];
+                            lineAll[i].lineName = relationName;
                             i++;
                         }
                     }

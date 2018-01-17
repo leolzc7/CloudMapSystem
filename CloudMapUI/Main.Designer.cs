@@ -86,14 +86,9 @@
             this.toolStripDropDownButton_colorFilling = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripDropDownButton_borderLIne = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripDropDownButton_lineWidth = new System.Windows.Forms.ToolStripDropDownButton();
-            this.磅ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.磅ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.磅ToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.磅ToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.磅ToolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.磅ToolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.磅ToolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
-            this.磅ToolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
             this.其他ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripDropDownButton_lineColor = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripDropDownButton_comment = new System.Windows.Forms.ToolStripDropDownButton();
@@ -107,7 +102,6 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.trackBar_displaySacle = new System.Windows.Forms.TrackBar();
             this.panel2 = new System.Windows.Forms.Panel();
             this.btn_generateMap = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -122,8 +116,6 @@
             this.statusStrip1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_displaySacle)).BeginInit();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.SuspendLayout();
@@ -620,14 +612,9 @@
             // 
             this.toolStripDropDownButton_lineWidth.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripDropDownButton_lineWidth.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.磅ToolStripMenuItem,
-            this.磅ToolStripMenuItem1,
-            this.磅ToolStripMenuItem2,
             this.磅ToolStripMenuItem3,
-            this.磅ToolStripMenuItem4,
             this.磅ToolStripMenuItem5,
             this.磅ToolStripMenuItem6,
-            this.磅ToolStripMenuItem7,
             this.其他ToolStripMenuItem});
             this.toolStripDropDownButton_lineWidth.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton_lineWidth.Image")));
             this.toolStripDropDownButton_lineWidth.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -635,59 +622,33 @@
             this.toolStripDropDownButton_lineWidth.Size = new System.Drawing.Size(45, 40);
             this.toolStripDropDownButton_lineWidth.Text = "toolStripDropDownButton1";
             this.toolStripDropDownButton_lineWidth.ToolTipText = "关系线粗细";
-            // 
-            // 磅ToolStripMenuItem
-            // 
-            this.磅ToolStripMenuItem.Name = "磅ToolStripMenuItem";
-            this.磅ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-            this.磅ToolStripMenuItem.Text = "0.25 磅";
-            // 
-            // 磅ToolStripMenuItem1
-            // 
-            this.磅ToolStripMenuItem1.Name = "磅ToolStripMenuItem1";
-            this.磅ToolStripMenuItem1.Size = new System.Drawing.Size(124, 22);
-            this.磅ToolStripMenuItem1.Text = "0.5 磅";
-            // 
-            // 磅ToolStripMenuItem2
-            // 
-            this.磅ToolStripMenuItem2.Name = "磅ToolStripMenuItem2";
-            this.磅ToolStripMenuItem2.Size = new System.Drawing.Size(124, 22);
-            this.磅ToolStripMenuItem2.Text = "0.75 磅";
+            this.toolStripDropDownButton_lineWidth.Click += new System.EventHandler(this.toolStripDropDownButton_lineWidth_Click);
             // 
             // 磅ToolStripMenuItem3
             // 
             this.磅ToolStripMenuItem3.Name = "磅ToolStripMenuItem3";
-            this.磅ToolStripMenuItem3.Size = new System.Drawing.Size(124, 22);
-            this.磅ToolStripMenuItem3.Text = "1 磅";
-            // 
-            // 磅ToolStripMenuItem4
-            // 
-            this.磅ToolStripMenuItem4.Name = "磅ToolStripMenuItem4";
-            this.磅ToolStripMenuItem4.Size = new System.Drawing.Size(124, 22);
-            this.磅ToolStripMenuItem4.Text = "1.5 磅";
+            this.磅ToolStripMenuItem3.Size = new System.Drawing.Size(152, 22);
+            this.磅ToolStripMenuItem3.Text = "1 倍";
+            this.磅ToolStripMenuItem3.Click += new System.EventHandler(this.磅ToolStripMenuItem3_Click);
             // 
             // 磅ToolStripMenuItem5
             // 
             this.磅ToolStripMenuItem5.Name = "磅ToolStripMenuItem5";
-            this.磅ToolStripMenuItem5.Size = new System.Drawing.Size(124, 22);
-            this.磅ToolStripMenuItem5.Text = "2.25 磅";
+            this.磅ToolStripMenuItem5.Size = new System.Drawing.Size(152, 22);
+            this.磅ToolStripMenuItem5.Text = "2 倍";
+            this.磅ToolStripMenuItem5.Click += new System.EventHandler(this.磅ToolStripMenuItem5_Click);
             // 
             // 磅ToolStripMenuItem6
             // 
             this.磅ToolStripMenuItem6.Name = "磅ToolStripMenuItem6";
-            this.磅ToolStripMenuItem6.Size = new System.Drawing.Size(124, 22);
-            this.磅ToolStripMenuItem6.Text = "3 磅";
-            // 
-            // 磅ToolStripMenuItem7
-            // 
-            this.磅ToolStripMenuItem7.Name = "磅ToolStripMenuItem7";
-            this.磅ToolStripMenuItem7.Size = new System.Drawing.Size(124, 22);
-            this.磅ToolStripMenuItem7.Text = "4.6 磅";
+            this.磅ToolStripMenuItem6.Size = new System.Drawing.Size(152, 22);
+            this.磅ToolStripMenuItem6.Text = "5 倍";
+            this.磅ToolStripMenuItem6.Click += new System.EventHandler(this.磅ToolStripMenuItem6_Click);
             // 
             // 其他ToolStripMenuItem
             // 
             this.其他ToolStripMenuItem.Name = "其他ToolStripMenuItem";
-            this.其他ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.其他ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.其他ToolStripMenuItem.Text = "其它线条";
             // 
             // toolStripDropDownButton_lineColor
@@ -796,25 +757,12 @@
             // 
             this.panel4.AutoScroll = true;
             this.panel4.BackColor = System.Drawing.Color.Transparent;
-            this.panel4.Controls.Add(this.trackBar_displaySacle);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(0, 0);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(635, 443);
             this.panel4.TabIndex = 0;
             this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.panel4_Paint);
-            // 
-            // trackBar_displaySacle
-            // 
-            this.trackBar_displaySacle.Cursor = System.Windows.Forms.Cursors.HSplit;
-            this.trackBar_displaySacle.Location = new System.Drawing.Point(595, 6);
-            this.trackBar_displaySacle.Maximum = 800;
-            this.trackBar_displaySacle.Minimum = 50;
-            this.trackBar_displaySacle.Name = "trackBar_displaySacle";
-            this.trackBar_displaySacle.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_displaySacle.Size = new System.Drawing.Size(45, 155);
-            this.trackBar_displaySacle.TabIndex = 0;
-            this.trackBar_displaySacle.Value = 100;
             // 
             // panel2
             // 
@@ -912,8 +860,10 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "企业云图";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.Resize += new System.EventHandler(this.Form_Changed);
             this.menuStrip2.ResumeLayout(false);
             this.menuStrip2.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
@@ -922,9 +872,6 @@
             this.statusStrip1.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_displaySacle)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.tabControl1.ResumeLayout(false);
@@ -960,19 +907,13 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.Label label1;
-        public System.Windows.Forms.TrackBar trackBar_displaySacle;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.Button btn_generateMap;
         private System.Windows.Forms.SaveFileDialog saveFileDialog_saveImage;
-        private System.Windows.Forms.ToolStripMenuItem 磅ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 磅ToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem 磅ToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem 磅ToolStripMenuItem3;
-        private System.Windows.Forms.ToolStripMenuItem 磅ToolStripMenuItem4;
         private System.Windows.Forms.ToolStripMenuItem 磅ToolStripMenuItem5;
         private System.Windows.Forms.ToolStripMenuItem 磅ToolStripMenuItem6;
-        private System.Windows.Forms.ToolStripMenuItem 磅ToolStripMenuItem7;
         private System.Windows.Forms.ToolStripMenuItem 其他ToolStripMenuItem;
         public System.Windows.Forms.Panel panel4;
         public System.Windows.Forms.ToolStripButton toolStripButton_import;
