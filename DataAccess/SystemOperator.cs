@@ -48,13 +48,22 @@ namespace DataAccess
             string filePath = dbSelfPath + dbSelfName + ".db";
             EnqueueChecked(filePath);
         }
-        public static void OpenProject(string filePath)
+        public static bool OpenProject(string filePath)
         {
-            string[] text = filePath.Split('\\');
-            globalParameters.dbName = text[text.Length - 1];
-            globalParameters.dbPath = "Data Source = " + filePath;
-            Connect_open_db();
-            EnqueueChecked(filePath);
+            if (!File.Exists(filePath))
+            {
+                globalParameters.dbHistory.Remove(filePath);
+                return false;
+            }
+            else
+            {
+                string[] text = filePath.Split('\\');
+                globalParameters.dbName = text[text.Length - 1];
+                globalParameters.dbPath = "Data Source = " + filePath;
+                Connect_open_db();
+                EnqueueChecked(filePath);
+                return true;
+            }       
         }
 
         public static void ReadHistory()
@@ -62,13 +71,12 @@ namespace DataAccess
             string path = globalParameters.dbHistoryPath;
             if (File.Exists(path))
             {
-                //StreamReader sr = new StreamReader(path);
                 string[] strs1 = File.ReadAllLines(path);
                 int length = strs1.Length;
                 for (int i = 0; i < length; i++)
                 {
-                    globalParameters.dbHistory.Enqueue(strs1[i]);
-                    Console.WriteLine(strs1[i]);
+                    globalParameters.dbHistory.Add(strs1[i]);
+                    //Console.WriteLine(strs1[i]);
                 }
             }
         }
@@ -76,7 +84,7 @@ namespace DataAccess
         {
             if (globalParameters.dbHistory.Count == 0)
             {
-                globalParameters.dbHistory.Enqueue(filePath);
+                globalParameters.dbHistory.Add(filePath);
             }
             else
             {
@@ -86,19 +94,18 @@ namespace DataAccess
                     have = (path == filePath) || have;
                 }
                 if (have == false)
-                    globalParameters.dbHistory.Enqueue(filePath);
+                    globalParameters.dbHistory.Add(filePath);
             }
         }
 
         public static void WriteHistory()
         {
-            string dirPath = @"C:\CloudMap";
+            string dirPath = globalParameters.dbDirPath;
             if (!Directory.Exists(dirPath))
             {
                 Directory.CreateDirectory(dirPath);
                 // File.SetAttributes(dirPath, FileAttributes.Hidden);
             }
-
             string filePath = globalParameters.dbHistoryPath;
             if (!File.Exists(filePath))
             {
@@ -116,9 +123,14 @@ namespace DataAccess
             {
                 FileStream fs2 = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite);
                 StreamWriter sw2 = new StreamWriter(fs2);
+
                 foreach (string oneHistory in globalParameters.dbHistory)
                 {
                     sw2.WriteLine(oneHistory);
+                }
+                for (int i = globalParameters.dbHistory.Count ; i < 10; i++)
+                {
+                    sw2.WriteLine("");
                 }
                 sw2.Flush();
                 sw2.Close();

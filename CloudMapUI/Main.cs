@@ -116,17 +116,31 @@ namespace CloudMapUI
             SystemOperator.ReadHistory();
             foreach (string history in globalParameters.dbHistory)
             {
-                ToolStripMenuItem item = new ToolStripMenuItem();
-                item.Name = history;
-                item.Text = history;
-                item.Click += new EventHandler(historyItemClik);
-                ToolStripMenuItem_history.DropDownItems.Add(item);
+                if (history == "")
+                {
+                    return;
+                }
+                else
+                {
+                    ToolStripMenuItem item = new ToolStripMenuItem();
+                    item.Name = history;
+                    item.Text = history;
+                    item.Click += new EventHandler(historyItemClik);
+                    ToolStripMenuItem_history.DropDownItems.Add(item);
+                }
             }
         }
         private void historyItemClik(object sender, EventArgs e)
         {
             string path = ((ToolStripMenuItem)sender).Text;
-            SystemOperator.OpenProject(path);
+            bool fileExist = SystemOperator.OpenProject(path);
+            if (!fileExist)
+            {
+                MessageBox.Show("该数据库已被删除", "关于云图", MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+                ((ToolStripMenuItem)sender).Visible = false;
+                //this.Controls.Remove(((ToolStripMenuItem)sender).Name);
+            }
             mainFormStatus();
         }
         private void menuStrip2_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
