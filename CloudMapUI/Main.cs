@@ -49,7 +49,7 @@ namespace CloudMapUI
                 ToolStripMenuItem_AddModule.Enabled = false;
                 ToolStripMenuItem_AddRelation.Enabled = false;
                 ToolStripMenuItem_import.Enabled = false;
-                //ToolStripMenuItem_SysLevel.Enabled = false;
+                //ToolStripMenuItem_SysLevel.Enabled = false;       
                 //ToolStripMenuItem_DisplayScale.Enabled = false;
                 //ToolStripMenuItem_Border.Enabled = false;
                 //ToolStripMenuItem_Line.Enabled = false;
