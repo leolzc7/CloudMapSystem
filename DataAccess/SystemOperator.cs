@@ -56,16 +56,6 @@ namespace DataAccess
             Connect_open_db();
             EnqueueChecked(filePath);
         }
-        public static void WriteHistory()
-        {
-            //string path = @"C:\CloudMap\history.ini";
-            StringBuilder sb = new StringBuilder();
-            foreach (string oneHistory in globalParameters.dbHistory)
-            {
-                sb.AppendLine(oneHistory);
-            }
-            File.WriteAllText(globalParameters.dbHistoryPath, sb.ToString());
-        }
 
         public static void ReadHistory()
         {
@@ -99,5 +89,43 @@ namespace DataAccess
                     globalParameters.dbHistory.Enqueue(filePath);
             }
         }
+
+        public static void WriteHistory()
+        {
+            string dirPath = @"C:\CloudMap";
+            if (!Directory.Exists(dirPath))
+            {
+                Directory.CreateDirectory(dirPath);
+                // File.SetAttributes(dirPath, FileAttributes.Hidden);
+            }
+
+            string filePath = globalParameters.dbHistoryPath;
+            if (!File.Exists(filePath))
+            {
+                FileStream fs1 = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite);
+                StreamWriter sw = new StreamWriter(fs1);
+                foreach (string oneHistory in globalParameters.dbHistory)
+                {
+                    sw.WriteLine(oneHistory);
+                }
+                sw.Flush();
+                sw.Close();
+                fs1.Close();
+            }
+            else
+            {
+                FileStream fs2 = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite);
+                StreamWriter sw2 = new StreamWriter(fs2);
+                foreach (string oneHistory in globalParameters.dbHistory)
+                {
+                    sw2.WriteLine(oneHistory);
+                }
+                sw2.Flush();
+                sw2.Close();
+                fs2.Close();
+            }
+        }
     }
+
+    
 }

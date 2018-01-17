@@ -134,6 +134,9 @@ namespace CloudMapUI
 
         }
 
+        
+
+
         private void NToolStripMenuItem_newProject_Click(object sender, EventArgs e)
         {
             NewProjectForm newProjrctFrom = new NewProjectForm(this);
