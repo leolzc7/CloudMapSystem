@@ -377,13 +377,12 @@ namespace DrawLineRules
         {
             for (int i = 0; i < lineAll.Length; i++)
             {
-                /////////////////找到没有用到的地方
                 //if (lineAll[i][0] == 0 && lineAll[i][1] == 0 && lineAll[i][2] == 0 && lineAll[i][3] == 0)
                 if(lineAll[i].line==null)
                 {
                     for (int j = 0; j < lineOne.Length; j++)
                     {
-                        if (lineOne[j][0] == 0 && lineOne[j][1] == 0 && lineOne[j][2] == 0 && lineOne[j][3] == 0)
+                        if (lineOne[j] == null || (lineOne[j][0] == 0 && lineOne[j][1] == 0 && lineOne[j][2] == 0 && lineOne[j][3] == 0))
                         {
                             return 0;
                         }

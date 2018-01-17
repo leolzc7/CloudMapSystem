@@ -189,7 +189,15 @@ namespace CloudMapUI
             string filePath = saveFileDialog_SaveProject.FileName;
             string[] text = globalParameters.dbPath.Split('=');
             string oldFilePath = text[1];
-            File.Copy(oldFilePath,filePath);
+            if (filePath == null || filePath =="")
+            {
+                MessageBox.Show("路径为空！", "关于云图", MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+            }
+            else
+            {
+                File.Copy(oldFilePath, filePath);
+            } 
         }
 
         private void 保存云图ToolStripMenuItem_Click(object sender, EventArgs e)
