@@ -10,33 +10,19 @@ using System.Windows.Forms;
 using Data;
 using DataAccess;
 using DrawLineRules;
-using System.IO;
 
 namespace CloudMapUI
 {
     public partial class MainForm : Form
     {
         public static int penWidth=1;
-        public static ModuleData moduledata;
-        public static RelationData relationdata;
-        public static MainForm mainform;
-        public static int panelWidth;
         public static int panelHeight;
+        public static int panelWidth;
         public MainForm()
         {
             InitializeComponent();
         }
 
-        //public static void fresh()
-        //{
-        //    mainform = new MainForm();
-        //    mainform.dataGridView_module.AutoGenerateColumns = false;
-        //    moduledata = ModulesOperator.LoadModulesInfo();
-        //    mainform.dataGridView_module.DataSource = moduledata.Tables[ModuleData.MODULES_TABLE].DefaultView;
-        //    mainform.dataGridView_relation.AutoGenerateColumns = false;
-        //    relationdata = RelationOperator.LoadRelationInfo();
-        //    mainform.dataGridView_relation.DataSource = relationdata.Tables[RelationData.RELATION_TABLE].DefaultView;
-        //}
         //在没有打开项目时，和项目相关的控件不可用
         public void mainFormStatus()
         {
@@ -67,8 +53,6 @@ namespace CloudMapUI
                 //toolStripDropDownButton_lineWidth.Enabled = false;
                 //toolStripDropDownButton_lineColor.Enabled = false;
                 //toolStripDropDownButton_comment.Enabled = false;
-
-                dataGridView_module.Visible = false;
             }
             else
             {
@@ -86,48 +70,18 @@ namespace CloudMapUI
                 toolStripButton_import.Enabled = true;
                 toolStripButton_addModule.Enabled = true;
                 toolStripButton_addRelation.Enabled = true;
-
-                dataGridView_module.Visible = true;
-                dataGridView_module.AutoGenerateColumns = false;
-                moduledata = ModulesOperator.LoadModulesInfo();
-                dataGridView_module.DataSource = moduledata.Tables[ModuleData.MODULES_TABLE].DefaultView;
-
-                dataGridView_relation.Visible = true;
-                dataGridView_relation.AutoGenerateColumns = false;
-                relationdata = RelationOperator.LoadRelationInfo();
-                dataGridView_relation.DataSource = relationdata.Tables[RelationData.RELATION_TABLE].DefaultView;
-                
             }
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            ToolStripMenuItem_saveImage.Enabled = false;
             mainFormStatus();
-            
             panelWidth = panel4.Size.Width;
             panelHeight = panel4.Size.Height;
-            AddHistoryItem();
             //textBox2.Text = panel4.Size.Width.ToString() + " * " + panel4.Size.Height.ToString();
             //panel1.Left = 0;
             //panel1.Top = 25;
-        }
-        private void AddHistoryItem()
-        {
-            SystemOperator.ReadHistory();
-            foreach (string history in globalParameters.dbHistory)
-            {
-                ToolStripMenuItem item = new ToolStripMenuItem();
-                item.Name = history;
-                item.Text = history;
-                item.Click += new EventHandler(historyItemClik);
-                ToolStripMenuItem_history.DropDownItems.Add(item);
-            }
-        }
-        private void historyItemClik(object sender, EventArgs e)
-        {
-            string path = ((ToolStripMenuItem)sender).Text;
-            SystemOperator.OpenProject(path);
-            mainFormStatus();
         }
         private void menuStrip2_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
@@ -139,11 +93,13 @@ namespace CloudMapUI
             NewProjectForm newProjrctFrom = new NewProjectForm(this);
             newProjrctFrom.ShowDialog();
 
-            //ModuleEditForm newModuleEditForm = new ModuleEditForm(this);
-            //newModuleEditForm.ShowDialog();
+            ModuleEditForm newModuleEditForm = new ModuleEditForm(this);
+            newModuleEditForm.ShowDialog();
 
-            //RelationEditForm newRelationEditForm = new RelationEditForm(this);
-            //newRelationEditForm.ShowDialog();       
+            RelationEditForm newRelationEditForm = new RelationEditForm(this);
+            newRelationEditForm.ShowDialog();
+
+                
         }
 
         private void ToolStripMenuItem_import_Click(object sender, EventArgs e)
@@ -157,7 +113,6 @@ namespace CloudMapUI
         {   
             openFileDialog_OpenProject.ShowDialog();
             SystemOperator.OpenProject(openFileDialog_OpenProject.FileName);
-            mainFormStatus();
         }
 
         private void ToolStripMenuItem_SaveProject_Click(object sender, EventArgs e)
@@ -169,10 +124,6 @@ namespace CloudMapUI
         private void ToolStripMenuItem_SaveAs_Click(object sender, EventArgs e)
         {
             saveFileDialog_SaveProject.ShowDialog();
-            string filePath = saveFileDialog_SaveProject.FileName;
-            string[] text = globalParameters.dbPath.Split('=');
-            string oldFilePath = text[1];
-            File.Copy(oldFilePath,filePath);
         }
 
         private void 保存云图ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -250,10 +201,9 @@ namespace CloudMapUI
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            SystemOperator.WriteHistory();
             //if (DialogResult.Yes == MessageBox.Show("确定退出系统？", "企业云图", MessageBoxButtons.YesNo, MessageBoxIcon.Information))
             //    //Application.Exit();
-            //    System.Environment.Exit(0);
+            //    //System.Environment.Exit(0);
             //else
             //    e.Cancel = true;
         }
@@ -391,7 +341,7 @@ namespace CloudMapUI
         public void DrawModuleAndLines()
         {
             List<Module> modPosition = DrawModules();
-            ModuleOne.LineInfo[] line =  ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height);
+            ModuleOne.LineInfo[] line =  ModuleOne.GetLineInfo2(modPosition, this.panel4.Width, this.panel4.Height);
             //Pen linePen = new Pen(Color.Black, 1);
             int LineCount = 0;
             for (int i = 0; i < line.Length; i++)

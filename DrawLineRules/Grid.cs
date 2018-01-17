@@ -4,10 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataAccess;
 
 namespace DrawLineRules
 {
-    class Grid
+    public class Grid
     {
         GridPoint[][] gridArray;
         GridPoint src;
@@ -46,57 +47,42 @@ namespace DrawLineRules
             return gridArray[x][y];
         }
 
-        public ModuleOne[] readModule(String fileName)
+        public ModuleOne[] readModule(List<Module> modulesList)
         {
-            //string path = @"C:\CloudMap2\history.ini";
-            int length = 0;
-            ModuleOne[] modules = null;
-            if (File.Exists(fileName))
+            int len = modulesList.Count;
+            ModuleOne[] modules = new ModuleOne[len-2];
+            ///////////////////the first line and second line///////////////////      
+            ModuleOne.setWidth(Convert.ToInt32(modulesList[0].x));
+            ModuleOne.setHeight(Convert.ToInt32(modulesList[0].y));
+            ModuleOne.modx = Convert.ToInt32(modulesList[1].x);
+            ModuleOne.mody = Convert.ToInt32(modulesList[1].y);
+            for (int i = 2; i < len; i++)
             {
-                //StreamReader sr = new StreamReader(path);
-                string[] strs1 = File.ReadAllLines(fileName);
-                int len = strs1.Length;
-                ///////////////////the first line///////////////////
-                String[] size = strs1[0].Split(' ');
-                ModuleOne.modx = Convert.ToInt32(size[0]);
-                ModuleOne.mody = Convert.ToInt32(size[1]);
-                //////////////////the second line//////////////////
-                String[] label = strs1[1].Split(' ');
-                length = Convert.ToInt32(label[0]);
-                modules = new ModuleOne[length];
-                ModuleOne.setWidth(Convert.ToInt32(label[1]));
-                ModuleOne.setHeight(Convert.ToInt32(label[2]));
-                for (int i = 2; i < len; i++)
-                {
-                    String[] temp = strs1[i].Split(' ');
-                    modules[Convert.ToInt32(temp[0]) - 1] = new ModuleOne(Convert.ToInt32(temp[0]) - 1,
-                            Convert.ToInt32(temp[1]), Convert.ToInt32(temp[2]));
-                    Console.WriteLine(strs1[i]);
-                }
+                modules[i - 2] = new ModuleOne(modulesList[i].moduleName,modulesList[i].x, modulesList[i].y);
             }
             return modules;
         }
 
-        public int[][] readRelationArray(int len, String RelationFile)
-        {
-            String line; // 一行数据
-            int[][] relation = new int[len][];
-            for (int i = 0; i < len; i++)
-                relation[i] = new int[len];
-            if (File.Exists(RelationFile))
-            {
-                string[] strs1 = File.ReadAllLines(RelationFile);
-                for (int i = 0; i < len; i++)
-                {
-                    for (int j = 0; j < len; j++)
-                    {
-                        String[] temp = strs1[i].Split(' ');
-                        relation[i][j] = Convert.ToInt32(temp[j]);
-                    }
-                }
-            }
-            return relation;
-        }
+        //public int[][] readRelationArray(int len, String RelationFile)
+        //{
+        //    String line; // 一行数据
+        //    int[][] relation = new int[len][];
+        //    for (int i = 0; i < len; i++)
+        //        relation[i] = new int[len];
+        //    if (File.Exists(RelationFile))
+        //    {
+        //        string[] strs1 = File.ReadAllLines(RelationFile);
+        //        for (int i = 0; i < len; i++)
+        //        {
+        //            for (int j = 0; j < len; j++)
+        //            {
+        //                String[] temp = strs1[i].Split(' ');
+        //                relation[i][j] = Convert.ToInt32(temp[j]);
+        //            }
+        //        }
+        //    }
+        //    return relation;
+        //}
 
         //	public void setObstacleForModules(ModuleOne[] modules) throws InterruptedException, IOException {
         //		for (int i = 0; i < modules.length; i++) {
@@ -104,7 +90,7 @@ namespace DrawLineRules
         //		}
         //	}
 
-        public void setRouteForModules(ModuleOne[] modules, int[][] relation, int[] rows, int[] columns, String LineFile)
+        public void setRouteForModules(ModuleOne[] modules, List<RelationOperator.relation> relation, int[] rows, int[] columns, ModuleOne.LineInfo[] allLine)
         {
             ModuleOne.gapy = ModuleOne.mody - ModuleOne.getHeight();
             ModuleOne.gapx = ModuleOne.modx - ModuleOne.getWidth();
@@ -120,71 +106,66 @@ namespace DrawLineRules
             }
             GridPoint start = null;
             GridPoint target = null;
-            for (int i = 0; i < relation.Length; i++)
+            foreach (RelationOperator.relation relationOne in relation)
             {
-                for (int j = 0; j < relation[0].Length; j++)
+                ModuleOne moduleSource = modules[ModuleOne.GetIndex(modules, relationOne.sourceName)];
+                ModuleOne moduleTarget = modules[ModuleOne.GetIndex(modules, relationOne.targetName)];
+                string bidirection = relationOne.bidirection;
+                string relationName = relationOne.relationName;
+                int com = moduleSource.compareModuleAdd(moduleTarget);
+                switch (com)
                 {
-                    if (relation[i][j] == 1)
-                    {
-                        int com = modules[i].compareModuleAdd(modules[j]);
-                        switch (com)
-                        {
-                            case 1:
-                            case 2:
-                            case 8:
-                            case 9:
-                            case 11:
-                                start = modules[i].northPin(GridPoint.myGrid, com);
-                                target = modules[j].southPin(GridPoint.myGrid, com);
-                                break;
-                            case 3:
-                                start = modules[i].eastPin(GridPoint.myGrid, com);
-                                target = modules[j].westPin(GridPoint.myGrid, com);
-                                break;
-                            case 4:
-                            case 5:
-                            case 6:
-                            case 13:
-                            case 15:
-                                start = modules[i].southPin(GridPoint.myGrid, com);
-                                target = modules[j].northPin(GridPoint.myGrid, com);
-                                break;
-                            case 7:
-                                start = modules[i].westPin(GridPoint.myGrid, com);
-                                target = modules[j].eastPin(GridPoint.myGrid, com);
-                                break;
-                            case 10:
-                            case 14:
-                                start = modules[i].eastPin(GridPoint.myGrid, com);
-                                target = modules[j].eastPin(GridPoint.myGrid, com);
-                                break;
-                            case 12:
-                            case 16:
-                                start = modules[i].northPin(GridPoint.myGrid, com);
-                                target = modules[j].northPin(GridPoint.myGrid, com);
-                                break;
-                            default:
-                                Console.WriteLine("no left pin");
-                                break;
-                        }
-                        Route(start, target, LineFile, com, rows, columns, r, c, step_row, step_column, modules[i], modules[j]);
-                    }
+                    case 1:
+                    case 2:
+                    case 8:
+                    case 9:
+                    case 11:
+                        start = moduleSource.northPin(GridPoint.myGrid, com);
+                        target = moduleTarget.southPin(GridPoint.myGrid, com);
+                        break;
+                    case 3:
+                        start = moduleSource.eastPin(GridPoint.myGrid, com);
+                        target = moduleTarget.westPin(GridPoint.myGrid, com);
+                        break;
+                    case 4:
+                    case 5:
+                    case 6:
+                    case 13:
+                    case 15:
+                        start = moduleSource.southPin(GridPoint.myGrid, com);
+                        target = moduleTarget.northPin(GridPoint.myGrid, com);
+                        break;
+                    case 7:
+                        start = moduleSource.westPin(GridPoint.myGrid, com);
+                        target = moduleTarget.eastPin(GridPoint.myGrid, com);
+                        break;
+                    case 10:
+                    case 14:
+                        start = moduleSource.eastPin(GridPoint.myGrid, com);
+                        target = moduleTarget.eastPin(GridPoint.myGrid, com);
+                        break;
+                    case 12:
+                    case 16:
+                        start = moduleSource.northPin(GridPoint.myGrid, com);
+                        target = moduleTarget.northPin(GridPoint.myGrid, com);
+                        break;
+                    default:
+                        Console.WriteLine("no left pin");
+                        break;
                 }
-            }
+                int[][] lineOne = Route(start, target, com, rows, columns, r, c, step_row, step_column, moduleSource, moduleTarget, bidirection);
+                saveLine(lineOne, allLine,relationName);
+            }     
         }
 
-        public void getGlobalInfo(ModuleOne[] modules, int[][] relation, int[] rows, int[] columns)
+        public void getGlobalInfo(ModuleOne[] modules, List<RelationOperator.relation> relation, int[] rows, int[] columns)
         {
-            for (int i = 0; i < relation.Length; i++)
+            foreach (RelationOperator.relation relationOne in relation)
             {
-                for (int j = 0; j < relation[0].Length; j++)
-                {
-                    if (relation[i][j] == 1)
-                    {
-                        int com = modules[i].compareModuleAdd(modules[j]);
-                        computeRowColumn(modules[i], modules[j], com, rows, columns);
-                    }
-                }
+                ModuleOne moduleSource = modules[ModuleOne.GetIndex(modules, relationOne.sourceName)];
+                ModuleOne moduleTarget = modules[ModuleOne.GetIndex(modules, relationOne.targetName)];
+                int com = moduleSource.compareModuleAdd(moduleTarget);
+                computeRowColumn(moduleSource, moduleTarget, com, rows, columns);
             }
         }
 
@@ -265,19 +246,21 @@ namespace DrawLineRules
             }
         }
 
-        public int Route(GridPoint start, GridPoint target, String LineFile, int com, int[] rows, int[] columns, int[] r, int[] c, int[] step_row, int[] step_column, ModuleOne mi, ModuleOne mj)
+        public int[][] Route(GridPoint start, GridPoint target , int com, int[] rows, int[] columns, int[] r, int[] c, int[] step_row, int[] step_column, ModuleOne mi, ModuleOne mj, string bidirection)
         {
-            if (start == null || target == null)
-                return -1;
+            //if (start == null || target == null)
+            //    return -1;
             GridPoint[] trace = new GridPoint[2 * width()];
             int x = 0;
             int y = 0;
             int delta_x = 0;
             int delta_y = 0;
+            int[][] line;
             if (start == target)
             {
                 Console.WriteLine("start and target are the same!");
-                return 0;
+                line = new int[10][];
+                //return 0;
             }
             else
             {
@@ -385,14 +368,36 @@ namespace DrawLineRules
                     default:
                         break;
                 }
-                if (!(trace == null))
+                    //需要传入是否双向
+                line = plotOneTrace(trace, bidirection);
+            }
+            return line;
+        }
+        public int saveLine(int[][] lineOne, ModuleOne.LineInfo[] lineAll, string relationName)
+        {
+            for (int i = 0; i < lineAll.Length; i++)
+            {
+                /////////////////找到没有用到的地方
+                //if (lineAll[i][0] == 0 && lineAll[i][1] == 0 && lineAll[i][2] == 0 && lineAll[i][3] == 0)
+                if(lineAll[i].line==null)
                 {
-                    plotOneTrace(trace, LineFile);
+                    for (int j = 0; j < lineOne.Length; j++)
+                    {
+                        if (lineOne[j][0] == 0 && lineOne[j][1] == 0 && lineOne[j][2] == 0 && lineOne[j][3] == 0)
+                        {
+                            return 0;
+                        }
+                        else
+                        {
+                            lineAll[i].line = lineOne[j];
+                            lineAll[i].lineName = relationName;
+                            i++;
+                        }
+                    }
                 }
             }
-            return 0;
+            return -1;
         }
-
         public void writeLine(int[][] line, String LineFile)
         {
             if (!File.Exists(LineFile))
@@ -435,7 +440,7 @@ namespace DrawLineRules
             }
         }
 
-        public void plotOneTrace(GridPoint[] trace0, String LineFile)
+        public int[][] plotOneTrace(GridPoint[] trace0, String bidirection)
         {
             GridPoint[] trace = new GridPoint[2 * width()];
             int nn = 0;
@@ -467,7 +472,7 @@ namespace DrawLineRules
             int[][] lineTxt = new int[line.Length / 2][];
             for (int i = 0; i < line.Length / 2; i++)
             {
-                lineTxt[i] = new int[4];
+                lineTxt[i] = new int[5];
             }
             line[0] = trace[0];
             n++;
@@ -496,21 +501,98 @@ namespace DrawLineRules
                     }
                 }
             }
-            for (int i = 0; i < line.Length; i++)
+            //////////////////////////////对于第一条线段和最后一条线段需要标明有没有箭头，
+            if (line[2] == null)
             {
-                if (!(line[i + 1] == null))
+                if (int.Parse(bidirection) == 1)
                 {
-                    lineTxt[i][0] = line[i].getPosx();
-                    lineTxt[i][1] = line[i].getPosy();
-                    lineTxt[i][2] = line[i + 1].getPosx();
-                    lineTxt[i][3] = line[i + 1].getPosy();
-                    Console.WriteLine(lineTxt[i][0] + " " + lineTxt[i][1] + " " + lineTxt[i][2] + " " + lineTxt[i][3]);
+                    lineTxt[0][0] = line[0].getPosx();
+                    lineTxt[0][1] = line[0].getPosy();
+                    lineTxt[0][2] = line[0 + 1].getPosx();
+                    lineTxt[0][3] = line[0 + 1].getPosy();
+                    lineTxt[0][4] = 3;
                 }
                 else
-                    break;
+                {
+                    lineTxt[0][0] = line[0].getPosx();
+                    lineTxt[0][1] = line[0].getPosy();
+                    lineTxt[0][2] = line[0 + 1].getPosx();
+                    lineTxt[0][3] = line[0 + 1].getPosy();
+                    lineTxt[0][4] = GetDirectionInfo(lineTxt[0][0], lineTxt[0][1], lineTxt[0][2], lineTxt[0][3], 0);//终止点有箭头
+                }
             }
-            writeLine(lineTxt, LineFile);
-            //return lineTxt;
+            else
+            {
+                if (int.Parse(bidirection) == 1)
+                {
+                    lineTxt[0][0] = line[0].getPosx();
+                    lineTxt[0][1] = line[0].getPosy();
+                    lineTxt[0][2] = line[0 + 1].getPosx();
+                    lineTxt[0][3] = line[0 + 1].getPosy();
+                    lineTxt[0][4] = GetDirectionInfo(lineTxt[0][0], lineTxt[0][1], lineTxt[0][2], lineTxt[0][3], 1);//起始点有箭头
+                }
+                else
+                {
+                    lineTxt[0][0] = line[0].getPosx();
+                    lineTxt[0][1] = line[0].getPosy();
+                    lineTxt[0][2] = line[0 + 1].getPosx();
+                    lineTxt[0][3] = line[0 + 1].getPosy();
+                    lineTxt[0][4] = 0;
+                }
+                int index = 0;
+                for (int i = 1; i < line.Length - 1; i++)
+                {
+                    if (!(line[i + 2] == null))
+                    {
+                        lineTxt[i][0] = line[i].getPosx();
+                        lineTxt[i][1] = line[i].getPosy();
+                        lineTxt[i][2] = line[i + 1].getPosx();
+                        lineTxt[i][3] = line[i + 1].getPosy();
+                        lineTxt[i][4] = 0;
+                        Console.WriteLine(lineTxt[i][0] + " " + lineTxt[i][1] + " " + lineTxt[i][2] + " " + lineTxt[i][3] + bidirection);
+                    }
+                    else
+                    {
+                        index = i;
+                        break;
+                    }
+                }
+                lineTxt[index][0] = line[index].getPosx();
+                lineTxt[index][1] = line[index].getPosy();
+                lineTxt[index][2] = line[index + 1].getPosx();
+                lineTxt[index][3] = line[index + 1].getPosy();
+                lineTxt[index][4] = GetDirectionInfo(lineTxt[index][0], lineTxt[index][1], lineTxt[index][2], lineTxt[index][3], 0);//起始点有箭头
+            }
+            
+            //writeLine(lineTxt, LineFile);
+            return lineTxt;
         }
+        private int GetDirectionInfo(int x1, int y1, int x2, int y2 , int first)
+        {
+            if (first == 1)
+            {
+                if (x1 - x2 < 0 || y1 - y2 < 0)
+                {
+                    return 2;
+                }
+                else
+                {
+                    return 1;
+                }
+            }
+            else
+            {
+                if (x1 - x2 < 0 || y1 - y2 < 0)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 2;
+                }
+            }       
+        }
+
+
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SQLite;
 using Data;
+using System.IO;
 
 namespace DataAccess
 {
@@ -43,17 +44,60 @@ namespace DataAccess
 
             string sq3 = "PRAGMA foreign_keys = 'on';";
             ExecuteSql(sq3);
-        }
 
+            string filePath = dbSelfPath + dbSelfName + ".db";
+            EnqueueChecked(filePath);
+        }
         public static void OpenProject(string filePath)
         {
             string[] text = filePath.Split('\\');
             globalParameters.dbName = text[text.Length - 1];
             globalParameters.dbPath = "Data Source = " + filePath;
             Connect_open_db();
-            string sq3 = "PRAGMA foreign_keys = 'on';";
-            ExecuteSql(sq3);
+            EnqueueChecked(filePath);
+        }
+        public static void WriteHistory()
+        {
+            //string path = @"C:\CloudMap\history.ini";
+            StringBuilder sb = new StringBuilder();
+            foreach (string oneHistory in globalParameters.dbHistory)
+            {
+                sb.AppendLine(oneHistory);
+            }
+            File.WriteAllText(globalParameters.dbHistoryPath, sb.ToString());
         }
 
+        public static void ReadHistory()
+        {
+            string path = globalParameters.dbHistoryPath;
+            if (File.Exists(path))
+            {
+                //StreamReader sr = new StreamReader(path);
+                string[] strs1 = File.ReadAllLines(path);
+                int length = strs1.Length;
+                for (int i = 0; i < length; i++)
+                {
+                    globalParameters.dbHistory.Enqueue(strs1[i]);
+                    Console.WriteLine(strs1[i]);
+                }
+            }
+        }
+        public static void EnqueueChecked(string filePath)
+        {
+            if (globalParameters.dbHistory.Count == 0)
+            {
+                globalParameters.dbHistory.Enqueue(filePath);
+            }
+            else
+            {
+                bool have = false;
+                foreach (string path in globalParameters.dbHistory)
+                {
+                    have = (path == filePath) || have;
+                }
+                if (have == false)
+                    globalParameters.dbHistory.Enqueue(filePath);
+            }
+        }
     }
 }

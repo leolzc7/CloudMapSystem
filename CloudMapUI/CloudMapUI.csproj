@@ -58,6 +58,12 @@
     <Compile Include="import.Designer.cs">
       <DependentUpon>import.cs</DependentUpon>
     </Compile>
+    <Compile Include="LineControl\Aline.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="LineControl\Aline.Designer.cs">
+      <DependentUpon>Aline.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -142,6 +148,10 @@
     <ProjectReference Include="..\Data\Data.csproj">
       <Project>{97978d3d-3265-469f-b969-894f09d2dd0d}</Project>
       <Name>Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DrawLineRules\DrawLineRules.csproj">
+      <Project>{2ba28c27-e377-40d6-a587-03918df3296d}</Project>
+      <Name>DrawLineRules</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

@@ -89,7 +89,39 @@ namespace DataAccess
                 return false;
             }
         }
+        public static SQLiteDataReader ExecuteReaderSql(string sql)
+        {
+            SQLiteCommand cmdReader = new SQLiteCommand(sql, globalParameters.conn);
+            SQLiteDataReader reader = cmdReader.ExecuteReader();
+            return reader;
+        }
+        public static List<relation> GetRelationArray()
+        {
+            List<relation> relationArray = new List<relation>();
+            string sql = "select sourceName,targetName,bidirection,rname from relation";
+            SQLiteDataReader reader = ExecuteReaderSql(sql);
+            while (reader.Read())
+            {
+                relation relationOne = new relation();
+                relationOne.sourceName = reader.GetString(0);
+                relationOne.targetName = reader.GetString(1);
+                relationOne.bidirection = reader.GetString(2);
+                relationOne.relationName = reader.GetString(3);
+                relationArray.Add(relationOne);
+                //int index = Array.IndexOf(list,reader.GetString(0));
+                //RelationArray[i][index] = 1;
+                //i++;
+            }
+            return relationArray;
+        }
 
+        public struct relation
+        {
+            public string sourceName;
+            public string targetName;
+            public string bidirection;
+            public string relationName;
+        }
 
     }
 }

@@ -45,11 +45,18 @@
   <ItemGroup>
     <Compile Include="Grid.cs" />
     <Compile Include="GridPoint.cs" />
+    <Compile Include="ModuleLayout.cs" />
     <Compile Include="ModuleOne.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
+      <Project>{63149605-7e38-4e35-84e2-8d3a76f902c7}</Project>
+      <Name>DataAccess</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
