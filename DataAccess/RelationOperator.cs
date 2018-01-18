@@ -20,6 +20,42 @@ namespace DataAccess
             command.Fill(data.Tables[RelationData.RELATION_TABLE]);
             return data;
         }
+        public static RelationData GetRelationInfoForDiffLevel(ModulesOperator.modulesName modulesName,int level)
+        {
+            RelationData relationdata = LoadRelationInfo();
+            RelationData relaitonL = new RelationData();
+            if (level == 1)
+            {
+                if (GetString(modulesName.modulesL1) != null)
+                {
+                    DataRow[] rowL1 = relationdata.Tables[RelationData.RELATION_TABLE].Select(RelationData.SOURCENAME_FIELD + " in " + GetString(modulesName.modulesL1) + " and " + RelationData.TARGETNAME_FIELD + " in " + GetString(modulesName.modulesL1));
+                    foreach (DataRow row in rowL1)
+                    {
+                        relaitonL.Tables[RelationData.RELATION_TABLE].Rows.Add(row.ItemArray);
+                    }
+                }
+            }
+            else
+            {
+                if (level == 2)
+                {
+                    if (GetString(modulesName.modulesL2) != null)
+                    {
+                        string con = RelationData.SOURCENAME_FIELD + " in " + GetString(modulesName.modulesL1, modulesName.modulesL2) + " or " + RelationData.TARGETNAME_FIELD + " in " + GetString(modulesName.modulesL1, modulesName.modulesL2);
+                        DataRow[] rowL2 = relationdata.Tables[RelationData.RELATION_TABLE].Select(RelationData.SOURCENAME_FIELD + " in " + GetString(modulesName.modulesL2) + " and " + RelationData.TARGETNAME_FIELD + " in " + GetString(modulesName.modulesL2));
+                        foreach (DataRow row in rowL2)
+                        {
+                            relaitonL.Tables[RelationData.RELATION_TABLE].Rows.Add(row.ItemArray);
+                        }
+                    }
+                }
+                else
+                {
+                    return relationdata;
+                }
+            }
+            return relaitonL;
+        }
         public static bool InsertRelationInfo(RelationData relation)
         {
             string insertCommand = GetInsertCommand(relation);
@@ -95,22 +131,29 @@ namespace DataAccess
             SQLiteDataReader reader = cmdReader.ExecuteReader();
             return reader;
         }
-        public static List<relation> GetRelationArray()
+        public static List<relation> GetRelationArray(int level)
         {
             List<relation> relationArray = new List<relation>();
-            string sql = "select sourceName,targetName,bidirection,rname from relation";
-            SQLiteDataReader reader = ExecuteReaderSql(sql);
-            while (reader.Read())
+            ModulesOperator.modulesName modulesName = ModulesOperator.read_modules();
+            RelationData relation;
+            if (level == 1)
+            {
+                relation = GetRelationInfoForDiffLevel(modulesName, 1);
+            }
+            else if(level == 2)
+            {
+                relation = GetRelationInfoForDiffLevel(modulesName, 2);
+            }else{
+                relation = LoadRelationInfo();
+            }
+            for (int i = 0; i < relation.Tables[RelationData.RELATION_TABLE].Rows.Count; i++ )
             {
                 relation relationOne = new relation();
-                relationOne.sourceName = reader.GetString(0);
-                relationOne.targetName = reader.GetString(1);
-                relationOne.bidirection = reader.GetString(2);
-                relationOne.relationName = reader.GetString(3);
+                relationOne.sourceName = relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.SOURCENAME_FIELD].ToString();
+                relationOne.targetName = relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.TARGETNAME_FIELD].ToString();
+                relationOne.bidirection = relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.BIDIRECTION_FIELD].ToString();
+                relationOne.relationName = relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.NAME_FIELD].ToString();
                 relationArray.Add(relationOne);
-                //int index = Array.IndexOf(list,reader.GetString(0));
-                //RelationArray[i][index] = 1;
-                //i++;
             }
             return relationArray;
         }
@@ -122,7 +165,53 @@ namespace DataAccess
             public string bidirection;
             public string relationName;
         }
-
+        private static string GetString(List<string> modulesName)
+        {
+            string nameString = @"(";
+            if (modulesName.Count > 0)
+            {
+                nameString = nameString + "'" + modulesName[0] + "'";
+            }
+            else
+            {
+                return null;
+            }
+            for (int i = 1; i < modulesName.Count; i++)
+            {
+                nameString = nameString + ",'" + modulesName[i] + "'";
+            }
+            nameString = nameString + ")";
+            return nameString;
+        }
+        private static string GetString(List<string> modulesL1, List<string> modulesL2)
+        {
+            string nameString = @"(";
+            if (modulesL1.Count + modulesL2.Count > 0)
+            {
+                if (modulesL1.Count == 0)
+                {
+                    return GetString(modulesL2);
+                }
+                else
+                {
+                    nameString = nameString + "'" + modulesL1[0] + "'";
+                }
+            }
+            else
+            {
+                return null;
+            }
+            for (int i = 1; i < modulesL1.Count; i++)
+            {
+                nameString = nameString + ",'" + modulesL1[i] + "'";
+            }
+            for (int i = 0; i < modulesL2.Count; i++)
+            {
+                nameString = nameString + ",'" + modulesL2[i] + "'";
+            }
+            nameString = nameString + ")";
+            return nameString;
+        }
     }
 }
 

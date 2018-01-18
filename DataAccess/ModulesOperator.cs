@@ -124,25 +124,25 @@ namespace DataAccess
             modulesName modulesName = read_modules();         
             List<ModulesList> modules = new List<ModulesList>();
             RelationData relationdata = RelationOperator.LoadRelationInfo();
-            RelationData relaitonL1 = new RelationData();
-            RelationData relaitonL2 = new RelationData();
-            if (GetString(modulesName.modulesL1) != null)
-            {
-                DataRow[] rowL1 = relationdata.Tables[RelationData.RELATION_TABLE].Select(RelationData.SOURCENAME_FIELD + " in " + GetString(modulesName.modulesL1) + " and " + RelationData.TARGETNAME_FIELD + " in " + GetString(modulesName.modulesL1));
-                foreach (DataRow row in rowL1)
-                {
-                    relaitonL1.Tables[RelationData.RELATION_TABLE].Rows.Add(row.ItemArray);
-                }
-            }
-            if (GetString(modulesName.modulesL2) != null)
-            {
-                string con = RelationData.SOURCENAME_FIELD + " in " + GetString(modulesName.modulesL1, modulesName.modulesL2) + " or " + RelationData.TARGETNAME_FIELD + " in " + GetString(modulesName.modulesL1,modulesName.modulesL2);
-                DataRow[] rowL2 = relationdata.Tables[RelationData.RELATION_TABLE].Select(RelationData.SOURCENAME_FIELD + " in " + GetString(modulesName.modulesL2) + " and " + RelationData.TARGETNAME_FIELD + " in " + GetString(modulesName.modulesL2));
-                foreach (DataRow row in rowL2)
-                {
-                    relaitonL2.Tables[RelationData.RELATION_TABLE].Rows.Add(row.ItemArray);
-                }
-            }
+            RelationData relaitonL1 = RelationOperator.GetRelationInfoForDiffLevel(modulesName, 1);
+            RelationData relaitonL2 = RelationOperator.GetRelationInfoForDiffLevel(modulesName, 2);
+            //if (GetString(modulesName.modulesL1) != null)
+            //{
+            //    DataRow[] rowL1 = relationdata.Tables[RelationData.RELATION_TABLE].Select(RelationData.SOURCENAME_FIELD + " in " + GetString(modulesName.modulesL1) + " and " + RelationData.TARGETNAME_FIELD + " in " + GetString(modulesName.modulesL1));
+            //    foreach (DataRow row in rowL1)
+            //    {
+            //        relaitonL1.Tables[RelationData.RELATION_TABLE].Rows.Add(row.ItemArray);
+            //    }
+            //}
+            //if (GetString(modulesName.modulesL2) != null)
+            //{
+            //    string con = RelationData.SOURCENAME_FIELD + " in " + GetString(modulesName.modulesL1, modulesName.modulesL2) + " or " + RelationData.TARGETNAME_FIELD + " in " + GetString(modulesName.modulesL1,modulesName.modulesL2);
+            //    DataRow[] rowL2 = relationdata.Tables[RelationData.RELATION_TABLE].Select(RelationData.SOURCENAME_FIELD + " in " + GetString(modulesName.modulesL2) + " and " + RelationData.TARGETNAME_FIELD + " in " + GetString(modulesName.modulesL2));
+            //    foreach (DataRow row in rowL2)
+            //    {
+            //        relaitonL2.Tables[RelationData.RELATION_TABLE].Rows.Add(row.ItemArray);
+            //    }
+            //}
 
             foreach (string mod in modulesName.modulesL1)
             {
@@ -185,53 +185,53 @@ namespace DataAccess
             public int level;
             public int count;
         }
-        private static string GetString(List<string> modulesName)
-        {
-            string nameString = @"(";
-            if (modulesName.Count > 0)
-            {
-                nameString = nameString + "'" + modulesName[0] + "'";
-            }
-            else
-            {
-                return null;
-            }
-            for (int i = 1; i < modulesName.Count; i++)
-            {
-                nameString = nameString + ",'" + modulesName[i] + "'";
-            }
-            nameString = nameString + ")";
-            return nameString;
-        }
-        private static string GetString(List<string> modulesL1, List<string> modulesL2)
-        {
-            string nameString = @"(";
-            if (modulesL1.Count + modulesL2.Count> 0)
-            {
-                if (modulesL1.Count == 0)
-                {
-                    return GetString( modulesL2);
-                }
-                else
-                {
-                    nameString = nameString + "'" + modulesL1[0] + "'";
-                } 
-            }
-            else
-            {
-                return null;
-            }
-            for (int i = 1; i < modulesL1.Count; i++)
-            {
-                nameString = nameString + ",'" + modulesL1[i] + "'";
-            }
-            for (int i = 0; i < modulesL2.Count; i++)
-            {
-                nameString = nameString + ",'" + modulesL2[i] + "'";
-            }
-            nameString = nameString + ")";
-            return nameString;
-        }
+        //private static string GetString(List<string> modulesName)
+        //{
+        //    string nameString = @"(";
+        //    if (modulesName.Count > 0)
+        //    {
+        //        nameString = nameString + "'" + modulesName[0] + "'";
+        //    }
+        //    else
+        //    {
+        //        return null;
+        //    }
+        //    for (int i = 1; i < modulesName.Count; i++)
+        //    {
+        //        nameString = nameString + ",'" + modulesName[i] + "'";
+        //    }
+        //    nameString = nameString + ")";
+        //    return nameString;
+        //}
+        //private static string GetString(List<string> modulesL1, List<string> modulesL2)
+        //{
+        //    string nameString = @"(";
+        //    if (modulesL1.Count + modulesL2.Count> 0)
+        //    {
+        //        if (modulesL1.Count == 0)
+        //        {
+        //            return GetString( modulesL2);
+        //        }
+        //        else
+        //        {
+        //            nameString = nameString + "'" + modulesL1[0] + "'";
+        //        } 
+        //    }
+        //    else
+        //    {
+        //        return null;
+        //    }
+        //    for (int i = 1; i < modulesL1.Count; i++)
+        //    {
+        //        nameString = nameString + ",'" + modulesL1[i] + "'";
+        //    }
+        //    for (int i = 0; i < modulesL2.Count; i++)
+        //    {
+        //        nameString = nameString + ",'" + modulesL2[i] + "'";
+        //    }
+        //    nameString = nameString + ")";
+        //    return nameString;
+        //}
 
     }
 }

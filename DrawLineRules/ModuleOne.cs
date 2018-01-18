@@ -234,7 +234,7 @@ namespace DrawLineRules
             }
             return -1;
         }
-        public static LineInfo[] GetLineInfo(List<Module> modulesList, int X, int Y)
+        public static LineInfo[] GetLineInfo(List<Module> modulesList, int X, int Y,int level)
         {
             Grid myGrid = new Grid(X, Y); // Grid class instance initialization
             ModuleOne[] modules = myGrid.readModule(modulesList);
@@ -252,7 +252,7 @@ namespace DrawLineRules
             int[] rows = new int[num_par];
             int[] columns = new int[num_par];
             // 调用DataAccess中的方法，读入关系表，包含源模块、目标模块和是否双向
-            List<RelationOperator.relation> relationArray = RelationOperator.GetRelationArray();
+            List<RelationOperator.relation> relationArray = RelationOperator.GetRelationArray(level);
             //int[][] relation = myGrid.readRelationArray(modules.Length, RelationFile);
             //		myGrid.setObstacleForModules(modules);
             myGrid.getGlobalInfo(modules, relationArray, rows, columns);
@@ -265,32 +265,5 @@ namespace DrawLineRules
             public int[] line;
             public string lineName;
         }
-        //public static void Main(string[] args)
-        //{
-        //    Grid myGrid = new Grid(2000, 1600); // Grid class instance initialization
-        //    ModuleOne[] modules = myGrid.readModule(PositionFile);
-        //    //ModuleOne mm = modules[Array.IndexOf(modules, 'm')];
-        //    // 调用廖真给我的输入将其转换为ModuleOne类
-        //    int num_par = 0;
-        //    double num_partition = Math.Sqrt((double)modules.Length);
-        //    if ((int)num_partition - num_partition == 0)
-        //    {
-        //        num_par = (int)num_partition - 1;
-        //    }
-        //    else
-        //    {
-        //        num_par = (int)num_partition;
-        //    }
-
-        //    int[] rows = new int[num_par];
-        //    int[] columns = new int[num_par];
-        //    // 调用DataAccess中的方法，读入关系表，包含源模块、目标模块和是否双向
-        //    List<RelationOperator.relation> relationArray = RelationOperator.GetRelationArray();
-        //    //int[][] relation = myGrid.readRelationArray(modules.Length, RelationFile);
-        //    //		myGrid.setObstacleForModules(modules);
-        //    myGrid.getGlobalInfo(modules, relationArray, rows, columns);
-        //    myGrid.setRouteForModules(modules, relationArray, rows, columns, LineFile);
-        //    Console.Write("successful!");
-        //}
     }
 }
