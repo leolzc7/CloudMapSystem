@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data.SQLite;
 using Data;
 using System.IO;
+using System.Data;
 
 namespace DataAccess
 {
@@ -15,6 +16,13 @@ namespace DataAccess
         {
             globalParameters.conn = new SQLiteConnection(globalParameters.dbPath);//创建数据库实例，指定文件位置
             globalParameters.conn.Open();//打开数据库，若文件不存在会自动创建
+        }
+        public static void Connect_open_sencond_db()
+        {
+            globalParameters.conn = new SQLiteConnection(globalParameters.secondDbPath);//创建数据库实例，指定文件位置
+            globalParameters.conn.Open();//打开数据库，若文件不存在会自动创建
+            string cmd = @"ATTACH DATABASE '" + globalParameters.secondDbPath + "' as 'TEMP'";
+            ExecuteSql(cmd);
         }
         public static void NewProjectConnectDb(string dbSelfName, string dbSelfPath)
         {
@@ -48,8 +56,9 @@ namespace DataAccess
             string filePath = dbSelfPath + dbSelfName + ".db";
             EnqueueChecked(filePath);
         }
-        public static bool OpenProject(string filePath)
+        public static bool OpenProject(string filePath,bool first) 
         {
+            //first表示是否是正常打开数据库，对于导入数据库时，相当于打开第二个数据库时，first为false
             if (!File.Exists(filePath))
             {
                 globalParameters.dbHistory.Remove(filePath);
@@ -57,12 +66,23 @@ namespace DataAccess
             }
             else
             {
-                string[] text = filePath.Split('\\');
-                globalParameters.dbName = text[text.Length - 1];
-                globalParameters.dbPath = "Data Source = " + filePath;
-                Connect_open_db();
-                EnqueueChecked(filePath);
-                return true;
+                if (first)
+                {
+                    string[] text = filePath.Split('\\');
+                    globalParameters.dbName = text[text.Length - 1];
+                    globalParameters.dbPath = "Data Source = " + filePath;
+                    Connect_open_db();
+                    EnqueueChecked(filePath);
+                    return true;
+                }
+                else
+                {
+                    string[] text = filePath.Split('\\');
+                    globalParameters.secondDbName = text[text.Length - 1];
+                    globalParameters.secondDbPath = "Data Source = " + filePath;
+                    Connect_open_sencond_db();
+                    return true;
+                }   
             }       
         }
 
@@ -97,7 +117,6 @@ namespace DataAccess
                     globalParameters.dbHistory.Add(filePath);
             }
         }
-
         public static void WriteHistory()
         {
             string dirPath = globalParameters.dbDirPath;
@@ -137,6 +156,8 @@ namespace DataAccess
                 fs2.Close();
             }
         }
+
+
     }
 
     

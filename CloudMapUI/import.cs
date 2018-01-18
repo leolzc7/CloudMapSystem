@@ -74,7 +74,6 @@ namespace CloudMapUI
         //    RelationEditForm.conn = conn;
         //    RelationEditForm.read_relation_source_target();
         //    checkedListBox_Relation.DataSource = RelationEditForm.relationList;
-
         //}
 
         private void label1_Click(object sender, EventArgs e)
@@ -117,13 +116,18 @@ namespace CloudMapUI
 
         private void btnFolderBrowser_Click(object sender, EventArgs e)
         {
-            folderBrowserDialog1.ShowDialog();
-            //textBox1.Text = folderBrowserDialog1;
+            openFileDialog_import.ShowDialog();
+            textBox1.Text = openFileDialog_import.FileName;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             this.Hide();
+        }
+
+        private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
+        {
+
         }
     }
 }

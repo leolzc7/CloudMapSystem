@@ -11,7 +11,9 @@ namespace Data
     public class globalParameters
     {
         public static string dbPath;
+        public static string secondDbPath;
         public static string dbName;
+        public static string secondDbName;
         public static List<string> dbHistory = new List<string>();
         //public static Queue<string> dbHistory = new Queue<string> ();
         public static SQLiteConnection conn = null;

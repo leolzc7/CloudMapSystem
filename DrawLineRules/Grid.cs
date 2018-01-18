@@ -63,33 +63,6 @@ namespace DrawLineRules
             return modules;
         }
 
-        //public int[][] readRelationArray(int len, String RelationFile)
-        //{
-        //    String line; // 一行数据
-        //    int[][] relation = new int[len][];
-        //    for (int i = 0; i < len; i++)
-        //        relation[i] = new int[len];
-        //    if (File.Exists(RelationFile))
-        //    {
-        //        string[] strs1 = File.ReadAllLines(RelationFile);
-        //        for (int i = 0; i < len; i++)
-        //        {
-        //            for (int j = 0; j < len; j++)
-        //            {
-        //                String[] temp = strs1[i].Split(' ');
-        //                relation[i][j] = Convert.ToInt32(temp[j]);
-        //            }
-        //        }
-        //    }
-        //    return relation;
-        //}
-
-        //	public void setObstacleForModules(ModuleOne[] modules) throws InterruptedException, IOException {
-        //		for (int i = 0; i < modules.length; i++) {
-        //			modules[i].setObstacle(GridPoint.myGrid);
-        //		}
-        //	}
-
         public void setRouteForModules(ModuleOne[] modules, List<RelationOperator.relation> relation, int[] rows, int[] columns, ModuleOne.LineInfo[] allLine)
         {
             ModuleOne.gapy = ModuleOne.mody - ModuleOne.getHeight();
@@ -255,11 +228,11 @@ namespace DrawLineRules
             int y = 0;
             int delta_x = 0;
             int delta_y = 0;
-            int[][] line;
+            int[][] line = new int[width()][];
             if (start == target)
             {
                 Console.WriteLine("start and target are the same!");
-                line = new int[10][];
+                //line = new int[10][];
                 //return 0;
             }
             else
@@ -562,8 +535,6 @@ namespace DrawLineRules
                 lineTxt[index][3] = line[index + 1].getPosy();
                 lineTxt[index][4] = GetDirectionInfo(lineTxt[index][0], lineTxt[index][1], lineTxt[index][2], lineTxt[index][3], 0);//起始点有箭头
             }
-            
-            //writeLine(lineTxt, LineFile);
             return lineTxt;
         }
         private int GetDirectionInfo(int x1, int y1, int x2, int y2 , int first)

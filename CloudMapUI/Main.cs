@@ -133,7 +133,7 @@ namespace CloudMapUI
         private void historyItemClik(object sender, EventArgs e)
         {
             string path = ((ToolStripMenuItem)sender).Text;
-            bool fileExist = SystemOperator.OpenProject(path);
+            bool fileExist = SystemOperator.OpenProject(path,true);
             if (!fileExist)
             {
                 MessageBox.Show("该数据库已被删除", "关于云图", MessageBoxButtons.OK,
@@ -173,7 +173,7 @@ namespace CloudMapUI
         private void ToolStripMenuItem_OpenProject_Click(object sender, EventArgs e)
         {   
             openFileDialog_OpenProject.ShowDialog();
-            SystemOperator.OpenProject(openFileDialog_OpenProject.FileName);
+            SystemOperator.OpenProject(openFileDialog_OpenProject.FileName,true);
             mainFormStatus();
         }
 
