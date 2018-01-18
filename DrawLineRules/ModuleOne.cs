@@ -237,24 +237,25 @@ namespace DrawLineRules
         public static LineInfo[] GetLineInfo(List<Module> modulesList, int X, int Y,int level)
         {
             Grid myGrid = new Grid(X, Y); // Grid class instance initialization
-            ModuleOne[] modules = myGrid.readModule(modulesList);
+            //int level = 0;
+            ModuleOne[] modules = myGrid.readModule(modulesList,level);
             int num_par = 0;
-            double num_partition = Math.Sqrt((double)modules.Length);
-            if ((int)num_partition - num_partition == 0)
-            {
-                num_par = (int)num_partition - 1;
-            }
-            else
-            {
-                num_par = (int)num_partition;
-            }
+            //double num_partition = Math.Sqrt((double)modules.Length);
+            //if ((int)num_partition - num_partition == 0)
+            //{
+            //    num_par = (int)num_partition - 1;
+            //}
+            //else
+            //{
+            //    num_par = (int)num_partition;
+            //}
+            int layer = (int)(Math.Ceiling(Math.Sqrt(modules.Length)) / 2);
+            num_par = 2 * layer;
             LineInfo[] allLine = new LineInfo[1000];
             int[] rows = new int[num_par];
             int[] columns = new int[num_par];
             // 调用DataAccess中的方法，读入关系表，包含源模块、目标模块和是否双向
             List<RelationOperator.relation> relationArray = RelationOperator.GetRelationArray(level);
-            //int[][] relation = myGrid.readRelationArray(modules.Length, RelationFile);
-            //		myGrid.setObstacleForModules(modules);
             myGrid.getGlobalInfo(modules, relationArray, rows, columns);
             myGrid.setRouteForModules(modules, relationArray, rows, columns,allLine);
             Console.Write("successful!");

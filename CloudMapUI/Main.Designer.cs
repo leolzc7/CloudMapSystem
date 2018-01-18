@@ -832,6 +832,7 @@
             this.comboBox_level.Name = "comboBox_level";
             this.comboBox_level.Size = new System.Drawing.Size(121, 20);
             this.comboBox_level.TabIndex = 0;
+            this.comboBox_level.SelectedIndexChanged += new System.EventHandler(this.comboBox_level_SelectedIndexChanged);
             // 
             // tabControl1
             // 

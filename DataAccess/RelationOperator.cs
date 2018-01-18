@@ -26,7 +26,7 @@ namespace DataAccess
             RelationData relaitonL = new RelationData();
             if (level == 1)
             {
-                if (GetString(modulesName.modulesL1) != null)
+                if (modulesName.modulesL1.Count > 0)
                 {
                     DataRow[] rowL1 = relationdata.Tables[RelationData.RELATION_TABLE].Select(RelationData.SOURCENAME_FIELD + " in " + GetString(modulesName.modulesL1) + " and " + RelationData.TARGETNAME_FIELD + " in " + GetString(modulesName.modulesL1));
                     foreach (DataRow row in rowL1)
@@ -39,10 +39,10 @@ namespace DataAccess
             {
                 if (level == 2)
                 {
-                    if (GetString(modulesName.modulesL2) != null)
+                    if (modulesName.modulesL1.Count+modulesName.modulesL2.Count > 0)
                     {
-                        string con = RelationData.SOURCENAME_FIELD + " in " + GetString(modulesName.modulesL1, modulesName.modulesL2) + " or " + RelationData.TARGETNAME_FIELD + " in " + GetString(modulesName.modulesL1, modulesName.modulesL2);
-                        DataRow[] rowL2 = relationdata.Tables[RelationData.RELATION_TABLE].Select(RelationData.SOURCENAME_FIELD + " in " + GetString(modulesName.modulesL2) + " and " + RelationData.TARGETNAME_FIELD + " in " + GetString(modulesName.modulesL2));
+                        //string con = RelationData.SOURCENAME_FIELD + " in " + GetString(modulesName.modulesL1, modulesName.modulesL2) + " or " + RelationData.TARGETNAME_FIELD + " in " + GetString(modulesName.modulesL1, modulesName.modulesL2);
+                        DataRow[] rowL2 = relationdata.Tables[RelationData.RELATION_TABLE].Select(RelationData.SOURCENAME_FIELD + " in " + GetString(modulesName.modulesL1, modulesName.modulesL2) + " and " + RelationData.TARGETNAME_FIELD + " in " + GetString(modulesName.modulesL1,modulesName.modulesL2));
                         foreach (DataRow row in rowL2)
                         {
                             relaitonL.Tables[RelationData.RELATION_TABLE].Rows.Add(row.ItemArray);

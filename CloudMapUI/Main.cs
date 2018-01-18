@@ -385,38 +385,137 @@ namespace CloudMapUI
         {
             ToolStripMenuItem_LineColor_Click(sender,e);
         }
+        //public List<Module> DrawModules()
+        //{
+        //    Graphics g1 = panel4.CreateGraphics();
+        //    Pen boderpen = new Pen(BorderColor.Color, 1);//模块边框画笔
+        //    List<Module> modPosition = new List<Module>();
+        //    modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height);
+        //    int NumCount = modPosition.Count;
+        //    RichTextBox[] textBox = new RichTextBox[NumCount];
+
+        //    for (int i = 2; i < NumCount; i++)
+        //    {
+        //        g1.DrawRectangle(boderpen, modPosition[i].x - 1, modPosition[i].y - 1, modPosition[0].x + 1, modPosition[0].y + 1);
+        //        textBox[i] = new RichTextBox();
+        //        textBox[i].BackColor = ModuleColor.Color;
+        //        //textBox[i].BackColor = Color.Purple;
+        //        textBox[i].Font = fontDialog1.Font;
+        //        textBox[i].Size = new System.Drawing.Size(modPosition[0].x, modPosition[0].y);
+        //        textBox[i].Location = new Point(modPosition[i].x, modPosition[i].y);
+        //        textBox[i].Text = modPosition[i].moduleName;//显示文字
+        //        textBox[i].SelectionAlignment = HorizontalAlignment.Center;//居中显示，目前只能水平居中不能垂直居中。
+        //        textBox[i].ReadOnly = true;//只读
+        //        textBox[i].BorderStyle = BorderStyle.None;
+        //        //textBox[i].Multiline = true;
+        //        panel4.Controls.Add(textBox[i]);
+        //    }
+        //    return modPosition;
+        //}
         public List<Module> DrawModules()
         {
             Graphics g1 = panel4.CreateGraphics();
             Pen boderpen = new Pen(BorderColor.Color, 1);//模块边框画笔
             List<Module> modPosition = new List<Module>();
-            modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height);
+            if (comboBox_level.Text != null && comboBox_level.Text != "")
+            {
+                switch (comboBox_level.Text)
+                {
+                    case "一级":
+                        modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height, 1);
+                        break;
+                    case "二级":
+                        modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height, 2);
+                        break;
+                    case "三级":
+                        modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height, 3);
+                        break;
+                }
+            }
+            else
+            {
+                modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height);
+            }
             int NumCount = modPosition.Count;
-            RichTextBox[] textBox = new RichTextBox[NumCount];
+            TextBox[] textBox = new TextBox[NumCount];
 
             for (int i = 2; i < NumCount; i++)
             {
                 g1.DrawRectangle(boderpen, modPosition[i].x - 1, modPosition[i].y - 1, modPosition[0].x + 1, modPosition[0].y + 1);
-                textBox[i] = new RichTextBox();
+                textBox[i] = new TextBox();
                 textBox[i].BackColor = ModuleColor.Color;
                 //textBox[i].BackColor = Color.Purple;
                 textBox[i].Font = fontDialog1.Font;
                 textBox[i].Size = new System.Drawing.Size(modPosition[0].x, modPosition[0].y);
                 textBox[i].Location = new Point(modPosition[i].x, modPosition[i].y);
-                textBox[i].Text = modPosition[i].moduleName;//显示文字
-                textBox[i].SelectionAlignment = HorizontalAlignment.Center;//居中显示，目前只能水平居中不能垂直居中。
+                textBox[i].Text = "\r\n" + modPosition[i].moduleName;//显示文字
+                textBox[i].TextAlign = HorizontalAlignment.Center;//居中显示，目前只能水平居中不能垂直居中。
+                //textBox[i].SelectionAlignment = HorizontalAlignment.Center;//居中显示，目前只能水平居中不能垂直居中。
                 textBox[i].ReadOnly = true;//只读
+
                 textBox[i].BorderStyle = BorderStyle.None;
-                //textBox[i].Multiline = true;
+                textBox[i].Click += new EventHandler(this.TextBox_Click);
+                textBox[i].Multiline = true;
                 panel4.Controls.Add(textBox[i]);
             }
             return modPosition;
         }
+        public void TextBox_Click(object sender, EventArgs e)
+        {
 
+            Control.ControlCollection Cons = panel4.Controls;
+            TextBox select = (TextBox)sender;
+            //TextBox temp = new TextBox();
+            //temp = select;
+            //select.Visible = false;
+            btn_generateMap_Click(sender, e);
+            select.BackColor = Color.Purple;
+            foreach (Control con in Cons)
+            {
+                if (con is ALine)
+                {//判断位置，是否在模块位置左、上、右、下相连。
+                    if (
+                        ((con.Location.X + con.Size.Width == select.Location.X + 1) && (con.Location.Y + con.Size.Height > select.Location.Y) && (con.Location.Y < select.Location.Y + select.Size.Height)) ||
+                        ((con.Location.Y + con.Size.Height == select.Location.Y + 1) && (con.Location.X + con.Size.Width > select.Location.X) && (con.Location.X < select.Location.X + select.Size.Width)) ||
+                        ((con.Location.X + 1 == select.Location.X + select.Size.Width) && (con.Location.Y + con.Size.Height > select.Location.Y) && (con.Location.Y < select.Location.Y + select.Size.Height)) ||
+                        ((con.Location.Y + 1 == select.Location.Y + select.Size.Height) && (con.Location.X + con.Size.Width > select.Location.X) && (con.Location.X < select.Location.X + select.Size.Width))
+                        )
+                    {
+                        ((ALine)con).Pencolor = Color.Red;
+                        foreach (Control conAgain in Cons)
+                        {
+                            if (conAgain is ALine)
+                            {
+                                if ((conAgain.Text).Equals(((ALine)con).Text))
+                                {
+                                    ((ALine)conAgain).Pencolor = Color.Red;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         public void DrawModuleAndLines()
         {
             List<Module> modPosition = DrawModules();
-            ModuleOne.LineInfo[] line =  ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height);
+            ModuleOne.LineInfo[] line = new ModuleOne.LineInfo[1000];
+            if (comboBox_level.Text != null && comboBox_level.Text != "")
+            {
+                switch (comboBox_level.Text)
+                {
+                    case "一级":
+                        line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 1);
+                        break;
+                    case "二级":
+                        line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 2);
+                        break;
+                    case "三级":
+                        line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 3);
+                        break;
+                }
+            }
+            
             //Pen linePen = new Pen(Color.Black, 1);
             int LineCount = 0;
             for (int i = 0; i < line.Length; i++)
@@ -588,6 +687,11 @@ namespace CloudMapUI
         private void 磅ToolStripMenuItem6_Click(object sender, EventArgs e)
         {
             penWidth = 4;
+            btn_generateMap_Click(sender, e);
+        }
+
+        private void comboBox_level_SelectedIndexChanged(object sender, EventArgs e)
+        {
             btn_generateMap_Click(sender, e);
         }
     }
