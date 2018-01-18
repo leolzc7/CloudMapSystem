@@ -27,16 +27,6 @@ namespace CloudMapUI
             InitializeComponent();
         }
 
-        //public static void fresh()
-        //{
-        //    mainform = new MainForm();
-        //    mainform.dataGridView_module.AutoGenerateColumns = false;
-        //    moduledata = ModulesOperator.LoadModulesInfo();
-        //    mainform.dataGridView_module.DataSource = moduledata.Tables[ModuleData.MODULES_TABLE].DefaultView;
-        //    mainform.dataGridView_relation.AutoGenerateColumns = false;
-        //    relationdata = RelationOperator.LoadRelationInfo();
-        //    mainform.dataGridView_relation.DataSource = relationdata.Tables[RelationData.RELATION_TABLE].DefaultView;
-        //}
         //在没有打开项目时，和项目相关的控件不可用
         public void mainFormStatus()
         {
@@ -203,6 +193,20 @@ namespace CloudMapUI
         private void 保存云图ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             saveFileDialog_saveImage.ShowDialog();
+            string fileName = saveFileDialog_saveImage.FileName;
+
+            SaveFileToImage(fileName);
+
+        }
+
+        private void SaveFileToImage(string filename)
+        {
+            Rectangle rect = new Rectangle(0, 0, panel4.Width, panel4.Height);
+            using (Bitmap bmp = new Bitmap(rect.Width, rect.Height))
+            {
+                this.panel4.DrawToBitmap(bmp, rect);
+                bmp.Save(filename);
+            }
         }
 
         private void ToolStripMenuItem_Print_Click(object sender, EventArgs e)
@@ -385,33 +389,6 @@ namespace CloudMapUI
         {
             ToolStripMenuItem_LineColor_Click(sender,e);
         }
-        //public List<Module> DrawModules()
-        //{
-        //    Graphics g1 = panel4.CreateGraphics();
-        //    Pen boderpen = new Pen(BorderColor.Color, 1);//模块边框画笔
-        //    List<Module> modPosition = new List<Module>();
-        //    modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height);
-        //    int NumCount = modPosition.Count;
-        //    RichTextBox[] textBox = new RichTextBox[NumCount];
-
-        //    for (int i = 2; i < NumCount; i++)
-        //    {
-        //        g1.DrawRectangle(boderpen, modPosition[i].x - 1, modPosition[i].y - 1, modPosition[0].x + 1, modPosition[0].y + 1);
-        //        textBox[i] = new RichTextBox();
-        //        textBox[i].BackColor = ModuleColor.Color;
-        //        //textBox[i].BackColor = Color.Purple;
-        //        textBox[i].Font = fontDialog1.Font;
-        //        textBox[i].Size = new System.Drawing.Size(modPosition[0].x, modPosition[0].y);
-        //        textBox[i].Location = new Point(modPosition[i].x, modPosition[i].y);
-        //        textBox[i].Text = modPosition[i].moduleName;//显示文字
-        //        textBox[i].SelectionAlignment = HorizontalAlignment.Center;//居中显示，目前只能水平居中不能垂直居中。
-        //        textBox[i].ReadOnly = true;//只读
-        //        textBox[i].BorderStyle = BorderStyle.None;
-        //        //textBox[i].Multiline = true;
-        //        panel4.Controls.Add(textBox[i]);
-        //    }
-        //    return modPosition;
-        //}
         public List<Module> DrawModules()
         {
             Graphics g1 = panel4.CreateGraphics();
@@ -514,6 +491,10 @@ namespace CloudMapUI
                         line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 3);
                         break;
                 }
+            }
+            else
+            {
+                line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 3);
             }
             
             //Pen linePen = new Pen(Color.Black, 1);
@@ -626,7 +607,7 @@ namespace CloudMapUI
             p.ShowAlways = true;
             p.SetToolTip((ALine)sender, ((ALine)sender).Text);
         }
-        private void btn_generateMap_Click(object sender, EventArgs e)
+        public void btn_generateMap_Click(object sender, EventArgs e)
         {
             panel4.Controls.Clear();//控件的清空
             this.panel4.Refresh();//Graphics的清空

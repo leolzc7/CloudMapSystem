@@ -12,10 +12,12 @@ namespace DataAccess
 {
     public class SystemOperator
     {
-        public static void Connect_open_db()
+        public static void Connect_open_db() //根据全局的
         {
             globalParameters.conn = new SQLiteConnection(globalParameters.dbPath);//创建数据库实例，指定文件位置
             globalParameters.conn.Open();//打开数据库，若文件不存在会自动创建
+            string sq3 = "PRAGMA foreign_keys = 'on';";
+            ExecuteSql(sq3);
         }
         public static void Connect_open_sencond_db()
         {
