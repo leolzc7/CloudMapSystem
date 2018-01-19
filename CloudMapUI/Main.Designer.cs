@@ -33,6 +33,7 @@
             this.NToolStripMenuItem_newProject = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripMenuItem_OpenProject = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_SaveProject = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_saveImage = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_SaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -137,6 +138,7 @@
             this.NToolStripMenuItem_newProject,
             this.toolStripSeparator1,
             this.ToolStripMenuItem_OpenProject,
+            this.ToolStripMenuItem_SaveProject,
             this.ToolStripMenuItem_saveImage,
             this.ToolStripMenuItem_SaveAs,
             this.toolStripSeparator2,
@@ -171,6 +173,14 @@
             this.ToolStripMenuItem_OpenProject.Size = new System.Drawing.Size(189, 22);
             this.ToolStripMenuItem_OpenProject.Text = "打开项目(&O)";
             this.ToolStripMenuItem_OpenProject.Click += new System.EventHandler(this.ToolStripMenuItem_OpenProject_Click);
+            // 
+            // ToolStripMenuItem_SaveProject
+            // 
+            this.ToolStripMenuItem_SaveProject.Name = "ToolStripMenuItem_SaveProject";
+            this.ToolStripMenuItem_SaveProject.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.ToolStripMenuItem_SaveProject.Size = new System.Drawing.Size(189, 22);
+            this.ToolStripMenuItem_SaveProject.Text = "保存项目(&S)";
+            this.ToolStripMenuItem_SaveProject.Click += new System.EventHandler(this.toolStripButton_saveProject_Click);
             // 
             // ToolStripMenuItem_saveImage
             // 
@@ -823,6 +833,7 @@
             // comboBox_level
             // 
             this.comboBox_level.BackColor = System.Drawing.SystemColors.Window;
+            this.comboBox_level.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_level.FormattingEnabled = true;
             this.comboBox_level.Items.AddRange(new object[] {
             "一级",
@@ -863,6 +874,7 @@
             this.dataGridView_module.AllowUserToDeleteRows = false;
             this.dataGridView_module.AllowUserToResizeColumns = false;
             this.dataGridView_module.AllowUserToResizeRows = false;
+            this.dataGridView_module.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
             this.dataGridView_module.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_module.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1});
@@ -900,6 +912,7 @@
             this.dataGridView_relation.AllowUserToDeleteRows = false;
             this.dataGridView_relation.AllowUserToResizeColumns = false;
             this.dataGridView_relation.AllowUserToResizeRows = false;
+            this.dataGridView_relation.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
             this.dataGridView_relation.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_relation.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column2});
@@ -1063,6 +1076,7 @@
         private System.Windows.Forms.DataGridView dataGridView_relation;
         private System.Windows.Forms.ColorDialog ModuleColor;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_SaveProject;
     }
 }
 

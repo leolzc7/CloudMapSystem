@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Data
 {
+    //新建一个对应关系表的内存中的Dataset表
     public class RelationData:DataSet
     {
         public const string RELATION_TABLE = "relation";

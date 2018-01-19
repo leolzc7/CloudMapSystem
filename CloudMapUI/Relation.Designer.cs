@@ -35,6 +35,7 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel8 = new System.Windows.Forms.Panel();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.type = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
@@ -47,7 +48,9 @@
             this.label3 = new System.Windows.Forms.Label();
             this.panel_addRelation = new System.Windows.Forms.Panel();
             this.dgv_target = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_source = new System.Windows.Forms.DataGridView();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel6 = new System.Windows.Forms.Panel();
             this.target = new System.Windows.Forms.TextBox();
             this.source = new System.Windows.Forms.TextBox();
@@ -57,13 +60,11 @@
             this.label2 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.dataGridView_relation = new System.Windows.Forms.DataGridView();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.btnAdd = new System.Windows.Forms.Button();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.btnAdd = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -136,6 +137,7 @@
             // 
             // panel8
             // 
+            this.panel8.Controls.Add(this.btnCancel);
             this.panel8.Controls.Add(this.type);
             this.panel8.Controls.Add(this.btnSave);
             this.panel8.Controls.Add(this.label8);
@@ -152,10 +154,20 @@
             this.panel8.Size = new System.Drawing.Size(495, 253);
             this.panel8.TabIndex = 2;
             // 
+            // btnCancel
+            // 
+            this.btnCancel.Location = new System.Drawing.Point(69, 143);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(50, 24);
+            this.btnCancel.TabIndex = 89;
+            this.btnCancel.Text = "取消";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
             // type
             // 
             this.type.BackColor = System.Drawing.SystemColors.Control;
-            this.type.Location = new System.Drawing.Point(69, 33);
+            this.type.Location = new System.Drawing.Point(69, 35);
             this.type.Name = "type";
             this.type.Size = new System.Drawing.Size(110, 21);
             this.type.TabIndex = 88;
@@ -267,6 +279,7 @@
             this.dgv_target.AllowUserToDeleteRows = false;
             this.dgv_target.AllowUserToResizeColumns = false;
             this.dgv_target.AllowUserToResizeRows = false;
+            this.dgv_target.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
             this.dgv_target.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_target.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1});
@@ -280,12 +293,22 @@
             this.dgv_target.TabIndex = 91;
             this.dgv_target.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_target_CellClick);
             // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "name";
+            this.dataGridViewTextBoxColumn1.HeaderText = "目标系统";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
             // dgv_source
             // 
             this.dgv_source.AllowUserToAddRows = false;
             this.dgv_source.AllowUserToDeleteRows = false;
             this.dgv_source.AllowUserToResizeColumns = false;
             this.dgv_source.AllowUserToResizeRows = false;
+            this.dgv_source.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
             this.dgv_source.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_source.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column4});
@@ -299,6 +322,14 @@
             this.dgv_source.Size = new System.Drawing.Size(175, 210);
             this.dgv_source.TabIndex = 90;
             this.dgv_source.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_source_CellClick);
+            // 
+            // Column4
+            // 
+            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column4.DataPropertyName = "name";
+            this.Column4.HeaderText = "源系统";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
             // 
             // panel6
             // 
@@ -382,6 +413,7 @@
             this.dataGridView_relation.AllowUserToDeleteRows = false;
             this.dataGridView_relation.AllowUserToResizeColumns = false;
             this.dataGridView_relation.AllowUserToResizeRows = false;
+            this.dataGridView_relation.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
             this.dataGridView_relation.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_relation.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
@@ -399,43 +431,6 @@
             this.dataGridView_relation.Size = new System.Drawing.Size(397, 490);
             this.dataGridView_relation.TabIndex = 72;
             this.dataGridView_relation.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_relation_CellClick);
-            // 
-            // btnDelete
-            // 
-            this.btnDelete.Location = new System.Drawing.Point(95, 513);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(50, 24);
-            this.btnDelete.TabIndex = 71;
-            this.btnDelete.Text = "删除";
-            this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            // 
-            // btnAdd
-            // 
-            this.btnAdd.Location = new System.Drawing.Point(12, 513);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(50, 24);
-            this.btnAdd.TabIndex = 70;
-            this.btnAdd.Text = "新增";
-            this.btnAdd.UseVisualStyleBackColor = true;
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
-            // 
-            // Column4
-            // 
-            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column4.DataPropertyName = "name";
-            this.Column4.HeaderText = "源系统";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "name";
-            this.dataGridViewTextBoxColumn1.HeaderText = "目标系统";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
             // Column1
             // 
@@ -460,6 +455,26 @@
             this.Column3.HeaderText = "目标系统";
             this.Column3.Name = "Column3";
             this.Column3.ReadOnly = true;
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Location = new System.Drawing.Point(95, 513);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(50, 24);
+            this.btnDelete.TabIndex = 71;
+            this.btnDelete.Text = "删除";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // btnAdd
+            // 
+            this.btnAdd.Location = new System.Drawing.Point(12, 513);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(50, 24);
+            this.btnAdd.TabIndex = 70;
+            this.btnAdd.Text = "新增";
+            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // RelationEditForm
             // 
@@ -532,5 +547,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.Button btnCancel;
     }
 }

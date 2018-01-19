@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace DataAccess
 {
-
+    //针对模块表的操作，包括Load进整个表，和对表的增、删、改，以及读取出模块和不同等级的模块对应的关系数量
     public class ModulesOperator
     {
         static SQLiteDataAdapter command;
@@ -34,7 +34,6 @@ namespace DataAccess
                 return true;
             }
         }
-
         private static string GetInsertCommand(ModuleData module)
         {
             DataRow data = module.Tables[ModuleData.MODULES_TABLE].Rows[0];
@@ -91,8 +90,9 @@ namespace DataAccess
             SQLiteDataReader reader = cmdReader.ExecuteReader();
             return reader;
         }
-        public static modulesName read_modules()
+        public static modulesName read_modules()//读取出不同等级的模块名，存到一个结构体中返回
         {
+            
             modulesName modulesList = new modulesName();
             modulesList.modulesL1 = new List<string>();
             modulesList.modulesL2 = new List<string>();
@@ -119,31 +119,13 @@ namespace DataAccess
             }
             return modulesList;
         }
-        public static List<ModulesList> GetModuleCount()
+        public static List<ModulesList> GetModuleCount()//根据不同等级的模块对应的关系表读取出每个模块的关系数目
         {
             modulesName modulesName = read_modules();         
             List<ModulesList> modules = new List<ModulesList>();
             RelationData relationdata = RelationOperator.LoadRelationInfo();
-            RelationData relaitonL1 = RelationOperator.GetRelationInfoForDiffLevel(modulesName, 1);
-            RelationData relaitonL2 = RelationOperator.GetRelationInfoForDiffLevel(modulesName, 2);
-            //if (GetString(modulesName.modulesL1) != null)
-            //{
-            //    DataRow[] rowL1 = relationdata.Tables[RelationData.RELATION_TABLE].Select(RelationData.SOURCENAME_FIELD + " in " + GetString(modulesName.modulesL1) + " and " + RelationData.TARGETNAME_FIELD + " in " + GetString(modulesName.modulesL1));
-            //    foreach (DataRow row in rowL1)
-            //    {
-            //        relaitonL1.Tables[RelationData.RELATION_TABLE].Rows.Add(row.ItemArray);
-            //    }
-            //}
-            //if (GetString(modulesName.modulesL2) != null)
-            //{
-            //    string con = RelationData.SOURCENAME_FIELD + " in " + GetString(modulesName.modulesL1, modulesName.modulesL2) + " or " + RelationData.TARGETNAME_FIELD + " in " + GetString(modulesName.modulesL1,modulesName.modulesL2);
-            //    DataRow[] rowL2 = relationdata.Tables[RelationData.RELATION_TABLE].Select(RelationData.SOURCENAME_FIELD + " in " + GetString(modulesName.modulesL2) + " and " + RelationData.TARGETNAME_FIELD + " in " + GetString(modulesName.modulesL2));
-            //    foreach (DataRow row in rowL2)
-            //    {
-            //        relaitonL2.Tables[RelationData.RELATION_TABLE].Rows.Add(row.ItemArray);
-            //    }
-            //}
-
+            RelationData relaitonL1 = RelationOperator.GetRelationInfoForDiffLevel(modulesName, 1); //得到等级1的模块对应的关系表
+            RelationData relaitonL2 = RelationOperator.GetRelationInfoForDiffLevel(modulesName, 2);//得到等级1和2的模块对应的关系表
             foreach (string mod in modulesName.modulesL1)
             {
                 ModulesList module = new ModulesList();
@@ -185,53 +167,5 @@ namespace DataAccess
             public int level;
             public int count;
         }
-        //private static string GetString(List<string> modulesName)
-        //{
-        //    string nameString = @"(";
-        //    if (modulesName.Count > 0)
-        //    {
-        //        nameString = nameString + "'" + modulesName[0] + "'";
-        //    }
-        //    else
-        //    {
-        //        return null;
-        //    }
-        //    for (int i = 1; i < modulesName.Count; i++)
-        //    {
-        //        nameString = nameString + ",'" + modulesName[i] + "'";
-        //    }
-        //    nameString = nameString + ")";
-        //    return nameString;
-        //}
-        //private static string GetString(List<string> modulesL1, List<string> modulesL2)
-        //{
-        //    string nameString = @"(";
-        //    if (modulesL1.Count + modulesL2.Count> 0)
-        //    {
-        //        if (modulesL1.Count == 0)
-        //        {
-        //            return GetString( modulesL2);
-        //        }
-        //        else
-        //        {
-        //            nameString = nameString + "'" + modulesL1[0] + "'";
-        //        } 
-        //    }
-        //    else
-        //    {
-        //        return null;
-        //    }
-        //    for (int i = 1; i < modulesL1.Count; i++)
-        //    {
-        //        nameString = nameString + ",'" + modulesL1[i] + "'";
-        //    }
-        //    for (int i = 0; i < modulesL2.Count; i++)
-        //    {
-        //        nameString = nameString + ",'" + modulesL2[i] + "'";
-        //    }
-        //    nameString = nameString + ")";
-        //    return nameString;
-        //}
-
     }
 }

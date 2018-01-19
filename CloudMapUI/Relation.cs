@@ -21,6 +21,8 @@ namespace CloudMapUI
         ModuleData moduledata;
         string sourcemodule;
         string targetmodule;
+        string selectSource;
+        string selectTarget;
         public RelationEditForm(MainForm parent)
         {
             InitializeComponent();
@@ -28,17 +30,6 @@ namespace CloudMapUI
         }
 
         public MainForm parent { get; set; }
-
-        string relationSource;
-        string relationTarget;
-        string relationName;
-        string relationBidirection = null;
-        string relationType;
-        string relationComment;
-        public static string[,] list;
-        public static string[] relationList;
-        string selectSource;
-        string selectTarget;
         
         private void RelationEditForm_Load(object sender, EventArgs e)
         {          
@@ -78,6 +69,7 @@ namespace CloudMapUI
 
                 btnAdd.Visible = true;
                 btnSave.Visible = true;
+                btnCancel.Visible = false;
                 if (relationdata.Tables[RelationData.RELATION_TABLE].Rows.Count > 0)
                 {
                     btnUpdate.Visible = true;
@@ -109,6 +101,7 @@ namespace CloudMapUI
                 btnAdd.Visible = false;
                 btnDelete.Visible = false;
                 btnSave.Visible = true;
+                btnCancel.Visible = true;
 
                 name.BackColor = Color.White;
                 source.BackColor = Color.White;
@@ -130,6 +123,7 @@ namespace CloudMapUI
                 btnAdd.Visible = false;
                 btnDelete.Visible = false;
                 btnSave.Visible = true;
+                btnCancel.Visible = true;
 
                 name.BackColor = Color.White;
                 source.BackColor = Color.White;
@@ -152,7 +146,7 @@ namespace CloudMapUI
                     name.Text = dr[RelationData.NAME_FIELD].ToString();
                     source.Text = dr[RelationData.SOURCENAME_FIELD].ToString();
                     target.Text = dr[RelationData.TARGETNAME_FIELD].ToString();
-                    type.Text = dr[RelationData.TYPE_FIELD].ToString();                 
+                    type.Text = dr[RelationData.TYPE_FIELD].ToString();
                     comment.Text = dr[RelationData.COMMENT_FIELD].ToString();
                     if (dr[RelationData.BIDIRECTION_FIELD].ToString() == "0")
                     {
@@ -185,7 +179,6 @@ namespace CloudMapUI
                 source.Text = dr[RelationData.SOURCENAME_FIELD].ToString();
                 target.Text = dr[RelationData.TARGETNAME_FIELD].ToString();
                 comboBox_Type.Text = dr[RelationData.TYPE_FIELD].ToString();
-                //MessageBox.Show(comboBox_Type.GetItemText(comboBox_Type.Items[0]) + comboBox_Type.GetItemText(comboBox_Type.Items[1]+ comboBox_Type.GetItemText(comboBox_Type.Items[2])));
                 comment.Text = dr[RelationData.COMMENT_FIELD].ToString();
                 if (dr[RelationData.BIDIRECTION_FIELD].ToString() == "0")
                 {
@@ -203,30 +196,11 @@ namespace CloudMapUI
                 name.Text = "";
                 source.Text = "";
                 target.Text = "";
-                comboBox_Type.Text = "";
+                comboBox_Type.SelectedIndex=0;
                 comment.Text = "";
-                radioButton_single.Checked = false;
+                radioButton_single.Checked = true;
                 radioButton_bidirection.Checked = false;
             }
-        }
-
-
-        private void comboBox_Bidirection_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //relationBidirection = comboBox_Bidirection.Text;
-            //if (comboBox_Bidirection.Text.Equals("no"))
-            //{
-            //    relationBidirection = 0; //代表单向
-            //}
-            //else
-            //{
-            //    relationBidirection = 1;
-            //}
-        }
-
-        private void textBox_comment_TextChanged(object sender, EventArgs e)
-        {
-            relationComment = comment.Text;
         }
 
         //添加关系
@@ -256,7 +230,6 @@ namespace CloudMapUI
             {
                 selectSource = dataGridView_relation.CurrentRow.Cells[1].Value.ToString();
                 selectTarget = dataGridView_relation.CurrentRow.Cells[2].Value.ToString();
-                //DataRow dr = relationdata.Tables[RelationData.RELATION_TABLE].Select("RelationData.SOURCENAME_FIELD='" + selectSource + "' and  RelationData.TARGETNAME_FIELD='" + selectTarget + "'")[0];
                 if (RelationOperator.DeleteRelationInfo(selectSource,selectTarget))
                 {
                     RelationEditForm_Load(sender, e);
@@ -272,6 +245,7 @@ namespace CloudMapUI
                 source.Text = dr[RelationData.SOURCENAME_FIELD].ToString();
                 target.Text = dr[RelationData.TARGETNAME_FIELD].ToString();
                 type.Text = dr[RelationData.TYPE_FIELD].ToString();
+                comboBox_Type.Text = dr[RelationData.TYPE_FIELD].ToString();
                 comment.Text = dr[RelationData.COMMENT_FIELD].ToString();
                 if (dr[RelationData.BIDIRECTION_FIELD].ToString() == "0")
                 {
@@ -294,65 +268,85 @@ namespace CloudMapUI
                 selectSource = dataGridView_relation.CurrentRow.Cells[1].Value.ToString();
                 selectTarget = dataGridView_relation.CurrentRow.Cells[2].Value.ToString();
                 DataRow odr = relationdata.Tables[RelationData.RELATION_TABLE].Select(RelationData.SOURCENAME_FIELD + "='" + selectSource + "' and  " + RelationData.TARGETNAME_FIELD + "='" + selectTarget + "'")[0];
-
                 RelationData saveRelation = new RelationData();
                 DataRow dr = saveRelation.Tables[RelationData.RELATION_TABLE].NewRow();
-
-                dr[RelationData.NAME_FIELD]=name.Text.ToString().Trim();
-                dr[RelationData.SOURCENAME_FIELD] = source.Text.ToString().Trim();
-                dr[RelationData.TARGETNAME_FIELD] = target.Text.ToString().Trim();
-                dr[RelationData.TYPE_FIELD] = type.Text.ToString().Trim();
-                dr[ModuleData.COMMENT_FIELD] = comment.Text.ToString().Trim();
-                if (radioButton_bidirection.Checked)
-                    dr[RelationData.BIDIRECTION_FIELD] = "1";
-                else
-                    dr[RelationData.BIDIRECTION_FIELD] = "0";
-
-                saveRelation.Tables[RelationData.RELATION_TABLE].Rows.Add(dr);
-                if (RelationOperator.UpdateRelationInfo(saveRelation, selectSource, selectTarget))
+                if (IsFilled())
                 {
-                    RelationEditForm_Load(sender, e);
-                    MessageBox.Show("修改成功！");
-                }
+                    dr[RelationData.NAME_FIELD] = name.Text.ToString().Trim();
+                    dr[RelationData.SOURCENAME_FIELD] = source.Text.ToString().Trim();
+                    dr[RelationData.TARGETNAME_FIELD] = target.Text.ToString().Trim();
+                    dr[RelationData.TYPE_FIELD] = comboBox_Type.SelectedItem.ToString().Trim();
+                    dr[ModuleData.COMMENT_FIELD] = comment.Text.ToString().Trim();
+                    if (radioButton_bidirection.Checked)
+                        dr[RelationData.BIDIRECTION_FIELD] = "1";
+                    else
+                        dr[RelationData.BIDIRECTION_FIELD] = "0";
+
+                    saveRelation.Tables[RelationData.RELATION_TABLE].Rows.Add(dr);
+                    if (RelationOperator.UpdateRelationInfo(saveRelation, selectSource, selectTarget))
+                    {
+                        RelationEditForm_Load(sender, e);
+                        MessageBox.Show("修改成功！");
+                    }
+                }                
             }
             else if (pageStatus == RecordStatus.Add)
             {
                 RelationData saveRelation = new RelationData();
                 DataRow dr = saveRelation.Tables[RelationData.RELATION_TABLE].NewRow();
-
-                dr[RelationData.NAME_FIELD] = name.Text.ToString().Trim();
-                dr[RelationData.SOURCENAME_FIELD] = source.Text.ToString().Trim();
-                dr[RelationData.TARGETNAME_FIELD] = target.Text.ToString().Trim();
-                dr[RelationData.TYPE_FIELD] = type.Text.ToString().Trim();
-                dr[ModuleData.COMMENT_FIELD] = comment.Text.ToString().Trim();
-                if (radioButton_bidirection.Checked)
-                    dr[RelationData.BIDIRECTION_FIELD] = "1";
-                else
-                    dr[RelationData.BIDIRECTION_FIELD] = "0";
-
-                saveRelation.Tables[RelationData.RELATION_TABLE].Rows.Add(dr);
-                if (RelationOperator.InsertRelationInfo(saveRelation))
+                if (IsFilled())
                 {
-                    RelationEditForm_Load(sender, e);
-                    MessageBox.Show("添加成功！");
-                }
+                    dr[RelationData.NAME_FIELD] = name.Text.ToString().Trim();
+                    dr[RelationData.SOURCENAME_FIELD] = source.Text.ToString().Trim();
+                    dr[RelationData.TARGETNAME_FIELD] = target.Text.ToString().Trim();
+                    dr[RelationData.TYPE_FIELD] = comboBox_Type.SelectedItem.ToString().Trim();
+                    dr[ModuleData.COMMENT_FIELD] = comment.Text.ToString().Trim();
+                    if (radioButton_bidirection.Checked)
+                        dr[RelationData.BIDIRECTION_FIELD] = "1";
+                    else
+                        dr[RelationData.BIDIRECTION_FIELD] = "0";
+
+                    saveRelation.Tables[RelationData.RELATION_TABLE].Rows.Add(dr);
+                    if (RelationOperator.InsertRelationInfo(saveRelation))
+                    {
+                        RelationEditForm_Load(sender, e);
+                        MessageBox.Show("添加成功！");
+                    }
+                }               
             }
 
         }
-        private void comboBox_type_SelectedIndexChanged(object sender, EventArgs e)
+
+        //判空
+        public bool IsFilled()
         {
-            relationType = comboBox_Type.Text;
+            if(name.Text!=""&&source.Text!=""&&target.Text!=""&&comboBox_Type.SelectedItem.ToString()!=""&&comment.Text!=""&&(radioButton_bidirection.Checked||radioButton_single.Checked))
+            {
+                if (source.Text == target.Text)
+                {
+                    MessageBox.Show("源和目标不能相同！");
+                    return false;
+                }
+                else
+                    return true;
+            }
+            else
+            {
+                MessageBox.Show("所有字段不能为空！");
+                return false;
+            }
         }
-
-
+ 
+        //查看关系
         private void dataGridView_relation_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             selectSource = dataGridView_relation.CurrentRow.Cells[1].Value.ToString();
             selectTarget = dataGridView_relation.CurrentRow.Cells[2].Value.ToString();
             DataRow dr = relationdata.Tables[RelationData.RELATION_TABLE].Select(RelationData.SOURCENAME_FIELD + "='" + selectSource + "' and  " + RelationData.TARGETNAME_FIELD + "='" + selectTarget + "'")[0];
-             name.Text = dr[RelationData.NAME_FIELD].ToString();
+            name.Text = dr[RelationData.NAME_FIELD].ToString();
             source.Text = dr[RelationData.SOURCENAME_FIELD].ToString();
             target.Text = dr[RelationData.TARGETNAME_FIELD].ToString();
+            type.Text = dr[RelationData.TYPE_FIELD].ToString();
             comboBox_Type.Text = dr[RelationData.TYPE_FIELD].ToString();
             comment.Text = dr[RelationData.COMMENT_FIELD].ToString();
             if (dr[RelationData.BIDIRECTION_FIELD].ToString() == "0")
@@ -367,16 +361,26 @@ namespace CloudMapUI
             }
         }
 
+        //选择源
         private void dgv_source_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             sourcemodule = dgv_source.CurrentCell.Value.ToString();
             source.Text = sourcemodule;
         }
 
+        //选择目标
         private void dgv_target_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             targetmodule = dgv_target.CurrentCell.Value.ToString();
             target.Text = targetmodule;
+        }
+
+        //取消
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            pageStatus = RecordStatus.View;
+            SetFormControlerStatus();
+            SetFormControlerData();
         }
 
     }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing.Printing;
 using Data;
 using DataAccess;
 using DrawLineRules;
@@ -39,12 +40,6 @@ namespace CloudMapUI
                 ToolStripMenuItem_AddModule.Enabled = false;
                 ToolStripMenuItem_AddRelation.Enabled = false;
                 ToolStripMenuItem_import.Enabled = false;
-                //ToolStripMenuItem_SysLevel.Enabled = false;       
-                //ToolStripMenuItem_DisplayScale.Enabled = false;
-                //ToolStripMenuItem_Border.Enabled = false;
-                //ToolStripMenuItem_Line.Enabled = false;
-                //ToolStripMenuItem_comment.Enabled = false;
-
 
                 toolStripButton_saveProject.Enabled = false;
                 toolStripButton_saveImage.Enabled = false;
@@ -52,13 +47,9 @@ namespace CloudMapUI
                 toolStripButton_import.Enabled = false;
                 toolStripButton_addModule.Enabled = false;
                 toolStripButton_addRelation.Enabled = false;
-                //toolStripDropDownButton_colorFilling.Enabled = false;
-                //toolStripDropDownButton_borderLIne.Enabled = false;
-                //toolStripDropDownButton_lineWidth.Enabled = false;
-                //toolStripDropDownButton_lineColor.Enabled = false;
-                //toolStripDropDownButton_comment.Enabled = false;
 
                 dataGridView_module.Visible = false;
+                dataGridView_relation.Visible = false;
             }
             else
             {
@@ -97,9 +88,6 @@ namespace CloudMapUI
             panelWidth = panel4.Size.Width;
             panelHeight = panel4.Size.Height;
             AddHistoryItem();
-            //textBox2.Text = panel4.Size.Width.ToString() + " * " + panel4.Size.Height.ToString();
-            //panel1.Left = 0;
-            //panel1.Top = 25;
         }
         private void AddHistoryItem()
         {
@@ -144,19 +132,13 @@ namespace CloudMapUI
         private void NToolStripMenuItem_newProject_Click(object sender, EventArgs e)
         {
             NewProjectForm newProjrctFrom = new NewProjectForm(this);
-            newProjrctFrom.ShowDialog();
-
-            //ModuleEditForm newModuleEditForm = new ModuleEditForm(this);
-            //newModuleEditForm.ShowDialog();
-
-            //RelationEditForm newRelationEditForm = new RelationEditForm(this);
-            //newRelationEditForm.ShowDialog();       
+            newProjrctFrom.ShowDialog();  
         }
 
+        //导入项目
         private void ToolStripMenuItem_import_Click(object sender, EventArgs e)
         {
             importForm import = new importForm(this);
-
             import.ShowDialog();
         }
 
@@ -193,10 +175,40 @@ namespace CloudMapUI
         private void 保存云图ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             saveFileDialog_saveImage.ShowDialog();
-            string fileName = saveFileDialog_saveImage.FileName;
+        }
 
-            SaveFileToImage(fileName);
-
+        private void ToolStripMenuItem_Print_Click(object sender, EventArgs e)
+        {
+            PrintDocument printDoc = new PrintDocument();
+            printDoc.DefaultPageSettings.PaperSize = new PaperSize("Custum", panel4.Width, panel4.Height);
+            printDoc.DefaultPageSettings.Landscape = true;
+            printDoc.PrintPage += new PrintPageEventHandler(this.PrintDocument_PrintPage);
+            printPreviewDialog1.Document = printDoc;
+            DialogResult result = printDialog1.ShowDialog();
+            //if (result == DialogResult.OK)
+            //    printDoc.Print();
+        }
+        private void ToolStripMenuItem_PrePrint_Click(object sender, EventArgs e)
+        {
+            PrintDocument printDoc = new PrintDocument();
+            printDoc.DefaultPageSettings.PaperSize = new PaperSize("Custum", panel4.Width, panel4.Height);
+            printDoc.DefaultPageSettings.Landscape = false;
+            printDoc.PrintPage += new PrintPageEventHandler(this.PrintDocument_PrintPage);
+            printPreviewDialog1.Document = printDoc; 
+            DialogResult result= printPreviewDialog1.ShowDialog();
+            //if (result == DialogResult.OK)
+            //    printDoc.Print();
+        }
+        //设置打印内容
+        private void PrintDocument_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+            Rectangle rect = new Rectangle(0, 0, panel4.Width, panel4.Height);
+            //Rectangle rect = new Rectangle(0, 0, 210, 297);
+            using (Bitmap bmp = new Bitmap(rect.Width, rect.Height))
+            {
+                this.panel4.DrawToBitmap(bmp, rect);
+                e.Graphics.DrawImageUnscaledAndClipped(bmp, rect);
+            }
         }
 
         private void SaveFileToImage(string filename)
@@ -209,15 +221,6 @@ namespace CloudMapUI
             }
         }
 
-        private void ToolStripMenuItem_Print_Click(object sender, EventArgs e)
-        {
-            printDialog1.ShowDialog();   
-        }
-        private void ToolStripMenuItem_PrePrint_Click(object sender, EventArgs e)
-        {
-             printPreviewDialog1.ShowDialog();  
-        }
-
         private void ToolStripMenuItem_Exit_Click(object sender, EventArgs e)
         {
             if (DialogResult.Yes == MessageBox.Show("确定退出系统？", "企业云图", MessageBoxButtons.YesNo, MessageBoxIcon.Information))
@@ -227,15 +230,15 @@ namespace CloudMapUI
         private void ToolStripMenuItem_AddModule_Click(object sender, EventArgs e)
         {
             ModuleEditForm newModuleEditForm = new ModuleEditForm(this);
-
-            newModuleEditForm.ShowDialog();  
+            newModuleEditForm.ShowDialog();
+            mainFormStatus();
         }
 
         private void ToolStripMenuItem_AddRelation_Click(object sender, EventArgs e)
         {
             RelationEditForm newRelationEditForm = new RelationEditForm(this);
-
             newRelationEditForm.ShowDialog();
+            mainFormStatus();
         }
 
         private void ToolStripMenuItem_BorderColor_Click(object sender, EventArgs e)
@@ -327,7 +330,7 @@ namespace CloudMapUI
 
         private void toolStripButton_prePrint_Click(object sender, EventArgs e)
         {
-            ToolStripMenuItem_PrePrint_Click(sender, e);
+            ToolStripMenuItem_Print_Click(sender,e);
         }
 
         private void toolStripButton_import_Click(object sender, EventArgs e)

@@ -9,6 +9,7 @@ using Data;
 
 namespace DataAccess
 {
+    //针对关系表的操作，包括根据不同的等级Load整个表，和对表的增、删、改，以及得到不同等级的模块对应的关系数组
     public class RelationOperator
     {
         static SQLiteDataAdapter command;
@@ -55,7 +56,7 @@ namespace DataAccess
                 }
             }
             return relaitonL;
-        }
+        }//不同的等级的关系虚拟表Dataset
         public static bool InsertRelationInfo(RelationData relation)
         {
             string insertCommand = GetInsertCommand(relation);
@@ -131,7 +132,7 @@ namespace DataAccess
             SQLiteDataReader reader = cmdReader.ExecuteReader();
             return reader;
         }
-        public static List<relation> GetRelationArray(int level)
+        public static List<relation> GetRelationArray(int level) //得到不同等级的模块对应的关系数组
         {
             List<relation> relationArray = new List<relation>();
             ModulesOperator.modulesName modulesName = ModulesOperator.read_modules();
@@ -182,7 +183,7 @@ namespace DataAccess
             }
             nameString = nameString + ")";
             return nameString;
-        }
+        }//将模块的名字列表变成一个字符串
         private static string GetString(List<string> modulesL1, List<string> modulesL2)
         {
             string nameString = @"(";

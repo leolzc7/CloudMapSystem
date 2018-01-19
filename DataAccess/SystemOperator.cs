@@ -10,9 +10,10 @@ using System.Data;
 
 namespace DataAccess
 {
+    //针对整个数据库的操作，例如链接并打开数据库、新建数据库、保存和读取历史记录等
     public class SystemOperator
     {
-        public static void Connect_open_db() //根据全局的
+        public static void Connect_open_db() 
         {
             globalParameters.conn = new SQLiteConnection(globalParameters.dbPath);//创建数据库实例，指定文件位置
             globalParameters.conn.Open();//打开数据库，若文件不存在会自动创建

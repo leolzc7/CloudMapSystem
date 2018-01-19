@@ -7,6 +7,7 @@ using System.Data;
 
 namespace Data
 {
+    //新建一个对应模块表的内存中的Dataset表
     public class ModuleData : DataSet
     {
         public const string MODULES_TABLE = "modules";

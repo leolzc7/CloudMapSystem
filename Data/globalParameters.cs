@@ -8,6 +8,7 @@ using System.Data;
 
 namespace Data
 {
+    //记录关于数据库的全局变量
     public class globalParameters
     {
         public static string dbPath;

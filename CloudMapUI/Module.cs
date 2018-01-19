@@ -18,12 +18,8 @@ namespace CloudMapUI
         private MainForm paf;
         RecordStatus pageStatus;
         ModuleData moduledata;
-
-        string moduleName;
-        string moduleType;
-        string moduleLevel;
-        string moduleComment;
         string selectModule;
+        string moduleName;
 
         
         public ModuleEditForm(MainForm parent)
@@ -86,28 +82,6 @@ namespace CloudMapUI
             }
         }
 
-
-        private void comboBox_Level_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            moduleLevel = comboBox_Level.Text;
-        }
-
-        private void text_comment_TextChanged(object sender, EventArgs e)
-        {
-            moduleComment = comment.Text;
-        }
-
-        
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-            moduleName = name.Text;
-        }
-
-        private void comboBox_Type_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            moduleType = comboBox_Type.Text;
-        }
-
         //保存
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -118,35 +92,51 @@ namespace CloudMapUI
                 DataRow oRows = moduledata.Tables[ModuleData.MODULES_TABLE].Select(ModuleData.NAME_FIELD + "='" + selectModule + "'")[0];
                 ModuleData saveModule = new ModuleData();
                 DataRow dr = saveModule.Tables[ModuleData.MODULES_TABLE].NewRow();
-
-                dr[ModuleData.NAME_FIELD] = name.Text.Trim();
-                dr[ModuleData.TYPE_FIELD] = comboBox_Type.SelectedItem.ToString().Trim();
-                dr[ModuleData.LEVEL_FIELD] = comboBox_Level.SelectedItem.ToString().Trim();
-                dr[ModuleData.COMMENT_FIELD] = comment.Text.ToString().Trim();
-
-                saveModule.Tables[ModuleData.MODULES_TABLE].Rows.Add(dr);
-                if (ModulesOperator.UpdateModulesInfo(saveModule, selectModule))
+                if (IsFilled())
                 {
-                    ModuleEditForm_Load(sender, e);
-                    MessageBox.Show("修改成功！");
-                }
+                    dr[ModuleData.NAME_FIELD] = name.Text.Trim();
+                    dr[ModuleData.TYPE_FIELD] = comboBox_Type.SelectedItem.ToString().Trim();
+                    dr[ModuleData.LEVEL_FIELD] = comboBox_Level.SelectedItem.ToString().Trim();
+                    dr[ModuleData.COMMENT_FIELD] = comment.Text.ToString().Trim();
+
+                    saveModule.Tables[ModuleData.MODULES_TABLE].Rows.Add(dr);
+                    if (ModulesOperator.UpdateModulesInfo(saveModule, selectModule))
+                    {
+                        ModuleEditForm_Load(sender, e);
+                        MessageBox.Show("修改成功！");
+                    }
+                }                
             }
             else if (pageStatus == RecordStatus.Add)
             {
                 ModuleData saveModule = new ModuleData();
                 DataRow dr = saveModule.Tables[ModuleData.MODULES_TABLE].NewRow();
-
-                dr[ModuleData.NAME_FIELD] = name.Text.Trim();
-                dr[ModuleData.TYPE_FIELD] = comboBox_Type.SelectedItem.ToString().Trim();
-                dr[ModuleData.LEVEL_FIELD] = comboBox_Level.SelectedItem.ToString().Trim();
-                dr[ModuleData.COMMENT_FIELD] = comment.Text.ToString().Trim();
-
-                saveModule.Tables[ModuleData.MODULES_TABLE].Rows.Add(dr);
-                if (ModulesOperator.InsertModulesInfo(saveModule))
+                if (IsFilled())
                 {
-                    ModuleEditForm_Load(sender, e);
-                    MessageBox.Show("添加成功！");
-                }
+                    dr[ModuleData.NAME_FIELD] = name.Text.Trim();
+                    dr[ModuleData.TYPE_FIELD] = comboBox_Type.SelectedItem.ToString().Trim();
+                    dr[ModuleData.LEVEL_FIELD] = comboBox_Level.SelectedItem.ToString().Trim();
+                    dr[ModuleData.COMMENT_FIELD] = comment.Text.ToString().Trim();
+
+                    saveModule.Tables[ModuleData.MODULES_TABLE].Rows.Add(dr);
+                    if (ModulesOperator.InsertModulesInfo(saveModule))
+                    {
+                        ModuleEditForm_Load(sender, e);
+                        MessageBox.Show("添加成功！");
+                    }
+                }                
+            }
+        }
+
+        //判空
+        private bool IsFilled()
+        {
+            if (name.Text != "" && comboBox_Type.SelectedItem.ToString() != "" && comboBox_Level.SelectedItem.ToString() != "" && comment.Text != "")
+                return true;
+            else
+            {
+                MessageBox.Show("所有字段不能为空！");
+                return false;
             }
         }
 
@@ -169,6 +159,7 @@ namespace CloudMapUI
 
                 btnAdd.Visible = true;
                 btnSave.Visible = true;
+                btnCancel.Visible = false;
                 if (moduledata.Tables[ModuleData.MODULES_TABLE].Rows.Count > 0)
                 {
                     btnUpdate.Visible = true;
@@ -198,6 +189,7 @@ namespace CloudMapUI
                 btnAdd.Visible = false;
                 btnDelete.Visible = false;
                 btnSave.Visible = true;
+                btnCancel.Visible = true;
 
                 name.BackColor = Color.White;
                 comboBox_Type.BackColor = Color.White;
@@ -217,6 +209,7 @@ namespace CloudMapUI
                 btnAdd.Visible = false;
                 btnDelete.Visible = false;
                 btnSave.Visible = true;
+                btnCancel.Visible = true;
 
                 name.BackColor = Color.White;
                 comboBox_Type.BackColor = Color.White;
@@ -238,7 +231,6 @@ namespace CloudMapUI
                     type.Text = odr[ModuleData.TYPE_FIELD].ToString();
                     level.Text = odr[ModuleData.LEVEL_FIELD].ToString();
                     comment.Text = odr[ModuleData.COMMENT_FIELD].ToString();
-
                 }
                 else
                 {
@@ -253,20 +245,20 @@ namespace CloudMapUI
                 selectModule = dataGridView_module.CurrentCell.Value.ToString();
                 DataRow odr = moduledata.Tables[ModuleData.MODULES_TABLE].Select(ModuleData.NAME_FIELD + "='" + selectModule + "'")[0];
                 name.Text = odr[ModuleData.NAME_FIELD].ToString();
-                comboBox_Type.Text = odr[ModuleData.TYPE_FIELD].ToString();              
-                comboBox_Level.Text = odr[ModuleData.COMMENT_FIELD].ToString();
+                comboBox_Type.Text = odr[ModuleData.TYPE_FIELD].ToString();
+                comboBox_Level.Text = odr[ModuleData.LEVEL_FIELD].ToString();
+                comment.Text = odr[ModuleData.COMMENT_FIELD].ToString(); ;
             }
             else if (pageStatus == RecordStatus.Add)
             {
                 name.Text = "";
-                comboBox_Type.Text = "";
-                comboBox_Level.Text = "";
+                comboBox_Type.SelectedIndex=0;
+                comboBox_Level.SelectedIndex = 0 ;
                 comment.Text = "";
             }
         }
-
-
-
+        
+        //选中列表中的模块
         private void dataGridView_module_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             selectModule = dataGridView_module.CurrentCell.Value.ToString();
@@ -274,9 +266,18 @@ namespace CloudMapUI
             name.Text = odr[ModuleData.NAME_FIELD].ToString();
             type.Text = odr[ModuleData.TYPE_FIELD].ToString();
             level.Text = odr[ModuleData.LEVEL_FIELD].ToString();
+            comboBox_Type.Text = odr[ModuleData.TYPE_FIELD].ToString();
+            comboBox_Level.Text = odr[ModuleData.LEVEL_FIELD].ToString();
             comment.Text = odr[ModuleData.COMMENT_FIELD].ToString();
         }
-        
+
+        //取消按钮
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            pageStatus = RecordStatus.View;
+            SetFormControlerStatus();
+            SetFormControlerData();
+        }       
     }
 }
 

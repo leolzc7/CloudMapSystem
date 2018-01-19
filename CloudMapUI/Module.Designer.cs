@@ -32,6 +32,7 @@
             this.textBox_ProjectName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.level = new System.Windows.Forms.TextBox();
             this.type = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
@@ -84,6 +85,7 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.btnCancel);
             this.panel2.Controls.Add(this.level);
             this.panel2.Controls.Add(this.type);
             this.panel2.Controls.Add(this.btnSave);
@@ -103,16 +105,26 @@
             this.panel2.Size = new System.Drawing.Size(590, 328);
             this.panel2.TabIndex = 19;
             // 
+            // btnCancel
+            // 
+            this.btnCancel.Location = new System.Drawing.Point(357, 189);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(50, 24);
+            this.btnCancel.TabIndex = 35;
+            this.btnCancel.Text = "取消";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
             // level
             // 
-            this.level.Location = new System.Drawing.Point(333, 49);
+            this.level.Location = new System.Drawing.Point(333, 80);
             this.level.Name = "level";
             this.level.Size = new System.Drawing.Size(220, 21);
             this.level.TabIndex = 34;
             // 
             // type
             // 
-            this.type.Location = new System.Drawing.Point(333, 81);
+            this.type.Location = new System.Drawing.Point(333, 48);
             this.type.Name = "type";
             this.type.Size = new System.Drawing.Size(220, 21);
             this.type.TabIndex = 33;
@@ -144,6 +156,7 @@
             this.dataGridView_module.AllowUserToDeleteRows = false;
             this.dataGridView_module.AllowUserToResizeColumns = false;
             this.dataGridView_module.AllowUserToResizeRows = false;
+            this.dataGridView_module.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
             this.dataGridView_module.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_module.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1});
@@ -320,5 +333,6 @@
         private System.Windows.Forms.TextBox type;
         private System.Windows.Forms.TextBox level;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.Button btnCancel;
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace DrawLineRules
 {
+
     public class GridPoint
     {
         private int posx;
