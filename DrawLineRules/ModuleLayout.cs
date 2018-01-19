@@ -38,20 +38,20 @@ namespace DrawLineRules
         //        key = maxNumber + (-7 * x - y);
         //    return key;
         //}
-        //顺时针旋转
+        //顺时针旋转，先左后上
         public static int HelixNumber(int x, int y)
         {
             int layer = Math.Max(Math.Abs(x), Math.Abs(y));
             int maxNumber = (2 * layer + 1) * (2 * layer + 1);
             int key;
-            if (y == -layer)
-                key = maxNumber + y + x;
-            else if (x == -layer)
-                key = maxNumber + (3 * x - y);
-            else if (y == layer)
-                key = maxNumber + (-x - 5 * y);
+            if (y == layer)
+                key = maxNumber - y - x;
+            else if (x == layer)
+                key = maxNumber + (-3 * x + y);
+            else if (y == -layer)
+                key = maxNumber + (x + 5 * y);
             else
-                key = maxNumber + (-7 * x + y);
+                key = maxNumber + (7 * x - y);
             return key;
         }
         //给定层数，确定该层内所有值的对应，layer=1，有9个map；layer=2，有25个map，

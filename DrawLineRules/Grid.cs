@@ -78,6 +78,8 @@ namespace DrawLineRules
                 step_column[m] = ModuleOne.gapy / (rows[m] + 1);
                 step_row[m] = ModuleOne.gapx / (columns[m] + 1);
             }
+            step_column[0] = ModuleOne.gapy / (2*rows[0] + 1);
+            step_row[columns.Length-1] = ModuleOne.gapx / (2*columns[columns.Length-1] + 1);
             GridPoint start = null;
             GridPoint target = null;
             foreach (RelationOperator.relation relationOne in relation)
@@ -155,7 +157,7 @@ namespace DrawLineRules
                 case 8:
                     mi.addNumNorthOne();
                     mj.addNumSouthOne();
-                    rows[mi.getPosy() / ModuleOne.mody - 1] += 1;
+                    rows[mi.getPosy() / ModuleOne.mody] += 1;
                     break;
                 case 3:
                     mi.addNumEastOne();
@@ -165,7 +167,7 @@ namespace DrawLineRules
                 case 6:
                     mi.addNumSouthOne();
                     mj.addNumNorthOne();
-                    rows[mi.getPosy() / ModuleOne.mody] += 1;
+                    rows[mi.getPosy() / ModuleOne.mody+1] += 1;
                     break;
                 case 5:
                     mi.addNumSouthOne();
@@ -178,8 +180,8 @@ namespace DrawLineRules
                 case 9:
                     mi.addNumNorthOne();
                     mj.addNumSouthOne();
-                    rows[mi.getPosy() / ModuleOne.mody - 1] += 1;
-                    rows[mj.getPosy() / ModuleOne.mody] += 1;
+                    rows[mi.getPosy() / ModuleOne.mody] += 1;
+                    rows[mj.getPosy() / ModuleOne.mody+1] += 1;
                     columns[mi.getPosx() / ModuleOne.modx - 1] += 1;
                     break;
                 case 10:
@@ -191,28 +193,28 @@ namespace DrawLineRules
                 case 11:
                     mi.addNumNorthOne();
                     mj.addNumSouthOne();
-                    rows[mi.getPosy() / ModuleOne.mody - 1] += 1;
-                    rows[mj.getPosy() / ModuleOne.mody] += 1;
+                    rows[mi.getPosy() / ModuleOne.mody] += 1;
+                    rows[mj.getPosy() / ModuleOne.mody+1] += 1;
                     columns[mi.getPosx() / ModuleOne.modx] += 1;
                     break;
                 case 12:
                 case 16:
                     mi.addNumNorthOne();
                     mj.addNumNorthOne();
-                    rows[mi.getPosy() / ModuleOne.mody - 1] += 1;
+                    rows[mi.getPosy() / ModuleOne.mody] += 1;
                     break;
                 case 13:
                     mi.addNumSouthOne();
                     mj.addNumNorthOne();
-                    rows[mi.getPosy() / ModuleOne.mody] += 1;
-                    rows[mj.getPosy() / ModuleOne.mody - 1] += 1;
+                    rows[mi.getPosy() / ModuleOne.mody+1] += 1;
+                    rows[mj.getPosy() / ModuleOne.mody ] += 1;
                     columns[mi.getPosx() / ModuleOne.modx] += 1;
                     break;
                 case 15:
                     mi.addNumSouthOne();
                     mj.addNumNorthOne();
-                    rows[mi.getPosy() / ModuleOne.mody] += 1;
-                    rows[mj.getPosy() / ModuleOne.mody - 1] += 1;
+                    rows[mi.getPosy() / ModuleOne.mody+1] += 1;
+                    rows[mj.getPosy() / ModuleOne.mody] += 1;
                     columns[mi.getPosx() / ModuleOne.modx - 1] += 1;
                     break;
                 default:
@@ -249,7 +251,7 @@ namespace DrawLineRules
                         break;
                     case 2:
                     case 8:
-                        y = start.getPosy() / ModuleOne.mody - 1;
+                        y = start.getPosy() / ModuleOne.mody;
                         trace[1] = start.northStepVertex(r[y], step_column[y]);
                         r[y] += 1;
                         delta_x = target.getPosx() - start.getPosx();
@@ -258,7 +260,7 @@ namespace DrawLineRules
                         break;
                     case 4:
                     case 6:
-                        y = start.getPosy() / ModuleOne.mody;
+                        y = start.getPosy() / ModuleOne.mody+1;
                         trace[1] = start.southStepVertex(r[y], step_column[y]);
                         r[y] += 1;
                         delta_x = target.getPosx() - start.getPosx();
@@ -266,14 +268,14 @@ namespace DrawLineRules
                         trace[3] = target;
                         break;
                     case 9:
-                        y = start.getPosy() / ModuleOne.mody - 1;
+                        y = start.getPosy() / ModuleOne.mody;
                         trace[1] = start.northStepVertex(r[y], step_column[y]);
                         r[y] += 1;
                         x = start.getPosx() / ModuleOne.modx - 1;
                         trace[2] = trace[1].goWestStepVertex(mi, c[x], step_row[x]);
                         c[x] += 1;
                         trace[5] = target;
-                        y = target.getPosy() / ModuleOne.mody;
+                        y = target.getPosy() / ModuleOne.mody+1;
                         trace[4] = trace[5].southStepVertex(r[y], step_column[y]);
                         r[y] += 1;
                         delta_y = trace[2].getPosy() - trace[4].getPosy();
@@ -289,14 +291,14 @@ namespace DrawLineRules
                         trace[3] = target;
                         break;
                     case 11:
-                        y = start.getPosy() / ModuleOne.mody - 1;
+                        y = start.getPosy() / ModuleOne.mody;
                         trace[1] = start.northStepVertex(r[y], step_column[y]);
                         r[y] += 1;
                         x = start.getPosx() / ModuleOne.modx;
                         trace[2] = trace[1].goEastStepVertex(mi, c[x], step_row[x]);
                         c[x] += 1;
                         trace[5] = target;
-                        y = target.getPosy() / ModuleOne.mody;
+                        y = target.getPosy() / ModuleOne.mody+1;
                         trace[4] = trace[5].southStepVertex(r[y], step_column[y]);
                         r[y] += 1;
                         delta_y = trace[2].getPosy() - trace[4].getPosy();
@@ -304,7 +306,7 @@ namespace DrawLineRules
                         break;
                     case 12:
                     case 16:
-                        y = start.getPosy() / ModuleOne.mody - 1;
+                        y = start.getPosy() / ModuleOne.mody;
                         trace[1] = start.northStepVertex(r[y], step_column[y]);
                         r[y] += 1;
                         delta_x = target.getPosx() - start.getPosx();
@@ -312,28 +314,28 @@ namespace DrawLineRules
                         trace[3] = target;
                         break;
                     case 13:
-                        y = start.getPosy() / ModuleOne.mody;
+                        y = start.getPosy() / ModuleOne.mody+1;
                         trace[1] = start.southStepVertex(r[y], step_column[y]);
                         r[y] += 1;
                         x = start.getPosx() / ModuleOne.modx;
                         trace[2] = trace[1].goEastStepVertex(mi, c[x], step_row[x]);
                         c[x] += 1;
                         trace[5] = target;
-                        y = target.getPosy() / ModuleOne.mody - 1;
+                        y = target.getPosy() / ModuleOne.mody;
                         trace[4] = trace[5].northStepVertex(r[y], step_column[y]);
                         r[y] += 1;
                         delta_y = trace[2].getPosy() - trace[4].getPosy();
                         trace[3] = trace[2].verticalStepVertex(delta_y);
                         break;
                     case 15:
-                        y = start.getPosy() / ModuleOne.mody;
+                        y = start.getPosy() / ModuleOne.mody+1;
                         trace[1] = start.southStepVertex(r[y], step_column[y]);
                         r[y] += 1;
                         x = start.getPosx() / ModuleOne.modx - 1;
                         trace[2] = trace[1].goWestStepVertex(mi, c[x], step_row[x]);
                         c[x] += 1;
                         trace[5] = target;
-                        y = target.getPosy() / ModuleOne.mody - 1;
+                        y = target.getPosy() / ModuleOne.mody;
                         trace[4] = trace[5].northStepVertex(r[y], step_column[y]);
                         r[y] += 1;
                         delta_y = trace[2].getPosy() - trace[4].getPosy();
