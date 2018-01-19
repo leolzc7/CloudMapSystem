@@ -84,7 +84,6 @@ namespace CloudMapUI
         private void MainForm_Load(object sender, EventArgs e)
         {
             mainFormStatus();
-            
             panelWidth = panel4.Size.Width;
             panelHeight = panel4.Size.Height;
             AddHistoryItem();
@@ -397,6 +396,7 @@ namespace CloudMapUI
             Graphics g1 = panel4.CreateGraphics();
             Pen boderpen = new Pen(BorderColor.Color, 1);//模块边框画笔
             List<Module> modPosition = new List<Module>();
+
             if (comboBox_level.Text != null && comboBox_level.Text != "")
             {
                 switch (comboBox_level.Text)
@@ -498,6 +498,7 @@ namespace CloudMapUI
             else
             {
                 line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 3);
+                comboBox_level.SelectedIndex = 2;
             }
             
             //Pen linePen = new Pen(Color.Black, 1);
@@ -676,7 +677,7 @@ namespace CloudMapUI
 
         private void comboBox_level_SelectedIndexChanged(object sender, EventArgs e)
         {
-            btn_generateMap_Click(sender, e);
+            //btn_generateMap_Click(sender, e);
         }
     }
 }

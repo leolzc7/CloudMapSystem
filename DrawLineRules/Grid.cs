@@ -52,7 +52,7 @@ namespace DrawLineRules
             int len = modulesList.Count;
             ModuleOne[] modules = new ModuleOne[len-2];
             ///////////////////the first line and second line///////////////////      
-            level = Convert.ToInt32(modulesList[0].moduleName);
+            //level = Convert.ToInt32(modulesList[0].moduleName);
             ModuleOne.setWidth(Convert.ToInt32(modulesList[0].x));
             ModuleOne.setHeight(Convert.ToInt32(modulesList[0].y));
             ModuleOne.modx = Convert.ToInt32(modulesList[1].x);
