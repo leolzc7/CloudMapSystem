@@ -859,7 +859,7 @@
             // 
             // tabPage_module
             // 
-            this.tabPage_module.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.tabPage_module.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.tabPage_module.Controls.Add(this.dataGridView_module);
             this.tabPage_module.Location = new System.Drawing.Point(4, 4);
             this.tabPage_module.Name = "tabPage_module";
@@ -897,6 +897,7 @@
             // 
             // tabPage_relation
             // 
+            this.tabPage_relation.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.tabPage_relation.Controls.Add(this.dataGridView_relation);
             this.tabPage_relation.Location = new System.Drawing.Point(4, 4);
             this.tabPage_relation.Name = "tabPage_relation";
@@ -904,7 +905,6 @@
             this.tabPage_relation.Size = new System.Drawing.Size(192, 460);
             this.tabPage_relation.TabIndex = 1;
             this.tabPage_relation.Text = "关系";
-            this.tabPage_relation.UseVisualStyleBackColor = true;
             // 
             // dataGridView_relation
             // 
