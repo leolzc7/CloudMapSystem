@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DrawLineRules
 {
-
+    //设置画线搜索时每个格点的属性和方法
     public class GridPoint
     {
         private int posx;
