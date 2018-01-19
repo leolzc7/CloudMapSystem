@@ -21,6 +21,22 @@ namespace DataAccess
             command.Fill(data.Tables[RelationData.RELATION_TABLE]);
             return data;
         }
+        private static bool CheckDuplication(RelationData relation)
+        {
+            DataRow data = relation.Tables[RelationData.RELATION_TABLE].Rows[0];
+            string nameSource = "'" + data[RelationData.SOURCENAME_FIELD ] + "'";
+            string nameTarget = "'" + data[RelationData.TARGETNAME_FIELD] + "'";
+            string cmdCheck = "SELECT count(*) FROM relation WHERE sourceName = " + nameSource + " and targetName =  " + nameTarget;
+            SQLiteDataReader reader = ExecuteReaderSql(cmdCheck);
+            while (reader.Read())
+            {
+                if (reader.GetInt32(0) == 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         public static RelationData GetRelationInfoForDiffLevel(ModulesOperator.modulesName modulesName,int level)
         {
             RelationData relationdata = LoadRelationInfo();
@@ -59,6 +75,9 @@ namespace DataAccess
         }//不同的等级的关系虚拟表Dataset
         public static bool InsertRelationInfo(RelationData relation)
         {
+            bool check = CheckDuplication(relation);
+            if (!check)
+                return false;
             string insertCommand = GetInsertCommand(relation);
             SystemOperator.ExecuteSql(insertCommand);
             if (relation.HasErrors)
@@ -87,6 +106,9 @@ namespace DataAccess
         }
         public static bool UpdateRelationInfo(RelationData relation, string selectSource, string selectTarget)
         {
+            bool check = CheckDuplication(relation);
+            if (!check)
+                return false;
             string updateCommand = GetUpdateCommand(relation, selectSource, selectTarget);
             SystemOperator.ExecuteSql(updateCommand);
             if (relation.HasErrors)

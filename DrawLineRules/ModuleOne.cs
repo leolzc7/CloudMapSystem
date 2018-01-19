@@ -249,8 +249,8 @@ namespace DrawLineRules
             //{
             //    num_par = (int)num_partition;
             //}
-            int layer = (int)(Math.Ceiling(Math.Sqrt(modules.Length)) / 2);
-            num_par = 2 * layer;
+            int layer = (int)(Math.Ceiling(Math.Sqrt(modules.Length)) / 1);
+            num_par = layer;
             LineInfo[] allLine = new LineInfo[1000];
             int[] rows = new int[num_par];
             int[] columns = new int[num_par];

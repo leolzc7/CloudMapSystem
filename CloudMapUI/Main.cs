@@ -126,9 +126,6 @@ namespace CloudMapUI
 
         }
 
-        
-
-
         private void NToolStripMenuItem_newProject_Click(object sender, EventArgs e)
         {
             NewProjectForm newProjrctFrom = new NewProjectForm(this);
@@ -145,7 +142,7 @@ namespace CloudMapUI
         private void ToolStripMenuItem_OpenProject_Click(object sender, EventArgs e)
         {   
             openFileDialog_OpenProject.ShowDialog();
-            SystemOperator.OpenProject(openFileDialog_OpenProject.FileName,true);
+            SystemOperator.OpenProject(openFileDialog_OpenProject.FileName, true);
             mainFormStatus();
         }
 
@@ -175,6 +172,7 @@ namespace CloudMapUI
         private void 保存云图ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             saveFileDialog_saveImage.ShowDialog();
+            SaveFileToImage(saveFileDialog_saveImage.FileName);
         }
 
         private void ToolStripMenuItem_Print_Click(object sender, EventArgs e)
@@ -498,6 +496,7 @@ namespace CloudMapUI
             else
             {
                 line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 3);
+                comboBox_level.SelectedIndex = 2;
             }
             
             //Pen linePen = new Pen(Color.Black, 1);
@@ -676,7 +675,7 @@ namespace CloudMapUI
 
         private void comboBox_level_SelectedIndexChanged(object sender, EventArgs e)
         {
-            btn_generateMap_Click(sender, e);
+            //btn_generateMap_Click(sender, e);
         }
     }
 }

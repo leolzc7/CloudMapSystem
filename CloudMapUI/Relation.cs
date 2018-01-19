@@ -288,6 +288,10 @@ namespace CloudMapUI
                         RelationEditForm_Load(sender, e);
                         MessageBox.Show("修改成功！");
                     }
+                    else
+                    {
+                        MessageBox.Show("该记录已存在！");
+                    }
                 }                
             }
             else if (pageStatus == RecordStatus.Add)
@@ -311,6 +315,10 @@ namespace CloudMapUI
                     {
                         RelationEditForm_Load(sender, e);
                         MessageBox.Show("添加成功！");
+                    }
+                    else
+                    {
+                        MessageBox.Show("该记录已存在！");
                     }
                 }               
             }

@@ -144,20 +144,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
-      <Project>{63149605-7e38-4e35-84e2-8d3a76f902c7}</Project>
-      <Name>DataAccess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Data\Data.csproj">
-      <Project>{97978d3d-3265-469f-b969-894f09d2dd0d}</Project>
-      <Name>Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DrawLineRules\DrawLineRules.csproj">
-      <Project>{2ba28c27-e377-40d6-a587-03918df3296d}</Project>
-      <Name>DrawLineRules</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="icons\1192268.gif" />
     <Content Include="icons\add_project.gif" />
     <Content Include="icons\BlueSmoke256.png" />
@@ -182,6 +168,20 @@
     <Content Include="icons\setting.gif" />
     <Content Include="icons\帮助.png" />
     <Content Include="icons\退出.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
+      <Project>{63149605-7e38-4e35-84e2-8d3a76f902c7}</Project>
+      <Name>DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Data\Data.csproj">
+      <Project>{97978d3d-3265-469f-b969-894f09d2dd0d}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DrawLineRules\DrawLineRules.csproj">
+      <Project>{2ba28c27-e377-40d6-a587-03918df3296d}</Project>
+      <Name>DrawLineRules</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
