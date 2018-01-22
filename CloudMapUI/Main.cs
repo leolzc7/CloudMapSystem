@@ -88,6 +88,7 @@ namespace CloudMapUI
             panelWidth = panel4.Size.Width;
             panelHeight = panel4.Size.Height;
             AddHistoryItem();
+
         }
         private void AddHistoryItem()
         {
@@ -266,13 +267,13 @@ namespace CloudMapUI
 
         private void ToolStripMenuItem_About_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("可视化系统之间的关系", "关于云图", MessageBoxButtons.OK,
+            MessageBox.Show("可视化系统之间的自动布线工具！", "关于云图", MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
         }
          
         private void 帮助ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(" 使用方式同记事本 ", "使用帮助", MessageBoxButtons.OK,
+            MessageBox.Show("SOS NOT FOUND 404！", "HELP", MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
         }
 
@@ -415,26 +416,26 @@ namespace CloudMapUI
                 modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height);
             }
             int NumCount = modPosition.Count;
-            TextBox[] textBox = new TextBox[NumCount];
+            Button[] textBox = new Button[NumCount];
 
             for (int i = 2; i < NumCount; i++)
             {
-                g1.DrawRectangle(boderpen, modPosition[i].x - 1, modPosition[i].y - 1, modPosition[0].x + 1, modPosition[0].y + 1);
-                textBox[i] = new TextBox();
+                //g1.DrawRectangle(boderpen, modPosition[i].x - 1, modPosition[i].y - 1, modPosition[0].x + 1, modPosition[0].y + 1);
+                textBox[i] = new Button();
                 textBox[i].BackColor = ModuleColor.Color;
                 //textBox[i].BackColor = Color.Purple;
                 textBox[i].Font = fontDialog1.Font;
                 textBox[i].Size = new System.Drawing.Size(modPosition[0].x, modPosition[0].y);
                 textBox[i].Location = new Point(modPosition[i].x, modPosition[i].y);
-                textBox[i].Text = "\r\n" + modPosition[i].moduleName;//显示文字
-                textBox[i].TextAlign = HorizontalAlignment.Center;//居中显示，目前只能水平居中不能垂直居中。
+                textBox[i].Text = modPosition[i].moduleName;//显示文字
+                //textBox[i].TextAlign = ContentAlignment.BottomCenter;//居中显示，目前只能水平居中不能垂直居中。
                 //textBox[i].SelectionAlignment = HorizontalAlignment.Center;//居中显示，目前只能水平居中不能垂直居中。
-                textBox[i].ReadOnly = true;//只读
-
-                textBox[i].BorderStyle = BorderStyle.None;
+                //textBox[i].ReadOnly = true;//只读
+panel4.Controls.Add(textBox[i]);
+                //textBox[i].BorderStyle = BorderStyle.None;
                 textBox[i].Click += new EventHandler(this.TextBox_Click);
-                textBox[i].Multiline = true;
-                panel4.Controls.Add(textBox[i]);
+                //textBox[i].Multiline = true;
+                
             }
             return modPosition;
         }
@@ -442,16 +443,18 @@ namespace CloudMapUI
         {
 
             Control.ControlCollection Cons = panel4.Controls;
-            TextBox select = (TextBox)sender;
+            Button select = (Button)sender;
             //TextBox temp = new TextBox();
             //temp = select;
             //select.Visible = false;
-            btn_generateMap_Click(sender, e);
-            select.BackColor = Color.Purple;
+            //btn_generateMap_Click(sender, e);
             foreach (Control con in Cons)
             {
+                if (con is Button)
+                    con.BackColor = ModuleColor.Color;
                 if (con is ALine)
                 {//判断位置，是否在模块位置左、上、右、下相连。
+                    ((ALine)con).Pencolor = Color.Black;
                     if (
                         ((con.Location.X + con.Size.Width == select.Location.X + 1) && (con.Location.Y + con.Size.Height > select.Location.Y) && (con.Location.Y < select.Location.Y + select.Size.Height)) ||
                         ((con.Location.Y + con.Size.Height == select.Location.Y + 1) && (con.Location.X + con.Size.Width > select.Location.X) && (con.Location.X < select.Location.X + select.Size.Width)) ||
@@ -473,6 +476,8 @@ namespace CloudMapUI
                     }
                 }
             }
+            select.BackColor = Color.LightYellow;
+           
         }
         public void DrawModuleAndLines()
         {
@@ -618,7 +623,7 @@ namespace CloudMapUI
 
         private void ToolStripMenuItem_Level1_Click(object sender, EventArgs e)
         {
-
+            comboBox_level.SelectedIndex = 0;
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
@@ -676,6 +681,26 @@ namespace CloudMapUI
         private void comboBox_level_SelectedIndexChanged(object sender, EventArgs e)
         {
             //btn_generateMap_Click(sender, e);
+        }
+
+        private void ToolStripMenuItem_Refresh_Click(object sender, EventArgs e)
+        {
+            btn_generateMap_Click(sender, e);
+        }
+
+        private void ToolStripMenuItem_level2_Click(object sender, EventArgs e)
+        {
+            comboBox_level.SelectedIndex = 1;
+        }
+
+        private void ToolStripMenuItem_Level3_Click(object sender, EventArgs e)
+        {
+            comboBox_level.SelectedIndex = 2;
+        }
+
+        private void statusStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
         }
     }
 }

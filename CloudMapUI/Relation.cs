@@ -48,6 +48,9 @@ namespace CloudMapUI
             pageStatus = RecordStatus.View;
             SetFormControlerStatus();
             SetFormControlerData();
+
+            //dataGridView_relation.AlternatingRowsDefaultCellStyle.BackColor = Color.Beige;
+            //dataGridView_relation.RowsDefaultCellStyle.BackColor = Color.Bisque;
         }
 
         //设置控件状态
@@ -55,7 +58,7 @@ namespace CloudMapUI
         {
             textBox_ProjectName.Text = globalParameters.dbName;
             textBox_ProjectName.ReadOnly = true;
-            textBox_ProjectName.BackColor = Color.Gainsboro;
+            //textBox_ProjectName.BackColor = Color.Gainsboro;
             if (pageStatus == RecordStatus.View)
             {
                 name.ReadOnly = true;
@@ -81,11 +84,11 @@ namespace CloudMapUI
                     btnDelete.Visible = false;
                 }
 
-                name.BackColor = Color.Gainsboro;
-                source.BackColor = Color.Gainsboro;
-                target.BackColor = Color.Gainsboro;
-                type.BackColor = Color.Gainsboro;
-                comment.BackColor = Color.Gainsboro;
+                //name.BackColor = Color.Gainsboro;
+                //source.BackColor = Color.Gainsboro;
+                //target.BackColor = Color.Gainsboro;
+                //type.BackColor = Color.Gainsboro;
+                //comment.BackColor = Color.Gainsboro;
             }
             else if (pageStatus == RecordStatus.Edit)
             {
@@ -389,6 +392,16 @@ namespace CloudMapUI
             pageStatus = RecordStatus.View;
             SetFormControlerStatus();
             SetFormControlerData();
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+
         }
 
     }

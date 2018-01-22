@@ -93,11 +93,11 @@
     <Compile Include="Relation.Designer.cs">
       <DependentUpon>Relation.cs</DependentUpon>
     </Compile>
-    <Compile Include="SelectItem.cs">
+    <Compile Include="Stream.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SelectItem.Designer.cs">
-      <DependentUpon>SelectItem.cs</DependentUpon>
+    <Compile Include="Stream.Designer.cs">
+      <DependentUpon>Stream.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="DisplayScale.resx">
       <DependentUpon>DisplayScale.cs</DependentUpon>
@@ -127,8 +127,8 @@
     <EmbeddedResource Include="Relation.resx">
       <DependentUpon>Relation.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SelectItem.resx">
-      <DependentUpon>SelectItem.cs</DependentUpon>
+    <EmbeddedResource Include="Stream.resx">
+      <DependentUpon>Stream.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

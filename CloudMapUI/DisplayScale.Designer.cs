@@ -150,6 +150,7 @@
             // DisplayScaleForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.ClientSize = new System.Drawing.Size(280, 229);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.numericUpDown_DisplayScale);

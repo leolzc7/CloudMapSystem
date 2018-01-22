@@ -41,15 +41,16 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(33, 27);
+            this.label1.Location = new System.Drawing.Point(20, 27);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(53, 12);
             this.label1.TabIndex = 0;
             this.label1.Text = "项目名称";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(92, 24);
+            this.textBox1.Location = new System.Drawing.Point(79, 24);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(150, 21);
             this.textBox1.TabIndex = 1;
@@ -58,7 +59,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(57, 64);
+            this.label2.Location = new System.Drawing.Point(44, 61);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(29, 12);
             this.label2.TabIndex = 2;
@@ -66,7 +67,7 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(91, 55);
+            this.textBox2.Location = new System.Drawing.Point(79, 57);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(151, 21);
             this.textBox2.TabIndex = 3;
@@ -74,38 +75,45 @@
             // 
             // btnFolderBrowser
             // 
-            this.btnFolderBrowser.Location = new System.Drawing.Point(272, 56);
+            this.btnFolderBrowser.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(211)))), ((int)(((byte)(233)))));
+            this.btnFolderBrowser.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnFolderBrowser.Location = new System.Drawing.Point(235, 57);
             this.btnFolderBrowser.Name = "btnFolderBrowser";
-            this.btnFolderBrowser.Size = new System.Drawing.Size(50, 24);
+            this.btnFolderBrowser.Size = new System.Drawing.Size(42, 21);
             this.btnFolderBrowser.TabIndex = 4;
             this.btnFolderBrowser.Text = "浏览";
-            this.btnFolderBrowser.UseVisualStyleBackColor = true;
+            this.btnFolderBrowser.UseVisualStyleBackColor = false;
             this.btnFolderBrowser.Click += new System.EventHandler(this.btnFolderBrowser_Click);
             // 
             // btnNewProjectSure
             // 
-            this.btnNewProjectSure.Location = new System.Drawing.Point(92, 99);
+            this.btnNewProjectSure.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(211)))), ((int)(((byte)(233)))));
+            this.btnNewProjectSure.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNewProjectSure.Location = new System.Drawing.Point(79, 90);
             this.btnNewProjectSure.Name = "btnNewProjectSure";
             this.btnNewProjectSure.Size = new System.Drawing.Size(50, 24);
             this.btnNewProjectSure.TabIndex = 5;
             this.btnNewProjectSure.Text = "确定";
-            this.btnNewProjectSure.UseVisualStyleBackColor = true;
+            this.btnNewProjectSure.UseVisualStyleBackColor = false;
             this.btnNewProjectSure.Click += new System.EventHandler(this.btnNewProjectSure_Click);
             // 
             // btnNewProjectCancel
             // 
-            this.btnNewProjectCancel.Location = new System.Drawing.Point(171, 99);
+            this.btnNewProjectCancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(211)))), ((int)(((byte)(233)))));
+            this.btnNewProjectCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNewProjectCancel.Location = new System.Drawing.Point(151, 90);
             this.btnNewProjectCancel.Name = "btnNewProjectCancel";
             this.btnNewProjectCancel.Size = new System.Drawing.Size(50, 24);
             this.btnNewProjectCancel.TabIndex = 6;
             this.btnNewProjectCancel.Text = "取消";
-            this.btnNewProjectCancel.UseVisualStyleBackColor = true;
+            this.btnNewProjectCancel.UseVisualStyleBackColor = false;
             // 
             // NewProjectForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(347, 137);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
+            this.ClientSize = new System.Drawing.Size(296, 137);
             this.Controls.Add(this.btnNewProjectCancel);
             this.Controls.Add(this.btnNewProjectSure);
             this.Controls.Add(this.btnFolderBrowser);

@@ -83,30 +83,30 @@ namespace CloudMapUI
 
         private void selectedAll_CheckedChanged(object sender, EventArgs e)
         {
-            if(selectedAllModules.Checked == true)
-            {
-                for (int j = 0; j < checkedListBox_Module.Items.Count; j++)
-                    checkedListBox_Module.SetItemChecked(j, true);
-            }
-            else
-            {
-                for (int j = 0; j < checkedListBox_Module.Items.Count; j++)
-                    checkedListBox_Module.SetItemChecked(j, false);
-            }
+            //if(selectedAllModules.Checked == true)
+            //{
+            //    for (int j = 0; j < checkedListBox_Module.Items.Count; j++)
+            //        checkedListBox_Module.SetItemChecked(j, true);
+            //}
+            //else
+            //{
+            //    for (int j = 0; j < checkedListBox_Module.Items.Count; j++)
+            //        checkedListBox_Module.SetItemChecked(j, false);
+            //}
         }
 
         private void selectedAllRelation_CheckedChanged(object sender, EventArgs e)
         {
-            if(selectedAllRelation.Checked == true)
-            {
-                for (int j = 0; j < checkedListBox_Relation.Items.Count; j++)
-                    checkedListBox_Relation.SetItemChecked(j, true);
-            }
-            else
-            {
-                for (int j = 0; j < checkedListBox_Relation.Items.Count; j++)
-                    checkedListBox_Relation.SetItemChecked(j, false);
-            }
+            //if(selectedAllRelation.Checked == true)
+            //{
+            //    for (int j = 0; j < checkedListBox_Relation.Items.Count; j++)
+            //        checkedListBox_Relation.SetItemChecked(j, true);
+            //}
+            //else
+            //{
+            //    for (int j = 0; j < checkedListBox_Relation.Items.Count; j++)
+            //        checkedListBox_Relation.SetItemChecked(j, false);
+            //}
         }
 
         private void panel4_Paint(object sender, PaintEventArgs e)

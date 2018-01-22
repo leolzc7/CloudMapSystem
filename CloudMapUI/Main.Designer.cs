@@ -29,6 +29,10 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.ToolStripMenuItem_File = new System.Windows.Forms.ToolStripMenuItem();
             this.NToolStripMenuItem_newProject = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -102,8 +106,9 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel4 = new System.Windows.Forms.Panel();
+            this.panel5 = new System.Windows.Forms.Panel();
             this.trackBar_displaySacle = new System.Windows.Forms.TrackBar();
+            this.panel4 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.btn_generateMap = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -117,12 +122,14 @@
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.saveFileDialog_saveImage = new System.Windows.Forms.SaveFileDialog();
             this.ModuleColor = new System.Windows.Forms.ColorDialog();
+            this.label2 = new System.Windows.Forms.Label();
+            this.comboBox_type = new System.Windows.Forms.ComboBox();
             this.menuStrip2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.panel4.SuspendLayout();
+            this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_displaySacle)).BeginInit();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -303,12 +310,14 @@
             this.ToolStripMenuItem_level2.Name = "ToolStripMenuItem_level2";
             this.ToolStripMenuItem_level2.Size = new System.Drawing.Size(100, 22);
             this.ToolStripMenuItem_level2.Text = "二级";
+            this.ToolStripMenuItem_level2.Click += new System.EventHandler(this.ToolStripMenuItem_level2_Click);
             // 
             // ToolStripMenuItem_Level3
             // 
             this.ToolStripMenuItem_Level3.Name = "ToolStripMenuItem_Level3";
             this.ToolStripMenuItem_Level3.Size = new System.Drawing.Size(100, 22);
             this.ToolStripMenuItem_Level3.Text = "三级";
+            this.ToolStripMenuItem_Level3.Click += new System.EventHandler(this.ToolStripMenuItem_Level3_Click);
             // 
             // ToolStripMenuItem_Refresh
             // 
@@ -316,6 +325,7 @@
             this.ToolStripMenuItem_Refresh.ShortcutKeys = System.Windows.Forms.Keys.F5;
             this.ToolStripMenuItem_Refresh.Size = new System.Drawing.Size(142, 22);
             this.ToolStripMenuItem_Refresh.Text = "刷新(&F5)";
+            this.ToolStripMenuItem_Refresh.Click += new System.EventHandler(this.ToolStripMenuItem_Refresh_Click);
             // 
             // ToolStripMenuItem_DisplayScale
             // 
@@ -421,6 +431,7 @@
             // 
             // menuStrip2
             // 
+            this.menuStrip2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.menuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_File,
             this.ToolStripMenuItem_Item,
@@ -472,6 +483,7 @@
             // 
             // toolStrip1
             // 
+            this.toolStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton_openProject,
@@ -738,7 +750,7 @@
             // 
             // statusStrip1
             // 
-            this.statusStrip1.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.statusStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 554);
@@ -746,6 +758,7 @@
             this.statusStrip1.Size = new System.Drawing.Size(835, 22);
             this.statusStrip1.TabIndex = 7;
             this.statusStrip1.Text = "statusStrip1";
+            this.statusStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.statusStrip1_ItemClicked);
             // 
             // toolStripStatusLabel1
             // 
@@ -767,6 +780,7 @@
             // panel1
             // 
             this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.panel5);
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(200, 43);
@@ -774,11 +788,33 @@
             this.panel1.Size = new System.Drawing.Size(635, 443);
             this.panel1.TabIndex = 9;
             // 
+            // panel5
+            // 
+            this.panel5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
+            this.panel5.Controls.Add(this.trackBar_displaySacle);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel5.Location = new System.Drawing.Point(580, 0);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(55, 443);
+            this.panel5.TabIndex = 1;
+            // 
+            // trackBar_displaySacle
+            // 
+            this.trackBar_displaySacle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.trackBar_displaySacle.Cursor = System.Windows.Forms.Cursors.HSplit;
+            this.trackBar_displaySacle.Location = new System.Drawing.Point(7, 3);
+            this.trackBar_displaySacle.Maximum = 800;
+            this.trackBar_displaySacle.Minimum = 50;
+            this.trackBar_displaySacle.Name = "trackBar_displaySacle";
+            this.trackBar_displaySacle.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.trackBar_displaySacle.Size = new System.Drawing.Size(45, 180);
+            this.trackBar_displaySacle.TabIndex = 1;
+            this.trackBar_displaySacle.Value = 100;
+            // 
             // panel4
             // 
             this.panel4.AutoScroll = true;
-            this.panel4.BackColor = System.Drawing.Color.Transparent;
-            this.panel4.Controls.Add(this.trackBar_displaySacle);
+            this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(0, 0);
             this.panel4.Name = "panel4";
@@ -786,21 +822,11 @@
             this.panel4.TabIndex = 0;
             this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.panel4_Paint);
             // 
-            // trackBar_displaySacle
-            // 
-            this.trackBar_displaySacle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.trackBar_displaySacle.Cursor = System.Windows.Forms.Cursors.HSplit;
-            this.trackBar_displaySacle.Location = new System.Drawing.Point(578, 6);
-            this.trackBar_displaySacle.Maximum = 800;
-            this.trackBar_displaySacle.Minimum = 50;
-            this.trackBar_displaySacle.Name = "trackBar_displaySacle";
-            this.trackBar_displaySacle.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_displaySacle.Size = new System.Drawing.Size(45, 180);
-            this.trackBar_displaySacle.TabIndex = 0;
-            this.trackBar_displaySacle.Value = 100;
-            // 
             // panel2
             // 
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
+            this.panel2.Controls.Add(this.label2);
+            this.panel2.Controls.Add(this.comboBox_type);
             this.panel2.Controls.Add(this.btn_generateMap);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.comboBox_level);
@@ -813,33 +839,35 @@
             // 
             // btn_generateMap
             // 
-            this.btn_generateMap.Location = new System.Drawing.Point(239, 10);
+            this.btn_generateMap.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(211)))), ((int)(((byte)(233)))));
+            this.btn_generateMap.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_generateMap.Location = new System.Drawing.Point(506, 9);
             this.btn_generateMap.Name = "btn_generateMap";
             this.btn_generateMap.Size = new System.Drawing.Size(68, 24);
             this.btn_generateMap.TabIndex = 2;
             this.btn_generateMap.Text = "生成云图";
-            this.btn_generateMap.UseVisualStyleBackColor = true;
+            this.btn_generateMap.UseVisualStyleBackColor = false;
             this.btn_generateMap.Click += new System.EventHandler(this.btn_generateMap_Click);
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 16);
+            this.label1.Location = new System.Drawing.Point(15, 11);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 12);
+            this.label1.Size = new System.Drawing.Size(53, 20);
             this.label1.TabIndex = 1;
             this.label1.Text = "系统等级";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // comboBox_level
             // 
-            this.comboBox_level.BackColor = System.Drawing.SystemColors.Window;
+            this.comboBox_level.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.comboBox_level.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_level.FormattingEnabled = true;
             this.comboBox_level.Items.AddRange(new object[] {
             "一级",
             "二级",
             "三级"});
-            this.comboBox_level.Location = new System.Drawing.Point(74, 13);
+            this.comboBox_level.Location = new System.Drawing.Point(74, 11);
             this.comboBox_level.Name = "comboBox_level";
             this.comboBox_level.Size = new System.Drawing.Size(121, 20);
             this.comboBox_level.TabIndex = 0;
@@ -874,7 +902,10 @@
             this.dataGridView_module.AllowUserToDeleteRows = false;
             this.dataGridView_module.AllowUserToResizeColumns = false;
             this.dataGridView_module.AllowUserToResizeRows = false;
-            this.dataGridView_module.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
+            this.dataGridView_module.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridView_module.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.dataGridView_module.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_module.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1});
@@ -883,6 +914,9 @@
             this.dataGridView_module.Name = "dataGridView_module";
             this.dataGridView_module.ReadOnly = true;
             this.dataGridView_module.RowHeadersVisible = false;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(238)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
+            this.dataGridView_module.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView_module.RowTemplate.Height = 23;
             this.dataGridView_module.Size = new System.Drawing.Size(186, 454);
             this.dataGridView_module.TabIndex = 0;
@@ -912,7 +946,10 @@
             this.dataGridView_relation.AllowUserToDeleteRows = false;
             this.dataGridView_relation.AllowUserToResizeColumns = false;
             this.dataGridView_relation.AllowUserToResizeRows = false;
-            this.dataGridView_relation.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
+            this.dataGridView_relation.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            this.dataGridView_relation.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.dataGridView_relation.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_relation.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column2});
@@ -922,6 +959,9 @@
             this.dataGridView_relation.Name = "dataGridView_relation";
             this.dataGridView_relation.ReadOnly = true;
             this.dataGridView_relation.RowHeadersVisible = false;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(238)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
+            this.dataGridView_relation.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridView_relation.RowTemplate.Height = 23;
             this.dataGridView_relation.Size = new System.Drawing.Size(186, 454);
             this.dataGridView_relation.TabIndex = 0;
@@ -942,6 +982,29 @@
             // 
             this.ModuleColor.Color = System.Drawing.Color.LightGray;
             this.ModuleColor.ShowHelp = true;
+            // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(241, 12);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(53, 20);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "系统类型";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // comboBox_type
+            // 
+            this.comboBox_type.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
+            this.comboBox_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_type.FormattingEnabled = true;
+            this.comboBox_type.Items.AddRange(new object[] {
+            "A类",
+            "B类",
+            "C类"});
+            this.comboBox_type.Location = new System.Drawing.Point(300, 12);
+            this.comboBox_type.Name = "comboBox_type";
+            this.comboBox_type.Size = new System.Drawing.Size(121, 20);
+            this.comboBox_type.TabIndex = 3;
             // 
             // MainForm
             // 
@@ -967,11 +1030,10 @@
             this.statusStrip1.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_displaySacle)).EndInit();
             this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage_module.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_module)).EndInit();
@@ -1008,8 +1070,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
-        private System.Windows.Forms.Label label1;
-        public System.Windows.Forms.TrackBar trackBar_displaySacle;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.Button btn_generateMap;
@@ -1077,6 +1137,11 @@
         private System.Windows.Forms.ColorDialog ModuleColor;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_SaveProject;
+        private System.Windows.Forms.Panel panel5;
+        public System.Windows.Forms.TrackBar trackBar_displaySacle;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox comboBox_type;
     }
 }
 

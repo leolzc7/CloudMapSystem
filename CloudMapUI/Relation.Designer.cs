@@ -28,6 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
             this.textBox_ProjectName = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -52,6 +58,7 @@
             this.dgv_source = new System.Windows.Forms.DataGridView();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.target = new System.Windows.Forms.TextBox();
             this.source = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -80,26 +87,29 @@
             // 
             // panel1
             // 
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.panel1.Controls.Add(this.textBox_ProjectName);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(892, 46);
+            this.panel1.Size = new System.Drawing.Size(877, 46);
             this.panel1.TabIndex = 45;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // textBox_ProjectName
             // 
-            this.textBox_ProjectName.Location = new System.Drawing.Point(78, 12);
+            this.textBox_ProjectName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
+            this.textBox_ProjectName.Location = new System.Drawing.Point(94, 12);
             this.textBox_ProjectName.Name = "textBox_ProjectName";
             this.textBox_ProjectName.ReadOnly = true;
-            this.textBox_ProjectName.Size = new System.Drawing.Size(375, 21);
+            this.textBox_ProjectName.Size = new System.Drawing.Size(307, 21);
             this.textBox_ProjectName.TabIndex = 33;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(19, 15);
+            this.label4.Location = new System.Drawing.Point(35, 15);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(53, 12);
             this.label4.TabIndex = 32;
@@ -112,31 +122,34 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 46);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(892, 549);
+            this.panel2.Size = new System.Drawing.Size(877, 539);
             this.panel2.TabIndex = 46;
             // 
             // panel4
             // 
+            this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.panel4.Controls.Add(this.panel5);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(397, 0);
+            this.panel4.Location = new System.Drawing.Point(401, 0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(495, 549);
+            this.panel4.Size = new System.Drawing.Size(476, 539);
             this.panel4.TabIndex = 1;
             // 
             // panel5
             // 
+            this.panel5.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.panel5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.panel5.Controls.Add(this.panel8);
             this.panel5.Controls.Add(this.panel_addRelation);
             this.panel5.Controls.Add(this.panel6);
-            this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(0, 0);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(495, 549);
+            this.panel5.Size = new System.Drawing.Size(478, 545);
             this.panel5.TabIndex = 77;
             // 
             // panel8
             // 
+            this.panel8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.panel8.Controls.Add(this.btnCancel);
             this.panel8.Controls.Add(this.type);
             this.panel8.Controls.Add(this.btnSave);
@@ -149,43 +162,47 @@
             this.panel8.Controls.Add(this.comment);
             this.panel8.Controls.Add(this.label3);
             this.panel8.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel8.Location = new System.Drawing.Point(0, 272);
+            this.panel8.Location = new System.Drawing.Point(0, 270);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(495, 253);
+            this.panel8.Size = new System.Drawing.Size(478, 253);
             this.panel8.TabIndex = 2;
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(69, 143);
+            this.btnCancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(211)))), ((int)(((byte)(233)))));
+            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancel.Location = new System.Drawing.Point(167, 152);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(50, 24);
             this.btnCancel.TabIndex = 89;
             this.btnCancel.Text = "取消";
-            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.UseVisualStyleBackColor = false;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // type
             // 
-            this.type.BackColor = System.Drawing.SystemColors.Control;
-            this.type.Location = new System.Drawing.Point(69, 35);
+            this.type.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
+            this.type.Location = new System.Drawing.Point(69, 33);
             this.type.Name = "type";
-            this.type.Size = new System.Drawing.Size(110, 21);
+            this.type.Size = new System.Drawing.Size(121, 21);
             this.type.TabIndex = 88;
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(160, 143);
+            this.btnSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(211)))), ((int)(((byte)(233)))));
+            this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSave.Location = new System.Drawing.Point(93, 152);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(50, 24);
             this.btnSave.TabIndex = 87;
             this.btnSave.Text = "保存";
-            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(34, 13);
+            this.label8.Location = new System.Drawing.Point(34, 6);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(29, 12);
             this.label8.TabIndex = 86;
@@ -194,7 +211,7 @@
             // radioButton_bidirection
             // 
             this.radioButton_bidirection.AutoSize = true;
-            this.radioButton_bidirection.Location = new System.Drawing.Point(122, 11);
+            this.radioButton_bidirection.Location = new System.Drawing.Point(122, 6);
             this.radioButton_bidirection.Name = "radioButton_bidirection";
             this.radioButton_bidirection.Size = new System.Drawing.Size(47, 16);
             this.radioButton_bidirection.TabIndex = 85;
@@ -205,7 +222,7 @@
             // radioButton_single
             // 
             this.radioButton_single.AutoSize = true;
-            this.radioButton_single.Location = new System.Drawing.Point(69, 11);
+            this.radioButton_single.Location = new System.Drawing.Point(69, 6);
             this.radioButton_single.Name = "radioButton_single";
             this.radioButton_single.Size = new System.Drawing.Size(47, 16);
             this.radioButton_single.TabIndex = 84;
@@ -216,7 +233,7 @@
             // text_type
             // 
             this.text_type.AutoSize = true;
-            this.text_type.Location = new System.Drawing.Point(34, 38);
+            this.text_type.Location = new System.Drawing.Point(34, 37);
             this.text_type.Name = "text_type";
             this.text_type.Size = new System.Drawing.Size(29, 12);
             this.text_type.TabIndex = 83;
@@ -224,39 +241,43 @@
             // 
             // comboBox_Type
             // 
+            this.comboBox_Type.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.comboBox_Type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_Type.FormattingEnabled = true;
             this.comboBox_Type.Items.AddRange(new object[] {
             "type1",
             "type2",
             "type3"});
-            this.comboBox_Type.Location = new System.Drawing.Point(69, 35);
+            this.comboBox_Type.Location = new System.Drawing.Point(69, 34);
             this.comboBox_Type.Name = "comboBox_Type";
-            this.comboBox_Type.Size = new System.Drawing.Size(110, 20);
+            this.comboBox_Type.Size = new System.Drawing.Size(121, 20);
             this.comboBox_Type.TabIndex = 82;
             // 
             // btnUpdate
             // 
-            this.btnUpdate.Location = new System.Drawing.Point(69, 143);
+            this.btnUpdate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(211)))), ((int)(((byte)(233)))));
+            this.btnUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnUpdate.Location = new System.Drawing.Point(167, 152);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(50, 24);
             this.btnUpdate.TabIndex = 77;
             this.btnUpdate.Text = "修改";
-            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.UseVisualStyleBackColor = false;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
             // comment
             // 
-            this.comment.Location = new System.Drawing.Point(69, 64);
+            this.comment.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
+            this.comment.Location = new System.Drawing.Point(69, 67);
             this.comment.Multiline = true;
             this.comment.Name = "comment";
-            this.comment.Size = new System.Drawing.Size(377, 73);
+            this.comment.Size = new System.Drawing.Size(374, 73);
             this.comment.TabIndex = 81;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(34, 67);
+            this.label3.Location = new System.Drawing.Point(34, 70);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(29, 12);
             this.label3.TabIndex = 79;
@@ -267,9 +288,9 @@
             this.panel_addRelation.Controls.Add(this.dgv_target);
             this.panel_addRelation.Controls.Add(this.dgv_source);
             this.panel_addRelation.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel_addRelation.Location = new System.Drawing.Point(0, 62);
+            this.panel_addRelation.Location = new System.Drawing.Point(0, 63);
             this.panel_addRelation.Name = "panel_addRelation";
-            this.panel_addRelation.Size = new System.Drawing.Size(495, 210);
+            this.panel_addRelation.Size = new System.Drawing.Size(478, 207);
             this.panel_addRelation.TabIndex = 1;
             this.panel_addRelation.Visible = false;
             // 
@@ -279,15 +300,21 @@
             this.dgv_target.AllowUserToDeleteRows = false;
             this.dgv_target.AllowUserToResizeColumns = false;
             this.dgv_target.AllowUserToResizeRows = false;
-            this.dgv_target.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
+            this.dgv_target.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgv_target.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.dgv_target.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_target.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1});
-            this.dgv_target.Location = new System.Drawing.Point(271, 0);
+            this.dgv_target.Location = new System.Drawing.Point(268, 0);
             this.dgv_target.MultiSelect = false;
             this.dgv_target.Name = "dgv_target";
             this.dgv_target.ReadOnly = true;
             this.dgv_target.RowHeadersVisible = false;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(238)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
+            this.dgv_target.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dgv_target.RowTemplate.Height = 23;
             this.dgv_target.Size = new System.Drawing.Size(175, 210);
             this.dgv_target.TabIndex = 91;
@@ -308,7 +335,10 @@
             this.dgv_source.AllowUserToDeleteRows = false;
             this.dgv_source.AllowUserToResizeColumns = false;
             this.dgv_source.AllowUserToResizeRows = false;
-            this.dgv_source.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
+            this.dgv_source.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            this.dgv_source.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.dgv_source.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_source.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column4});
@@ -317,6 +347,9 @@
             this.dgv_source.Name = "dgv_source";
             this.dgv_source.ReadOnly = true;
             this.dgv_source.RowHeadersVisible = false;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(238)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
+            this.dgv_source.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.dgv_source.RowTemplate.Height = 23;
             this.dgv_source.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dgv_source.Size = new System.Drawing.Size(175, 210);
@@ -333,6 +366,7 @@
             // 
             // panel6
             // 
+            this.panel6.Controls.Add(this.checkBox1);
             this.panel6.Controls.Add(this.target);
             this.panel6.Controls.Add(this.source);
             this.panel6.Controls.Add(this.label7);
@@ -342,12 +376,23 @@
             this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel6.Location = new System.Drawing.Point(0, 0);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(495, 62);
+            this.panel6.Size = new System.Drawing.Size(478, 63);
             this.panel6.TabIndex = 0;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(246, 2);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(108, 16);
+            this.checkBox1.TabIndex = 98;
+            this.checkBox1.Text = "是否显示关系名";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // target
             // 
-            this.target.Location = new System.Drawing.Point(306, 33);
+            this.target.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
+            this.target.Location = new System.Drawing.Point(303, 33);
             this.target.Name = "target";
             this.target.ReadOnly = true;
             this.target.Size = new System.Drawing.Size(140, 21);
@@ -355,6 +400,7 @@
             // 
             // source
             // 
+            this.source.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.source.Location = new System.Drawing.Point(69, 33);
             this.source.Name = "source";
             this.source.ReadOnly = true;
@@ -364,7 +410,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(246, 37);
+            this.label7.Location = new System.Drawing.Point(244, 36);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(53, 12);
             this.label7.TabIndex = 94;
@@ -373,7 +419,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(22, 37);
+            this.label6.Location = new System.Drawing.Point(22, 36);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(41, 12);
             this.label6.TabIndex = 93;
@@ -381,16 +427,16 @@
             // 
             // name
             // 
-            this.name.BackColor = System.Drawing.SystemColors.Control;
-            this.name.Location = new System.Drawing.Point(69, 6);
+            this.name.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
+            this.name.Location = new System.Drawing.Point(69, 0);
             this.name.Name = "name";
-            this.name.Size = new System.Drawing.Size(377, 21);
+            this.name.Size = new System.Drawing.Size(152, 21);
             this.name.TabIndex = 82;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(34, 9);
+            this.label2.Location = new System.Drawing.Point(34, 3);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(29, 12);
             this.label2.TabIndex = 81;
@@ -398,14 +444,16 @@
             // 
             // panel3
             // 
+            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.panel3.Controls.Add(this.dataGridView_relation);
             this.panel3.Controls.Add(this.btnDelete);
             this.panel3.Controls.Add(this.btnAdd);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(397, 549);
+            this.panel3.Size = new System.Drawing.Size(401, 539);
             this.panel3.TabIndex = 0;
+            this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
             // 
             // dataGridView_relation
             // 
@@ -413,22 +461,29 @@
             this.dataGridView_relation.AllowUserToDeleteRows = false;
             this.dataGridView_relation.AllowUserToResizeColumns = false;
             this.dataGridView_relation.AllowUserToResizeRows = false;
-            this.dataGridView_relation.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
+            this.dataGridView_relation.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+            this.dataGridView_relation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridView_relation.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.dataGridView_relation.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_relation.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
             this.Column2,
             this.Column3});
-            this.dataGridView_relation.Dock = System.Windows.Forms.DockStyle.Top;
-            this.dataGridView_relation.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_relation.Location = new System.Drawing.Point(35, 0);
             this.dataGridView_relation.MultiSelect = false;
             this.dataGridView_relation.Name = "dataGridView_relation";
             this.dataGridView_relation.ReadOnly = true;
             this.dataGridView_relation.RowHeadersVisible = false;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(238)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
+            this.dataGridView_relation.RowsDefaultCellStyle = dataGridViewCellStyle6;
             this.dataGridView_relation.RowTemplate.Height = 23;
             this.dataGridView_relation.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dataGridView_relation.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView_relation.Size = new System.Drawing.Size(397, 490);
+            this.dataGridView_relation.Size = new System.Drawing.Size(372, 490);
             this.dataGridView_relation.TabIndex = 72;
             this.dataGridView_relation.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_relation_CellClick);
             // 
@@ -458,29 +513,33 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(95, 513);
+            this.btnDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(211)))), ((int)(((byte)(233)))));
+            this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDelete.Location = new System.Drawing.Point(133, 502);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(50, 24);
             this.btnDelete.TabIndex = 71;
             this.btnDelete.Text = "删除";
-            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.UseVisualStyleBackColor = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(12, 513);
+            this.btnAdd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(211)))), ((int)(((byte)(233)))));
+            this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAdd.Location = new System.Drawing.Point(59, 502);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(50, 24);
             this.btnAdd.TabIndex = 70;
             this.btnAdd.Text = "新增";
-            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.UseVisualStyleBackColor = false;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // RelationEditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(892, 595);
+            this.ClientSize = new System.Drawing.Size(877, 585);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -528,9 +587,6 @@
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.TextBox comment;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Panel panel_addRelation;
-        private System.Windows.Forms.DataGridView dgv_target;
-        private System.Windows.Forms.DataGridView dgv_source;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.TextBox target;
         private System.Windows.Forms.TextBox source;
@@ -542,11 +598,15 @@
         private System.Windows.Forms.TextBox textBox_ProjectName;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox type;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Panel panel_addRelation;
+        private System.Windows.Forms.DataGridView dgv_target;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridView dgv_source;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
