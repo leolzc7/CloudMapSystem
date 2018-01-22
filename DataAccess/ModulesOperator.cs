@@ -18,6 +18,14 @@ namespace DataAccess
             command.Fill(data.Tables[ModuleData.MODULES_TABLE]);
             return data;
         }
+        public static ModuleData LoadModulesInfoForSecondDb()
+        {
+            ModuleData data = new ModuleData();
+            string sql0 = "select * from modules";
+            command = new SQLiteDataAdapter(sql0, globalParameters.secondConn);
+            command.Fill(data.Tables[ModuleData.MODULES_TABLE]);
+            return data;
+        }
         private static bool CheckDuplication(ModuleData module)
         {
             DataRow data = module.Tables[ModuleData.MODULES_TABLE].Rows[0];

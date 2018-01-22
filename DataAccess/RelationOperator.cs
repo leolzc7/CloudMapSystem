@@ -21,6 +21,14 @@ namespace DataAccess
             command.Fill(data.Tables[RelationData.RELATION_TABLE]);
             return data;
         }
+        public static RelationData LoadRelationInfoForSecondDb()
+        {
+            RelationData data = new RelationData();
+            string sql0 = "select * from relation";
+            command = new SQLiteDataAdapter(sql0, globalParameters.secondConn);
+            command.Fill(data.Tables[RelationData.RELATION_TABLE]);
+            return data;
+        }
         private static bool CheckDuplication(RelationData relation)
         {
             DataRow data = relation.Tables[RelationData.RELATION_TABLE].Rows[0];
@@ -36,6 +44,20 @@ namespace DataAccess
                 }
             }
             return false;
+        }
+        public static RelationData GetRelationInfoForImport(List<string> modulesName)
+        {
+            RelationData relationdata = LoadRelationInfoForSecondDb();
+            RelationData relationFilter = new RelationData();
+            if (modulesName.Count > 0)
+            {
+                DataRow[] rowT3 = relationdata.Tables[RelationData.RELATION_TABLE].Select(RelationData.SOURCENAME_FIELD + " in " + GetString(modulesName) + " and " + RelationData.TARGETNAME_FIELD + " in " + GetString(modulesName));
+                foreach (DataRow row in rowT3)
+                {
+                    relationFilter.Tables[RelationData.RELATION_TABLE].Rows.Add(row.ItemArray);
+                }
+            }
+            return relationFilter;
         }
         public static RelationData GetRelationInfoForDiffModList(List<string> modulesName)
         {

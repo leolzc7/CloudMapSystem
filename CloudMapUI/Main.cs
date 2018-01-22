@@ -282,6 +282,7 @@ namespace CloudMapUI
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             SystemOperator.WriteHistory();
+            SystemOperator.CloseDb();
             //if (DialogResult.Yes == MessageBox.Show("确定退出系统？", "企业云图", MessageBoxButtons.YesNo, MessageBoxIcon.Information))
             //    //Application.Exit();
             //    System.Environment.Exit(0);
@@ -431,7 +432,7 @@ namespace CloudMapUI
                 //textBox[i].TextAlign = ContentAlignment.BottomCenter;//居中显示，目前只能水平居中不能垂直居中。
                 //textBox[i].SelectionAlignment = HorizontalAlignment.Center;//居中显示，目前只能水平居中不能垂直居中。
                 //textBox[i].ReadOnly = true;//只读
-panel4.Controls.Add(textBox[i]);
+                panel4.Controls.Add(textBox[i]);
                 //textBox[i].BorderStyle = BorderStyle.None;
                 textBox[i].Click += new EventHandler(this.TextBox_Click);
                 //textBox[i].Multiline = true;
