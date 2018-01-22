@@ -72,48 +72,47 @@ namespace DrawLineRules
         }
         public static List<ModulesOperator.ModulesList> SortModuleByCount(int level)
         {
-            List<ModulesOperator.ModulesList> modules = ModulesOperator.GetModuleCount(level);
-
+            List<ModulesOperator.ModulesList> modules = ModulesOperator.CountModuleLevel(level);
             modules = modules.OrderByDescending(module => module.count).ToList();
             return modules;
         }
         public static List<Module> ModulePosition(int panelWidth, int panelHeight, int level)
         {
             List<ModulesOperator.ModulesList> modules = SortModuleByCount(level);
-            List<ModulesOperator.ModulesList> modulesLevel1 = new List<ModulesOperator.ModulesList>();
-            List<ModulesOperator.ModulesList> modulesLevel2 = new List<ModulesOperator.ModulesList>();
-            List<ModulesOperator.ModulesList> modulesLevel3 = new List<ModulesOperator.ModulesList>();
-            foreach (ModulesOperator.ModulesList mod in modules)
-            {
-                if (mod.level == 3)
-                {
-                    modulesLevel3.Add(mod);
-                }
-                else if (mod.level == 2)
-                {
-                    modulesLevel3.Add(mod);
-                    modulesLevel2.Add(mod);
-                }
-                else
-                {
-                    modulesLevel1.Add(mod);
-                    modulesLevel3.Add(mod);
-                    modulesLevel2.Add(mod);
-                }
-            }
+            //List<ModulesOperator.ModulesList> modulesLevel1 = new List<ModulesOperator.ModulesList>();
+            //List<ModulesOperator.ModulesList> modulesLevel2 = new List<ModulesOperator.ModulesList>();
+            //List<ModulesOperator.ModulesList> modulesLevel3 = new List<ModulesOperator.ModulesList>();
+            //foreach (ModulesOperator.ModulesList mod in modules)
+            //{
+            //    if (mod.level == 3)
+            //    {
+            //        modulesLevel3.Add(mod);
+            //    }
+            //    else if (mod.level == 2)
+            //    {
+            //        modulesLevel3.Add(mod);
+            //        modulesLevel2.Add(mod);
+            //    }
+            //    else
+            //    {
+            //        modulesLevel1.Add(mod);
+            //        modulesLevel3.Add(mod);
+            //        modulesLevel2.Add(mod);
+            //    }
+            //}
             List<Module> modPosition = new List<Module>();
-            if (level == 1)
-            {
-                modules = modulesLevel1;
-            }
-            else if (level == 2)
-            {
-                modules = modulesLevel2;
-            }
-            else
-            {
-                modules = modulesLevel3;
-            }
+            //if (level == 1)
+            //{
+            //    modules = modulesLevel1;
+            //}
+            //else if (level == 2)
+            //{
+            //    modules = modulesLevel2;
+            //}
+            //else
+            //{
+            //    modules = modulesLevel3;
+            //}
             int CountNum = modules.Count;
             int layer = (int)(Math.Ceiling(Math.Sqrt(CountNum)) / 2);
             int derta = 2 * layer + 1;

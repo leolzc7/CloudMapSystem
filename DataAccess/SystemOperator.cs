@@ -22,8 +22,8 @@ namespace DataAccess
         }
         public static void Connect_open_sencond_db()
         {
-            globalParameters.conn = new SQLiteConnection(globalParameters.secondDbPath);//创建数据库实例，指定文件位置
-            globalParameters.conn.Open();//打开数据库，若文件不存在会自动创建
+            globalParameters.secondConn = new SQLiteConnection(globalParameters.secondDbPath);//创建数据库实例，指定文件位置
+            globalParameters.secondConn.Open();//打开数据库，若文件不存在会自动创建
             string cmd = @"ATTACH DATABASE '" + globalParameters.secondDbPath + "' as 'TEMP'";
             ExecuteSql(cmd);
         }

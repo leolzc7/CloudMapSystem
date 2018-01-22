@@ -16,9 +16,10 @@ namespace Data
         public static string dbName;
         public static string secondDbName;
         public static List<string> dbHistory = new List<string>();
-        //public static Queue<string> dbHistory = new Queue<string> ();
+        public static List<string> moduleType = new List<string>();
         public static SQLiteConnection conn = null;
-        public static string dbDirPath = @"C:\CloudMap";
-        public static string dbHistoryPath = @"C:\CloudMap\history.ini";
+        public static SQLiteConnection secondConn = null;
+        public static string dbDirPath = @"C:\CloudMap\";
+        public static string dbHistoryPath = dbDirPath+"history.ini";
     }
 }

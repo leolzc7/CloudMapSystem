@@ -37,41 +37,19 @@ namespace DataAccess
             }
             return false;
         }
-        public static RelationData GetRelationInfoForDiffLevel(ModulesOperator.modulesName modulesName,int level)
+        public static RelationData GetRelationInfoForDiffModList(List<string> modulesName)
         {
             RelationData relationdata = LoadRelationInfo();
-            RelationData relaitonL = new RelationData();
-            if (level == 1)
+            RelationData relationFilter = new RelationData();
+            if (modulesName.Count > 0)
             {
-                if (modulesName.modulesL1.Count > 0)
+                DataRow[] rowT3 = relationdata.Tables[RelationData.RELATION_TABLE].Select(RelationData.SOURCENAME_FIELD + " in " + GetString(modulesName) + " and " + RelationData.TARGETNAME_FIELD + " in " + GetString(modulesName));
+                foreach (DataRow row in rowT3)
                 {
-                    DataRow[] rowL1 = relationdata.Tables[RelationData.RELATION_TABLE].Select(RelationData.SOURCENAME_FIELD + " in " + GetString(modulesName.modulesL1) + " and " + RelationData.TARGETNAME_FIELD + " in " + GetString(modulesName.modulesL1));
-                    foreach (DataRow row in rowL1)
-                    {
-                        relaitonL.Tables[RelationData.RELATION_TABLE].Rows.Add(row.ItemArray);
-                    }
+                    relationFilter.Tables[RelationData.RELATION_TABLE].Rows.Add(row.ItemArray);
                 }
             }
-            else
-            {
-                if (level == 2)
-                {
-                    if (modulesName.modulesL1.Count+modulesName.modulesL2.Count > 0)
-                    {
-                        //string con = RelationData.SOURCENAME_FIELD + " in " + GetString(modulesName.modulesL1, modulesName.modulesL2) + " or " + RelationData.TARGETNAME_FIELD + " in " + GetString(modulesName.modulesL1, modulesName.modulesL2);
-                        DataRow[] rowL2 = relationdata.Tables[RelationData.RELATION_TABLE].Select(RelationData.SOURCENAME_FIELD + " in " + GetString(modulesName.modulesL1, modulesName.modulesL2) + " and " + RelationData.TARGETNAME_FIELD + " in " + GetString(modulesName.modulesL1,modulesName.modulesL2));
-                        foreach (DataRow row in rowL2)
-                        {
-                            relaitonL.Tables[RelationData.RELATION_TABLE].Rows.Add(row.ItemArray);
-                        }
-                    }
-                }
-                else
-                {
-                    return relationdata;
-                }
-            }
-            return relaitonL;
+            return relationFilter;
         }//不同的等级的关系虚拟表Dataset
         public static bool InsertRelationInfo(RelationData relation)
         {
@@ -156,19 +134,9 @@ namespace DataAccess
         }
         public static List<relation> GetRelationArray(int level) //得到不同等级的模块对应的关系数组
         {
+            List<string> modulesName = ModulesOperator.ReadModulesForDiffLevel(level);
+            RelationData relation = RelationOperator.GetRelationInfoForDiffModList(modulesName);//Type为3
             List<relation> relationArray = new List<relation>();
-            ModulesOperator.modulesName modulesName = ModulesOperator.read_modules();
-            RelationData relation;
-            if (level == 1)
-            {
-                relation = GetRelationInfoForDiffLevel(modulesName, 1);
-            }
-            else if(level == 2)
-            {
-                relation = GetRelationInfoForDiffLevel(modulesName, 2);
-            }else{
-                relation = LoadRelationInfo();
-            }
             for (int i = 0; i < relation.Tables[RelationData.RELATION_TABLE].Rows.Count; i++ )
             {
                 relation relationOne = new relation();
