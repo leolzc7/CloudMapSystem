@@ -14,7 +14,7 @@ namespace DrawLineRules
         private int posy;
         public static int modx; //两个模块X轴之间的距离,基于网格的
         public static int mody;
-        public static int gapx;
+        public static int gapx;//两个模块之间的间隔
         public static int gapy;
         private static int width; //定义模块的大小
         private static int height;
@@ -45,7 +45,7 @@ namespace DrawLineRules
             }
             else
             {
-                int x = 10;
+                int x = 6; //人为的使竖线不在一起
                 int step = width / (this.num_north + 1);
                 for (int i = 0; i < this.num_north; i++)
                 {
@@ -125,7 +125,6 @@ namespace DrawLineRules
             }
             return moduleGrid.gridPointAt(0, 0);
         }
-
         public int compareModuleAdd(ModuleOne gp)
         {
             if (posx == gp.getPosx())
@@ -237,20 +236,8 @@ namespace DrawLineRules
         public static LineInfo[] GetLineInfo(List<Module> modulesList, int X, int Y,int level)
         {
             Grid myGrid = new Grid(X, Y); // Grid class instance initialization
-            //int level = 0;
             ModuleOne[] modules = myGrid.readModule(modulesList,level);
-            int num_par = 0;
-            //double num_partition = Math.Sqrt((double)modules.Length);
-            //if ((int)num_partition - num_partition == 0)
-            //{
-            //    num_par = (int)num_partition - 1;
-            //}
-            //else
-            //{
-            //    num_par = (int)num_partition;
-            //}
-            int layer = (int)(Math.Ceiling(Math.Sqrt(modules.Length)) / 1);
-            num_par = layer;
+            int num_par = (int)(Math.Ceiling(Math.Sqrt(modules.Length)));
             LineInfo[] allLine = new LineInfo[1000];
             int[] rows = new int[num_par];
             int[] columns = new int[num_par];

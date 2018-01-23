@@ -50,6 +50,7 @@ namespace CloudMapUI
 
                 dataGridView_module.Visible = false;
                 dataGridView_relation.Visible = false;
+                panel2.Visible = false;
             }
             else
             {
@@ -67,6 +68,7 @@ namespace CloudMapUI
                 toolStripButton_import.Enabled = true;
                 toolStripButton_addModule.Enabled = true;
                 toolStripButton_addRelation.Enabled = true;
+                panel2.Visible = true;
 
                 dataGridView_module.Visible = true;
                 dataGridView_module.AutoGenerateColumns = false;
@@ -84,10 +86,15 @@ namespace CloudMapUI
         private void MainForm_Load(object sender, EventArgs e)
         {
             mainFormStatus();
-            
+            AddHistoryItem();
+            int width = Screen.PrimaryScreen.Bounds.Width-200;//得到与屏幕一样大小的panel1，用于存放panel4.画图
+            int height = Screen.PrimaryScreen.Bounds.Height-151;
+            panel1.Size = new Size(width, height);
+            panel1.HorizontalScroll.Visible = true;
+            panel1.VerticalScroll.Visible = true;
+            panel4.Size = panel1.Size;
             panelWidth = panel4.Size.Width;
             panelHeight = panel4.Size.Height;
-            AddHistoryItem();
         }
         private void AddHistoryItem()
         {
@@ -242,13 +249,39 @@ namespace CloudMapUI
         private void ToolStripMenuItem_BorderColor_Click(object sender, EventArgs e)
         {
             BorderColor.ShowDialog();
-            btn_generateMap_Click(sender, e);
+            Control.ControlCollection Cons = panel4.Controls;
+            foreach (Control con in Cons)
+            {
+                if (con is Button)
+                {
+                    ((Button)con).FlatAppearance.BorderColor = BorderColor.Color;
+                }
+            }
+        }
+        private void ToolStripMenuItem_colorFilling_Click(object sender, EventArgs e)
+        {
+            ModuleColor.ShowDialog();
+            Control.ControlCollection Cons = panel4.Controls;
+            foreach (Control con in Cons)
+            {
+                if (con is Button)
+                {
+                    ((Button)con).BackColor = ModuleColor.Color;
+                }
+            }
         }
 
         private void ToolStripMenuItem_LineColor_Click(object sender, EventArgs e)
         {
             LineColor.ShowDialog();
-            btn_generateMap_Click(sender,e);
+            Control.ControlCollection Cons = panel4.Controls;
+            foreach (Control con in Cons)
+            {
+                if (con is ALine)
+                {
+                    ((ALine)con).Pencolor = LineColor.Color;
+                }
+            }
         }
 
         private void ToolStripMenuItem_DisplayScale_Click(object sender, EventArgs e)
@@ -261,18 +294,76 @@ namespace CloudMapUI
         private void 注释ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             fontDialog1.ShowDialog();
-            btn_generateMap_Click(sender, e);
+            Control.ControlCollection Cons = panel4.Controls;
+            foreach (Control con in Cons)
+            {
+                if (con is Button)
+                {
+                    ((Button)con).Font = fontDialog1.Font;
+                }
+            }
+        }
+        private void 磅ToolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            Control.ControlCollection Cons = panel4.Controls;
+            foreach (Control con in Cons)
+            {
+                if (con is ALine)
+                {
+                    ((ALine)con).Penwidth = 1;
+                    if (((ALine)con).Points[0] == ((ALine)con).Points[2])
+                    {
+                        ((ALine)con).Location = new Point(((ALine)con).Points[0] - 4 * ((ALine)con).Penwidth, ((ALine)con).Points[1]);
+                    }
+                    else
+                        ((ALine)con).Location = new Point(((ALine)con).Points[0], ((ALine)con).Points[1] - 4 * ((ALine)con).Penwidth);
+                }
+            }
+        }
+        private void 磅ToolStripMenuItem5_Click(object sender, EventArgs e)
+        {
+            Control.ControlCollection Cons = panel4.Controls;
+            foreach (Control con in Cons)
+            {
+                if (con is ALine)
+                {
+                    ((ALine)con).Penwidth = 2;
+                    if (((ALine)con).Points[0] == ((ALine)con).Points[2])
+                    {
+                        ((ALine)con).Location = new Point(((ALine)con).Points[0] - 4 * ((ALine)con).Penwidth, ((ALine)con).Points[1]);
+                    }
+                    else
+                        ((ALine)con).Location = new Point(((ALine)con).Points[0], ((ALine)con).Points[1] - 4 * ((ALine)con).Penwidth);
+                }
+            }
         }
 
+        private void 磅ToolStripMenuItem6_Click(object sender, EventArgs e)
+        {
+            Control.ControlCollection Cons = panel4.Controls;
+            foreach (Control con in Cons)
+            {
+                if (con is ALine)
+                {
+                    ((ALine)con).Penwidth = 4;
+                    if (((ALine)con).Points[0] == ((ALine)con).Points[2])
+                    {
+                        ((ALine)con).Location = new Point(((ALine)con).Points[0] - 4 * ((ALine)con).Penwidth, ((ALine)con).Points[1]);
+                    }
+                    else
+                        ((ALine)con).Location = new Point(((ALine)con).Points[0], ((ALine)con).Points[1] - 4 * ((ALine)con).Penwidth);
+                }
+            }
+        }
         private void ToolStripMenuItem_About_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("可视化系统之间的关系", "关于云图", MessageBoxButtons.OK,
+            MessageBox.Show("可视化系统之间的自动布线工具！", "关于云图", MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
         }
          
         private void 帮助ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(" 使用方式同记事本 ", "使用帮助", MessageBoxButtons.OK,
+            MessageBox.Show("SOS NOT FOUND 404！", "HELP", MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
         }
 
@@ -288,11 +379,6 @@ namespace CloudMapUI
             //    e.Cancel = true;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-
-        }
 
         private void ToolStripMenuItem_File_Click(object sender, EventArgs e)
         {
@@ -392,8 +478,8 @@ namespace CloudMapUI
         }
         public List<Module> DrawModules()
         {
-            Graphics g1 = panel4.CreateGraphics();
-            Pen boderpen = new Pen(BorderColor.Color, 1);//模块边框画笔
+            //Graphics g1 = panel4.CreateGraphics();
+            //Pen boderpen = new Pen(BorderColor.Color, 1);//模块边框画笔
             List<Module> modPosition = new List<Module>();
             if (comboBox_level.Text != null && comboBox_level.Text != "")
             {
@@ -415,64 +501,71 @@ namespace CloudMapUI
                 modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height);
             }
             int NumCount = modPosition.Count;
-            TextBox[] textBox = new TextBox[NumCount];
+            Button[] btn = new Button[NumCount];
 
             for (int i = 2; i < NumCount; i++)
             {
-                g1.DrawRectangle(boderpen, modPosition[i].x - 1, modPosition[i].y - 1, modPosition[0].x + 1, modPosition[0].y + 1);
-                textBox[i] = new TextBox();
-                textBox[i].BackColor = ModuleColor.Color;
+                //g1.DrawRectangle(boderpen, modPosition[i].x - 1, modPosition[i].y - 1, modPosition[0].x + 1, modPosition[0].y + 1);
+                btn[i] = new Button();
+                btn[i].BackColor = ModuleColor.Color;
                 //textBox[i].BackColor = Color.Purple;
-                textBox[i].Font = fontDialog1.Font;
-                textBox[i].Size = new System.Drawing.Size(modPosition[0].x, modPosition[0].y);
-                textBox[i].Location = new Point(modPosition[i].x, modPosition[i].y);
-                textBox[i].Text = "\r\n" + modPosition[i].moduleName;//显示文字
-                textBox[i].TextAlign = HorizontalAlignment.Center;//居中显示，目前只能水平居中不能垂直居中。
-                //textBox[i].SelectionAlignment = HorizontalAlignment.Center;//居中显示，目前只能水平居中不能垂直居中。
-                textBox[i].ReadOnly = true;//只读
-
-                textBox[i].BorderStyle = BorderStyle.None;
-                textBox[i].Click += new EventHandler(this.TextBox_Click);
-                textBox[i].Multiline = true;
-                panel4.Controls.Add(textBox[i]);
+                btn[i].Font = fontDialog1.Font;
+                btn[i].Size = new System.Drawing.Size(modPosition[0].x, modPosition[0].y);
+                btn[i].Location = new Point(modPosition[i].x, modPosition[i].y);
+                btn[i].Text = modPosition[i].moduleName;//显示文字
+                btn[i].FlatStyle = FlatStyle.Flat;
+                btn[i].FlatAppearance.BorderColor = BorderColor.Color;
+                panel4.Controls.Add(btn[i]);
+                btn[i].Click += new EventHandler(this.TextBox_Click);
             }
             return modPosition;
         }
         public void TextBox_Click(object sender, EventArgs e)
         {
-
+            List<Button> btnList = new List<Button>();
+            List<ALine> alineList = new List<ALine>();
             Control.ControlCollection Cons = panel4.Controls;
-            TextBox select = (TextBox)sender;
-            //TextBox temp = new TextBox();
-            //temp = select;
-            //select.Visible = false;
-            btn_generateMap_Click(sender, e);
-            select.BackColor = Color.Purple;
+            Button select = (Button)sender;
+            foreach (Control con in Cons)
+            {
+                if (con is Button)
+                {
+                    btnList.Add((Button)con);
+                    ((Button)con).FlatAppearance.BorderColor = BorderColor.Color;
+                    ((Button)con).FlatAppearance.BorderSize = 1;
+                    ((Button)con).BackColor = ModuleColor.Color;
+                }
+            }
             foreach (Control con in Cons)
             {
                 if (con is ALine)
-                {//判断位置，是否在模块位置左、上、右、下相连。
-                    if (
-                        ((con.Location.X + con.Size.Width == select.Location.X + 1) && (con.Location.Y + con.Size.Height > select.Location.Y) && (con.Location.Y < select.Location.Y + select.Size.Height)) ||
-                        ((con.Location.Y + con.Size.Height == select.Location.Y + 1) && (con.Location.X + con.Size.Width > select.Location.X) && (con.Location.X < select.Location.X + select.Size.Width)) ||
-                        ((con.Location.X + 1 == select.Location.X + select.Size.Width) && (con.Location.Y + con.Size.Height > select.Location.Y) && (con.Location.Y < select.Location.Y + select.Size.Height)) ||
-                        ((con.Location.Y + 1 == select.Location.Y + select.Size.Height) && (con.Location.X + con.Size.Width > select.Location.X) && (con.Location.X < select.Location.X + select.Size.Width))
+                {
+                    alineList.Add((ALine)con);
+                    ((ALine)con).Pencolor = LineColor.Color;
+                }
+            }
+            foreach (ALine aline in alineList)
+            {
+                if (
+                        ((aline.Location.X + aline.Size.Width == select.Location.X + 1) && (aline.Location.Y + aline.Size.Height > select.Location.Y) && (aline.Location.Y < select.Location.Y + select.Size.Height)) ||
+                        ((aline.Location.Y + aline.Size.Height == select.Location.Y + 1) && (aline.Location.X + aline.Size.Width > select.Location.X) && (aline.Location.X < select.Location.X + select.Size.Width)) ||
+                        ((aline.Location.X + 1 == select.Location.X + select.Size.Width) && (aline.Location.Y + aline.Size.Height > select.Location.Y) && (aline.Location.Y < select.Location.Y + select.Size.Height)) ||
+                        ((aline.Location.Y + 1 == select.Location.Y + select.Size.Height) && (aline.Location.X + aline.Size.Width > select.Location.X) && (aline.Location.X < select.Location.X + select.Size.Width))
                         )
+                {
+                    aline.Pencolor = Color.Red;
+                    foreach (ALine alineSame in alineList)
                     {
-                        ((ALine)con).Pencolor = Color.Red;
-                        foreach (Control conAgain in Cons)
+                        if (alineSame.Text.Equals(aline.Text))
                         {
-                            if (conAgain is ALine)
-                            {
-                                if ((conAgain.Text).Equals(((ALine)con).Text))
-                                {
-                                    ((ALine)conAgain).Pencolor = Color.Red;
-                                }
-                            }
+                            alineSame.Pencolor = Color.Red;
                         }
                     }
                 }
             }
+            select.FlatAppearance.BorderColor = Color.LightBlue;
+            select.FlatAppearance.BorderSize = 3;
+            select.BackColor = Color.LightYellow;
         }
         public void DrawModuleAndLines()
         {
@@ -498,8 +591,6 @@ namespace CloudMapUI
                 line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 3);
                 comboBox_level.SelectedIndex = 2;
             }
-            
-            //Pen linePen = new Pen(Color.Black, 1);
             int LineCount = 0;
             for (int i = 0; i < line.Length; i++)
             {
@@ -618,7 +709,7 @@ namespace CloudMapUI
 
         private void ToolStripMenuItem_Level1_Click(object sender, EventArgs e)
         {
-
+            comboBox_level.SelectedIndex = 0;
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
@@ -626,11 +717,7 @@ namespace CloudMapUI
 
         }
 
-        private void ToolStripMenuItem_colorFilling_Click(object sender, EventArgs e)
-        {
-            ModuleColor.ShowDialog();
-            btn_generateMap_Click(sender, e);
-        }
+
 
         private void ToolStripMenuItem_BorderWidth_Click(object sender, EventArgs e)
         {
@@ -655,27 +742,56 @@ namespace CloudMapUI
 
         }
 
-        private void 磅ToolStripMenuItem3_Click(object sender, EventArgs e)
-        {
-            penWidth = 1;
-            btn_generateMap_Click(sender, e);
-        }
 
-        private void 磅ToolStripMenuItem5_Click(object sender, EventArgs e)
-        {
-            penWidth = 2;
-            btn_generateMap_Click(sender, e);
-        }
 
-        private void 磅ToolStripMenuItem6_Click(object sender, EventArgs e)
-        {
-            penWidth = 4;
-            btn_generateMap_Click(sender, e);
-        }
+
 
         private void comboBox_level_SelectedIndexChanged(object sender, EventArgs e)
         {
             //btn_generateMap_Click(sender, e);
+        }
+
+        private void ToolStripMenuItem_Refresh_Click(object sender, EventArgs e)
+        {
+            btn_generateMap_Click(sender, e);
+        }
+
+        private void ToolStripMenuItem_level2_Click(object sender, EventArgs e)
+        {
+            comboBox_level.SelectedIndex = 1;
+        }
+
+        private void ToolStripMenuItem_Level3_Click(object sender, EventArgs e)
+        {
+            comboBox_level.SelectedIndex = 2;
+        }
+
+        private void statusStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void trackBar_displaySacle_Scroll(object sender, EventArgs e)
+        {
+            int newPanelWidth = (int)(panelWidth * this.trackBar_displaySacle.Value / 100);
+            int newPanelHeight = (int)(panelHeight * this.trackBar_displaySacle.Value / 100);
+            panel4.Size = new Size(newPanelWidth, newPanelHeight);
+            btn_generateMap_Click(sender, e);
+        }
+
+        private void 倍ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            磅ToolStripMenuItem3_Click(sender, e);
+        }
+
+        private void 倍ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            磅ToolStripMenuItem5_Click(sender, e);
+        }
+
+        private void 倍ToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            磅ToolStripMenuItem6_Click(sender, e);
         }
     }
 }

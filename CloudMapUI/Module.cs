@@ -37,6 +37,8 @@ namespace CloudMapUI
             pageStatus = RecordStatus.View;
             SetFormControlerStatus();
             SetFormControlerData();
+            //dataGridView_module.RowsDefaultCellStyle.BackColor = Color.Bisque;
+            //dataGridView_module.AlternatingRowsDefaultCellStyle.BackColor = Color.Beige;
         }
 
         //新建模块
@@ -153,7 +155,7 @@ namespace CloudMapUI
         {
             textBox_ProjectName.Text = globalParameters.dbName;
             textBox_ProjectName.ReadOnly = true;
-            textBox_ProjectName.BackColor = Color.Gainsboro;
+            //textBox_ProjectName.BackColor = Color.FromArgb(235, 243, 255);
             if (pageStatus == RecordStatus.View)
             {
                 name.ReadOnly = true;
@@ -179,10 +181,10 @@ namespace CloudMapUI
                     btnDelete.Visible = false;
                 }
 
-                name.BackColor = Color.Gainsboro;
-                type.BackColor = Color.Gainsboro;
-                level.BackColor = Color.Gainsboro;
-                comment.BackColor = Color.Gainsboro;
+                name.BackColor = Color.FromArgb(235, 243, 248);
+                type.BackColor = Color.FromArgb(235, 243, 248);
+                level.BackColor = Color.FromArgb(235, 243, 248);
+                comment.BackColor = Color.FromArgb(235, 243, 248);
             }
             else if (pageStatus == RecordStatus.Edit)
             {
@@ -203,6 +205,8 @@ namespace CloudMapUI
                 comboBox_Type.BackColor = Color.White;
                 comboBox_Level.BackColor = Color.White;
                 comment.BackColor = Color.White;
+                
+                //comboBox_Typ
             }
             else if (pageStatus == RecordStatus.Add)
             {               
@@ -223,6 +227,8 @@ namespace CloudMapUI
                 comboBox_Type.BackColor = Color.White;
                 comboBox_Level.BackColor = Color.White;
                 comment.BackColor = Color.White;
+                comboBox_Type.BackColor = Color.White;
+                comboBox_Level.BackColor = Color.White;
             }
         }
 
@@ -285,7 +291,13 @@ namespace CloudMapUI
             pageStatus = RecordStatus.View;
             SetFormControlerStatus();
             SetFormControlerData();
-        }       
+        }
+
+        private void panel4_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+      
     }
 }
 
