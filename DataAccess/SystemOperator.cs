@@ -22,10 +22,8 @@ namespace DataAccess
         }
         public static void Connect_open_sencond_db()
         {
-            globalParameters.conn = new SQLiteConnection(globalParameters.secondDbPath);//创建数据库实例，指定文件位置
-            globalParameters.conn.Open();//打开数据库，若文件不存在会自动创建
-            string cmd = @"ATTACH DATABASE '" + globalParameters.secondDbPath + "' as 'TEMP'";
-            ExecuteSql(cmd);
+            globalParameters.secondConn = new SQLiteConnection(globalParameters.secondDbPath);//创建数据库实例，指定文件位置
+            globalParameters.secondConn.Open();//打开数据库，若文件不存在会自动创建
         }
         public static void NewProjectConnectDb(string dbSelfName, string dbSelfPath)
         {
@@ -159,7 +157,14 @@ namespace DataAccess
                 fs2.Close();
             }
         }
-
+        public static void CloseDb()
+        {
+            globalParameters.conn.Close();
+        }
+        public static void CloseSecondDb()
+        {
+            globalParameters.secondConn.Close();
+        }
 
     }
 

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Data;
+using DataAccess;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -117,7 +119,12 @@ namespace CloudMapUI
         private void btnFolderBrowser_Click(object sender, EventArgs e)
         {
             openFileDialog_import.ShowDialog();
-            textBox1.Text = openFileDialog_import.FileName;
+            //textBox1.Text = openFileDialog_import.FileName;
+            SystemOperator.OpenProject(openFileDialog_import.FileName, false);
+            textBox1.Text = globalParameters.secondDbName;
+            dataGridView2.AutoGenerateColumns = false;
+            ModuleData moduledata = ModulesOperator.LoadModulesInfoForSecondDb();
+            dataGridView2.DataSource = moduledata.Tables[ModuleData.MODULES_TABLE].DefaultView;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -128,6 +135,11 @@ namespace CloudMapUI
         private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
         {
 
+        }
+
+        private void importForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            SystemOperator.CloseSecondDb();
         }
     }
 }

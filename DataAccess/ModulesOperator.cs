@@ -18,6 +18,14 @@ namespace DataAccess
             command.Fill(data.Tables[ModuleData.MODULES_TABLE]);
             return data;
         }
+        public static ModuleData LoadModulesInfoForSecondDb()
+        {
+            ModuleData data = new ModuleData();
+            string sql0 = "select * from modules";
+            command = new SQLiteDataAdapter(sql0, globalParameters.secondConn);
+            command.Fill(data.Tables[ModuleData.MODULES_TABLE]);
+            return data;
+        }
         private static bool CheckDuplication(ModuleData module)
         {
             DataRow data = module.Tables[ModuleData.MODULES_TABLE].Rows[0];
@@ -110,105 +118,67 @@ namespace DataAccess
             SQLiteDataReader reader = cmdReader.ExecuteReader();
             return reader;
         }
-        public static modulesName read_modules()//读取出不同等级的模块名，存到一个结构体中返回
+        public static List<string> ReadModulesForDiffType(string type)
         {
-            
-            modulesName modulesList = new modulesName();
-            modulesList.modulesL1 = new List<string>();
-            modulesList.modulesL2 = new List<string>();
-            modulesList.modulesL3 = new List<string>();
-            string sql = "select level,name from modules";
+            List<string> modules = new List<string>();
+            string sql = "select name,type from modules";
             SQLiteDataReader reader = ExecuteReaderSql(sql);
             while (reader.Read())
             {
-                if (reader.GetInt32(0) == 1)
+                if (reader.GetString(1) == type)
                 {
-                    modulesList.modulesL1.Add(reader.GetString(1));
-                }
-                else
-                {
-                    if (reader.GetInt32(0) == 2)
-                    {
-                        modulesList.modulesL2.Add(reader.GetString(1));
-                    }
-                    else
-                    {
-                        modulesList.modulesL3.Add(reader.GetString(1));
-                    }
+                    modules.Add(reader.GetString(0));
                 }
             }
-            return modulesList;
+            return modules;
         }
-        public static List<ModulesList> read_all_modules()//读取所有等级的模块名
+        public static List<ModulesList> CountModuleType(string type)
         {
-            List<ModulesList> modulesAll = new List<ModulesList>();
+            List<string> modulesName = ReadModulesForDiffType(type);
+            RelationData relation = RelationOperator.GetRelationInfoForDiffModList(modulesName);//Type为3
+            List<ModulesList> modules = new List<ModulesList>();
+            for (int i = 0; i < modulesName.Count; i++)
+            {
+                ModulesList module = new ModulesList();
+                DataRow[] rl = relation.Tables[RelationData.RELATION_TABLE].Select(RelationData.SOURCENAME_FIELD + " = '" + modulesName[i] + "' or " + RelationData.TARGETNAME_FIELD + "='" + modulesName[i] + "'");
+                module.name = modulesName[i];
+                module.count = rl.Length;
+                modules.Add(module);
+            }
+            return modules;
+        }
+        public static List<string> ReadModulesForDiffLevel(int level)
+        {
+            List<string> modules = new List<string>();
             string sql = "select name,level from modules";
             SQLiteDataReader reader = ExecuteReaderSql(sql);
             while (reader.Read())
             {
-                ModulesList mm = new ModulesList();
-                mm.name = reader.GetString(0);
-                mm.level = reader.GetInt32(1);
-                modulesAll.Add(mm);
-            }
-            return modulesAll;
-        }
-        public static List<ModulesList> GetModuleCount(int level)//根据不同等级的模块对应的关系表读取出每个模块的关系数目
-        {
-            modulesName modulesName = read_modules();
-            List<ModulesList> modulesAll = read_all_modules();
-            List<ModulesList> modules = new List<ModulesList>();
-            RelationData relationdata = RelationOperator.LoadRelationInfo();
-            RelationData relaitonL1 = RelationOperator.GetRelationInfoForDiffLevel(modulesName, 1); //得到等级1的模块对应的关系表
-            RelationData relaitonL2 = RelationOperator.GetRelationInfoForDiffLevel(modulesName, 2);//得到等级1和2的模块对应的关系表
-            switch (level)
-            {
-                case 1:
-                    for (int i = 0; i < modulesAll.Count; i++)
-                    {
-                        DataRow[] rl1 = relaitonL1.Tables[RelationData.RELATION_TABLE].Select(RelationData.SOURCENAME_FIELD + " = '" + modulesAll[i].name + "' or " + RelationData.TARGETNAME_FIELD + "='" + modulesAll[i].name + "'");
-                        ModulesList module = new ModulesList();
-                        module.name = modulesAll[i].name;
-                        module.level = modulesAll[i].level;
-                        module.count = rl1.Length;
-                        modules.Add(module);
-                    }
-                    break;
-                case 2:
-                    for (int i = 0; i < modulesAll.Count; i++)
-                    {
-                        ModulesList module = new ModulesList();
-                        DataRow[] rl2 = relaitonL2.Tables[RelationData.RELATION_TABLE].Select(RelationData.SOURCENAME_FIELD + " = '" + modulesAll[i].name + "' or " + RelationData.TARGETNAME_FIELD + "='" + modulesAll[i].name + "'");
-                        module.name = modulesAll[i].name;
-                        module.level = modulesAll[i].level;
-                        module.count = rl2.Length;
-                        modules.Add(module);
-                    }
-                    break;
-                case 3:
-                    for (int i = 0; i < modulesAll.Count; i++)
-                    {
-                        ModulesList module = new ModulesList();
-                        DataRow[] rl3 = relationdata.Tables[RelationData.RELATION_TABLE].Select(RelationData.SOURCENAME_FIELD + " = '" + modulesAll[i].name + "' or " + RelationData.TARGETNAME_FIELD + "='" + modulesAll[i].name + "'");
-                        module.name = modulesAll[i].name;
-                        module.level = modulesAll[i].level;
-                        module.count = rl3.Length;
-                        modules.Add(module);
-                    }
-                    break;
+                if (reader.GetInt32(1) <= level)
+                {
+                    modules.Add(reader.GetString(0));
+                }
             }
             return modules;
         }
-        public struct modulesName
+        public static List<ModulesList> CountModuleLevel(int level)
         {
-            public List<string> modulesL1;
-            public List<string> modulesL2;
-            public List<string> modulesL3;
+            List<string> modulesName = ReadModulesForDiffLevel(level);
+            RelationData relation = RelationOperator.GetRelationInfoForDiffModList(modulesName);//Type为3
+            List<ModulesList> modules = new List<ModulesList>();
+            for (int i = 0; i < modulesName.Count; i++)
+            {
+                ModulesList module = new ModulesList();
+                DataRow[] rl = relation.Tables[RelationData.RELATION_TABLE].Select(RelationData.SOURCENAME_FIELD + " = '" + modulesName[i] + "' or " + RelationData.TARGETNAME_FIELD + "='" + modulesName[i] + "'");
+                module.name = modulesName[i];
+                module.count = rl.Length;
+                modules.Add(module);
+            }
+            return modules;
         }
         public struct ModulesList
         {
             public string name;
-            public int level;
             public int count;
         }
     }

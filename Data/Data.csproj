@@ -54,6 +54,9 @@
     <Compile Include="RelationData.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="StreamData.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
