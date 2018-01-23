@@ -79,6 +79,18 @@
     <Compile Include="Module.Designer.cs">
       <DependentUpon>Module.cs</DependentUpon>
     </Compile>
+    <Compile Include="ModuleControl\MyButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ModuleControl\MyButton.Designer.cs">
+      <DependentUpon>MyButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModuleInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModuleInfo.Designer.cs">
+      <DependentUpon>ModuleInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="NewProject.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,6 +122,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Module.resx">
       <DependentUpon>Module.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModuleInfo.resx">
+      <DependentUpon>ModuleInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NewProject.resx">
       <DependentUpon>NewProject.cs</DependentUpon>

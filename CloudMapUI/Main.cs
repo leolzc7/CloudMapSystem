@@ -373,11 +373,6 @@ namespace CloudMapUI
         {
             SystemOperator.WriteHistory();
             SystemOperator.CloseDb();
-            //if (DialogResult.Yes == MessageBox.Show("确定退出系统？", "企业云图", MessageBoxButtons.YesNo, MessageBoxIcon.Information))
-            //    //Application.Exit();
-            //    System.Environment.Exit(0);
-            //else
-            //    e.Cancel = true;
         }
 
 
@@ -390,12 +385,6 @@ namespace CloudMapUI
         {
 
         }
-
-        private void panel4_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         
         // Icon click events
         private void toolStripButton_newProject_Click(object sender, EventArgs e)
@@ -502,12 +491,12 @@ namespace CloudMapUI
                 modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height);
             }
             int NumCount = modPosition.Count;
-            Button[] btn = new Button[NumCount];
+            MyButton[] btn = new MyButton[NumCount];
 
             for (int i = 2; i < NumCount; i++)
             {
                 //g1.DrawRectangle(boderpen, modPosition[i].x - 1, modPosition[i].y - 1, modPosition[0].x + 1, modPosition[0].y + 1);
-                btn[i] = new Button();
+                btn[i] = new MyButton();
                 btn[i].BackColor = ModuleColor.Color;
                 //textBox[i].BackColor = Color.Purple;
                 btn[i].Font = fontDialog1.Font;
@@ -517,24 +506,31 @@ namespace CloudMapUI
                 btn[i].FlatStyle = FlatStyle.Flat;
                 btn[i].FlatAppearance.BorderColor = BorderColor.Color;
                 panel4.Controls.Add(btn[i]);
-                btn[i].Click += new EventHandler(this.TextBox_Click);
+                btn[i].Click += new EventHandler(this.MyButton_Click);
+                btn[i].DoubleClick += new EventHandler(this.MyButton_DoubleClick);
             }
             return modPosition;
         }
-        public void TextBox_Click(object sender, EventArgs e)
+
+        private void MyButton_DoubleClick(object sender, EventArgs e)
         {
-            List<Button> btnList = new List<Button>();
+            ModuleInfo moduleinfo = new ModuleInfo(this);
+            moduleinfo.ShowDialog();
+        }
+        public void MyButton_Click(object sender, EventArgs e)
+        {
+            List<MyButton> btnList = new List<MyButton>();
             List<ALine> alineList = new List<ALine>();
             Control.ControlCollection Cons = panel4.Controls;
-            Button select = (Button)sender;
+            MyButton select = (MyButton)sender;
             foreach (Control con in Cons)
             {
-                if (con is Button)
+                if (con is MyButton)
                 {
-                    btnList.Add((Button)con);
-                    ((Button)con).FlatAppearance.BorderColor = BorderColor.Color;
-                    ((Button)con).FlatAppearance.BorderSize = 1;
-                    ((Button)con).BackColor = ModuleColor.Color;
+                    btnList.Add((MyButton)con);
+                    ((MyButton)con).FlatAppearance.BorderColor = BorderColor.Color;
+                    ((MyButton)con).FlatAppearance.BorderSize = 1;
+                    ((MyButton)con).BackColor = ModuleColor.Color;
                 }
             }
             foreach (Control con in Cons)
