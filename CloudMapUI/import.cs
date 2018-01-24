@@ -78,6 +78,8 @@ namespace CloudMapUI
 
         private void importForm_FormClosed(object sender, FormClosedEventArgs e)
         {
+            //string sql = "DETACH DATABASE 'secondDb'";
+            //SystemOperator.ExecuteSql(sql);
             this.Hide();
         }
 
@@ -111,19 +113,20 @@ namespace CloudMapUI
         private void dgv_importModule_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             //如果选中点击则取消，反而逆之
-            for (int i = 0; i <= this.dgv_importModule.RowCount - 1; i++)
-            {
-                if (Convert.ToString(dgv_importModule.Rows[e.RowIndex].Cells[0].Value) == "true")
-                    dgv_importModule.Rows[e.RowIndex].Cells[0].Value = "false";
-                else
-                    dgv_importModule.Rows[e.RowIndex].Cells[0].Value = "true";
-            }
-            
+            if (Convert.ToString(dgv_importModule.Rows[e.RowIndex].Cells[0].Value) == "true")
+                dgv_importModule.Rows[e.RowIndex].Cells[0].Value = "false";
+            else
+                dgv_importModule.Rows[e.RowIndex].Cells[0].Value = "true";
 
+            if (this.dgv_importModule.CurrentCell.ColumnIndex == 0)
+            {
+                DataGridViewCheckBoxCell dgvCheck = (DataGridViewCheckBoxCell)(this.dgv_importModule.Rows[this.dgv_importModule.CurrentCell.RowIndex].Cells[0]);
+
+            }
             //全选
             if (e.RowIndex != -1)
             {
-                int state2 = 0;
+             int state2 = 0;
                 for (int i = 0; i <= this.dgv_importModule.RowCount - 1; i++)
                 {
                     if (dgv_importModule.Rows[i].Cells[0].EditedFormattedValue.ToString() == "True")
@@ -148,6 +151,8 @@ namespace CloudMapUI
                 dgv_importRelation.Rows[e.RowIndex].Cells[0].Value = "false";
             else
                 dgv_importRelation.Rows[e.RowIndex].Cells[0].Value = "true";
+
+            
 
             //全选
             if (e.RowIndex != -1)

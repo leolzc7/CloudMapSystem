@@ -71,7 +71,7 @@ namespace CloudMapUI
                 {
                     DataRow rows = moduledata.Tables[ModuleData.MODULES_TABLE].Select(ModuleData.NAME_FIELD + "='" + selectModule + "'")[0];
                     ModuleEditForm_Load(sender,e);
-                    MessageBox.Show("删除成功！");                  
+                    //MessageBox.Show("删除成功！");                  
                 }
             }
             else
@@ -105,7 +105,7 @@ namespace CloudMapUI
                     if (ModulesOperator.UpdateModulesInfo(saveModule, selectModule))
                     {
                         ModuleEditForm_Load(sender, e);
-                        MessageBox.Show("修改成功！");
+                        //MessageBox.Show("修改成功！");
                     }
                     else
                     {
@@ -128,7 +128,7 @@ namespace CloudMapUI
                     if (ModulesOperator.InsertModulesInfo(saveModule))
                     {
                         ModuleEditForm_Load(sender, e);
-                        MessageBox.Show("添加成功！");
+                        //MessageBox.Show("添加成功！");
                     }
                     else
                     {
