@@ -63,7 +63,7 @@ namespace CloudMapUI
         //取消导入
         private void btnCancel_Click(object sender, EventArgs e)
         {
-
+            this.Hide();
         }
   
         private void btnFolderBrowser_Click(object sender, EventArgs e)
@@ -118,11 +118,6 @@ namespace CloudMapUI
             else
                 dgv_importModule.Rows[e.RowIndex].Cells[0].Value = "true";
 
-            if (this.dgv_importModule.CurrentCell.ColumnIndex == 0)
-            {
-                DataGridViewCheckBoxCell dgvCheck = (DataGridViewCheckBoxCell)(this.dgv_importModule.Rows[this.dgv_importModule.CurrentCell.RowIndex].Cells[0]);
-
-            }
             //全选
             if (e.RowIndex != -1)
             {
