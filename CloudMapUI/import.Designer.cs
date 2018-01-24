@@ -34,7 +34,12 @@
             this.panel10 = new System.Windows.Forms.Panel();
             this.selectedAllRelation = new System.Windows.Forms.CheckBox();
             this.panel11 = new System.Windows.Forms.Panel();
+            this.btnSelected = new System.Windows.Forms.Button();
             this.dgv_importRelation = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel9 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
@@ -42,6 +47,8 @@
             this.selectedAllModules = new System.Windows.Forms.CheckBox();
             this.panel8 = new System.Windows.Forms.Panel();
             this.dgv_importModule = new System.Windows.Forms.DataGridView();
+            this.dgvCheckBoxModule = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel6 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -49,14 +56,8 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.openFileDialog_import = new System.Windows.Forms.OpenFileDialog();
-            this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel10.SuspendLayout();
@@ -125,10 +126,12 @@
             this.selectedAllRelation.TabIndex = 2;
             this.selectedAllRelation.Text = "全选";
             this.selectedAllRelation.UseVisualStyleBackColor = true;
+            this.selectedAllRelation.CheckedChanged += new System.EventHandler(this.selectedAllRelation_CheckedChanged);
             // 
             // panel11
             // 
             this.panel11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
+            this.panel11.Controls.Add(this.btnSelected);
             this.panel11.Controls.Add(this.dgv_importRelation);
             this.panel11.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel11.Location = new System.Drawing.Point(0, 28);
@@ -136,8 +139,26 @@
             this.panel11.Size = new System.Drawing.Size(407, 241);
             this.panel11.TabIndex = 0;
             // 
+            // btnSelected
+            // 
+            this.btnSelected.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(211)))), ((int)(((byte)(233)))));
+            this.btnSelected.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnSelected.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnSelected.Location = new System.Drawing.Point(0, 100);
+            this.btnSelected.Name = "btnSelected";
+            this.btnSelected.Size = new System.Drawing.Size(35, 22);
+            this.btnSelected.TabIndex = 24;
+            this.btnSelected.Text = "->";
+            this.btnSelected.UseVisualStyleBackColor = false;
+            this.btnSelected.Click += new System.EventHandler(this.btnSelected_Click);
+            // 
             // dgv_importRelation
             // 
+            this.dgv_importRelation.AllowUserToAddRows = false;
+            this.dgv_importRelation.AllowUserToDeleteRows = false;
+            this.dgv_importRelation.AllowUserToOrderColumns = true;
+            this.dgv_importRelation.AllowUserToResizeColumns = false;
+            this.dgv_importRelation.AllowUserToResizeRows = false;
             this.dgv_importRelation.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.dgv_importRelation.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_importRelation.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -146,11 +167,46 @@
             this.Column2,
             this.Column3});
             this.dgv_importRelation.Location = new System.Drawing.Point(35, 0);
+            this.dgv_importRelation.MultiSelect = false;
             this.dgv_importRelation.Name = "dgv_importRelation";
+            this.dgv_importRelation.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgv_importRelation.RowHeadersVisible = false;
             this.dgv_importRelation.RowTemplate.Height = 23;
             this.dgv_importRelation.Size = new System.Drawing.Size(337, 241);
             this.dgv_importRelation.TabIndex = 0;
+            this.dgv_importRelation.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_importRelation_CellClick);
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = " ";
+            this.Column1.Name = "Column1";
+            this.Column1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Column1.Width = 30;
+            // 
+            // Column4
+            // 
+            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column4.DataPropertyName = "rname";
+            this.Column4.HeaderText = "名称";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            // 
+            // Column2
+            // 
+            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column2.DataPropertyName = "sourceName";
+            this.Column2.HeaderText = "源系统";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            // 
+            // Column3
+            // 
+            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column3.DataPropertyName = "targetName";
+            this.Column3.HeaderText = "目标系统";
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
             // 
             // panel9
             // 
@@ -181,7 +237,6 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(222, 315);
             this.panel4.TabIndex = 1;
-            this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.panel4_Paint);
             // 
             // panel7
             // 
@@ -203,6 +258,7 @@
             this.selectedAllModules.TabIndex = 1;
             this.selectedAllModules.Text = "全选";
             this.selectedAllModules.UseVisualStyleBackColor = true;
+            this.selectedAllModules.CheckedChanged += new System.EventHandler(this.selectedAllModules_CheckedChanged);
             // 
             // panel8
             // 
@@ -216,17 +272,42 @@
             // 
             // dgv_importModule
             // 
+            this.dgv_importModule.AllowUserToAddRows = false;
+            this.dgv_importModule.AllowUserToDeleteRows = false;
+            this.dgv_importModule.AllowUserToOrderColumns = true;
+            this.dgv_importModule.AllowUserToResizeColumns = false;
+            this.dgv_importModule.AllowUserToResizeRows = false;
             this.dgv_importModule.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.dgv_importModule.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_importModule.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewCheckBoxColumn1,
+            this.dgvCheckBoxModule,
             this.dataGridViewTextBoxColumn1});
             this.dgv_importModule.Location = new System.Drawing.Point(35, 0);
+            this.dgv_importModule.MultiSelect = false;
             this.dgv_importModule.Name = "dgv_importModule";
             this.dgv_importModule.RowHeadersVisible = false;
             this.dgv_importModule.RowTemplate.Height = 23;
             this.dgv_importModule.Size = new System.Drawing.Size(187, 241);
             this.dgv_importModule.TabIndex = 1;
+            this.dgv_importModule.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_importModule_CellClick);
+            // 
+            // dgvCheckBoxModule
+            // 
+            this.dgvCheckBoxModule.FillWeight = 30.45685F;
+            this.dgvCheckBoxModule.HeaderText = " ";
+            this.dgvCheckBoxModule.Name = "dgvCheckBoxModule";
+            this.dgvCheckBoxModule.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvCheckBoxModule.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.dgvCheckBoxModule.Width = 28;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "name";
+            this.dataGridViewTextBoxColumn1.FillWeight = 169.5432F;
+            this.dataGridViewTextBoxColumn1.HeaderText = "名称";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
             // 
             // panel6
             // 
@@ -291,7 +372,7 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
-            this.panel2.Controls.Add(this.button1);
+            this.panel2.Controls.Add(this.btnCancel);
             this.panel2.Controls.Add(this.btn_SelectFinish);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 361);
@@ -299,72 +380,22 @@
             this.panel2.Size = new System.Drawing.Size(629, 50);
             this.panel2.TabIndex = 15;
             // 
-            // button1
+            // btnCancel
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(211)))), ((int)(((byte)(233)))));
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button1.Location = new System.Drawing.Point(355, 12);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(50, 24);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "取消";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnCancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(211)))), ((int)(((byte)(233)))));
+            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnCancel.Location = new System.Drawing.Point(355, 12);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(50, 24);
+            this.btnCancel.TabIndex = 9;
+            this.btnCancel.Text = "取消";
+            this.btnCancel.UseVisualStyleBackColor = false;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // openFileDialog_import
             // 
             this.openFileDialog_import.FileName = "openFileDialog1";
             this.openFileDialog_import.Filter = "(*.db)|*.db";
-            // 
-            // dataGridViewCheckBoxColumn1
-            // 
-            this.dataGridViewCheckBoxColumn1.FillWeight = 30.45685F;
-            this.dataGridViewCheckBoxColumn1.HeaderText = " ";
-            this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
-            this.dataGridViewCheckBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewCheckBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.dataGridViewCheckBoxColumn1.Width = 28;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "name";
-            this.dataGridViewTextBoxColumn1.FillWeight = 169.5432F;
-            this.dataGridViewTextBoxColumn1.HeaderText = "名称";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = " ";
-            this.Column1.Name = "Column1";
-            this.Column1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Column1.Width = 30;
-            // 
-            // Column4
-            // 
-            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column4.DataPropertyName = "rname";
-            this.Column4.HeaderText = "名称";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            // 
-            // Column2
-            // 
-            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column2.DataPropertyName = "sourceName";
-            this.Column2.HeaderText = "源系统";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            // 
-            // Column3
-            // 
-            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column3.DataPropertyName = "targetName";
-            this.Column3.HeaderText = "目标系统";
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
             // 
             // importForm
             // 
@@ -411,7 +442,7 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button btnFolderBrowser;
         private System.Windows.Forms.Panel panel10;
@@ -427,11 +458,12 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog_import;
         private System.Windows.Forms.DataGridView dgv_importRelation;
         private System.Windows.Forms.DataGridView dgv_importModule;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn dgvCheckBoxModule;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.Button btnSelected;
     }
 }

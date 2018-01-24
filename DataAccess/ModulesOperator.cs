@@ -21,8 +21,8 @@ namespace DataAccess
         public static ModuleData LoadModulesInfoForSecondDb()
         {
             ModuleData data = new ModuleData();
-            string sql0 = "select * from modules";
-            command = new SQLiteDataAdapter(sql0, globalParameters.secondConn);
+            string sql0 = "select * from secondDb.modules";
+            command = new SQLiteDataAdapter(sql0, globalParameters.conn);
             command.Fill(data.Tables[ModuleData.MODULES_TABLE]);
             return data;
         }
@@ -41,6 +41,31 @@ namespace DataAccess
             }
             return false;
         }
+        private static bool CheckAllModule(List<string> modulesName)
+        {
+            string cmdCheck = "SELECT count(*) FROM modules WHERE name in " + RelationOperator.GetString(modulesName);
+            SQLiteDataReader reader = ExecuteReaderSql(cmdCheck);
+            while (reader.Read())
+            {
+                if (reader.GetInt32(0) == 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public static bool importModules(List<string> modulesName)
+        {
+            bool check = CheckAllModule(modulesName);
+            if (!check)
+                return false;
+            string sql1 = "insert into modules select * from secondDb.modules where name in " + RelationOperator.GetString(modulesName);
+            SystemOperator.ExecuteSql(sql1);
+            return true;
+            //string sql4 = "insert into db0.relation select * from relation";
+            //ExecuteSql(sql4);
+        }
+
         public static bool InsertModulesInfo(ModuleData module)
         {
             bool check = CheckDuplication(module);

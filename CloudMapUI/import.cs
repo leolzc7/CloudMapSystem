@@ -9,117 +9,66 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Data;
+using DataAccess;
 
 namespace CloudMapUI
 {
     public partial class importForm : Form
     {
         private MainForm paf;
+        List<string> selectModule;
+        RelationData relation;
+        RelationData selectRelation;
         public importForm(MainForm parent)
         {
             InitializeComponent();
             paf = parent;
-            //connect_open_db();
-            //flushModuleList();
-            //flushRelationList();
         }
-
-        private void btn_SelectFinish_Click(object sender, EventArgs e)
-        {
-            //close_db();
-            this.Hide();
-        }
-
         public MainForm parent { get; set; }
 
-       
-        private void btnAddModule_Click(object sender, EventArgs e)
+        //导入
+        private void btn_SelectFinish_Click(object sender, EventArgs e)
         {
-            
-
+            selectRelation = new RelationData();
+            string source;
+            string target;
+            for (int i = 0; i <= this.dgv_importRelation.RowCount - 1; i++)
+                if (dgv_importRelation.Rows[i].Cells[0].EditedFormattedValue.ToString() == "True")
+                {
+                    source = dgv_importRelation.Rows[i].Cells[2].Value.ToString();
+                    target = dgv_importRelation.Rows[i].Cells[3].Value.ToString();
+                    DataRow odr = relation.Tables[RelationData.RELATION_TABLE].Select(RelationData.SOURCENAME_FIELD + "='" + source + "' and  " + RelationData.TARGETNAME_FIELD + "='" + target + "'")[0];
+                    DataRow dr = selectRelation.Tables[RelationData.RELATION_TABLE].NewRow();
+                    dr[2] = odr[RelationData.NAME_FIELD];
+                    dr[0] = odr[RelationData.SOURCENAME_FIELD];
+                    dr[1] = odr[RelationData.TARGETNAME_FIELD];
+                    dr[3] = odr[RelationData.BIDIRECTION_FIELD].ToString();
+                    dr[4] = odr[RelationData.TYPE_FIELD].ToString();
+                    dr[5] = odr[RelationData.COMMENT_FIELD].ToString();
+                    selectRelation.Tables[RelationData.RELATION_TABLE].Rows.Add(dr);
+                }
+            if (IsModuleChecked())
+            {
+                if (ModulesOperator.importModules(selectModule))
+                    MessageBox.Show("模块导入成功！");
+            }
+            if (IsRelationChecked())
+            {
+                if(RelationOperator.ImportRelation(selectRelation))
+                    MessageBox.Show("关系导入成功！");
+            }
         }
 
-        private void SelectedModule_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkedListBox_Module_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        //private void connect_open_db()
-        //{
-        //    conn = new SQLiteConnection(NewProjectForm.dbPath);//创建数据库实例，指定文件位置
-        //    conn.Open();
-        //    string sq3 = "PRAGMA foreign_keys = 'on';";
-        //    SQLiteCommand cmdOpenCascade = new SQLiteCommand(sq3, conn);
-        //    cmdOpenCascade.ExecuteNonQuery();
-        //}
-
-        //private void close_db()
-        //{
-        //    conn.Close();
-        //}
-
-
-        //public void flushModuleList()
-        //{
-        //    ModuleEditForm.conn = conn;
-        //    ModuleEditForm.read_modules();
-        //    checkedListBox_Module.DataSource = ModuleEditForm.modulesList;
-        //}
-
-        //public void flushRelationList()
-        //{
-        //    RelationEditForm.conn = conn;
-        //    RelationEditForm.read_relation_source_target();
-        //    checkedListBox_Relation.DataSource = RelationEditForm.relationList;
-        //}
-
-        private void label1_Click(object sender, EventArgs e)
+        //取消导入
+        private void btnCancel_Click(object sender, EventArgs e)
         {
 
         }
-
-        private void selectedAll_CheckedChanged(object sender, EventArgs e)
-        {
-            //if(selectedAllModules.Checked == true)
-            //{
-            //    for (int j = 0; j < checkedListBox_Module.Items.Count; j++)
-            //        checkedListBox_Module.SetItemChecked(j, true);
-            //}
-            //else
-            //{
-            //    for (int j = 0; j < checkedListBox_Module.Items.Count; j++)
-            //        checkedListBox_Module.SetItemChecked(j, false);
-            //}
-        }
-
-        private void selectedAllRelation_CheckedChanged(object sender, EventArgs e)
-        {
-            //if(selectedAllRelation.Checked == true)
-            //{
-            //    for (int j = 0; j < checkedListBox_Relation.Items.Count; j++)
-            //        checkedListBox_Relation.SetItemChecked(j, true);
-            //}
-            //else
-            //{
-            //    for (int j = 0; j < checkedListBox_Relation.Items.Count; j++)
-            //        checkedListBox_Relation.SetItemChecked(j, false);
-            //}
-        }
-
-        private void panel4_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
+  
         private void btnFolderBrowser_Click(object sender, EventArgs e)
         {
             openFileDialog_import.ShowDialog();
-            //textBox1.Text = openFileDialog_import.FileName;
             SystemOperator.OpenProject(openFileDialog_import.FileName, false);
             textBox1.Text = globalParameters.secondDbName;
             dgv_importModule.AutoGenerateColumns = false;
@@ -127,19 +76,157 @@ namespace CloudMapUI
             dgv_importModule.DataSource = moduledata.Tables[ModuleData.MODULES_TABLE].DefaultView;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void importForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.Hide();
         }
 
-        private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
+        //判断模块是否有选中的行
+        private bool IsModuleChecked()
         {
-
+            for (int i = 0; i <= this.dgv_importModule.RowCount - 1; i++)
+            {
+                if (dgv_importModule.Rows[i].Cells[0].EditedFormattedValue.ToString() == "True")
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
-        private void importForm_FormClosed(object sender, FormClosedEventArgs e)
+        //判断关系是否有选中的行
+        private bool IsRelationChecked()
         {
-            SystemOperator.CloseSecondDb();
+            for (int i = 0; i <= this.dgv_importRelation.RowCount - 1; i++)
+            {
+                if (dgv_importRelation.Rows[i].Cells[0].EditedFormattedValue.ToString() == "True")
+                {
+                    return true;
+                }
+            }
+            return false;
         }
+
+        //选中模块
+        private void dgv_importModule_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //如果选中点击则取消，反而逆之
+            for (int i = 0; i <= this.dgv_importModule.RowCount - 1; i++)
+            {
+                if (Convert.ToString(dgv_importModule.Rows[e.RowIndex].Cells[0].Value) == "true")
+                    dgv_importModule.Rows[e.RowIndex].Cells[0].Value = "false";
+                else
+                    dgv_importModule.Rows[e.RowIndex].Cells[0].Value = "true";
+            }
+            
+
+            //全选
+            if (e.RowIndex != -1)
+            {
+                int state2 = 0;
+                for (int i = 0; i <= this.dgv_importModule.RowCount - 1; i++)
+                {
+                    if (dgv_importModule.Rows[i].Cells[0].EditedFormattedValue.ToString() == "True")
+                        state2++;
+                    else
+                        state2--;
+                }
+                if (state2 == dgv_importModule.Rows.Count)
+                    selectedAllModules.CheckState = CheckState.Checked;
+                else if (state2 == -dgv_importModule.Rows.Count)
+                    selectedAllModules.CheckState = CheckState.Unchecked;
+                else
+                    selectedAllModules.CheckState = CheckState.Indeterminate;           
+            }
+        }
+
+        //选中关系
+        private void dgv_importRelation_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //如果选中点击则取消，反而逆之
+            if (Convert.ToString(dgv_importRelation.Rows[e.RowIndex].Cells[0].Value) == "true")
+                dgv_importRelation.Rows[e.RowIndex].Cells[0].Value = "false";
+            else
+                dgv_importRelation.Rows[e.RowIndex].Cells[0].Value = "true";
+
+            //全选
+            if (e.RowIndex != -1)
+            {
+                int state1 = 0;
+                for (int i = 0; i <= this.dgv_importRelation.RowCount - 1; i++)
+                {
+                    if (dgv_importRelation.Rows[i].Cells[0].EditedFormattedValue.ToString() == "True")
+                        state1++;
+                    else
+                        state1--;
+                }
+                if (state1 == dgv_importRelation.Rows.Count)
+                    selectedAllRelation.CheckState = CheckState.Checked;
+                else if (state1 == -dgv_importModule.Rows.Count)
+                    selectedAllRelation.CheckState = CheckState.Unchecked;
+                else
+                    selectedAllRelation.CheckState = CheckState.Indeterminate;
+            }
+        }
+
+        //模块全选复选框
+        private void selectedAllModules_CheckedChanged(object sender, EventArgs e)
+        {
+            if (selectedAllModules.CheckState == CheckState.Checked)
+            {
+                for (int i = 0; i <= this.dgv_importModule.RowCount - 1; i++)
+                {
+                    this.dgv_importModule.Rows[i].Cells[0].Value = "true";
+                }
+            }
+            else if (selectedAllModules.CheckState == CheckState.Unchecked)
+            {
+                for (int i = 0; i <= this.dgv_importModule.RowCount - 1; i++)
+                {
+                    this.dgv_importModule.Rows[i].Cells[0].Value = "false";
+                }
+            }
+        }
+
+        //关系全选复选框
+        private void selectedAllRelation_CheckedChanged(object sender, EventArgs e)
+        {
+            if (selectedAllRelation.CheckState == CheckState.Checked)
+            {
+                for (int i = 0; i <= this.dgv_importRelation.RowCount - 1; i++)
+                {
+                    this.dgv_importRelation.Rows[i].Cells[0].Value = "true";
+                }
+            }
+            else if (selectedAllRelation.CheckState == CheckState.Unchecked)
+            {
+                for (int i = 0; i <= this.dgv_importRelation.RowCount - 1; i++)
+                {
+                    this.dgv_importRelation.Rows[i].Cells[0].Value = "false";
+                }
+            }
+        }
+
+        private void btnSelected_Click(object sender, EventArgs e)
+        {            
+            if (IsModuleChecked())
+            {
+                selectModule=new List<string>();
+                for (int i = 0; i <= this.dgv_importModule.RowCount - 1; i++)
+                    if (dgv_importModule.Rows[i].Cells[0].EditedFormattedValue.ToString() == "True")
+                        selectModule.Add(dgv_importModule.Rows[i].Cells[1].Value.ToString());
+
+                relation = new RelationData();
+                relation=RelationOperator.GetRelationInfoForImport(selectModule);
+                dgv_importRelation.AutoGenerateColumns = false;
+                dgv_importRelation.DataSource = relation.Tables[RelationData.RELATION_TABLE].DefaultView;
+            }
+        }
+
+
+
+        
+
+        
     }
 }

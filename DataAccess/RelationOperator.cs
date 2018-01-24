@@ -24,14 +24,14 @@ namespace DataAccess
         public static RelationData LoadRelationInfoForSecondDb()
         {
             RelationData data = new RelationData();
-            string sql0 = "select * from relation";
-            command = new SQLiteDataAdapter(sql0, globalParameters.secondConn);
+            string sql0 = "select * from secondDb.relation";
+            command = new SQLiteDataAdapter(sql0, globalParameters.conn);
             command.Fill(data.Tables[RelationData.RELATION_TABLE]);
             return data;
         }
-        private static bool CheckDuplication(RelationData relation)
+        private static bool CheckDuplication(DataRow data)
         {
-            DataRow data = relation.Tables[RelationData.RELATION_TABLE].Rows[0];
+            //DataRow data = relation.Tables[RelationData.RELATION_TABLE].Rows[0];
             string nameSource = "'" + data[RelationData.SOURCENAME_FIELD ] + "'";
             string nameTarget = "'" + data[RelationData.TARGETNAME_FIELD] + "'";
             string cmdCheck = "SELECT count(*) FROM relation WHERE sourceName = " + nameSource + " and targetName =  " + nameTarget;
@@ -59,6 +59,21 @@ namespace DataAccess
             }
             return relationFilter;
         }
+        public static bool ImportRelation(RelationData relation) //检查每一行是否有重复然后插入
+        {
+            for (int i = 0; i < relation.Tables[RelationData.RELATION_TABLE].Rows.Count; i++)
+            {
+                DataRow data = relation.Tables[RelationData.RELATION_TABLE].Rows[i];
+                bool check = CheckDuplication(data);
+                if (!check)
+                    return false;
+                string sourceName = "'" + relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.SOURCENAME_FIELD].ToString() + "'";
+                string targetName = "'" + relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.TARGETNAME_FIELD].ToString() + "'";
+                string sql1 = "insert into relation select * from secondDb.relation where sourceName = " + sourceName + " and targetName = " + targetName;
+                SystemOperator.ExecuteSql(sql1);
+            }
+            return true;
+        }
         public static RelationData GetRelationInfoForDiffModList(List<string> modulesName)
         {
             RelationData relationdata = LoadRelationInfo();
@@ -75,7 +90,8 @@ namespace DataAccess
         }//不同的等级的关系虚拟表Dataset
         public static bool InsertRelationInfo(RelationData relation)
         {
-            bool check = CheckDuplication(relation);
+            DataRow data = relation.Tables[RelationData.RELATION_TABLE].Rows[0];
+            bool check = CheckDuplication(data);
             if (!check)
                 return false;
             string insertCommand = GetInsertCommand(relation);
@@ -106,9 +122,9 @@ namespace DataAccess
         }
         public static bool UpdateRelationInfo(RelationData relation, string selectSource, string selectTarget)
         {
-            bool check = CheckDuplication(relation);
-            if (!check)
-                return false;
+            //bool check = CheckDuplication(relation);
+            //if (!check)
+            //    return false;
             string updateCommand = GetUpdateCommand(relation, selectSource, selectTarget);
             SystemOperator.ExecuteSql(updateCommand);
             if (relation.HasErrors)
@@ -178,7 +194,7 @@ namespace DataAccess
             public string bidirection;
             public string relationName;
         }
-        private static string GetString(List<string> modulesName)
+        public static string GetString(List<string> modulesName)
         {
             string nameString = @"(";
             if (modulesName.Count > 0)
@@ -196,7 +212,7 @@ namespace DataAccess
             nameString = nameString + ")";
             return nameString;
         }//将模块的名字列表变成一个字符串
-        private static string GetString(List<string> modulesL1, List<string> modulesL2)
+        public static string GetString(List<string> modulesL1, List<string> modulesL2)
         {
             string nameString = @"(";
             if (modulesL1.Count + modulesL2.Count > 0)

@@ -144,6 +144,7 @@ namespace CloudMapUI
         {
             importForm import = new importForm(this);
             import.ShowDialog();
+            mainFormStatus();
         }
 
         private void ToolStripMenuItem_OpenProject_Click(object sender, EventArgs e)

@@ -21,5 +21,8 @@ namespace Data
         public static SQLiteConnection secondConn = null;
         public static string dbDirPath = @"C:\CloudMap\";
         public static string dbHistoryPath = dbDirPath+"history.ini";
+        public static string tempDb = @"C:\CloudMap\tempppppppppppppp.db";
+        public static string attachDb;
+
     }
 }
