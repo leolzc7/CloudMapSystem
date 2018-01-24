@@ -207,6 +207,7 @@ namespace CloudMapUI
             }
         }
 
+        //显示选中模块的关系
         private void btnSelected_Click(object sender, EventArgs e)
         {            
             if (IsModuleChecked())
