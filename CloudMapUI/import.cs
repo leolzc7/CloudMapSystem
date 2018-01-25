@@ -9,8 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Data;
-using DataAccess;
 
 namespace CloudMapUI
 {
@@ -117,7 +115,6 @@ namespace CloudMapUI
                 dgv_importModule.Rows[e.RowIndex].Cells[0].Value = "false";
             else
                 dgv_importModule.Rows[e.RowIndex].Cells[0].Value = "true";
-
             //全选
             if (e.RowIndex != -1)
             {

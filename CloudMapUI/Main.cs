@@ -23,6 +23,7 @@ namespace CloudMapUI
         public static MainForm mainform;
         public static int panelWidth;
         public static int panelHeight;
+        public static Color currentColor;
         public MainForm()
         {
             InitializeComponent();
@@ -95,6 +96,7 @@ namespace CloudMapUI
             panel4.Size = panel1.Size;
             panelWidth = panel4.Size.Width;
             panelHeight = panel4.Size.Height;
+            comboBox_type.Enabled = false;
         }
         private void AddHistoryItem()
         {
@@ -304,14 +306,14 @@ namespace CloudMapUI
                 }
             }
         }
-        private void 磅ToolStripMenuItem3_Click(object sender, EventArgs e)
+        public void ChangeLineWidth(int penwidth)
         {
-            Control.ControlCollection Cons = panel4.Controls;
+            Control.ControlCollection Cons = this.panel4.Controls;
             foreach (Control con in Cons)
             {
                 if (con is ALine)
                 {
-                    ((ALine)con).Penwidth = 1;
+                    ((ALine)con).Penwidth = penwidth;
                     if (((ALine)con).Points[0] == ((ALine)con).Points[2])
                     {
                         ((ALine)con).Location = new Point(((ALine)con).Points[0] - 4 * ((ALine)con).Penwidth, ((ALine)con).Points[1]);
@@ -321,40 +323,18 @@ namespace CloudMapUI
                 }
             }
         }
+        private void 磅ToolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            ChangeLineWidth(1);
+        }
         private void 磅ToolStripMenuItem5_Click(object sender, EventArgs e)
         {
-            Control.ControlCollection Cons = panel4.Controls;
-            foreach (Control con in Cons)
-            {
-                if (con is ALine)
-                {
-                    ((ALine)con).Penwidth = 2;
-                    if (((ALine)con).Points[0] == ((ALine)con).Points[2])
-                    {
-                        ((ALine)con).Location = new Point(((ALine)con).Points[0] - 4 * ((ALine)con).Penwidth, ((ALine)con).Points[1]);
-                    }
-                    else
-                        ((ALine)con).Location = new Point(((ALine)con).Points[0], ((ALine)con).Points[1] - 4 * ((ALine)con).Penwidth);
-                }
-            }
+            ChangeLineWidth(2);
         }
 
         private void 磅ToolStripMenuItem6_Click(object sender, EventArgs e)
         {
-            Control.ControlCollection Cons = panel4.Controls;
-            foreach (Control con in Cons)
-            {
-                if (con is ALine)
-                {
-                    ((ALine)con).Penwidth = 4;
-                    if (((ALine)con).Points[0] == ((ALine)con).Points[2])
-                    {
-                        ((ALine)con).Location = new Point(((ALine)con).Points[0] - 4 * ((ALine)con).Penwidth, ((ALine)con).Points[1]);
-                    }
-                    else
-                        ((ALine)con).Location = new Point(((ALine)con).Points[0], ((ALine)con).Points[1] - 4 * ((ALine)con).Penwidth);
-                }
-            }
+            ChangeLineWidth(4);
         }
         private void ToolStripMenuItem_About_Click(object sender, EventArgs e)
         {
@@ -469,8 +449,6 @@ namespace CloudMapUI
         }
         public List<Module> DrawModules()
         {
-            //Graphics g1 = panel4.CreateGraphics();
-            //Pen boderpen = new Pen(BorderColor.Color, 1);//模块边框画笔
             List<Module> modPosition = new List<Module>();
             if (comboBox_level.Text != null && comboBox_level.Text != "")
             {
@@ -489,17 +467,20 @@ namespace CloudMapUI
             }
             else
             {
-                modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height);
+                if (comboBox_type.Text != null && comboBox_type.Text != "")
+                {
+                    modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height, comboBox_type.Text);
+                }
+                else
+                    modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height, 3);
             }
             int NumCount = modPosition.Count;
             MyButton[] btn = new MyButton[NumCount];
 
             for (int i = 2; i < NumCount; i++)
             {
-                //g1.DrawRectangle(boderpen, modPosition[i].x - 1, modPosition[i].y - 1, modPosition[0].x + 1, modPosition[0].y + 1);
                 btn[i] = new MyButton();
                 btn[i].BackColor = ModuleColor.Color;
-                //textBox[i].BackColor = Color.Purple;
                 btn[i].Font = fontDialog1.Font;
                 btn[i].Size = new System.Drawing.Size(modPosition[0].x, modPosition[0].y);
                 btn[i].Location = new Point(modPosition[i].x, modPosition[i].y);
@@ -512,18 +493,53 @@ namespace CloudMapUI
             }
             return modPosition;
         }
-
+        //双击按钮
         private void MyButton_DoubleClick(object sender, EventArgs e)
         {
-            ModuleInfo moduleinfo = new ModuleInfo(this);
+            //恢复模块原有样式
+            Control.ControlCollection Cons = this.panel4.Controls;
+            foreach (Control con in Cons)
+            {
+                if (con is MyButton)
+                {
+                    ((MyButton)con).FlatAppearance.BorderColor = this.BorderColor.Color;
+                    ((MyButton)con).FlatAppearance.BorderSize = 1;
+                    ((MyButton)con).BackColor = this.ModuleColor.Color;
+                }
+            }
+            //恢复关系线原有样式
+            foreach (Control con in Cons)
+            {
+                if (con is ALine)
+                {
+                    ((ALine)con).Pencolor = this.LineColor.Color;
+                }
+            }
+            ModuleInfo moduleinfo = new ModuleInfo((MyButton)sender);
             moduleinfo.ShowDialog();
         }
+        //单击按钮
         public void MyButton_Click(object sender, EventArgs e)
         {
+            //使左侧模块的datagridview选中
+            string seleteName = ((MyButton)sender).Text;
+            int index = 0;
+            for (int i = 0; i < dataGridView_module.RowCount; i++)//遍历所有选中的行
+            {
+                if (dataGridView_module.Rows[i].Cells[0].Value.Equals(seleteName))
+                {
+                    index = i;
+                    break;
+                }
+            }
+            dataGridView_module.CurrentCell = dataGridView_module.Rows[index].Cells[0];
+
+            //并且使它和与它相连的关系线高亮显示
             List<MyButton> btnList = new List<MyButton>();
             List<ALine> alineList = new List<ALine>();
             Control.ControlCollection Cons = panel4.Controls;
             MyButton select = (MyButton)sender;
+            //每个模块恢复原样
             foreach (Control con in Cons)
             {
                 if (con is MyButton)
@@ -534,6 +550,7 @@ namespace CloudMapUI
                     ((MyButton)con).BackColor = ModuleColor.Color;
                 }
             }
+            //每个关系线恢复原样
             foreach (Control con in Cons)
             {
                 if (con is ALine)
@@ -542,6 +559,7 @@ namespace CloudMapUI
                     ((ALine)con).Pencolor = LineColor.Color;
                 }
             }
+            //关系线与模块相连则变红色
             foreach (ALine aline in alineList)
             {
                 if (
@@ -561,6 +579,7 @@ namespace CloudMapUI
                     }
                 }
             }
+            //选中的这模块高亮显示
             select.FlatAppearance.BorderColor = Color.LightBlue;
             select.FlatAppearance.BorderSize = 3;
             select.BackColor = Color.LightYellow;
@@ -586,8 +605,12 @@ namespace CloudMapUI
             }
             else
             {
-                line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 3);
-                comboBox_level.SelectedIndex = 2;
+                if (comboBox_type.Text != null && comboBox_type.Text != "")
+                {
+                    line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, comboBox_type.Text);
+                }
+                else
+                    line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 3);
             }
             int LineCount = 0;
             for (int i = 0; i < line.Length; i++)
@@ -626,16 +649,110 @@ namespace CloudMapUI
                     aline[i].Location = new Point(line[i].line[0], line[i].line[1] - 4 * aline[i].Penwidth);
                 aline[i].Text = line[i].lineName;
                 aline[i].MouseHover += new EventHandler(this.AlineHover);
-                //aline[i].Click += new EventHandler(this.AlineClick);
-                aline[i].MouseDown += new MouseEventHandler(this.AlineDown);
-                aline[i].MouseUp += new MouseEventHandler(this.AlineUp);
+                aline[i].Click += new EventHandler(this.AlineClick);
+                aline[i].DoubleClick += new EventHandler(this.AlineDoubleClick);
+                //aline[i].MouseDown += new MouseEventHandler(this.AlineDown);
+                //aline[i].MouseUp += new MouseEventHandler(this.AlineUp);
                 //aline[i].MouseHover += (e, a) => AlineHover(line[i].lineName);
                 panel4.Controls.Add(aline[i]);
             }
         }
-        public void AlineDown(object sender, EventArgs e)
+        //单击关系线
+        private void AlineClick(object sender, EventArgs e)
+        {
+            List<ALine> singleline = new List<ALine>();
+            ALine longline = new ALine();
+            longline.Points = new int[] { 0, 0, 0, 0, 0 };
+            string selectRelation = ((ALine)sender).Text;
+            Control.ControlCollection Cons = panel4.Controls;
+            //恢复所有线原来的颜色
+            foreach (Control con in Cons)
+            {
+                if (con is ALine)
+                {
+                    ((ALine)con).Pencolor = LineColor.Color;
+                }
+            }
+            //点击关系线高亮显示
+            foreach (Control con in Cons)
+            {
+                if (con is ALine)
+                {
+                    if ((con.Text).Equals(selectRelation))
+                    {
+                        singleline.Add((ALine)con);
+                        ((ALine)con).Pencolor = Color.Red;
+                    }
+                }
+            }
+            //找到这条关系中最长的线
+            foreach (ALine line in singleline)
+            {
+                int dertaX = Math.Abs(line.Points[0] - line.Points[2]);
+                int dertaY = Math.Abs(line.Points[1] - line.Points[3]);
+                int longderta = Math.Max(Math.Abs(longline.Points[0] - longline.Points[2]), Math.Abs(longline.Points[1] - longline.Points[3]));
+                if (Math.Max(dertaX, dertaY) > longderta)
+                    longline = line;
+            }
+            int labelX;
+            int labelY;
+            Label label_longline = new Label();
+
+            label_longline.BackColor = Color.Transparent;
+            label_longline.AutoSize = false;
+            label_longline.Text = selectRelation;
+            label_longline.BringToFront();
+            //判断最长的线是横着还是竖着的，横竖size和location不一样
+            if (longline.Points[0] == longline.Points[2])//竖线
+            {
+                labelX = longline.Location.X + longline.Size.Width;
+                labelY = longline.Location.Y + (int)(longline.Size.Height / 3);
+                label_longline.Size = new Size(20, 200);
+            }
+            else//横线
+            {
+                labelX = longline.Location.X + (int)(longline.Size.Width / 3);
+                labelY = longline.Location.Y - 10;
+                label_longline.Size = new Size(200, 20);
+            }
+            label_longline.Location = new Point(labelX, labelY);
+            LabelTransparent labelTransparent = new LabelTransparent(label_longline);
+            labelTransparent.BringToFront();
+            labelTransparent.DoubleClick += new EventHandler(this.LabelTransp_DoubleClick);
+            panel4.Controls.Add(labelTransparent);
+
+
+            //在左侧datagridview_relation中选中
+            string seleteName = ((ALine)sender).Text;
+            int index=0;
+            for (int i = 0; i < dataGridView_relation.RowCount ; i++)//遍历所有选中的行
+            {
+                if(dataGridView_relation.Rows[i].Cells[0].Value.Equals(seleteName))
+                {
+                    index=i;
+                    break;
+                }
+            }
+            dataGridView_relation.CurrentCell=dataGridView_relation.Rows[index].Cells[0];
+        }
+
+        private void AlineDoubleClick(object sender, EventArgs e)
         {
             Control.ControlCollection Cons = panel4.Controls;
+            foreach (Control con in Cons)
+            {
+                if (con is ALine)
+                {
+                    ((ALine)con).Pencolor = LineColor.Color;
+                }
+            }
+            RelationInfo relationinfo = new RelationInfo((ALine)sender);
+            relationinfo.ShowDialog();
+        }
+        public void AlineDown(object sender, EventArgs e)
+        {
+            currentColor = ((ALine)sender).Pencolor;
+            Control.ControlCollection Cons = this.panel4.Controls;
             foreach (Control con in Cons)
             {
                 if (con is ALine)
@@ -646,7 +763,7 @@ namespace CloudMapUI
                         ((ALine)con).Penwidth = ((ALine)con).Penwidth + 1;
                         if (((ALine)con).Points[0] == ((ALine)con).Points[2])
                         {
-                            ((ALine)con).Location = new Point(((ALine)con).Points[0] - 4*((ALine)con).Penwidth, ((ALine)con).Points[1]);
+                            ((ALine)con).Location = new Point(((ALine)con).Points[0] - 4 * ((ALine)con).Penwidth, ((ALine)con).Points[1]);
                         }
                         else
                             ((ALine)con).Location = new Point(((ALine)con).Points[0], ((ALine)con).Points[1] - 4 * ((ALine)con).Penwidth);
@@ -664,32 +781,32 @@ namespace CloudMapUI
         }
         public void AlineUp(object sender, EventArgs e)
         {
-            Control.ControlCollection Cons = panel4.Controls;
+            Control.ControlCollection Cons = this.panel4.Controls;
             foreach (Control con in Cons)
             {
                 if (con is ALine)
                 {
                     if ((con.Text).Equals(((ALine)sender).Text))
                     {
-                        ((ALine)con).Pencolor = LineColor.Color;
+                        ((ALine)con).Pencolor = currentColor;
                         ((ALine)con).Penwidth = ((ALine)con).Penwidth - 1;
                         if (((ALine)con).Points[0] == ((ALine)con).Points[2])
                         {
-                            ((ALine)con).Location = new Point(((ALine)con).Points[0] - 4*((ALine)con).Penwidth, ((ALine)con).Points[1]);
+                            ((ALine)con).Location = new Point(((ALine)con).Points[0] - 4 * ((ALine)con).Penwidth, ((ALine)con).Points[1]);
                         }
                         else
                             ((ALine)con).Location = new Point(((ALine)con).Points[0], ((ALine)con).Points[1] - 4 * ((ALine)con).Penwidth);
                     }
                 }
             }
-            ((ALine)sender).Pencolor = LineColor.Color;
+            ((ALine)sender).Pencolor = currentColor;
             ((ALine)sender).Penwidth = ((ALine)sender).Penwidth - 1;
             if (((ALine)sender).Points[0] == ((ALine)sender).Points[2])
             {
-                ((ALine)sender).Location = new Point(((ALine)sender).Points[0] - 4*((ALine)sender).Penwidth, ((ALine)sender).Points[1]);
+                ((ALine)sender).Location = new Point(((ALine)sender).Points[0] - 4 * ((ALine)sender).Penwidth, ((ALine)sender).Points[1]);
             }
             else
-                ((ALine)sender).Location = new Point(((ALine)sender).Points[0], ((ALine)sender).Points[1] -  4*((ALine)sender).Penwidth);
+                ((ALine)sender).Location = new Point(((ALine)sender).Points[0], ((ALine)sender).Points[1] - 4 * ((ALine)sender).Penwidth);
         }
 
         public void AlineHover(object sender, EventArgs e)
@@ -709,14 +826,6 @@ namespace CloudMapUI
         {
             comboBox_level.SelectedIndex = 0;
         }
-
-        private void panel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-
-
         private void ToolStripMenuItem_BorderWidth_Click(object sender, EventArgs e)
         {
 
@@ -732,21 +841,11 @@ namespace CloudMapUI
             {
                 btn_generateMap_Click(sender, e);
             }
-            //btn_generateMap_Click(sender, e);
         }
 
         private void toolStripDropDownButton_lineWidth_Click(object sender, EventArgs e)
         {
 
-        }
-
-
-
-
-
-        private void comboBox_level_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //btn_generateMap_Click(sender, e);
         }
 
         private void ToolStripMenuItem_Refresh_Click(object sender, EventArgs e)
@@ -791,5 +890,62 @@ namespace CloudMapUI
         {
             磅ToolStripMenuItem6_Click(sender, e);
         }
+
+        //点击左侧datagrid中的模块，使面板中对应模块高亮显示
+        private void dataGridView_module_CellClick(object sender, System.Windows.Forms.DataGridViewCellEventArgs e)
+        {
+            string selectModule = dataGridView_module.CurrentCell.Value.ToString();
+            Control.ControlCollection Cons = panel4.Controls;
+            //恢复面板上所有之前选中模块
+            foreach (Control con in Cons)
+            {
+                if (con is MyButton)
+                {
+                    ((MyButton)con).FlatAppearance.BorderColor = BorderColor.Color;
+                    ((MyButton)con).FlatAppearance.BorderSize = 1;
+                    ((MyButton)con).BackColor = ModuleColor.Color;
+                }
+            }
+            //使选中cell的模块高亮显示
+            foreach (Control con in Cons)
+            {
+                if (con is MyButton)
+                {
+                    if (((MyButton)con).Text == selectModule)
+                    {
+                        ((MyButton)con).FlatAppearance.BorderColor = Color.LightBlue;
+                        ((MyButton)con).FlatAppearance.BorderSize = 3;
+                        ((MyButton)con).BackColor = Color.LightYellow;
+                    }
+                }
+            }
+        }
+        //点击左侧datagrid中的关系，使面板中对应关系线高亮显示
+        private void dataGridView_relation_CellClick(object sender, System.Windows.Forms.DataGridViewCellEventArgs e)
+        {
+
+        }
+        //双击关系线名称，使其消失
+        private void LabelTransp_DoubleClick(object sender, EventArgs e)
+        {
+            panel4.Controls.Remove((LabelTransparent)sender);
+            ((LabelTransparent)sender).Visible = false;
+        }
+
+        private void 添加业务流ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+        //添加两个filter的约束条件：level为空的时候才可以选择type
+        private void comboBox_level_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox_level.SelectedItem == null || (comboBox_level.SelectedItem) == "")
+            {
+                comboBox_type.Enabled = true;
+            }
+            else
+                comboBox_type.Enabled = false;
+        }
+
     }
 }

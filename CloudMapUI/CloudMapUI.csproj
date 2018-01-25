@@ -61,6 +61,12 @@
     <Compile Include="import.Designer.cs">
       <DependentUpon>import.cs</DependentUpon>
     </Compile>
+    <Compile Include="LabelControl\LabelTransparent.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="LabelControl\LabelTransparent.Designer.cs">
+      <DependentUpon>LabelTransparent.cs</DependentUpon>
+    </Compile>
     <Compile Include="LineControl\Aline.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -105,6 +111,12 @@
     <Compile Include="Relation.Designer.cs">
       <DependentUpon>Relation.cs</DependentUpon>
     </Compile>
+    <Compile Include="RelationInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RelationInfo.Designer.cs">
+      <DependentUpon>RelationInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Stream.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -141,6 +153,9 @@
     </Compile>
     <EmbeddedResource Include="Relation.resx">
       <DependentUpon>Relation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RelationInfo.resx">
+      <DependentUpon>RelationInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Stream.resx">
       <DependentUpon>Stream.cs</DependentUpon>

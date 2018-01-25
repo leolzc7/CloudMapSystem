@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
             this.ToolStripMenuItem_File = new System.Windows.Forms.ToolStripMenuItem();
             this.NToolStripMenuItem_newProject = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -49,6 +49,7 @@
             this.ToolStripMenuItem_Item = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_AddModule = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_AddRelation = new System.Windows.Forms.ToolStripMenuItem();
+            this.添加业务流ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_import = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_View = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_SysLevel = new System.Windows.Forms.ToolStripMenuItem();
@@ -250,6 +251,7 @@
             this.ToolStripMenuItem_Item.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_AddModule,
             this.ToolStripMenuItem_AddRelation,
+            this.添加业务流ToolStripMenuItem,
             this.ToolStripMenuItem_import});
             this.ToolStripMenuItem_Item.Name = "ToolStripMenuItem_Item";
             this.ToolStripMenuItem_Item.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.E)));
@@ -259,16 +261,23 @@
             // ToolStripMenuItem_AddModule
             // 
             this.ToolStripMenuItem_AddModule.Name = "ToolStripMenuItem_AddModule";
-            this.ToolStripMenuItem_AddModule.Size = new System.Drawing.Size(124, 22);
-            this.ToolStripMenuItem_AddModule.Text = "添加系统";
+            this.ToolStripMenuItem_AddModule.Size = new System.Drawing.Size(136, 22);
+            this.ToolStripMenuItem_AddModule.Text = "编辑系统";
             this.ToolStripMenuItem_AddModule.Click += new System.EventHandler(this.ToolStripMenuItem_AddModule_Click);
             // 
             // ToolStripMenuItem_AddRelation
             // 
             this.ToolStripMenuItem_AddRelation.Name = "ToolStripMenuItem_AddRelation";
-            this.ToolStripMenuItem_AddRelation.Size = new System.Drawing.Size(124, 22);
-            this.ToolStripMenuItem_AddRelation.Text = "添加关系";
+            this.ToolStripMenuItem_AddRelation.Size = new System.Drawing.Size(136, 22);
+            this.ToolStripMenuItem_AddRelation.Text = "编辑关系";
             this.ToolStripMenuItem_AddRelation.Click += new System.EventHandler(this.ToolStripMenuItem_AddRelation_Click);
+            // 
+            // 添加业务流ToolStripMenuItem
+            // 
+            this.添加业务流ToolStripMenuItem.Name = "添加业务流ToolStripMenuItem";
+            this.添加业务流ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.添加业务流ToolStripMenuItem.Text = "编辑业务流";
+            this.添加业务流ToolStripMenuItem.Click += new System.EventHandler(this.添加业务流ToolStripMenuItem_Click);
             // 
             // ToolStripMenuItem_import
             // 
@@ -839,9 +848,9 @@
             this.comboBox_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_type.FormattingEnabled = true;
             this.comboBox_type.Items.AddRange(new object[] {
-            "A类",
-            "B类",
-            "C类"});
+            "aa",
+            "bb",
+            "cc"});
             this.comboBox_type.Location = new System.Drawing.Point(304, 12);
             this.comboBox_type.Name = "comboBox_type";
             this.comboBox_type.Size = new System.Drawing.Size(121, 20);
@@ -876,11 +885,13 @@
             this.comboBox_level.Items.AddRange(new object[] {
             "一级",
             "二级",
-            "三级"});
+            "三级",
+            ""});
             this.comboBox_level.Location = new System.Drawing.Point(74, 11);
             this.comboBox_level.Name = "comboBox_level";
             this.comboBox_level.Size = new System.Drawing.Size(121, 20);
             this.comboBox_level.TabIndex = 0;
+            this.comboBox_level.SelectedIndexChanged += new System.EventHandler(this.comboBox_level_SelectedIndexChanged);
             // 
             // panel1
             // 
@@ -896,9 +907,9 @@
             // 
             this.panel4.AutoScroll = true;
             this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
-            this.panel4.Location = new System.Drawing.Point(1, 0);
+            this.panel4.Location = new System.Drawing.Point(2, 0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(763, 443);
+            this.panel4.Size = new System.Drawing.Size(760, 418);
             this.panel4.TabIndex = 14;
             // 
             // tabControl1
@@ -930,9 +941,9 @@
             this.dataGridView_module.AllowUserToDeleteRows = false;
             this.dataGridView_module.AllowUserToResizeColumns = false;
             this.dataGridView_module.AllowUserToResizeRows = false;
-            dataGridViewCellStyle13.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
-            this.dataGridView_module.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle17.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
+            this.dataGridView_module.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle17;
             this.dataGridView_module.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.dataGridView_module.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_module.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -942,12 +953,13 @@
             this.dataGridView_module.Name = "dataGridView_module";
             this.dataGridView_module.ReadOnly = true;
             this.dataGridView_module.RowHeadersVisible = false;
-            dataGridViewCellStyle14.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(238)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
-            this.dataGridView_module.RowsDefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle18.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(238)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
+            this.dataGridView_module.RowsDefaultCellStyle = dataGridViewCellStyle18;
             this.dataGridView_module.RowTemplate.Height = 23;
             this.dataGridView_module.Size = new System.Drawing.Size(186, 454);
             this.dataGridView_module.TabIndex = 0;
+            this.dataGridView_module.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_module_CellClick);
             // 
             // Column1
             // 
@@ -974,9 +986,9 @@
             this.dataGridView_relation.AllowUserToDeleteRows = false;
             this.dataGridView_relation.AllowUserToResizeColumns = false;
             this.dataGridView_relation.AllowUserToResizeRows = false;
-            dataGridViewCellStyle15.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
-            this.dataGridView_relation.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle19.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
+            this.dataGridView_relation.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle19;
             this.dataGridView_relation.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.dataGridView_relation.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_relation.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -987,12 +999,13 @@
             this.dataGridView_relation.Name = "dataGridView_relation";
             this.dataGridView_relation.ReadOnly = true;
             this.dataGridView_relation.RowHeadersVisible = false;
-            dataGridViewCellStyle16.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(238)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
-            this.dataGridView_relation.RowsDefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle20.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(238)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
+            this.dataGridView_relation.RowsDefaultCellStyle = dataGridViewCellStyle20;
             this.dataGridView_relation.RowTemplate.Height = 23;
             this.dataGridView_relation.Size = new System.Drawing.Size(186, 454);
             this.dataGridView_relation.TabIndex = 0;
+            this.dataGridView_relation.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_relation_CellClick);
             // 
             // Column2
             // 
@@ -1074,14 +1087,9 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.SaveFileDialog saveFileDialog_saveImage;
-        private System.Windows.Forms.ToolStripMenuItem 磅ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 磅ToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem 磅ToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem 磅ToolStripMenuItem3;
-        private System.Windows.Forms.ToolStripMenuItem 磅ToolStripMenuItem4;
         private System.Windows.Forms.ToolStripMenuItem 磅ToolStripMenuItem5;
         private System.Windows.Forms.ToolStripMenuItem 磅ToolStripMenuItem6;
-        private System.Windows.Forms.ToolStripMenuItem 磅ToolStripMenuItem7;
         public System.Windows.Forms.ToolStripButton toolStripButton_import;
         public System.Windows.Forms.ToolStripButton toolStripButton_saveImage;
         public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File;
@@ -1146,6 +1154,7 @@
         private System.Windows.Forms.ToolStripMenuItem 倍ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 倍ToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem 倍ToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem 添加业务流ToolStripMenuItem;
     }
 }
 

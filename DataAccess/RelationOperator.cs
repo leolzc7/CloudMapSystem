@@ -186,6 +186,22 @@ namespace DataAccess
             }
             return relationArray;
         }
+        public static List<relation> GetRelationArray(string type) //得到不同type的模块对应的关系数组
+        {
+            List<string> modulesName = ModulesOperator.ReadModulesForDiffType(type);
+            RelationData relation = RelationOperator.GetRelationInfoForDiffModList(modulesName);
+            List<relation> relationArray = new List<relation>();
+            for (int i = 0; i < relation.Tables[RelationData.RELATION_TABLE].Rows.Count; i++)
+            {
+                relation relationOne = new relation();
+                relationOne.sourceName = relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.SOURCENAME_FIELD].ToString();
+                relationOne.targetName = relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.TARGETNAME_FIELD].ToString();
+                relationOne.bidirection = relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.BIDIRECTION_FIELD].ToString();
+                relationOne.relationName = relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.NAME_FIELD].ToString();
+                relationArray.Add(relationOne);
+            }
+            return relationArray;
+        }
 
         public struct relation
         {

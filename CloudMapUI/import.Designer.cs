@@ -47,8 +47,6 @@
             this.selectedAllModules = new System.Windows.Forms.CheckBox();
             this.panel8 = new System.Windows.Forms.Panel();
             this.dgv_importModule = new System.Windows.Forms.DataGridView();
-            this.dgvCheckBoxModule = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel6 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -58,6 +56,8 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnCancel = new System.Windows.Forms.Button();
             this.openFileDialog_import = new System.Windows.Forms.OpenFileDialog();
+            this.dgvCheckBoxModule = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel10.SuspendLayout();
@@ -285,29 +285,12 @@
             this.dgv_importModule.Location = new System.Drawing.Point(35, 0);
             this.dgv_importModule.MultiSelect = false;
             this.dgv_importModule.Name = "dgv_importModule";
+            this.dgv_importModule.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgv_importModule.RowHeadersVisible = false;
             this.dgv_importModule.RowTemplate.Height = 23;
             this.dgv_importModule.Size = new System.Drawing.Size(187, 241);
             this.dgv_importModule.TabIndex = 1;
             this.dgv_importModule.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_importModule_CellClick);
-            // 
-            // dgvCheckBoxModule
-            // 
-            this.dgvCheckBoxModule.FillWeight = 30.45685F;
-            this.dgvCheckBoxModule.HeaderText = " ";
-            this.dgvCheckBoxModule.Name = "dgvCheckBoxModule";
-            this.dgvCheckBoxModule.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvCheckBoxModule.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.dgvCheckBoxModule.Width = 28;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "name";
-            this.dataGridViewTextBoxColumn1.FillWeight = 169.5432F;
-            this.dataGridViewTextBoxColumn1.HeaderText = "名称";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
             // 
             // panel6
             // 
@@ -397,6 +380,24 @@
             this.openFileDialog_import.FileName = "openFileDialog1";
             this.openFileDialog_import.Filter = "(*.db)|*.db";
             // 
+            // dgvCheckBoxModule
+            // 
+            this.dgvCheckBoxModule.FillWeight = 30.45685F;
+            this.dgvCheckBoxModule.HeaderText = " ";
+            this.dgvCheckBoxModule.Name = "dgvCheckBoxModule";
+            this.dgvCheckBoxModule.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvCheckBoxModule.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.dgvCheckBoxModule.Width = 28;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "name";
+            this.dataGridViewTextBoxColumn1.FillWeight = 169.5432F;
+            this.dataGridViewTextBoxColumn1.HeaderText = "名称";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
             // importForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -458,12 +459,12 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog_import;
         private System.Windows.Forms.DataGridView dgv_importRelation;
         private System.Windows.Forms.DataGridView dgv_importModule;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn dgvCheckBoxModule;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.Button btnSelected;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn dgvCheckBoxModule;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
     }
 }

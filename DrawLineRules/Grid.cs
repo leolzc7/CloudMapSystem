@@ -47,7 +47,7 @@ namespace DrawLineRules
             return gridArray[x][y];
         }
 
-        public ModuleOne[] readModule(List<Module> modulesList,int level)
+        public ModuleOne[] readModule(List<Module> modulesList )
         {
             int len = modulesList.Count;
             ModuleOne[] modules = new ModuleOne[len-2];
