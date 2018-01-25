@@ -135,7 +135,6 @@ namespace CloudMapUI
                 comment.BackColor = Color.White;
             }
         }
-
         //设置显示内容
         private void SetFormControlerData()
         {
