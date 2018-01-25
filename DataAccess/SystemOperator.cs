@@ -13,53 +13,51 @@ namespace DataAccess
     //针对整个数据库的操作，例如链接并打开数据库、新建数据库、保存和读取历史记录等
     public class SystemOperator
     {
-        public static void Connect_open_db() 
-        {
-            globalParameters.conn = new SQLiteConnection(globalParameters.dbPath);//创建数据库实例，指定文件位置
-            globalParameters.conn.Open();//打开数据库，若文件不存在会自动创建
-            string sq3 = "PRAGMA foreign_keys = 'on';";
-            ExecuteSql(sq3);
-        }
-        //public static void Connect_open_sencond_db()
-        //{
-        //    globalParameters.secondConn = new SQLiteConnection(globalParameters.secondDbPath);//创建数据库实例，指定文件位置
-        //    globalParameters.secondConn.Open();//打开数据库，若文件不存在会自动创建
-        //}
         public static void NewProjectConnectDb(string dbSelfName, string dbSelfPath)
         {
             globalParameters.dbName = dbSelfName + ".db";
             globalParameters.dbPath = "Data Source = " + dbSelfPath + globalParameters.dbName;
             globalParameters.attachDb = dbSelfPath + globalParameters.dbName;
-            Connect_open_db();
-        }
-        public static void ExecuteSql(string sql)
-        {
-            using (SQLiteCommand cmd = new SQLiteCommand(sql, globalParameters.conn))
-            {
-                cmd.ExecuteNonQuery();
-            }
         }
         public static void NewProject(string dbSelfName, string dbSelfPath)
         {
             //新建项目时调用，建立数据库和数据表
             NewProjectConnectDb(dbSelfName, dbSelfPath);
-            string sql = "CREATE TABLE IF NOT EXISTS modules(name varchar(50) PRIMARY KEY, " +
+            using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
+            {
+                conn.Open();
+                string sq0 = "PRAGMA foreign_keys = 'on';";
+                using (SQLiteCommand cmd = new SQLiteCommand(sq0, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                string sql = "CREATE TABLE IF NOT EXISTS modules(name varchar(50) PRIMARY KEY, " +
                 "type varchar(50), level INTEGER, comment varchar(100) ); ";//建表语句
-            ExecuteSql(sql);
+                using (SQLiteCommand cmd = new SQLiteCommand(sql, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
 
-            string sq2 = "CREATE TABLE IF NOT EXISTS relation(sourceName STRING NOT NULL, " +
-                "targetName STRING NOT NULL, rname varchar(50), bidirection varchar(50), type varchar(50), " +
-                "comment varchar(100), PRIMARY KEY(sourceName, targetName),FOREIGN KEY (sourceName) " +
-                "REFERENCES modules(name) on delete cascade on update cascade, " +
-                "FOREIGN KEY(targetName) REFERENCES modules(name) on delete cascade on update cascade); ";//建表语句
-            ExecuteSql(sq2);
+                string sq2 = "CREATE TABLE IF NOT EXISTS relation(sourceName STRING NOT NULL, " +
+                    "targetName STRING NOT NULL, rname varchar(50), bidirection varchar(50), type varchar(50), " +
+                    "comment varchar(100), PRIMARY KEY(sourceName, targetName),FOREIGN KEY (sourceName) " +
+                    "REFERENCES modules(name) on delete cascade on update cascade, " +
+                    "FOREIGN KEY(targetName) REFERENCES modules(name) on delete cascade on update cascade); ";//建表语句
+                using (SQLiteCommand cmd = new SQLiteCommand(sq2, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
 
-            string sq3 = "PRAGMA foreign_keys = 'on';";
-            ExecuteSql(sq3);
-
+                string sq3 = "PRAGMA foreign_keys = 'on';";
+                using (SQLiteCommand cmd = new SQLiteCommand(sq3, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                conn.Close();
+            }//创建数据库实例，指定文件位置
             string filePath = dbSelfPath + dbSelfName + ".db";
             EnqueueChecked(filePath);
-            CopyDb();
+            //CopyDb();
         }
         public static bool OpenProject(string filePath,bool first) 
         {
@@ -73,95 +71,90 @@ namespace DataAccess
             {
                 if (first)
                 {
-                    CloseDb();
                     string[] text = filePath.Split('\\');
                     globalParameters.dbName = text[text.Length - 1];
                     globalParameters.attachDb = filePath;
                     globalParameters.dbPath = "Data Source = " + filePath;
-                    Connect_open_db();
                     EnqueueChecked(filePath);
                     //CopyDb();
                     return true;
                 }
                 else
                 {
-                    string sql0 = "ATTACH DATABASE '" + filePath + "' as 'secondDb'";
-                    ExecuteSql(sql0);
                     string[] text = filePath.Split('\\');
                     globalParameters.secondDbName = text[text.Length - 1];
-                    //globalParameters.secondDbPath = "Data Source = " + filePath;
-                    //Connect_open_sencond_db();
+                    globalParameters.secondDbPath = filePath;
                     return true;
                 }   
             }       
         }
-        public static void CopyDb()//创建副本数据库
-        {
-            if (!File.Exists(globalParameters.tempDb))
-            {
-                string sql0 = "ATTACH DATABASE '" + globalParameters.tempDb + "' as 'db0'";
-                ExecuteSql(sql0);
-                string sql1 = "CREATE TABLE IF NOT EXISTS db0.modules(name varchar(50) PRIMARY KEY, " +
-               "type varchar(50), level INTEGER, comment varchar(100) ); ";//建表语句
-                ExecuteSql(sql1);
-                string sq2 = "CREATE TABLE IF NOT EXISTS db0.relation(sourceName STRING NOT NULL, " +
-                    "targetName STRING NOT NULL, rname varchar(50), bidirection varchar(50), type varchar(50), " +
-                    "comment varchar(100), PRIMARY KEY(sourceName, targetName),FOREIGN KEY (sourceName) " +
-                    "REFERENCES modules(name) on delete cascade on update cascade, " +
-                    "FOREIGN KEY(targetName) REFERENCES modules(name) on delete cascade on update cascade); ";//建表语句
-                ExecuteSql(sq2);
-                //string sql3 = "create table db0.modules as select * from modules";
-                string sql3 = "insert into db0.modules select * from modules";
-                ExecuteSql(sql3);
-                //string sql4 = "create table db0.relation as select * from relation";
-                string sql4 = "insert into db0.relation select * from relation";
-                ExecuteSql(sql4);
-            }
-            else
-            {
-                string sql0 = "ATTACH DATABASE '" + globalParameters.tempDb + "' as 'db0'";
-                ExecuteSql(sql0);
-                //string sql3 = "delete from db0.modules";
-                string sql01 = "DROP TABLE db0.modules";
-                ExecuteSql(sql01);
-                string sql02 = "DROP TABLE db0.relation";
-                ExecuteSql(sql02);
-                string sql1 = "CREATE TABLE IF NOT EXISTS db0.modules(name varchar(50) PRIMARY KEY, " +
-               "type varchar(50), level INTEGER, comment varchar(100) ); ";//建表语句
-                ExecuteSql(sql1);
-                string sq2 = "CREATE TABLE IF NOT EXISTS db0.relation(sourceName STRING NOT NULL, " +
-                    "targetName STRING NOT NULL, rname varchar(50), bidirection varchar(50), type varchar(50), " +
-                    "comment varchar(100), PRIMARY KEY(sourceName, targetName),FOREIGN KEY (sourceName) " +
-                    "REFERENCES modules(name) on delete cascade on update cascade, " +
-                    "FOREIGN KEY(targetName) REFERENCES modules(name) on delete cascade on update cascade); ";//建表语句
-                ExecuteSql(sq2);
-                string sql3 = "insert into db0.modules select * from modules";
-                ExecuteSql(sql3);
-                string sql4 = "insert into db0.relation select * from relation";
-                ExecuteSql(sql4);
-                //string sql1 = "insert into db0.modules select * from modules";
-                //ExecuteSql(sql1);
-                //string sql4 = "delete from db0.relation";
-                //ExecuteSql(sql4);
-                //string sql2 = "insert into db0.relation select * from relation";
-                //ExecuteSql(sql2);
-            }
-            //////////复制数据库后，在复制的数据库内进行操作////////////////////////////////
-            CloseDb();
-            globalParameters.dbPath = "Data Source = " + globalParameters.tempDb;
-            Connect_open_db();
-            string sql = "ATTACH DATABASE '" + globalParameters.attachDb + "'" + " as 'realdb'";
-            ExecuteSql(sql);
-        }
-        public static void SaveDb()
-        {
-            ExecuteSql("delete from realdb.modules");
-            string sql1 = "insert into realdb.modules select * from modules";
-            ExecuteSql(sql1);
-            ExecuteSql("delete from realdb.relation");
-            string sql2 = "insert into realdb.relation select * from relation";
-            ExecuteSql(sql2);
-        }
+        //public static void CopyDb()//创建副本数据库
+        //{
+        //    if (!File.Exists(globalParameters.tempDb))
+        //    {
+        //        string sql0 = "ATTACH DATABASE '" + globalParameters.tempDb + "' as 'db0'";
+        //        ExecuteSql(sql0);
+        //        string sql1 = "CREATE TABLE IF NOT EXISTS db0.modules(name varchar(50) PRIMARY KEY, " +
+        //       "type varchar(50), level INTEGER, comment varchar(100) ); ";//建表语句
+        //        ExecuteSql(sql1);
+        //        string sq2 = "CREATE TABLE IF NOT EXISTS db0.relation(sourceName STRING NOT NULL, " +
+        //            "targetName STRING NOT NULL, rname varchar(50), bidirection varchar(50), type varchar(50), " +
+        //            "comment varchar(100), PRIMARY KEY(sourceName, targetName),FOREIGN KEY (sourceName) " +
+        //            "REFERENCES modules(name) on delete cascade on update cascade, " +
+        //            "FOREIGN KEY(targetName) REFERENCES modules(name) on delete cascade on update cascade); ";//建表语句
+        //        ExecuteSql(sq2);
+        //        //string sql3 = "create table db0.modules as select * from modules";
+        //        string sql3 = "insert into db0.modules select * from modules";
+        //        ExecuteSql(sql3);
+        //        //string sql4 = "create table db0.relation as select * from relation";
+        //        string sql4 = "insert into db0.relation select * from relation";
+        //        ExecuteSql(sql4);
+        //    }
+        //    else
+        //    {
+        //        string sql0 = "ATTACH DATABASE '" + globalParameters.tempDb + "' as 'db0'";
+        //        ExecuteSql(sql0);
+        //        //string sql3 = "delete from db0.modules";
+        //        string sql01 = "DROP TABLE db0.modules";
+        //        ExecuteSql(sql01);
+        //        string sql02 = "DROP TABLE db0.relation";
+        //        ExecuteSql(sql02);
+        //        string sql1 = "CREATE TABLE IF NOT EXISTS db0.modules(name varchar(50) PRIMARY KEY, " +
+        //       "type varchar(50), level INTEGER, comment varchar(100) ); ";//建表语句
+        //        ExecuteSql(sql1);
+        //        string sq2 = "CREATE TABLE IF NOT EXISTS db0.relation(sourceName STRING NOT NULL, " +
+        //            "targetName STRING NOT NULL, rname varchar(50), bidirection varchar(50), type varchar(50), " +
+        //            "comment varchar(100), PRIMARY KEY(sourceName, targetName),FOREIGN KEY (sourceName) " +
+        //            "REFERENCES modules(name) on delete cascade on update cascade, " +
+        //            "FOREIGN KEY(targetName) REFERENCES modules(name) on delete cascade on update cascade); ";//建表语句
+        //        ExecuteSql(sq2);
+        //        string sql3 = "insert into db0.modules select * from modules";
+        //        ExecuteSql(sql3);
+        //        string sql4 = "insert into db0.relation select * from relation";
+        //        ExecuteSql(sql4);
+        //        //string sql1 = "insert into db0.modules select * from modules";
+        //        //ExecuteSql(sql1);
+        //        //string sql4 = "delete from db0.relation";
+        //        //ExecuteSql(sql4);
+        //        //string sql2 = "insert into db0.relation select * from relation";
+        //        //ExecuteSql(sql2);
+        //    }
+        //    //////////复制数据库后，在复制的数据库内进行操作////////////////////////////////
+        //    //CloseDb();
+        //    globalParameters.dbPath = "Data Source = " + globalParameters.tempDb;
+        //    //Connect_open_db();
+        //    string sql = "ATTACH DATABASE '" + globalParameters.attachDb + "'" + " as 'realdb'";
+        //    ExecuteSql(sql);
+        //}
+        //public static void SaveDb()
+        //{
+        //    ExecuteSql("delete from realdb.modules");
+        //    string sql1 = "insert into realdb.modules select * from modules";
+        //    ExecuteSql(sql1);
+        //    ExecuteSql("delete from realdb.relation");
+        //    string sql2 = "insert into realdb.relation select * from relation";
+        //    ExecuteSql(sql2);
+        //}
         public static void ReadHistory()
         {
             string path = globalParameters.dbHistoryPath;
@@ -232,21 +225,6 @@ namespace DataAccess
                 fs2.Close();
             }
         }
-        public static void CloseDb()
-        {
-            if (globalParameters.conn != null)
-            {
-                globalParameters.conn.Close();
-                globalParameters.conn.Dispose();
-                globalParameters.dbPath = null;
-            }
-                
-        }
-        //public static void CloseSecondDb()
-        //{
-        //    if (globalParameters.secondConn != null)
-        //        globalParameters.secondConn.Close();
-        //}
 
     }
 

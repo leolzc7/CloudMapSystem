@@ -353,7 +353,7 @@ namespace CloudMapUI
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             SystemOperator.WriteHistory();
-            SystemOperator.CloseDb();
+            //SystemOperator.CloseDb();
         }
 
 
