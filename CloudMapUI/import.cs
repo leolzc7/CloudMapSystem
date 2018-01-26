@@ -118,21 +118,41 @@ namespace CloudMapUI
             //全选
             if (e.RowIndex != -1)
             {
-             int state2 = 0;
+                int state1 = 0;
                 for (int i = 0; i <= this.dgv_importModule.RowCount - 1; i++)
                 {
-                    if (dgv_importModule.Rows[i].Cells[0].EditedFormattedValue.ToString() == "True")
-                        state2++;
+                    if (dgv_importModule.Rows[i].Cells[0].EditedFormattedValue.ToString() == "true")
+                        state1++;
                     else
-                        state2--;
+                        state1--;
                 }
-                if (state2 == dgv_importModule.Rows.Count)
+                if (state1 == dgv_importModule.Rows.Count)
                     selectedAllModules.CheckState = CheckState.Checked;
-                else if (state2 == -dgv_importModule.Rows.Count)
+                else if (state1 == -dgv_importModule.Rows.Count)
                     selectedAllModules.CheckState = CheckState.Unchecked;
                 else
-                    selectedAllModules.CheckState = CheckState.Indeterminate;           
+                    selectedAllModules.CheckState = CheckState.Indeterminate;
             }
+            //if (e.RowIndex != -1)
+            //{
+            //    int state2 = 0;
+            //    for (int i = 0; i <= this.dgv_importModule.RowCount - 1; i++)
+            //    {
+            //        //if (dgv_importModule.Rows[i].Cells[0].EditedFormattedValue.ToString() == "True")
+            //        if (dgv_importModule.Rows[i].Cells[0].Value.ToString() == "true" || dgv_importModule.Rows[i].Cells[0].Value.ToString() == "True")
+            //        //if (dgv_importModule.Rows[i].Cells[0].Value.ToString() == "true")
+            //            state2++;
+            //        else
+            //            state2--;
+            //    }
+            //    if (state2 == dgv_importModule.Rows.Count)
+            //        selectedAllModules.CheckState = CheckState.Checked;
+            //    else if (state2 == -dgv_importModule.Rows.Count)
+            //    //else if (state2 == 0)
+            //        selectedAllModules.CheckState = CheckState.Unchecked;
+            //    else
+            //        selectedAllModules.CheckState = CheckState.Indeterminate;
+            //}
         }
 
         //选中关系
@@ -144,15 +164,13 @@ namespace CloudMapUI
             else
                 dgv_importRelation.Rows[e.RowIndex].Cells[0].Value = "true";
 
-            
-
             //全选
             if (e.RowIndex != -1)
             {
                 int state1 = 0;
                 for (int i = 0; i <= this.dgv_importRelation.RowCount - 1; i++)
                 {
-                    if (dgv_importRelation.Rows[i].Cells[0].EditedFormattedValue.ToString() == "True")
+                    if (dgv_importRelation.Rows[i].Cells[0].EditedFormattedValue.ToString() == "True" || dgv_importRelation.Rows[i].Cells[0].EditedFormattedValue.ToString() == "true")
                         state1++;
                     else
                         state1--;
