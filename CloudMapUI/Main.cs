@@ -12,6 +12,7 @@ using Data;
 using DataAccess;
 using DrawLineRules;
 using System.IO;
+using System.Data.SQLite;
 
 namespace CloudMapUI
 {
@@ -150,7 +151,16 @@ namespace CloudMapUI
         }
 
         private void ToolStripMenuItem_OpenProject_Click(object sender, EventArgs e)
-        {   
+        {
+            if (globalParameters.dbPath != null && globalParameters.dbPath != "")
+            {
+                DialogResult result = MessageBox.Show("是否保存当前项目并打开新的项目！", "关于云图", MessageBoxButtons.OKCancel,
+                                MessageBoxIcon.Information);
+                if (result == DialogResult.OK)
+                {
+                    SystemOperator.SaveBackupDb();
+                }
+            }
             openFileDialog_OpenProject.ShowDialog();
             SystemOperator.OpenProject(openFileDialog_OpenProject.FileName, true);
             mainFormStatus();
@@ -167,7 +177,8 @@ namespace CloudMapUI
             saveFileDialog_SaveProject.ShowDialog();
             string filePath = saveFileDialog_SaveProject.FileName;
             string[] text = globalParameters.dbPath.Split('=');
-            string oldFilePath = text[1];
+            //string oldFilePath = text[1];
+            string oldFilePath = globalParameters.tempDb;
             if (filePath == null || filePath =="")
             {
                 MessageBox.Show("路径为空！", "关于云图", MessageBoxButtons.OK,
@@ -353,7 +364,6 @@ namespace CloudMapUI
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             SystemOperator.WriteHistory();
-            //SystemOperator.CloseDb();
         }
 
 
@@ -380,7 +390,10 @@ namespace CloudMapUI
 
         private void toolStripButton_saveProject_Click(object sender, EventArgs e)
         {
-            ToolStripMenuItem_SaveProject_Click(sender, e);
+            //ToolStripMenuItem_SaveProject_Click(sender, e);
+            SystemOperator.SaveBackupDb();
+            MessageBox.Show("保存成功！", "关于云图", MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
         }
 
         private void toolStripButton_prePrint_Click(object sender, EventArgs e)

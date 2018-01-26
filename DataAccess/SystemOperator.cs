@@ -17,7 +17,7 @@ namespace DataAccess
         {
             globalParameters.dbName = dbSelfName + ".db";
             globalParameters.dbPath = "Data Source = " + dbSelfPath + globalParameters.dbName;
-            globalParameters.attachDb = dbSelfPath + globalParameters.dbName;
+            //globalParameters.attachDb = dbSelfPath + globalParameters.dbName;
         }
         public static void NewProject(string dbSelfName, string dbSelfPath)
         {
@@ -26,11 +26,7 @@ namespace DataAccess
             using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
             {
                 conn.Open();
-                string sq0 = "PRAGMA foreign_keys = 'on';";
-                using (SQLiteCommand cmd = new SQLiteCommand(sq0, conn))
-                {
-                    cmd.ExecuteNonQuery();
-                }
+
                 string sql = "CREATE TABLE IF NOT EXISTS modules(name varchar(50) PRIMARY KEY, " +
                 "type varchar(50), level INTEGER, comment varchar(100) ); ";//建表语句
                 using (SQLiteCommand cmd = new SQLiteCommand(sql, conn))
@@ -53,6 +49,13 @@ namespace DataAccess
                 {
                     cmd.ExecuteNonQuery();
                 }
+                string sq4 = "CREATE TABLE IF NOT EXISTS stream(sname varchar(50), num INTERGER," +
+                    "modulesName STRING NOT NULL,PRIMARY KEY(sname,num),FOREIGN KEY (modulesName) " +
+                    "REFERENCES modules(name) on delete cascade on update cascade; ";//建表语句
+                using (SQLiteCommand cmd = new SQLiteCommand(sq4, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
                 conn.Close();
             }//创建数据库实例，指定文件位置
             string filePath = dbSelfPath + dbSelfName + ".db";
@@ -71,11 +74,13 @@ namespace DataAccess
             {
                 if (first)
                 {
+                    globalParameters.backupDbPath = @"Data Source =" + @"C:\CloudMap\tempppppppppppppp.db";
                     string[] text = filePath.Split('\\');
                     globalParameters.dbName = text[text.Length - 1];
-                    globalParameters.attachDb = filePath;
+                    //globalParameters.attachDb = filePath;
                     globalParameters.dbPath = "Data Source = " + filePath;
                     EnqueueChecked(filePath);
+                    CreateBackUpDb();
                     //CopyDb();
                     return true;
                 }
@@ -88,73 +93,42 @@ namespace DataAccess
                 }   
             }       
         }
-        //public static void CopyDb()//创建副本数据库
-        //{
-        //    if (!File.Exists(globalParameters.tempDb))
-        //    {
-        //        string sql0 = "ATTACH DATABASE '" + globalParameters.tempDb + "' as 'db0'";
-        //        ExecuteSql(sql0);
-        //        string sql1 = "CREATE TABLE IF NOT EXISTS db0.modules(name varchar(50) PRIMARY KEY, " +
-        //       "type varchar(50), level INTEGER, comment varchar(100) ); ";//建表语句
-        //        ExecuteSql(sql1);
-        //        string sq2 = "CREATE TABLE IF NOT EXISTS db0.relation(sourceName STRING NOT NULL, " +
-        //            "targetName STRING NOT NULL, rname varchar(50), bidirection varchar(50), type varchar(50), " +
-        //            "comment varchar(100), PRIMARY KEY(sourceName, targetName),FOREIGN KEY (sourceName) " +
-        //            "REFERENCES modules(name) on delete cascade on update cascade, " +
-        //            "FOREIGN KEY(targetName) REFERENCES modules(name) on delete cascade on update cascade); ";//建表语句
-        //        ExecuteSql(sq2);
-        //        //string sql3 = "create table db0.modules as select * from modules";
-        //        string sql3 = "insert into db0.modules select * from modules";
-        //        ExecuteSql(sql3);
-        //        //string sql4 = "create table db0.relation as select * from relation";
-        //        string sql4 = "insert into db0.relation select * from relation";
-        //        ExecuteSql(sql4);
-        //    }
-        //    else
-        //    {
-        //        string sql0 = "ATTACH DATABASE '" + globalParameters.tempDb + "' as 'db0'";
-        //        ExecuteSql(sql0);
-        //        //string sql3 = "delete from db0.modules";
-        //        string sql01 = "DROP TABLE db0.modules";
-        //        ExecuteSql(sql01);
-        //        string sql02 = "DROP TABLE db0.relation";
-        //        ExecuteSql(sql02);
-        //        string sql1 = "CREATE TABLE IF NOT EXISTS db0.modules(name varchar(50) PRIMARY KEY, " +
-        //       "type varchar(50), level INTEGER, comment varchar(100) ); ";//建表语句
-        //        ExecuteSql(sql1);
-        //        string sq2 = "CREATE TABLE IF NOT EXISTS db0.relation(sourceName STRING NOT NULL, " +
-        //            "targetName STRING NOT NULL, rname varchar(50), bidirection varchar(50), type varchar(50), " +
-        //            "comment varchar(100), PRIMARY KEY(sourceName, targetName),FOREIGN KEY (sourceName) " +
-        //            "REFERENCES modules(name) on delete cascade on update cascade, " +
-        //            "FOREIGN KEY(targetName) REFERENCES modules(name) on delete cascade on update cascade); ";//建表语句
-        //        ExecuteSql(sq2);
-        //        string sql3 = "insert into db0.modules select * from modules";
-        //        ExecuteSql(sql3);
-        //        string sql4 = "insert into db0.relation select * from relation";
-        //        ExecuteSql(sql4);
-        //        //string sql1 = "insert into db0.modules select * from modules";
-        //        //ExecuteSql(sql1);
-        //        //string sql4 = "delete from db0.relation";
-        //        //ExecuteSql(sql4);
-        //        //string sql2 = "insert into db0.relation select * from relation";
-        //        //ExecuteSql(sql2);
-        //    }
-        //    //////////复制数据库后，在复制的数据库内进行操作////////////////////////////////
-        //    //CloseDb();
-        //    globalParameters.dbPath = "Data Source = " + globalParameters.tempDb;
-        //    //Connect_open_db();
-        //    string sql = "ATTACH DATABASE '" + globalParameters.attachDb + "'" + " as 'realdb'";
-        //    ExecuteSql(sql);
-        //}
-        //public static void SaveDb()
-        //{
-        //    ExecuteSql("delete from realdb.modules");
-        //    string sql1 = "insert into realdb.modules select * from modules";
-        //    ExecuteSql(sql1);
-        //    ExecuteSql("delete from realdb.relation");
-        //    string sql2 = "insert into realdb.relation select * from relation";
-        //    ExecuteSql(sql2);
-        //}
+        public static void CreateBackUpDb()
+        {
+            if (File.Exists(globalParameters.tempDb))
+            {
+                File.Delete(globalParameters.tempDb);
+            }
+            using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
+            {
+                conn.Open();
+                using (SQLiteConnection backupConn = new SQLiteConnection(globalParameters.backupDbPath))
+                {
+                    backupConn.Open();
+                    conn.BackupDatabase(backupConn, "main", "main", -1, null, 0);
+                    conn.Close();
+                    backupConn.Close();
+                }
+            }
+            string change = globalParameters.dbPath;
+            globalParameters.dbPath = globalParameters.backupDbPath;
+            globalParameters.backupDbPath = change;
+        }
+        public static void SaveBackupDb()
+        {
+            //File.Delete(globalParameters.tempDb);
+            using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath)) //对缓存数据库建立链接
+            {
+                conn.Open();
+                using (SQLiteConnection backupConn = new SQLiteConnection(globalParameters.backupDbPath))//对源数据库建立链接
+                {
+                    backupConn.Open();
+                    conn.BackupDatabase(backupConn, "main", "main", -1, null, 0);//把缓存数据库的内容拷贝到源数据库
+                    conn.Close();
+                    backupConn.Close();
+                }
+            }
+        }
         public static void ReadHistory()
         {
             string path = globalParameters.dbHistoryPath;

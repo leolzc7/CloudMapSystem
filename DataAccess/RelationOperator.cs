@@ -179,6 +179,11 @@ namespace DataAccess
             using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
             {
                 conn.Open();
+                string sq0 = "PRAGMA foreign_keys = 'on';";
+                using (SQLiteCommand cmd = new SQLiteCommand(sq0, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
                 using (SQLiteCommand cmd = new SQLiteCommand(updateCommand, conn))
                 {
                     cmd.ExecuteNonQuery();
@@ -215,6 +220,11 @@ namespace DataAccess
             using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
             {
                 conn.Open();
+                string sq0 = "PRAGMA foreign_keys = 'on';";
+                using (SQLiteCommand cmd = new SQLiteCommand(sq0, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
                 using (SQLiteCommand cmd = new SQLiteCommand(cmdDelete, conn))
                 {
                     if (cmd.ExecuteNonQuery() > 0)
