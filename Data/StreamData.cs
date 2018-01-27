@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Data
 {
-    class StreamData:DataSet
+    public class StreamData:DataSet
     {
-        public const string STREAM_TABLE = "modules";
-        public const string NAME_FIELD = "name";
+        public const string STREAM_TABLE = "stream";
+        public const string NAME_FIELD = "sname";
         public const string NUM_FIELD = "num";
         public const string MODULES_NAME_FIELD = "modulesName";
 

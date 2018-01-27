@@ -272,7 +272,27 @@ namespace DataAccess
             }
             return relationArray;
         }
-
+        public static string GetRelationName(string sourceName, string targetName)
+        {
+            string relationName = null;
+            using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
+            {
+                conn.Open();
+                string sql = "SELECT rname FROM relation WHERE sourceName = '"+sourceName +"' and targetName = '"+targetName+"'";
+                using (SQLiteCommand cmdReader = new SQLiteCommand(sql, conn))
+                {
+                    using (SQLiteDataReader reader = cmdReader.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                           relationName = reader.GetString(0);
+                        }
+                        conn.Close();
+                        return relationName;
+                    }
+                }
+            }
+        }
         public struct relation
         {
             public string sourceName;
