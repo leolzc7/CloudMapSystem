@@ -191,13 +191,13 @@ namespace DataAccess
         {
             List<streamList> stream = new List<streamList>();
             StreamData streamData = LoadStreamInfo();
-            DataRow[] streamNameList = streamData.Tables[StreamData.STREAM_TABLE].Select(StreamData.MODULES_NAME_FIELD + " == " + moduleName);
+            DataRow[] streamNameList = streamData.Tables[StreamData.STREAM_TABLE].Select(StreamData.MODULES_NAME_FIELD + " = '" + moduleName+"'");
             foreach (DataRow row in streamNameList)
             {
                 streamList oneStream = new streamList();
                 oneStream.modulesList = new List<string>();
                 oneStream.streamName = row[StreamData.NAME_FIELD].ToString();
-                DataRow[] oneStreamTable = streamData.Tables[StreamData.STREAM_TABLE].Select(StreamData.NAME_FIELD + "==" + oneStream.streamName);
+                DataRow[] oneStreamTable = streamData.Tables[StreamData.STREAM_TABLE].Select(StreamData.NAME_FIELD + "= '" + oneStream.streamName+"'");
                 foreach (DataRow streamRow in oneStreamTable)
                 {
                     string mod = streamRow[StreamData.MODULES_NAME_FIELD].ToString();
@@ -207,7 +207,7 @@ namespace DataAccess
             }
             return stream;
         }
-        public static struct streamList
+        public struct streamList
         {
             public string streamName;
             public List<string> modulesList;

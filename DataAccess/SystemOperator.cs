@@ -51,7 +51,7 @@ namespace DataAccess
                 }
                 string sq4 = "CREATE TABLE IF NOT EXISTS stream(sname varchar(50), num INTERGER," +
                     "modulesName STRING NOT NULL,PRIMARY KEY(sname,num),FOREIGN KEY (modulesName) " +
-                    "REFERENCES modules(name) on delete cascade on update cascade; ";//建表语句
+                    "REFERENCES modules(name) on delete cascade on update cascade); ";//建表语句
                 using (SQLiteCommand cmd = new SQLiteCommand(sq4, conn))
                 {
                     cmd.ExecuteNonQuery();
