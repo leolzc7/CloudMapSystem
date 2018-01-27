@@ -90,10 +90,10 @@ namespace CloudMapUI
             mainFormStatus();
             AddHistoryItem();
             int width = Screen.PrimaryScreen.Bounds.Width-200;//得到与屏幕一样大小的panel1，用于存放panel4.画图
-            int height = Screen.PrimaryScreen.Bounds.Height-151;
+            int height = Screen.PrimaryScreen.Bounds.Height-196;
             panel1.Size = new Size(width, height);
-            panel1.HorizontalScroll.Visible = true;
-            panel1.VerticalScroll.Visible = true;
+            //panel1.HorizontalScroll.Visible = true;
+            //panel1.VerticalScroll.Visible = true;
             panel4.Size = panel1.Size;
             panelWidth = panel4.Size.Width;
             panelHeight = panel4.Size.Height;
@@ -831,6 +831,7 @@ namespace CloudMapUI
         public void btn_generateMap_Click(object sender, EventArgs e)
         {
             panel4.Controls.Clear();//控件的清空
+            panel4.BackColor = Color.White;
             this.panel4.Refresh();//Graphics的清空
             DrawModuleAndLines();//调用画控件函数
         }
@@ -883,8 +884,36 @@ namespace CloudMapUI
 
         private void trackBar_displaySacle_Scroll(object sender, EventArgs e)
         {
-            int newPanelWidth = (int)(panelWidth * this.trackBar_displaySacle.Value / 100);
-            int newPanelHeight = (int)(panelHeight * this.trackBar_displaySacle.Value / 100);
+            int newPanelWidth = panelWidth;
+            int newPanelHeight = panelHeight;
+            switch (this.trackBar_displaySacle.Value)
+            {
+                case 0:
+                    newPanelWidth = (int)(panelWidth * 0.7);
+                    newPanelHeight = (int)(panelHeight * 0.7);
+                    break;
+                case 1:
+                    newPanelWidth = panelWidth;
+                    newPanelHeight = panelHeight;
+                    break;
+                case 2:
+                    newPanelWidth = (int)(panelWidth * 1.2);
+                    newPanelHeight = (int)(panelHeight * 1.2);
+                    break;
+                case 3:
+                    newPanelWidth = (int)(panelWidth * 1.5);
+                    newPanelHeight = (int)(panelHeight * 1.5);
+                    break;
+                case 4:
+                    newPanelWidth = (int)(panelWidth * 2);
+                    newPanelHeight = (int)(panelHeight * 2);
+                    break;
+                case 5:
+                    newPanelWidth = (int)(panelWidth * 3);
+                    newPanelHeight = (int)(panelHeight * 3);
+                    break;
+            }
+            
             panel4.Size = new Size(newPanelWidth, newPanelHeight);
             btn_generateMap_Click(sender, e);
         }

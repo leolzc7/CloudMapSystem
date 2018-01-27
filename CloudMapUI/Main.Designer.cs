@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
             this.ToolStripMenuItem_File = new System.Windows.Forms.ToolStripMenuItem();
             this.NToolStripMenuItem_newProject = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -275,14 +275,14 @@
             // 添加业务流ToolStripMenuItem
             // 
             this.添加业务流ToolStripMenuItem.Name = "添加业务流ToolStripMenuItem";
-            this.添加业务流ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.添加业务流ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.添加业务流ToolStripMenuItem.Text = "编辑业务流";
             this.添加业务流ToolStripMenuItem.Click += new System.EventHandler(this.添加业务流ToolStripMenuItem_Click);
             // 
             // ToolStripMenuItem_import
             // 
             this.ToolStripMenuItem_import.Name = "ToolStripMenuItem_import";
-            this.ToolStripMenuItem_import.Size = new System.Drawing.Size(124, 22);
+            this.ToolStripMenuItem_import.Size = new System.Drawing.Size(136, 22);
             this.ToolStripMenuItem_import.Text = "导入";
             this.ToolStripMenuItem_import.Click += new System.EventHandler(this.ToolStripMenuItem_import_Click);
             // 
@@ -823,14 +823,14 @@
             // trackBar_displaySacle
             // 
             this.trackBar_displaySacle.AutoSize = false;
-            this.trackBar_displaySacle.Cursor = System.Windows.Forms.Cursors.HSplit;
+            this.trackBar_displaySacle.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.trackBar_displaySacle.LargeChange = 10;
             this.trackBar_displaySacle.Location = new System.Drawing.Point(611, 11);
-            this.trackBar_displaySacle.Maximum = 300;
-            this.trackBar_displaySacle.Minimum = 50;
+            this.trackBar_displaySacle.Maximum = 5;
             this.trackBar_displaySacle.Name = "trackBar_displaySacle";
             this.trackBar_displaySacle.Size = new System.Drawing.Size(139, 37);
-            this.trackBar_displaySacle.TabIndex = 11;
-            this.trackBar_displaySacle.Value = 100;
+            this.trackBar_displaySacle.TabIndex = 0;
+            this.trackBar_displaySacle.Value = 1;
             this.trackBar_displaySacle.Scroll += new System.EventHandler(this.trackBar_displaySacle_Scroll);
             // 
             // label2
@@ -900,7 +900,7 @@
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Location = new System.Drawing.Point(200, 43);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(768, 443);
+            this.panel1.Size = new System.Drawing.Size(768, 421);
             this.panel1.TabIndex = 9;
             // 
             // panel4
@@ -941,9 +941,9 @@
             this.dataGridView_module.AllowUserToDeleteRows = false;
             this.dataGridView_module.AllowUserToResizeColumns = false;
             this.dataGridView_module.AllowUserToResizeRows = false;
-            dataGridViewCellStyle17.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
-            this.dataGridView_module.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle21.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle21.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
+            this.dataGridView_module.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle21;
             this.dataGridView_module.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.dataGridView_module.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_module.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -953,9 +953,9 @@
             this.dataGridView_module.Name = "dataGridView_module";
             this.dataGridView_module.ReadOnly = true;
             this.dataGridView_module.RowHeadersVisible = false;
-            dataGridViewCellStyle18.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(238)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
-            this.dataGridView_module.RowsDefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle22.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(238)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle22.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
+            this.dataGridView_module.RowsDefaultCellStyle = dataGridViewCellStyle22;
             this.dataGridView_module.RowTemplate.Height = 23;
             this.dataGridView_module.Size = new System.Drawing.Size(186, 454);
             this.dataGridView_module.TabIndex = 0;
@@ -986,9 +986,9 @@
             this.dataGridView_relation.AllowUserToDeleteRows = false;
             this.dataGridView_relation.AllowUserToResizeColumns = false;
             this.dataGridView_relation.AllowUserToResizeRows = false;
-            dataGridViewCellStyle19.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
-            this.dataGridView_relation.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle23.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle23.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
+            this.dataGridView_relation.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle23;
             this.dataGridView_relation.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.dataGridView_relation.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_relation.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -999,9 +999,9 @@
             this.dataGridView_relation.Name = "dataGridView_relation";
             this.dataGridView_relation.ReadOnly = true;
             this.dataGridView_relation.RowHeadersVisible = false;
-            dataGridViewCellStyle20.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(238)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
-            this.dataGridView_relation.RowsDefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCellStyle24.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(238)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle24.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
+            this.dataGridView_relation.RowsDefaultCellStyle = dataGridViewCellStyle24;
             this.dataGridView_relation.RowTemplate.Height = 23;
             this.dataGridView_relation.Size = new System.Drawing.Size(186, 454);
             this.dataGridView_relation.TabIndex = 0;
