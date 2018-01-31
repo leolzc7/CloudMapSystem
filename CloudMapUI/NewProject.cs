@@ -30,25 +30,23 @@ namespace CloudMapUI
             textBox2.Text = dbSelfPath;
         }
 
-        string dbName;
-        string dbSelfPath;
+        string dbName = null;
+        string dbSelfPath = null;
         
         private void btnNewProjectSure_Click(object sender, EventArgs e)
         {
-            SystemOperator.NewProject(dbName, dbSelfPath);
-            paf.mainFormStatus();
-            paf.panel4.Controls.Clear();
-            this.Hide();
-        }
-
-        public void connect_open_db()
-        {   
-           
-        }
-
-        public void close_db()
-        {
-           
+            if (dbName == null || dbSelfPath == null)
+            {
+                MessageBox.Show("请输入项目名称和地址！", "关于云图", MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+            }
+            else
+            {
+                SystemOperator.NewProject(dbName, dbSelfPath);
+                paf.panel4.Controls.Clear();
+                paf.mainFormStatus();
+                this.Hide();
+            }
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
@@ -64,6 +62,11 @@ namespace CloudMapUI
         private void label1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnNewProjectCancel_Click(object sender, EventArgs e)
+        {
+            this.Hide();
         }
     }
 }

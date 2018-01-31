@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -69,7 +70,6 @@
             this.倍ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.倍ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.倍ToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItem_comment = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Help = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_About = new System.Windows.Forms.ToolStripMenuItem();
             this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -126,6 +126,7 @@
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.saveFileDialog_saveImage = new System.Windows.Forms.SaveFileDialog();
             this.ModuleColor = new System.Windows.Forms.ColorDialog();
+            this.contextMenuStrip_RightKey = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuStrip2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -237,6 +238,7 @@
             this.ToolStripMenuItem_history.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
             this.ToolStripMenuItem_history.Size = new System.Drawing.Size(189, 22);
             this.ToolStripMenuItem_history.Text = "历史记录";
+            this.ToolStripMenuItem_history.Click += new System.EventHandler(this.ToolStripMenuItem_history_Click);
             // 
             // ToolStripMenuItem_Exit
             // 
@@ -261,28 +263,28 @@
             // ToolStripMenuItem_AddModule
             // 
             this.ToolStripMenuItem_AddModule.Name = "ToolStripMenuItem_AddModule";
-            this.ToolStripMenuItem_AddModule.Size = new System.Drawing.Size(136, 22);
+            this.ToolStripMenuItem_AddModule.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_AddModule.Text = "编辑系统";
             this.ToolStripMenuItem_AddModule.Click += new System.EventHandler(this.ToolStripMenuItem_AddModule_Click);
             // 
             // ToolStripMenuItem_AddRelation
             // 
             this.ToolStripMenuItem_AddRelation.Name = "ToolStripMenuItem_AddRelation";
-            this.ToolStripMenuItem_AddRelation.Size = new System.Drawing.Size(136, 22);
+            this.ToolStripMenuItem_AddRelation.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_AddRelation.Text = "编辑关系";
             this.ToolStripMenuItem_AddRelation.Click += new System.EventHandler(this.ToolStripMenuItem_AddRelation_Click);
             // 
             // 添加业务流ToolStripMenuItem
             // 
             this.添加业务流ToolStripMenuItem.Name = "添加业务流ToolStripMenuItem";
-            this.添加业务流ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.添加业务流ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.添加业务流ToolStripMenuItem.Text = "编辑业务流";
             this.添加业务流ToolStripMenuItem.Click += new System.EventHandler(this.添加业务流ToolStripMenuItem_Click);
             // 
             // ToolStripMenuItem_import
             // 
             this.ToolStripMenuItem_import.Name = "ToolStripMenuItem_import";
-            this.ToolStripMenuItem_import.Size = new System.Drawing.Size(136, 22);
+            this.ToolStripMenuItem_import.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_import.Text = "导入";
             this.ToolStripMenuItem_import.Click += new System.EventHandler(this.ToolStripMenuItem_import_Click);
             // 
@@ -304,7 +306,7 @@
             this.ToolStripMenuItem_level2,
             this.ToolStripMenuItem_Level3});
             this.ToolStripMenuItem_SysLevel.Name = "ToolStripMenuItem_SysLevel";
-            this.ToolStripMenuItem_SysLevel.Size = new System.Drawing.Size(142, 22);
+            this.ToolStripMenuItem_SysLevel.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_SysLevel.Text = "系统等级";
             // 
             // ToolStripMenuItem_Level1
@@ -332,14 +334,14 @@
             // 
             this.ToolStripMenuItem_Refresh.Name = "ToolStripMenuItem_Refresh";
             this.ToolStripMenuItem_Refresh.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.ToolStripMenuItem_Refresh.Size = new System.Drawing.Size(142, 22);
+            this.ToolStripMenuItem_Refresh.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_Refresh.Text = "刷新(&F5)";
             this.ToolStripMenuItem_Refresh.Click += new System.EventHandler(this.ToolStripMenuItem_Refresh_Click);
             // 
             // ToolStripMenuItem_DisplayScale
             // 
             this.ToolStripMenuItem_DisplayScale.Name = "ToolStripMenuItem_DisplayScale";
-            this.ToolStripMenuItem_DisplayScale.Size = new System.Drawing.Size(142, 22);
+            this.ToolStripMenuItem_DisplayScale.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_DisplayScale.Text = "显示比例";
             this.ToolStripMenuItem_DisplayScale.Click += new System.EventHandler(this.ToolStripMenuItem_DisplayScale_Click);
             // 
@@ -347,8 +349,7 @@
             // 
             this.ToolStripMenuItem_Setting.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_Border,
-            this.ToolStripMenuItem_Line,
-            this.ToolStripMenuItem_comment});
+            this.ToolStripMenuItem_Line});
             this.ToolStripMenuItem_Setting.Name = "ToolStripMenuItem_Setting";
             this.ToolStripMenuItem_Setting.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.S)));
             this.ToolStripMenuItem_Setting.Size = new System.Drawing.Size(59, 21);
@@ -361,7 +362,7 @@
             this.ToolStripMenuItem_colorFilling,
             this.ToolStripMenuItem_BorderWidth});
             this.ToolStripMenuItem_Border.Name = "ToolStripMenuItem_Border";
-            this.ToolStripMenuItem_Border.Size = new System.Drawing.Size(112, 22);
+            this.ToolStripMenuItem_Border.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_Border.Text = "模块";
             // 
             // ToolStripMenuItem_BorderColor
@@ -382,8 +383,8 @@
             // 
             this.ToolStripMenuItem_BorderWidth.Name = "ToolStripMenuItem_BorderWidth";
             this.ToolStripMenuItem_BorderWidth.Size = new System.Drawing.Size(124, 22);
-            this.ToolStripMenuItem_BorderWidth.Text = "粗细";
-            this.ToolStripMenuItem_BorderWidth.Click += new System.EventHandler(this.ToolStripMenuItem_BorderWidth_Click);
+            this.ToolStripMenuItem_BorderWidth.Text = "模块字体";
+            this.ToolStripMenuItem_BorderWidth.Click += new System.EventHandler(this.注释ToolStripMenuItem_Click);
             // 
             // ToolStripMenuItem_Line
             // 
@@ -391,7 +392,7 @@
             this.ToolStripMenuItem_LineColor,
             this.ToolStripMenuItem_LineWidth});
             this.ToolStripMenuItem_Line.Name = "ToolStripMenuItem_Line";
-            this.ToolStripMenuItem_Line.Size = new System.Drawing.Size(112, 22);
+            this.ToolStripMenuItem_Line.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_Line.Text = "关系线";
             // 
             // ToolStripMenuItem_LineColor
@@ -431,13 +432,6 @@
             this.倍ToolStripMenuItem2.Size = new System.Drawing.Size(95, 22);
             this.倍ToolStripMenuItem2.Text = "5倍";
             this.倍ToolStripMenuItem2.Click += new System.EventHandler(this.倍ToolStripMenuItem2_Click);
-            // 
-            // ToolStripMenuItem_comment
-            // 
-            this.ToolStripMenuItem_comment.Name = "ToolStripMenuItem_comment";
-            this.ToolStripMenuItem_comment.Size = new System.Drawing.Size(112, 22);
-            this.ToolStripMenuItem_comment.Text = "注释";
-            this.ToolStripMenuItem_comment.Click += new System.EventHandler(this.注释ToolStripMenuItem_Click);
             // 
             // ToolStripMenuItem_Help
             // 
@@ -508,7 +502,7 @@
             // 
             // BorderColor
             // 
-            this.BorderColor.Color = System.Drawing.Color.DarkRed;
+            this.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.BorderColor.ShowHelp = true;
             // 
             // LineColor
@@ -1017,12 +1011,17 @@
             // 
             // saveFileDialog_saveImage
             // 
-            this.saveFileDialog_saveImage.Filter = "Painter 文件|*.pat|BMP 文件|*.bmp|JPG 文件|*.jpg|JPEG 文件|*.jpeg|Gif 文件|*.gif";
+            this.saveFileDialog_saveImage.Filter = "BMP 文件|*.bmp|JPG 文件|*.jpg|JPEG 文件|*.jpeg|Gif 文件|*.gif";
             // 
             // ModuleColor
             // 
-            this.ModuleColor.Color = System.Drawing.Color.LightGray;
+            this.ModuleColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(238)))), ((int)(((byte)(255)))));
             this.ModuleColor.ShowHelp = true;
+            // 
+            // contextMenuStrip_RightKey
+            // 
+            this.contextMenuStrip_RightKey.Name = "contextMenuStrip_RightKey";
+            this.contextMenuStrip_RightKey.Size = new System.Drawing.Size(61, 4);
             // 
             // MainForm
             // 
@@ -1117,7 +1116,6 @@
         public System.Windows.Forms.ToolStripMenuItem NToolStripMenuItem_newProject;
         public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_PrePrint;
         public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_DisplayScale;
-        public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_comment;
         public System.Windows.Forms.ToolStripMenuItem 帮助ToolStripMenuItem;
         public System.Windows.Forms.ToolStripButton toolStripButton_newProject;
         public System.Windows.Forms.ToolStripButton toolStripButton_openProject;
@@ -1155,6 +1153,7 @@
         private System.Windows.Forms.ToolStripMenuItem 倍ToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem 倍ToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem 添加业务流ToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip_RightKey;
     }
 }
 

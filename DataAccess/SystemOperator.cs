@@ -16,8 +16,7 @@ namespace DataAccess
         public static void NewProjectConnectDb(string dbSelfName, string dbSelfPath)
         {
             globalParameters.dbName = dbSelfName + ".db";
-            globalParameters.dbPath = "Data Source = " + dbSelfPath + globalParameters.dbName;
-            //globalParameters.attachDb = dbSelfPath + globalParameters.dbName;
+            globalParameters.dbPath = "Data Source = " + dbSelfPath +"\\"+ globalParameters.dbName;
         }
         public static void NewProject(string dbSelfName, string dbSelfPath)
         {
@@ -51,7 +50,7 @@ namespace DataAccess
                 }
                 string sq4 = "CREATE TABLE IF NOT EXISTS stream(sname varchar(50), num INTERGER," +
                     "modulesName STRING NOT NULL,PRIMARY KEY(sname,num),FOREIGN KEY (modulesName) " +
-                    "REFERENCES modules(name) on delete cascade on update cascade); ";//建表语句
+                    "REFERENCES modules(name) on delete cascade on update cascade)";//建表语句
                 using (SQLiteCommand cmd = new SQLiteCommand(sq4, conn))
                 {
                     cmd.ExecuteNonQuery();
@@ -60,7 +59,8 @@ namespace DataAccess
             }//创建数据库实例，指定文件位置
             string filePath = dbSelfPath + dbSelfName + ".db";
             EnqueueChecked(filePath);
-            //CopyDb();
+            globalParameters.backupDbPath = @"Data Source =" + @"C:\CloudMap\tempppppppppppppp.db";
+            CreateBackUpDb();
         }
         public static bool OpenProject(string filePath,bool first) 
         {
@@ -117,6 +117,7 @@ namespace DataAccess
         public static void SaveBackupDb()
         {
             //File.Delete(globalParameters.tempDb);
+
             using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath)) //对缓存数据库建立链接
             {
                 conn.Open();
@@ -190,10 +191,10 @@ namespace DataAccess
                 {
                     sw2.WriteLine(oneHistory);
                 }
-                for (int i = globalParameters.dbHistory.Count ; i < 10; i++)
-                {
-                    sw2.WriteLine("");
-                }
+                //for (int i = globalParameters.dbHistory.Count ; i < 10; i++)
+                //{
+                //    sw2.WriteLine("");
+                //}
                 sw2.Flush();
                 sw2.Close();
                 fs2.Close();

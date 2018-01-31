@@ -12,6 +12,7 @@ using Data;
 using DataAccess;
 using DrawLineRules;
 using System.IO;
+using System.Threading;
 
 namespace CloudMapUI
 {
@@ -41,6 +42,8 @@ namespace CloudMapUI
                 ToolStripMenuItem_AddModule.Enabled = false;
                 ToolStripMenuItem_AddRelation.Enabled = false;
                 ToolStripMenuItem_import.Enabled = false;
+                ToolStripMenuItem_SaveProject.Enabled = false;
+                添加业务流ToolStripMenuItem.Enabled = false;
 
                 toolStripButton_saveProject.Enabled = false;
                 toolStripButton_saveImage.Enabled = false;
@@ -62,6 +65,8 @@ namespace CloudMapUI
                 ToolStripMenuItem_AddModule.Enabled = true;
                 ToolStripMenuItem_AddRelation.Enabled = true;
                 ToolStripMenuItem_import.Enabled = true;
+                ToolStripMenuItem_SaveProject.Enabled = true;
+                添加业务流ToolStripMenuItem.Enabled = true;
 
                 toolStripButton_saveProject.Enabled = true;
                 toolStripButton_saveImage.Enabled = true;
@@ -70,6 +75,7 @@ namespace CloudMapUI
                 toolStripButton_addModule.Enabled = true;
                 toolStripButton_addRelation.Enabled = true;
                 panel2.Visible = true;
+                comboBox_type.Enabled = false;
 
                 dataGridView_module.Visible = true;
                 dataGridView_module.AutoGenerateColumns = false;
@@ -80,7 +86,6 @@ namespace CloudMapUI
                 dataGridView_relation.AutoGenerateColumns = false;
                 relationdata = RelationOperator.LoadRelationInfo();
                 dataGridView_relation.DataSource = relationdata.Tables[RelationData.RELATION_TABLE].DefaultView;
-                
             }
         }
 
@@ -88,15 +93,20 @@ namespace CloudMapUI
         {
             mainFormStatus();
             AddHistoryItem();
-            int width = Screen.PrimaryScreen.Bounds.Width-200;//得到与屏幕一样大小的panel1，用于存放panel4.画图
-            int height = Screen.PrimaryScreen.Bounds.Height-196;
+            SetCanvas();
+        }
+        
+        private void SetCanvas()
+        {
+            //设置画布，使其可以放大缩小
+            int width = Screen.PrimaryScreen.Bounds.Width - 200;//得到与屏幕一样大小的panel1，用于存放panel4.画图
+            int height = Screen.PrimaryScreen.Bounds.Height - 196;
             panel1.Size = new Size(width, height);
-            //panel1.HorizontalScroll.Visible = true;
-            //panel1.VerticalScroll.Visible = true;
+            panel1.HorizontalScroll.Visible = true;
+            panel1.VerticalScroll.Visible = true;
             panel4.Size = panel1.Size;
             panelWidth = panel4.Size.Width;
             panelHeight = panel4.Size.Height;
-            comboBox_type.Enabled = false;
         }
         private void AddHistoryItem()
         {
@@ -129,6 +139,14 @@ namespace CloudMapUI
                 //this.Controls.Remove(((ToolStripMenuItem)sender).Name);
             }
             mainFormStatus();
+        }
+        //生成云图按钮
+        public void btn_generateMap_Click(object sender, EventArgs e)
+        {
+            panel4.BackColor = Color.White;
+            panel4.Controls.Clear();//控件的清空
+            this.panel4.Refresh();//Graphics的清空
+            DrawModuleAndLines();//调用画控件函数
         }
         private void menuStrip2_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
@@ -165,12 +183,18 @@ namespace CloudMapUI
             mainFormStatus();
         }
 
+        private void ToolStripMenuItem_SaveProject_Click(object sender, EventArgs e)
+        {
+            SystemOperator.SaveBackupDb();
+            MessageBox.Show("保存成功！", "关于云图", MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+        }
+
         private void ToolStripMenuItem_SaveAs_Click(object sender, EventArgs e)
         {
             saveFileDialog_SaveProject.ShowDialog();
             string filePath = saveFileDialog_SaveProject.FileName;
             string[] text = globalParameters.dbPath.Split('=');
-            //string oldFilePath = text[1];
             string oldFilePath = globalParameters.tempDb;
             if (filePath == null || filePath == "")
             {
@@ -348,8 +372,8 @@ namespace CloudMapUI
          
         private void 帮助ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("SOS NOT FOUND 404！", "HELP", MessageBoxButtons.OK,
-                                MessageBoxIcon.Information);
+            MessageBox.Show("1. 单击系统：系统和与之相连的关系线高亮显示(系统背景边框颜色加深，关系线颜色变为红色）。\r\n2. 双击系统：弹出系统详细信息窗口，并恢复界面上所有系统关系线的默认属性。\r\n3. 单击关系线：红色显示该关系，并在合适位置显示关系名称。\r\n4. 双击关系线：弹出关系线详细信息窗口，并恢复界面上所有关系线的默认属性。\r\n5. 双击关系线上显示的关系名称：隐藏该名称显示。\r\n6. 系统等级与系统类型两个选项有约束条件，选择类型时，需保证等级为空。",
+                "界面操作指南", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         
@@ -383,9 +407,7 @@ namespace CloudMapUI
 
         private void toolStripButton_saveProject_Click(object sender, EventArgs e)
         {
-            SystemOperator.SaveBackupDb();
-            MessageBox.Show("保存成功！", "关于云图", MessageBoxButtons.OK,
-                                MessageBoxIcon.Information);
+            ToolStripMenuItem_SaveProject_Click(sender, e);
         }
 
         private void toolStripButton_prePrint_Click(object sender, EventArgs e)
@@ -452,6 +474,98 @@ namespace CloudMapUI
         {
             ToolStripMenuItem_LineColor_Click(sender,e);
         }
+        #region StreamUIOperations
+        //全局的Streamlist对象，方便不同函数使用
+        public List<StreamOperator.streamList> streamsInfo = new List<StreamOperator.streamList>();
+        private void MyButton_RightMouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                SetContextMenuStrip(sender);
+            }
+        }
+        //动态生成鼠标右键菜单
+        private void SetContextMenuStrip(object sender)
+        {
+            this.contextMenuStrip_RightKey.Items.Clear();
+            string moduleName = ((MyButton)sender).Text;
+            streamsInfo = StreamOperator.GetStreamForModule(moduleName);
+            foreach(StreamOperator.streamList stream in streamsInfo)
+            {
+                ToolStripItem item = new ToolStripMenuItem();
+                item.Name = stream.streamName;
+                item.Text = stream.streamName;
+                item.Click += new EventHandler(contextMenuStrip1_ItemClick);
+                this.contextMenuStrip_RightKey.Items.Add(item);
+            }
+        }
+        //点击右键菜单中某一行的触发函数
+        private void contextMenuStrip1_ItemClick(object sender, EventArgs e)
+        {
+            Control.ControlCollection Cons = this.panel4.Controls;
+            //恢复所有模块属性
+            foreach (Control con in Cons)
+            {
+                if (con is MyButton)
+                {
+                    ((MyButton)con).FlatAppearance.BorderColor = BorderColor.Color;
+                    ((MyButton)con).FlatAppearance.BorderSize = 1;
+                    ((MyButton)con).BackColor = ModuleColor.Color;
+                }
+            }
+            //恢复所有关系线属性
+            foreach (Control con in Cons)
+            {
+                if (con is ALine)
+                {
+                    ((ALine)con).Pencolor = LineColor.Color;
+                }
+            }
+            //调用带参数的线程更新界面
+            Thread thread1 = new Thread(new ParameterizedThreadStart(UpdateStream));
+            thread1.Start(sender);
+        }
+
+        private void UpdateStream(object sender)
+        {
+            List<string> modules = new List<string>();//业务流包含的模块的名字列表
+            Control.ControlCollection Cons = this.panel4.Controls;
+            foreach (StreamOperator.streamList stream in streamsInfo)
+            {
+                if (stream.streamName == ((ToolStripItem)sender).Name)
+                {
+                    modules = stream.modulesList;
+                }
+            }
+            for (int i = 0; i < modules.Count; i++)
+            {
+                foreach (Control con in Cons)
+                {
+                    if (con is MyButton && ((MyButton)con).Text == modules[i] && ((MyButton)con).InvokeRequired)
+                    {
+                        ((MyButton)con).FlatAppearance.BorderColor = Color.LightCyan;
+                        ((MyButton)con).FlatAppearance.BorderSize = 3;
+                        ((MyButton)con).BackColor = Color.LightGreen;
+                    }
+                }
+                System.Threading.Thread.Sleep(777);//高亮显示完模块后，暂停时间长度
+                if (i < modules.Count - 1)
+                {
+                    string relationName = RelationOperator.GetRelationName(modules[i], modules[i + 1]);
+                    foreach (Control con in Cons)
+                    {
+                        if (con is ALine && ((ALine)con).Text == relationName && ((ALine)con).InvokeRequired)
+                        {
+                            ((ALine)con).Pencolor = Color.Red;
+                        }
+                    }
+                }
+                System.Threading.Thread.Sleep(777);//高亮显示关系线后，暂停同样时间，等待下一个循环显示下一个模块
+            }
+        }
+        #endregion
+
+        #region DrawLineAndModules
         public List<Module> DrawModules()
         {
             List<Module> modPosition = new List<Module>();
@@ -493,102 +607,15 @@ namespace CloudMapUI
                 btn[i].FlatStyle = FlatStyle.Flat;
                 btn[i].FlatAppearance.BorderColor = BorderColor.Color;
                 panel4.Controls.Add(btn[i]);
-                btn[i].Click += new EventHandler(this.MyButton_Click);
-                btn[i].DoubleClick += new EventHandler(this.MyButton_DoubleClick);
+                btn[i].MouseDown += new MouseEventHandler(this.MyButton_RightMouseDown);//右击事件
+                btn[i].Click += new EventHandler(this.MyButton_Click);//单击事件
+                btn[i].ContextMenuStrip = this.contextMenuStrip_RightKey;//添加右击菜单列表
+                btn[i].DoubleClick += new EventHandler(this.MyButton_DoubleClick);//双击事件
             }
             return modPosition;
         }
-        //双击按钮
-        private void MyButton_DoubleClick(object sender, EventArgs e)
-        {
-            //恢复模块原有样式
-            Control.ControlCollection Cons = this.panel4.Controls;
-            foreach (Control con in Cons)
-            {
-                if (con is MyButton)
-                {
-                    ((MyButton)con).FlatAppearance.BorderColor = this.BorderColor.Color;
-                    ((MyButton)con).FlatAppearance.BorderSize = 1;
-                    ((MyButton)con).BackColor = this.ModuleColor.Color;
-                }
-            }
-            //恢复关系线原有样式
-            foreach (Control con in Cons)
-            {
-                if (con is ALine)
-                {
-                    ((ALine)con).Pencolor = this.LineColor.Color;
-                }
-            }
-            ModuleInfo moduleinfo = new ModuleInfo((MyButton)sender);
-            moduleinfo.ShowDialog();
-        }
-        //单击按钮
-        public void MyButton_Click(object sender, EventArgs e)
-        {
-            //使左侧模块的datagridview选中
-            string seleteName = ((MyButton)sender).Text;
-            int index = 0;
-            for (int i = 0; i < dataGridView_module.RowCount; i++)//遍历所有选中的行
-            {
-                if (dataGridView_module.Rows[i].Cells[0].Value.Equals(seleteName))
-                {
-                    index = i;
-                    break;
-                }
-            }
-            dataGridView_module.CurrentCell = dataGridView_module.Rows[index].Cells[0];
 
-            //并且使它和与它相连的关系线高亮显示
-            List<MyButton> btnList = new List<MyButton>();
-            List<ALine> alineList = new List<ALine>();
-            Control.ControlCollection Cons = panel4.Controls;
-            MyButton select = (MyButton)sender;
-            //每个模块恢复原样
-            foreach (Control con in Cons)
-            {
-                if (con is MyButton)
-                {
-                    btnList.Add((MyButton)con);
-                    ((MyButton)con).FlatAppearance.BorderColor = BorderColor.Color;
-                    ((MyButton)con).FlatAppearance.BorderSize = 1;
-                    ((MyButton)con).BackColor = ModuleColor.Color;
-                }
-            }
-            //每个关系线恢复原样
-            foreach (Control con in Cons)
-            {
-                if (con is ALine)
-                {
-                    alineList.Add((ALine)con);
-                    ((ALine)con).Pencolor = LineColor.Color;
-                }
-            }
-            //关系线与模块相连则变红色
-            foreach (ALine aline in alineList)
-            {
-                if (
-                        ((aline.Location.X + aline.Size.Width == select.Location.X + 1) && (aline.Location.Y + aline.Size.Height > select.Location.Y) && (aline.Location.Y < select.Location.Y + select.Size.Height)) ||
-                        ((aline.Location.Y + aline.Size.Height == select.Location.Y + 1) && (aline.Location.X + aline.Size.Width > select.Location.X) && (aline.Location.X < select.Location.X + select.Size.Width)) ||
-                        ((aline.Location.X + 1 == select.Location.X + select.Size.Width) && (aline.Location.Y + aline.Size.Height > select.Location.Y) && (aline.Location.Y < select.Location.Y + select.Size.Height)) ||
-                        ((aline.Location.Y + 1 == select.Location.Y + select.Size.Height) && (aline.Location.X + aline.Size.Width > select.Location.X) && (aline.Location.X < select.Location.X + select.Size.Width))
-                        )
-                {
-                    aline.Pencolor = Color.Red;
-                    foreach (ALine alineSame in alineList)
-                    {
-                        if (alineSame.Text.Equals(aline.Text))
-                        {
-                            alineSame.Pencolor = Color.Red;
-                        }
-                    }
-                }
-            }
-            //选中的这模块高亮显示
-            select.FlatAppearance.BorderColor = Color.LightBlue;
-            select.FlatAppearance.BorderSize = 3;
-            select.BackColor = Color.LightYellow;
-        }
+        
         public void DrawModuleAndLines()
         {
             List<Module> modPosition = DrawModules();
@@ -653,15 +680,113 @@ namespace CloudMapUI
                 else
                     aline[i].Location = new Point(line[i].line[0], line[i].line[1] - 4 * aline[i].Penwidth);
                 aline[i].Text = line[i].lineName;
-                aline[i].MouseHover += new EventHandler(this.AlineHover);
-                aline[i].Click += new EventHandler(this.AlineClick);
-                aline[i].DoubleClick += new EventHandler(this.AlineDoubleClick);
+                aline[i].MouseHover += new EventHandler(this.AlineHover);//悬浮事件
+                aline[i].Click += new EventHandler(this.AlineClick);//单击事件
+                aline[i].DoubleClick += new EventHandler(this.AlineDoubleClick);//双击事件
                 //aline[i].MouseDown += new MouseEventHandler(this.AlineDown);
                 //aline[i].MouseUp += new MouseEventHandler(this.AlineUp);
                 //aline[i].MouseHover += (e, a) => AlineHover(line[i].lineName);
                 panel4.Controls.Add(aline[i]);
             }
         }
+        #endregion
+        
+        #region ModuleUIOperations
+        //双击模块，恢复默认样式，并显示系统详细信息
+        private void MyButton_DoubleClick(object sender, EventArgs e)
+        {
+            //恢复模块原有样式
+            Control.ControlCollection Cons = this.panel4.Controls;
+            foreach (Control con in Cons)
+            {
+                if (con is MyButton)
+                {
+                    ((MyButton)con).FlatAppearance.BorderColor = this.BorderColor.Color;
+                    ((MyButton)con).FlatAppearance.BorderSize = 1;
+                    ((MyButton)con).BackColor = this.ModuleColor.Color;
+                }
+            }
+            //恢复关系线原有样式
+            foreach (Control con in Cons)
+            {
+                if (con is ALine)
+                {
+                    ((ALine)con).Pencolor = this.LineColor.Color;
+                }
+            }
+            ModuleInfo moduleinfo = new ModuleInfo((MyButton)sender);
+            moduleinfo.ShowDialog();
+        }
+        //单击按钮
+        private void MyButton_Click(object sender, EventArgs e)
+        {
+            //使左侧模块的datagridview选中
+            string seleteName = ((MyButton)sender).Text;
+            int index = 0;
+            for (int i = 0; i < dataGridView_module.RowCount; i++)//遍历所有选中的行
+            {
+                if (dataGridView_module.Rows[i].Cells[0].Value.Equals(seleteName))
+                {
+                    index = i;
+                    break;
+                }
+            }
+            dataGridView_module.CurrentCell = dataGridView_module.Rows[index].Cells[0];
+
+            //并且使它和与它相连的关系线高亮显示
+            List<MyButton> btnList = new List<MyButton>();
+            List<ALine> alineList = new List<ALine>();
+            Control.ControlCollection Cons = panel4.Controls;
+            MyButton select = (MyButton)sender;
+            //每个模块恢复原样
+            foreach (Control con in Cons)
+            {
+                if (con is MyButton)
+                {
+                    btnList.Add((MyButton)con);
+                    ((MyButton)con).FlatAppearance.BorderColor = BorderColor.Color;
+                    ((MyButton)con).FlatAppearance.BorderSize = 1;
+                    ((MyButton)con).BackColor = ModuleColor.Color;
+                }
+            }
+            //每个关系线恢复原样
+            foreach (Control con in Cons)
+            {
+                if (con is ALine)
+                {
+                    alineList.Add((ALine)con);
+                    ((ALine)con).Pencolor = LineColor.Color;
+                }
+            }
+            //关系线与模块相连则变红色
+            foreach (ALine aline in alineList)
+            {
+                if (
+                        ((aline.Location.X + aline.Size.Width == select.Location.X + 1) && (aline.Location.Y + aline.Size.Height > select.Location.Y) && (aline.Location.Y < select.Location.Y + select.Size.Height)) ||
+                        ((aline.Location.Y + aline.Size.Height == select.Location.Y + 1) && (aline.Location.X + aline.Size.Width > select.Location.X) && (aline.Location.X < select.Location.X + select.Size.Width)) ||
+                        ((aline.Location.X + 1 == select.Location.X + select.Size.Width) && (aline.Location.Y + aline.Size.Height > select.Location.Y) && (aline.Location.Y < select.Location.Y + select.Size.Height)) ||
+                        ((aline.Location.Y + 1 == select.Location.Y + select.Size.Height) && (aline.Location.X + aline.Size.Width > select.Location.X) && (aline.Location.X < select.Location.X + select.Size.Width))
+                        )
+                {
+                    aline.Pencolor = Color.Red;
+                    foreach (ALine alineSame in alineList)
+                    {
+                        if (alineSame.Text.Equals(aline.Text))
+                        {
+                            alineSame.Pencolor = Color.Red;
+                        }
+                    }
+                }
+            }
+            //选中的这模块高亮显示
+            select.FlatAppearance.BorderColor = Color.LightBlue;
+            select.FlatAppearance.BorderSize = 3;
+            select.BackColor = Color.LightYellow;
+        }
+        #endregion
+
+        #region LineUIOperations
+
         //单击关系线
         private void AlineClick(object sender, EventArgs e)
         {
@@ -820,13 +945,8 @@ namespace CloudMapUI
             p.ShowAlways = true;
             p.SetToolTip((ALine)sender, ((ALine)sender).Text);
         }
-        public void btn_generateMap_Click(object sender, EventArgs e)
-        {
-            panel4.Controls.Clear();//控件的清空
-            panel4.BackColor = Color.White;
-            this.panel4.Refresh();//Graphics的清空
-            DrawModuleAndLines();//调用画控件函数
-        }
+        #endregion
+
 
         private void ToolStripMenuItem_Level1_Click(object sender, EventArgs e)
         {
@@ -836,7 +956,7 @@ namespace CloudMapUI
         {
 
         }
-
+        //实现放大缩小窗口时自动调整图像大小
         private void Form_Changed(object sender, EventArgs e)
         {
             if (globalParameters.dbPath == null)
@@ -957,7 +1077,28 @@ namespace CloudMapUI
         //点击左侧datagrid中的关系，使面板中对应关系线高亮显示
         private void dataGridView_relation_CellClick(object sender, System.Windows.Forms.DataGridViewCellEventArgs e)
         {
-
+            //string selectModule = dataGridView_module.CurrentCell.Value.ToString();
+            string selectRelation = dataGridView_relation.CurrentCell.Value.ToString();
+            Control.ControlCollection Cons = panel4.Controls;
+            //恢复面板上所有之前选中关系线
+            foreach (Control con in Cons)
+            {
+                if (con is ALine)
+                {
+                    ((ALine)con).Pencolor = LineColor.Color;
+                }
+            }
+            //使选中cell的关系线高亮显示
+            foreach (Control con in Cons)
+            {
+                if (con is ALine)
+                {
+                    if (((ALine)con).Text == selectRelation)
+                    {
+                        ((ALine)con).Pencolor = Color.Red;
+                    }
+                }
+            }
         }
         //双击关系线名称，使其消失
         private void LabelTransp_DoubleClick(object sender, EventArgs e)
@@ -983,5 +1124,11 @@ namespace CloudMapUI
                 comboBox_type.Enabled = false;
         }
 
+        public MouseEventHandler MyButton_MouseDown { get; set; }
+
+        private void ToolStripMenuItem_history_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

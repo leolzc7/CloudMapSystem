@@ -109,6 +109,7 @@
             this.btnNewProjectCancel.TabIndex = 6;
             this.btnNewProjectCancel.Text = "取消";
             this.btnNewProjectCancel.UseVisualStyleBackColor = false;
+            this.btnNewProjectCancel.Click += new System.EventHandler(this.btnNewProjectCancel_Click);
             // 
             // NewProjectForm
             // 

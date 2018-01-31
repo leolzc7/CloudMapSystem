@@ -58,7 +58,6 @@
             this.dgv_source = new System.Windows.Forms.DataGridView();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel6 = new System.Windows.Forms.Panel();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.target = new System.Windows.Forms.TextBox();
             this.source = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -366,7 +365,6 @@
             // 
             // panel6
             // 
-            this.panel6.Controls.Add(this.checkBox1);
             this.panel6.Controls.Add(this.target);
             this.panel6.Controls.Add(this.source);
             this.panel6.Controls.Add(this.label7);
@@ -378,16 +376,6 @@
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(478, 63);
             this.panel6.TabIndex = 0;
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(246, 2);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(84, 16);
-            this.checkBox1.TabIndex = 98;
-            this.checkBox1.Text = "显示关系名";
-            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // target
             // 
@@ -607,6 +595,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridView dgv_source;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
