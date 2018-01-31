@@ -12,22 +12,40 @@ namespace DataAccess
     //针对关系表的操作，包括根据不同的等级Load整个表，和对表的增、删、改，以及得到不同等级的模块对应的关系数组
     public class RelationOperator
     {
-        static SQLiteDataAdapter command;
         public static RelationData LoadRelationInfo()
         {
             RelationData data = new RelationData();
             string sql0 = "select * from relation";
-            command = new SQLiteDataAdapter(sql0, globalParameters.conn);
-            command.Fill(data.Tables[RelationData.RELATION_TABLE]);
-            return data;
+            using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
+            {
+                conn.Open();
+                using (SQLiteDataAdapter command = new SQLiteDataAdapter(sql0, conn))
+                {
+                    command.Fill(data.Tables[RelationData.RELATION_TABLE]);
+                    conn.Close();
+                    return data;
+                }
+            } 
         }
         public static RelationData LoadRelationInfoForSecondDb()
         {
             RelationData data = new RelationData();
             string sql0 = "select * from secondDb.relation";
-            command = new SQLiteDataAdapter(sql0, globalParameters.conn);
-            command.Fill(data.Tables[RelationData.RELATION_TABLE]);
-            return data;
+            string sql00 = "ATTACH DATABASE '" + globalParameters.secondDbPath + "' as 'secondDb'";
+            using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
+            {
+                conn.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand(sql00, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                using (SQLiteDataAdapter command = new SQLiteDataAdapter(sql0, conn))
+                {
+                    command.Fill(data.Tables[RelationData.RELATION_TABLE]);
+                    conn.Close();
+                    return data;
+                }
+            }
         }
         private static bool CheckDuplication(DataRow data)
         {
@@ -35,15 +53,26 @@ namespace DataAccess
             string nameSource = "'" + data[RelationData.SOURCENAME_FIELD ] + "'";
             string nameTarget = "'" + data[RelationData.TARGETNAME_FIELD] + "'";
             string cmdCheck = "SELECT count(*) FROM relation WHERE sourceName = " + nameSource + " and targetName =  " + nameTarget;
-            SQLiteDataReader reader = ExecuteReaderSql(cmdCheck);
-            while (reader.Read())
+            using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
             {
-                if (reader.GetInt32(0) == 0)
+                conn.Open();
+                using (SQLiteCommand cmdReader = new SQLiteCommand(cmdCheck, conn))
                 {
-                    return true;
+                    using (SQLiteDataReader reader = cmdReader.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader.GetInt32(0) == 0)
+                            {
+                                conn.Close();
+                                return true;
+                            }
+                        }
+                        conn.Close();
+                        return false;
+                    }
                 }
             }
-            return false;
         }
         public static RelationData GetRelationInfoForImport(List<string> modulesName)
         {
@@ -70,7 +99,20 @@ namespace DataAccess
                 string sourceName = "'" + relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.SOURCENAME_FIELD].ToString() + "'";
                 string targetName = "'" + relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.TARGETNAME_FIELD].ToString() + "'";
                 string sql1 = "insert into relation select * from secondDb.relation where sourceName = " + sourceName + " and targetName = " + targetName;
-                SystemOperator.ExecuteSql(sql1);
+                string sql00 = "ATTACH DATABASE '" + globalParameters.secondDbPath + "' as 'secondDb'";
+                using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
+                {
+                    conn.Open();
+                    using (SQLiteCommand cmd = new SQLiteCommand(sql00, conn))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                    using (SQLiteCommand cmd = new SQLiteCommand(sql1, conn))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                    conn.Close();
+                }
             }
             return true;
         }
@@ -95,7 +137,15 @@ namespace DataAccess
             if (!check)
                 return false;
             string insertCommand = GetInsertCommand(relation);
-            SystemOperator.ExecuteSql(insertCommand);
+            using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
+            {
+                conn.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand(insertCommand, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                conn.Close();
+            }
             if (relation.HasErrors)
             {
                 relation.Tables[RelationData.RELATION_TABLE].GetErrors()[0].ClearErrors();
@@ -126,7 +176,20 @@ namespace DataAccess
             //if (!check)
             //    return false;
             string updateCommand = GetUpdateCommand(relation, selectSource, selectTarget);
-            SystemOperator.ExecuteSql(updateCommand);
+            using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
+            {
+                conn.Open();
+                string sq0 = "PRAGMA foreign_keys = 'on';";
+                using (SQLiteCommand cmd = new SQLiteCommand(sq0, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                using (SQLiteCommand cmd = new SQLiteCommand(updateCommand, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                conn.Close();
+            }
             if (relation.HasErrors)
             {
                 relation.Tables[RelationData.RELATION_TABLE].GetErrors()[0].ClearErrors();
@@ -154,21 +217,28 @@ namespace DataAccess
             string condition1 = @"sourceName = '" + selectSource + "'";
             string condition2 = @"targetName = '" + selectTarget + "'";
             cmdDelete = "DELETE FROM relation WHERE " + condition1 + " and " + condition2;
-            SQLiteCommand cmd = new SQLiteCommand(cmdDelete, globalParameters.conn);
-            if (cmd.ExecuteNonQuery() > 0)
+            using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
             {
-                return true;
+                conn.Open();
+                string sq0 = "PRAGMA foreign_keys = 'on';";
+                using (SQLiteCommand cmd = new SQLiteCommand(sq0, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                using (SQLiteCommand cmd = new SQLiteCommand(cmdDelete, conn))
+                {
+                    if (cmd.ExecuteNonQuery() > 0)
+                    {
+                        conn.Close();
+                        return true;
+                    }
+                    else
+                    {
+                        conn.Close();
+                        return false;
+                    }
+                }
             }
-            else
-            {
-                return false;
-            }
-        }
-        public static SQLiteDataReader ExecuteReaderSql(string sql)
-        {
-            SQLiteCommand cmdReader = new SQLiteCommand(sql, globalParameters.conn);
-            SQLiteDataReader reader = cmdReader.ExecuteReader();
-            return reader;
         }
         public static List<relation> GetRelationArray(int level) //得到不同等级的模块对应的关系数组
         {
@@ -202,7 +272,27 @@ namespace DataAccess
             }
             return relationArray;
         }
-
+        public static string GetRelationName(string sourceName, string targetName)
+        {
+            string relationName = null;
+            using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
+            {
+                conn.Open();
+                string sql = "SELECT rname FROM relation WHERE sourceName = '"+sourceName +"' and targetName = '"+targetName+"'";
+                using (SQLiteCommand cmdReader = new SQLiteCommand(sql, conn))
+                {
+                    using (SQLiteDataReader reader = cmdReader.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                           relationName = reader.GetString(0);
+                        }
+                        conn.Close();
+                        return relationName;
+                    }
+                }
+            }
+        }
         public struct relation
         {
             public string sourceName;

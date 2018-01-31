@@ -9,21 +9,40 @@ namespace DataAccess
     //针对模块表的操作，包括Load进整个表，和对表的增、删、改，以及读取出模块和不同等级的模块对应的关系数量
     public class ModulesOperator
     {
-        static SQLiteDataAdapter command;
+        //static SQLiteDataAdapter command;
         public static ModuleData LoadModulesInfo()
         {
             ModuleData data = new ModuleData();
             string sql0 = "select * from modules";
-            command = new SQLiteDataAdapter(sql0, globalParameters.conn);
-            command.Fill(data.Tables[ModuleData.MODULES_TABLE]);
-            return data;
+            using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
+            {
+                conn.Open();
+                using (SQLiteDataAdapter command = new SQLiteDataAdapter(sql0, conn))
+                {
+                    command.Fill(data.Tables[ModuleData.MODULES_TABLE]);
+                    conn.Close();
+                    return data;
+                }
+            } 
         }
         public static ModuleData LoadModulesInfoForSecondDb()
         {
             ModuleData data = new ModuleData();
-            string sql0 = "select * from secondDb.modules";
-            command = new SQLiteDataAdapter(sql0, globalParameters.conn);
-            command.Fill(data.Tables[ModuleData.MODULES_TABLE]);
+            string sql1 = "select * from secondDb.modules";
+            string sql00 = "ATTACH DATABASE '" + globalParameters.secondDbPath + "' as 'secondDb'";
+            using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
+            {
+                conn.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand(sql00, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                using (SQLiteDataAdapter command = new SQLiteDataAdapter(sql1, conn))
+                {
+                    command.Fill(data.Tables[ModuleData.MODULES_TABLE]);
+                }
+                conn.Close();
+            }
             return data;
         }
         private static bool CheckDuplication(ModuleData module)
@@ -31,28 +50,50 @@ namespace DataAccess
             DataRow data = module.Tables[ModuleData.MODULES_TABLE].Rows[0];
             string name = "'" + data[ModuleData.NAME_FIELD] + "'";
             string cmdCheck = "SELECT count(*) FROM modules WHERE name = " + name;
-            SQLiteDataReader reader = ExecuteReaderSql(cmdCheck);
-            while (reader.Read())
+            using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
             {
-                if (reader.GetInt32(0) == 0)
+                conn.Open();
+                using (SQLiteCommand cmdReader = new SQLiteCommand(cmdCheck, conn))
                 {
-                    return true;
+                    using (SQLiteDataReader reader = cmdReader.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader.GetInt32(0) == 0)
+                            {
+                                conn.Close();
+                                return true;
+                            }
+                        }
+                        conn.Close();
+                        return false;
+                    }
                 }
             }
-            return false;
         }
         private static bool CheckAllModule(List<string> modulesName)
         {
             string cmdCheck = "SELECT count(*) FROM modules WHERE name in " + RelationOperator.GetString(modulesName);
-            SQLiteDataReader reader = ExecuteReaderSql(cmdCheck);
-            while (reader.Read())
+            using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
             {
-                if (reader.GetInt32(0) == 0)
+                conn.Open();
+                using (SQLiteCommand cmdReader = new SQLiteCommand(cmdCheck, conn))
                 {
-                    return true;
+                    using (SQLiteDataReader reader = cmdReader.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader.GetInt32(0) == 0)
+                            {
+                                conn.Close();
+                                return true;
+                            }
+                        }
+                        conn.Close();
+                        return false;
+                    }
                 }
             }
-            return false;
         }
         public static bool importModules(List<string> modulesName)
         {
@@ -60,10 +101,21 @@ namespace DataAccess
             if (!check)
                 return false;
             string sql1 = "insert into modules select * from secondDb.modules where name in " + RelationOperator.GetString(modulesName);
-            SystemOperator.ExecuteSql(sql1);
+            string sql00 = "ATTACH DATABASE '" + globalParameters.secondDbPath + "' as 'secondDb'";
+            using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
+            {
+                conn.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand(sql00, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                using (SQLiteCommand cmd = new SQLiteCommand(sql1, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                conn.Close();
+            }
             return true;
-            //string sql4 = "insert into db0.relation select * from relation";
-            //ExecuteSql(sql4);
         }
 
         public static bool InsertModulesInfo(ModuleData module)
@@ -72,7 +124,16 @@ namespace DataAccess
             if (!check)
                 return false;
             string insertCommand = GetInsertCommand(module);
-            SystemOperator.ExecuteSql(insertCommand);
+            using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
+            {
+                conn.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand(insertCommand, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                conn.Close();
+            }
+
             if (module.HasErrors)
             {
                 module.Tables[ModuleData.MODULES_TABLE].GetErrors()[0].ClearErrors();
@@ -101,7 +162,20 @@ namespace DataAccess
             if (!check)
                 return false;
             string updateCommand = GetUpdateCommand(module, selectModule);
-            SystemOperator.ExecuteSql(updateCommand);
+            using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
+            {
+                conn.Open();
+                string sq0 = "PRAGMA foreign_keys = 'on';";
+                using (SQLiteCommand cmd = new SQLiteCommand(sq0, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                using (SQLiteCommand cmd = new SQLiteCommand(updateCommand, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                conn.Close();
+            }
             if (module.HasErrors)
             {
                 module.Tables[ModuleData.MODULES_TABLE].GetErrors()[0].ClearErrors();
@@ -127,35 +201,52 @@ namespace DataAccess
             string cmdDelete;
             string condition = @"name = '" + selectModule + "'";
             cmdDelete = "DELETE FROM modules WHERE " + condition;
-            SQLiteCommand cmd = new SQLiteCommand(cmdDelete, globalParameters.conn);
-            if (cmd.ExecuteNonQuery() > 0)
+            using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
             {
-                return true;
+                conn.Open();
+                string sq0 = "PRAGMA foreign_keys = 'on';";
+                using (SQLiteCommand cmd = new SQLiteCommand(sq0, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                using (SQLiteCommand cmd = new SQLiteCommand(cmdDelete, conn))
+                {
+                    if (cmd.ExecuteNonQuery() > 0)
+                    {
+                        conn.Close();
+                        return true;
+                    }
+                    else
+                    {
+                        conn.Close();
+                        return false;
+                    }
+                }
             }
-            else
-            {
-                return false;
-            }
-        }
-        private static SQLiteDataReader ExecuteReaderSql(string sql)
-        {
-            SQLiteCommand cmdReader = new SQLiteCommand(sql, globalParameters.conn);
-            SQLiteDataReader reader = cmdReader.ExecuteReader();
-            return reader;
         }
         public static List<string> ReadModulesForDiffType(string type)
         {
             List<string> modules = new List<string>();
             string sql = "select name,type from modules";
-            SQLiteDataReader reader = ExecuteReaderSql(sql);
-            while (reader.Read())
+            using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
             {
-                if (reader.GetString(1) == type)
+                conn.Open();
+                using (SQLiteCommand cmdReader = new SQLiteCommand(sql, conn))
                 {
-                    modules.Add(reader.GetString(0));
+                    using (SQLiteDataReader reader = cmdReader.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader.GetString(1) == type)
+                            {
+                                modules.Add(reader.GetString(0));
+                            }
+                        }
+                    }
+                    conn.Close();
+                    return modules;
                 }
             }
-            return modules;
         }
         public static List<ModulesList> CountModuleType(string type)
         {
@@ -176,15 +267,25 @@ namespace DataAccess
         {
             List<string> modules = new List<string>();
             string sql = "select name,level from modules";
-            SQLiteDataReader reader = ExecuteReaderSql(sql);
-            while (reader.Read())
+            using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
             {
-                if (reader.GetInt32(1) <= level)
+                conn.Open();
+                using (SQLiteCommand cmdReader = new SQLiteCommand(sql, conn))
                 {
-                    modules.Add(reader.GetString(0));
+                    using (SQLiteDataReader reader = cmdReader.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader.GetInt32(1) <= level)
+                            {
+                                modules.Add(reader.GetString(0));
+                            }
+                        }
+                    }
+                    conn.Close();
+                    return modules;
                 }
             }
-            return modules;
         }
         public static List<ModulesList> CountModuleLevel(int level)
         {

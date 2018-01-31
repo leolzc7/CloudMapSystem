@@ -67,8 +67,10 @@
             // 
             // textBox2
             // 
+            this.textBox2.BackColor = System.Drawing.Color.White;
             this.textBox2.Location = new System.Drawing.Point(79, 57);
             this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
             this.textBox2.Size = new System.Drawing.Size(151, 21);
             this.textBox2.TabIndex = 3;
             this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);

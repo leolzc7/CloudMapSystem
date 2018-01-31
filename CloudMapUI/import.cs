@@ -86,9 +86,12 @@ namespace CloudMapUI
         {
             for (int i = 0; i <= this.dgv_importModule.RowCount - 1; i++)
             {
-                if (dgv_importModule.Rows[i].Cells[0].EditedFormattedValue.ToString() == "True")
+                if (dgv_importModule.Rows[i].Cells[0].Value != null)
                 {
-                    return true;
+                    if ((bool)dgv_importModule.Rows[i].Cells[0].Value == true)
+                    {
+                        return true;
+                    }
                 }
             }
             return false;
@@ -99,9 +102,12 @@ namespace CloudMapUI
         {
             for (int i = 0; i <= this.dgv_importRelation.RowCount - 1; i++)
             {
-                if (dgv_importRelation.Rows[i].Cells[0].EditedFormattedValue.ToString() == "True")
+                if (dgv_importRelation.Rows[i].Cells[0].Value != null)
                 {
-                    return true;
+                    if ((bool)dgv_importRelation.Rows[i].Cells[0].Value == true)
+                    {
+                        return true;
+                    }
                 }
             }
             return false;
@@ -111,67 +117,72 @@ namespace CloudMapUI
         private void dgv_importModule_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             //如果选中点击则取消，反而逆之
-            if (Convert.ToString(dgv_importModule.Rows[e.RowIndex].Cells[0].Value) == "true")
-                dgv_importModule.Rows[e.RowIndex].Cells[0].Value = "false";
-            else
-                dgv_importModule.Rows[e.RowIndex].Cells[0].Value = "true";
-            //全选
-            if (e.RowIndex != -1)
+            if (dgv_importModule.Rows[e.RowIndex].Cells[0].Value != null)
             {
-                int state1 = 0;
+                if ((bool)dgv_importModule.Rows[e.RowIndex].Cells[0].Value == true)
+                    dgv_importModule.Rows[e.RowIndex].Cells[0].Value = false;
+                else
+                    dgv_importModule.Rows[e.RowIndex].Cells[0].Value = true;
+            }
+            else
+            {
+                dgv_importModule.Rows[e.RowIndex].Cells[0].Value = true;
+            }
+      
+            //全选
+            if (e.RowIndex >= 0)
+            {
+             int state2 = 0;
                 for (int i = 0; i <= this.dgv_importModule.RowCount - 1; i++)
                 {
-                    if (dgv_importModule.Rows[i].Cells[0].EditedFormattedValue.ToString() == "true")
-                        state1++;
+                    if (dgv_importModule.Rows[i].Cells[0].Value != null)
+                    {
+                        if ((bool)dgv_importModule.Rows[i].Cells[0].Value == true)
+                            state2++;
+                        else
+                            state2--;
+                    }
                     else
-                        state1--;
+                        state2--;
                 }
-                if (state1 == dgv_importModule.Rows.Count)
+                if (state2 == dgv_importModule.Rows.Count)
                     selectedAllModules.CheckState = CheckState.Checked;
-                else if (state1 == -dgv_importModule.Rows.Count)
+                else if (state2 == -dgv_importModule.Rows.Count)
                     selectedAllModules.CheckState = CheckState.Unchecked;
                 else
-                    selectedAllModules.CheckState = CheckState.Indeterminate;
+                    selectedAllModules.CheckState = CheckState.Indeterminate;           
             }
-            //if (e.RowIndex != -1)
-            //{
-            //    int state2 = 0;
-            //    for (int i = 0; i <= this.dgv_importModule.RowCount - 1; i++)
-            //    {
-            //        //if (dgv_importModule.Rows[i].Cells[0].EditedFormattedValue.ToString() == "True")
-            //        if (dgv_importModule.Rows[i].Cells[0].Value.ToString() == "true" || dgv_importModule.Rows[i].Cells[0].Value.ToString() == "True")
-            //        //if (dgv_importModule.Rows[i].Cells[0].Value.ToString() == "true")
-            //            state2++;
-            //        else
-            //            state2--;
-            //    }
-            //    if (state2 == dgv_importModule.Rows.Count)
-            //        selectedAllModules.CheckState = CheckState.Checked;
-            //    else if (state2 == -dgv_importModule.Rows.Count)
-            //    //else if (state2 == 0)
-            //        selectedAllModules.CheckState = CheckState.Unchecked;
-            //    else
-            //        selectedAllModules.CheckState = CheckState.Indeterminate;
-            //}
         }
 
         //选中关系
         private void dgv_importRelation_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             //如果选中点击则取消，反而逆之
-            if (Convert.ToString(dgv_importRelation.Rows[e.RowIndex].Cells[0].Value) == "true")
-                dgv_importRelation.Rows[e.RowIndex].Cells[0].Value = "false";
+            if(dgv_importRelation.Rows[e.RowIndex].Cells[0].Value!=null)
+            {
+                if ((bool)dgv_importRelation.Rows[e.RowIndex].Cells[0].Value == true)
+                    dgv_importRelation.Rows[e.RowIndex].Cells[0].Value = false;
+                else
+                    dgv_importRelation.Rows[e.RowIndex].Cells[0].Value = true;
+            }
             else
-                dgv_importRelation.Rows[e.RowIndex].Cells[0].Value = "true";
-
+            {
+                dgv_importRelation.Rows[e.RowIndex].Cells[0].Value = true;
+            }
+           
             //全选
-            if (e.RowIndex != -1)
+            if (e.RowIndex>=0)
             {
                 int state1 = 0;
                 for (int i = 0; i <= this.dgv_importRelation.RowCount - 1; i++)
                 {
-                    if (dgv_importRelation.Rows[i].Cells[0].EditedFormattedValue.ToString() == "True" || dgv_importRelation.Rows[i].Cells[0].EditedFormattedValue.ToString() == "true")
-                        state1++;
+                    if (dgv_importRelation.Rows[i].Cells[0].Value != null)
+                    {
+                        if ((bool)dgv_importRelation.Rows[i].Cells[0].Value == true)
+                            state1++;
+                        else
+                            state1--;
+                    }
                     else
                         state1--;
                 }
@@ -191,14 +202,14 @@ namespace CloudMapUI
             {
                 for (int i = 0; i <= this.dgv_importModule.RowCount - 1; i++)
                 {
-                    this.dgv_importModule.Rows[i].Cells[0].Value = "true";
+                    this.dgv_importModule.Rows[i].Cells[0].Value = true;
                 }
             }
             else if (selectedAllModules.CheckState == CheckState.Unchecked)
             {
                 for (int i = 0; i <= this.dgv_importModule.RowCount - 1; i++)
                 {
-                    this.dgv_importModule.Rows[i].Cells[0].Value = "false";
+                    this.dgv_importModule.Rows[i].Cells[0].Value = false;
                 }
             }
         }
@@ -210,14 +221,14 @@ namespace CloudMapUI
             {
                 for (int i = 0; i <= this.dgv_importRelation.RowCount - 1; i++)
                 {
-                    this.dgv_importRelation.Rows[i].Cells[0].Value = "true";
+                    this.dgv_importRelation.Rows[i].Cells[0].Value = true;
                 }
             }
             else if (selectedAllRelation.CheckState == CheckState.Unchecked)
             {
                 for (int i = 0; i <= this.dgv_importRelation.RowCount - 1; i++)
                 {
-                    this.dgv_importRelation.Rows[i].Cells[0].Value = "false";
+                    this.dgv_importRelation.Rows[i].Cells[0].Value = false;
                 }
             }
         }
@@ -229,9 +240,11 @@ namespace CloudMapUI
             {
                 selectModule=new List<string>();
                 for (int i = 0; i <= this.dgv_importModule.RowCount - 1; i++)
-                    if (dgv_importModule.Rows[i].Cells[0].EditedFormattedValue.ToString() == "True")
-                        selectModule.Add(dgv_importModule.Rows[i].Cells[1].Value.ToString());
-
+                    if(dgv_importModule.Rows[i].Cells[0].Value!=null)
+                    {
+                        if ((bool)dgv_importModule.Rows[i].Cells[0].Value == true)
+                            selectModule.Add(dgv_importModule.Rows[i].Cells[1].Value.ToString());
+                    }
                 relation = new RelationData();
                 relation=RelationOperator.GetRelationInfoForImport(selectModule);
                 dgv_importRelation.AutoGenerateColumns = false;
@@ -239,10 +252,9 @@ namespace CloudMapUI
             }
         }
 
+        private void panel11_Paint(object sender, PaintEventArgs e)
+        {
 
-
-        
-
-        
+        }
     }
 }

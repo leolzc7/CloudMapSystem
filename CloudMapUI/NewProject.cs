@@ -37,6 +37,7 @@ namespace CloudMapUI
         {
             SystemOperator.NewProject(dbName, dbSelfPath);
             paf.mainFormStatus();
+            paf.panel4.Controls.Clear();
             this.Hide();
         }
 

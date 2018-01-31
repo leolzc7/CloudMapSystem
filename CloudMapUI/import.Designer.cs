@@ -47,6 +47,8 @@
             this.selectedAllModules = new System.Windows.Forms.CheckBox();
             this.panel8 = new System.Windows.Forms.Panel();
             this.dgv_importModule = new System.Windows.Forms.DataGridView();
+            this.dgvCheckBoxModule = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel6 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -56,8 +58,6 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnCancel = new System.Windows.Forms.Button();
             this.openFileDialog_import = new System.Windows.Forms.OpenFileDialog();
-            this.dgvCheckBoxModule = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel10.SuspendLayout();
@@ -138,6 +138,7 @@
             this.panel11.Name = "panel11";
             this.panel11.Size = new System.Drawing.Size(407, 241);
             this.panel11.TabIndex = 0;
+            this.panel11.Paint += new System.Windows.Forms.PaintEventHandler(this.panel11_Paint);
             // 
             // btnSelected
             // 
@@ -292,6 +293,24 @@
             this.dgv_importModule.TabIndex = 1;
             this.dgv_importModule.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_importModule_CellClick);
             // 
+            // dgvCheckBoxModule
+            // 
+            this.dgvCheckBoxModule.FillWeight = 30.45685F;
+            this.dgvCheckBoxModule.HeaderText = " ";
+            this.dgvCheckBoxModule.Name = "dgvCheckBoxModule";
+            this.dgvCheckBoxModule.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvCheckBoxModule.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.dgvCheckBoxModule.Width = 28;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "name";
+            this.dataGridViewTextBoxColumn1.FillWeight = 169.5432F;
+            this.dataGridViewTextBoxColumn1.HeaderText = "名称";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
             // panel6
             // 
             this.panel6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
@@ -379,24 +398,6 @@
             // 
             this.openFileDialog_import.FileName = "openFileDialog1";
             this.openFileDialog_import.Filter = "(*.db)|*.db";
-            // 
-            // dgvCheckBoxModule
-            // 
-            this.dgvCheckBoxModule.FillWeight = 30.45685F;
-            this.dgvCheckBoxModule.HeaderText = " ";
-            this.dgvCheckBoxModule.Name = "dgvCheckBoxModule";
-            this.dgvCheckBoxModule.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvCheckBoxModule.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.dgvCheckBoxModule.Width = 28;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "name";
-            this.dataGridViewTextBoxColumn1.FillWeight = 169.5432F;
-            this.dataGridViewTextBoxColumn1.HeaderText = "名称";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
             // 
             // importForm
             // 

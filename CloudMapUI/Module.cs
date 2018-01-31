@@ -37,8 +37,6 @@ namespace CloudMapUI
             pageStatus = RecordStatus.View;
             SetFormControlerStatus();
             SetFormControlerData();
-            //dataGridView_module.RowsDefaultCellStyle.BackColor = Color.Bisque;
-            //dataGridView_module.AlternatingRowsDefaultCellStyle.BackColor = Color.Beige;
         }
 
         //新建模块
