@@ -20,7 +20,5 @@ namespace Data
         public static string dbDirPath = @"C:\CloudMap\";
         public static string dbHistoryPath = dbDirPath+"history.ini";
         public static string tempDb = @"C:\CloudMap\tempppppppppppppp.db";
-        public static string attachDb;
-
     }
 }

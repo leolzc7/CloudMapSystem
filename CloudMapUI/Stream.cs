@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Data;
+using DataAccess;
 
 namespace CloudMapUI
 {
@@ -17,16 +19,12 @@ namespace CloudMapUI
         {
             InitializeComponent();
             paf = parent;
-            connect_open_db();
-            flushModuleList();
-            flushRelationList();
+            StreamData sd = StreamOperator.GetStreamName();
+            dataGridView1.DataSource = sd;
+
         }
 
-        private void btn_SelectFinish_Click(object sender, EventArgs e)
-        {
-            close_db();
-            this.Hide();
-        }
+
 
         public MainForm parent { get; set; }
 

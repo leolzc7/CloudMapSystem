@@ -11,8 +11,8 @@ namespace DrawLineRules
     public class Grid
     {
         GridPoint[][] gridArray;
-        GridPoint src;
-        GridPoint tgt;
+        //GridPoint src;
+        //GridPoint tgt;
         public Grid(int w, int h)
         {
             gridArray = new GridPoint[w][];

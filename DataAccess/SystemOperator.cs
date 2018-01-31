@@ -16,7 +16,7 @@ namespace DataAccess
         public static void NewProjectConnectDb(string dbSelfName, string dbSelfPath)
         {
             globalParameters.dbName = dbSelfName + ".db";
-            globalParameters.dbPath = "Data Source = " + dbSelfPath + globalParameters.dbName;
+            globalParameters.dbPath = "Data Source = " + dbSelfPath+@"\" + globalParameters.dbName;
             //globalParameters.attachDb = dbSelfPath + globalParameters.dbName;
         }
         public static void NewProject(string dbSelfName, string dbSelfPath)

@@ -27,6 +27,21 @@ namespace DataAccess
                 }
             }
         }
+        public static StreamData GetStreamName()
+        {
+            StreamData data = new StreamData();
+            string sql0 = "select DISTINCT sname from stream";
+            using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
+            {
+                conn.Open();
+                using (SQLiteDataAdapter command = new SQLiteDataAdapter(sql0, conn))
+                {
+                    command.Fill(data.Tables[StreamData.STREAM_TABLE]);
+                    conn.Close();
+                    return data;
+                }
+            }
+        }
         private static bool CheckDuplication(DataRow data)
         {
             string sname = "'" + data[StreamData.NAME_FIELD] + "'";
@@ -102,6 +117,7 @@ namespace DataAccess
             for (int i = 0; i < stream.Tables[StreamData.STREAM_TABLE].Rows.Count; i++)
             {
                 DataRow data = stream.Tables[StreamData.STREAM_TABLE].Rows[i];
+                data[StreamData.NUM_FIELD] = i + 1;
                 bool check = CheckDuplication(data);
                 if (!check)
                     return false;
@@ -212,7 +228,6 @@ namespace DataAccess
             public string streamName;
             public List<string> modulesList;
         }
-
     }
 }
 
