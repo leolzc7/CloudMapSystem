@@ -48,6 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="config.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="config.Designer.cs">
+      <DependentUpon>config.cs</DependentUpon>
+    </Compile>
     <Compile Include="ControlStatus.cs" />
     <Compile Include="DisplayScale.cs">
       <SubType>Form</SubType>
@@ -123,6 +129,9 @@
     <Compile Include="Stream.Designer.cs">
       <DependentUpon>Stream.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="config.resx">
+      <DependentUpon>config.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DisplayScale.resx">
       <DependentUpon>DisplayScale.cs</DependentUpon>
     </EmbeddedResource>
@@ -171,7 +180,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="icons\1192268.gif" />

@@ -133,7 +133,7 @@
             // type
             // 
             this.type.BackColor = System.Drawing.SystemColors.Window;
-            this.type.Location = new System.Drawing.Point(335, 49);
+            this.type.Location = new System.Drawing.Point(335, 48);
             this.type.Name = "type";
             this.type.Size = new System.Drawing.Size(220, 21);
             this.type.TabIndex = 33;
@@ -347,7 +347,6 @@
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.TextBox comment;
         private System.Windows.Forms.ComboBox comboBox_Level;
-        private System.Windows.Forms.ComboBox comboBox_Type;
         private System.Windows.Forms.TextBox name;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
@@ -359,5 +358,6 @@
         private System.Windows.Forms.TextBox level;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.Button btnCancel;
+        public System.Windows.Forms.ComboBox comboBox_Type;
     }
 }

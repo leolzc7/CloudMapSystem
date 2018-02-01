@@ -25,7 +25,12 @@ namespace CloudMapUI
         public ModuleEditForm(MainForm parent)
         {
             InitializeComponent();
-            paf = parent;           
+            paf = parent;
+            this.comboBox_Type.Items.Clear();
+            for (int i = 0; i < paf.comboBox_type.Items.Count; i++)
+            {
+                this.comboBox_Type.Items.Add(paf.comboBox_type.GetItemText(paf.comboBox_type.Items[i]).ToString());
+            }
         }
         public MainForm parent { get; set; }
 

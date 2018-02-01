@@ -44,6 +44,7 @@ namespace CloudMapUI
                 ToolStripMenuItem_import.Enabled = false;
                 ToolStripMenuItem_SaveProject.Enabled = false;
                 添加业务流ToolStripMenuItem.Enabled = false;
+                类型配置ToolStripMenuItem.Enabled = true;
 
                 toolStripButton_saveProject.Enabled = false;
                 toolStripButton_saveImage.Enabled = false;
@@ -67,6 +68,7 @@ namespace CloudMapUI
                 ToolStripMenuItem_import.Enabled = true;
                 ToolStripMenuItem_SaveProject.Enabled = true;
                 添加业务流ToolStripMenuItem.Enabled = true;
+                类型配置ToolStripMenuItem.Enabled = false;
 
                 toolStripButton_saveProject.Enabled = true;
                 toolStripButton_saveImage.Enabled = true;
@@ -155,6 +157,8 @@ namespace CloudMapUI
 
         private void NToolStripMenuItem_newProject_Click(object sender, EventArgs e)
         {
+            if (MessageBox.Show("设置系统类型（否则使用默认值）", "系统提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK)
+                类型配置ToolStripMenuItem_Click(sender, e);
             NewProjectForm newProjrctFrom = new NewProjectForm(this);
             newProjrctFrom.ShowDialog();  
         }
@@ -1135,6 +1139,12 @@ namespace CloudMapUI
         private void ToolStripMenuItem_history_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void 类型配置ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            configForm config = new configForm(this);
+            config.ShowDialog();
         }
     }
 }
