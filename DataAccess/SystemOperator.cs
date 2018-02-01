@@ -122,6 +122,7 @@ namespace DataAccess
         public static void SaveBackupDb()
         {
             //File.Delete(globalParameters.tempDb);
+
             using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath)) //对缓存数据库建立链接
             {
                 conn.Open();
