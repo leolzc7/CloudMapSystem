@@ -95,6 +95,11 @@ namespace DataAccess
         }
         public static void CreateBackUpDb()
         {
+            if (!Directory.Exists(globalParameters.dbDirPath))
+            {
+                Directory.CreateDirectory(globalParameters.dbDirPath);
+                // File.SetAttributes(dirPath, FileAttributes.Hidden);
+            }
             if (File.Exists(globalParameters.tempDb))
             {
                 File.Delete(globalParameters.tempDb);

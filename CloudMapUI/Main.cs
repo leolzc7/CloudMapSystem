@@ -1114,6 +1114,7 @@ namespace CloudMapUI
             mainFormStatus();          
         }
         //添加两个filter的约束条件：level为空的时候才可以选择type
+
         private void comboBox_level_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBox_level.SelectedItem == null || (comboBox_level.SelectedItem) == "")
