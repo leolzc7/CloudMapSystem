@@ -619,6 +619,10 @@ namespace CloudMapUI
         public void DrawModuleAndLines()
         {
             List<Module> modPosition = DrawModules();
+            if (modPosition.Count == 2)
+            {
+                return;
+            }
             List<ModuleOne.LineInfo> line = new List<ModuleOne.LineInfo>();
             if (comboBox_level.Text != null && comboBox_level.Text != "")
             {
@@ -959,7 +963,8 @@ namespace CloudMapUI
         //实现放大缩小窗口时自动调整图像大小
         private void Form_Changed(object sender, EventArgs e)
         {
-            if (globalParameters.dbPath == null)
+            Control.ControlCollection Cons = panel4.Controls;
+            if (globalParameters.dbPath == null || Cons.Count == 0)
             {
                 return;
             }
