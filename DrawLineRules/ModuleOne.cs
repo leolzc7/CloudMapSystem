@@ -233,12 +233,12 @@ namespace DrawLineRules
             }
             return -1;
         }
-        public static LineInfo[] GetLineInfo(List<Module> modulesList, int X, int Y,int level)
+        public static List<LineInfo> GetLineInfo(List<Module> modulesList, int X, int Y, int level)
         {
             Grid myGrid = new Grid(X, Y); // Grid class instance initialization
             ModuleOne[] modules = myGrid.readModule(modulesList);
             int num_par = (int)(Math.Ceiling(Math.Sqrt(modules.Length)));
-            LineInfo[] allLine = new LineInfo[1000];
+            List<LineInfo> allLine = new List<LineInfo>();
             int[] rows = new int[num_par];
             int[] columns = new int[num_par];
             // 调用DataAccess中的方法，读入关系表，包含源模块、目标模块和是否双向
@@ -248,12 +248,12 @@ namespace DrawLineRules
             Console.Write("successful!");
             return allLine;
         }
-        public static LineInfo[] GetLineInfo(List<Module> modulesList, int X, int Y,  string type)
+        public static List<LineInfo> GetLineInfo(List<Module> modulesList, int X, int Y, string type)
         {
             Grid myGrid = new Grid(X, Y); // Grid class instance initialization
             ModuleOne[] modules = myGrid.readModule(modulesList);
             int num_par = (int)(Math.Ceiling(Math.Sqrt(modules.Length)));
-            LineInfo[] allLine = new LineInfo[1000];
+            List<LineInfo> allLine = new List<LineInfo>();
             int[] rows = new int[num_par];
             int[] columns = new int[num_par];
             // 调用DataAccess中的方法，读入关系表，包含源模块、目标模块和是否双向
