@@ -64,7 +64,7 @@ namespace DrawLineRules
             return modules;
         }
 
-        public void setRouteForModules(ModuleOne[] modules, List<RelationOperator.relation> relation, int[] rows, int[] columns, ModuleOne.LineInfo[] allLine)
+        public void setRouteForModules(ModuleOne[] modules, List<RelationOperator.relation> relation, int[] rows, int[] columns, List<ModuleOne.LineInfo> allLine)
         {
             ModuleOne.gapy = ModuleOne.mody - ModuleOne.getHeight();
             ModuleOne.gapx = ModuleOne.modx - ModuleOne.getWidth();
@@ -129,8 +129,8 @@ namespace DrawLineRules
                         Console.WriteLine("no left pin");
                         break;
                 }
-                int[][] lineOne = Route(start, target, com, rows, columns, r, c, step_row, step_column, moduleSource, moduleTarget, bidirection);
-                saveLine(lineOne, allLine,relationName);
+                List<int[]> lineOnePath = Route(start, target, com, rows, columns, r, c, step_row, step_column, moduleSource, moduleTarget, bidirection);
+                saveLine(lineOnePath, allLine, relationName);
             }     
         }
 
@@ -222,21 +222,20 @@ namespace DrawLineRules
             }
         }
 
-        public int[][] Route(GridPoint start, GridPoint target , int com, int[] rows, int[] columns, int[] r, int[] c, int[] step_row, int[] step_column, ModuleOne mi, ModuleOne mj, string bidirection)
-        {
+        public List<int[]> Route(GridPoint start, GridPoint target , int com, int[] rows, int[] columns, int[] r, int[] c, int[] step_row, int[] step_column, ModuleOne mi, ModuleOne mj, string bidirection)
+        {//返回一条路径所对应的线段
             //if (start == null || target == null)
             //    return -1;
-            GridPoint[] trace = new GridPoint[2 * width()];
+            GridPoint[] trace = new GridPoint[10];
+            //记录一条路径的拐点，根据已有的布线算法，拐点最多3个
             int x = 0;
             int y = 0;
             int delta_x = 0;
             int delta_y = 0;
-            int[][] line = new int[width()][];
+            List<int[]> line = new List<int[]>();
             if (start == target)
             {
                 Console.WriteLine("start and target are the same!");
-                //line = new int[10][];
-                //return 0;
             }
             else
             {
@@ -349,14 +348,14 @@ namespace DrawLineRules
             }
             return line;
         }
-        public int saveLine(int[][] lineOne, ModuleOne.LineInfo[] lineAll, string relationName)
+        public int saveLine(List<int[]> lineOne, List<ModuleOne.LineInfo> lineAll, string relationName)
         {
-            for (int i = 0; i < lineAll.Length; i++)
-            {
+            //for (int i = 0; i < lineAll.Count; i++)
+            //{
                 //if (lineAll[i][0] == 0 && lineAll[i][1] == 0 && lineAll[i][2] == 0 && lineAll[i][3] == 0)
-                if(lineAll[i].line==null)
-                {
-                    for (int j = 0; j < lineOne.Length; j++)
+                //if(lineAll[i].line==null)
+                //{
+                    for (int j = 0; j < lineOne.Count; j++)
                     {
                         if (lineOne[j] == null || (lineOne[j][0] == 0 && lineOne[j][1] == 0 && lineOne[j][2] == 0 && lineOne[j][3] == 0))
                         {
@@ -364,12 +363,14 @@ namespace DrawLineRules
                         }
                         else
                         {
-                            lineAll[i].line = lineOne[j];
-                            lineAll[i].lineName = relationName;
-                            i++;
+                            ModuleOne.LineInfo lineRoute = new ModuleOne.LineInfo();
+                            lineRoute.line = lineOne[j];
+                            lineRoute.lineName = relationName;
+                            lineAll.Add(lineRoute);
+                            
                         }
-                    }
-                }
+                    //}
+                //}
             }
             return -1;
         }
@@ -415,9 +416,10 @@ namespace DrawLineRules
             }
         }
 
-        public int[][] plotOneTrace(GridPoint[] trace0, String bidirection)
+        public List<int[]> plotOneTrace(GridPoint[] trace0, String bidirection)
         {
-            GridPoint[] trace = new GridPoint[2 * width()];
+            //因为拐点最多5个，变成线段也最多10个
+            GridPoint[] trace = new GridPoint[20];
             int nn = 0;
             for (int k = 0; k < trace0.Length; k++)
             {
@@ -442,13 +444,14 @@ namespace DrawLineRules
                     break;
                 }
             }
-            GridPoint[] line = new GridPoint[2 * width()];
+            GridPoint[] line = new GridPoint[20];
             int n = 0;
-            int[][] lineTxt = new int[line.Length / 2][];
-            for (int i = 0; i < line.Length / 2; i++)
-            {
-                lineTxt[i] = new int[5];
-            }
+            //int[][] lineTxt = new int[line.Length / 2][];
+            List<int[]> lineLong = new List<int[]>();
+            //for (int i = 0; i < line.Length / 2; i++)
+            //{
+            //    lineTxt[i] = new int[5];
+            //}
             line[0] = trace[0];
             n++;
             for (int m = 1; m < trace.Length; m++)
@@ -481,50 +484,61 @@ namespace DrawLineRules
             {
                 if (int.Parse(bidirection) == 1)
                 {
-                    lineTxt[0][0] = line[0].getPosx();
-                    lineTxt[0][1] = line[0].getPosy();
-                    lineTxt[0][2] = line[0 + 1].getPosx();
-                    lineTxt[0][3] = line[0 + 1].getPosy();
-                    lineTxt[0][4] = 3;
+                    int[] lineOne = new int[5];
+                    lineOne[0] = line[0].getPosx();
+                    lineOne[1] = line[0].getPosy();
+                    lineOne[2] = line[0 + 1].getPosx();
+                    lineOne[3] = line[0 + 1].getPosy();
+                    lineOne[4] = 3;
+                    lineLong.Add(lineOne);
                 }
                 else
                 {
-                    lineTxt[0][0] = line[0].getPosx();
-                    lineTxt[0][1] = line[0].getPosy();
-                    lineTxt[0][2] = line[0 + 1].getPosx();
-                    lineTxt[0][3] = line[0 + 1].getPosy();
-                    lineTxt[0][4] = GetDirectionInfo(lineTxt[0][0], lineTxt[0][1], lineTxt[0][2], lineTxt[0][3], 0);//终止点有箭头
+                    int[] lineOne = new int[5];
+                    lineOne[0] = line[0].getPosx();
+                    lineOne[1] = line[0].getPosy();
+                    lineOne[2] = line[0 + 1].getPosx();
+                    lineOne[3] = line[0 + 1].getPosy();
+                    lineOne[4] = GetDirectionInfo(lineOne[0], lineOne[1], lineOne[2], lineOne[3], 0);//终止点有箭头
+                    lineLong.Add(lineOne);
                 }
             }
             else
             {
                 if (int.Parse(bidirection) == 1)
                 {
-                    lineTxt[0][0] = line[0].getPosx();
-                    lineTxt[0][1] = line[0].getPosy();
-                    lineTxt[0][2] = line[0 + 1].getPosx();
-                    lineTxt[0][3] = line[0 + 1].getPosy();
-                    lineTxt[0][4] = GetDirectionInfo(lineTxt[0][0], lineTxt[0][1], lineTxt[0][2], lineTxt[0][3], 1);//起始点有箭头
+                    int[] lineOne = new int[5];
+                    lineOne[0] = line[0].getPosx();
+                    lineOne[1] = line[0].getPosy();
+                    lineOne[2] = line[0 + 1].getPosx();
+                    lineOne[3] = line[0 + 1].getPosy();
+                    lineOne[4] = GetDirectionInfo(lineOne[0], lineOne[1], lineOne[2], lineOne[3], 1);//起始点有箭头
+                    lineLong.Add(lineOne);
                 }
                 else
                 {
-                    lineTxt[0][0] = line[0].getPosx();
-                    lineTxt[0][1] = line[0].getPosy();
-                    lineTxt[0][2] = line[0 + 1].getPosx();
-                    lineTxt[0][3] = line[0 + 1].getPosy();
-                    lineTxt[0][4] = 0;
+                    int[] lineOne = new int[5];
+                    lineOne[0] = line[0].getPosx();
+                    lineOne[1] = line[0].getPosy();
+                    lineOne[2] = line[0 + 1].getPosx();
+                    lineOne[3] = line[0 + 1].getPosy();
+                    lineOne[4] = 0;
+                    lineLong.Add(lineOne);
                 }
                 int index = 0;
+                
                 for (int i = 1; i < line.Length - 1; i++)
                 {
                     if (!(line[i + 2] == null))
                     {
-                        lineTxt[i][0] = line[i].getPosx();
-                        lineTxt[i][1] = line[i].getPosy();
-                        lineTxt[i][2] = line[i + 1].getPosx();
-                        lineTxt[i][3] = line[i + 1].getPosy();
-                        lineTxt[i][4] = 0;
-                        Console.WriteLine(lineTxt[i][0] + " " + lineTxt[i][1] + " " + lineTxt[i][2] + " " + lineTxt[i][3] + bidirection);
+                        int[] lineOne = new int[5];
+                        lineOne[0] = line[i].getPosx();
+                        lineOne[1] = line[i].getPosy();
+                        lineOne[2] = line[i + 1].getPosx();
+                        lineOne[3] = line[i + 1].getPosy();
+                        lineOne[4] = 0;
+                        lineLong.Add(lineOne);
+                       // Console.WriteLine(lineTxt[i][0] + " " + lineTxt[i][1] + " " + lineTxt[i][2] + " " + lineTxt[i][3] + bidirection);
                     }
                     else
                     {
@@ -532,13 +546,15 @@ namespace DrawLineRules
                         break;
                     }
                 }
-                lineTxt[index][0] = line[index].getPosx();
-                lineTxt[index][1] = line[index].getPosy();
-                lineTxt[index][2] = line[index + 1].getPosx();
-                lineTxt[index][3] = line[index + 1].getPosy();
-                lineTxt[index][4] = GetDirectionInfo(lineTxt[index][0], lineTxt[index][1], lineTxt[index][2], lineTxt[index][3], 0);//起始点有箭头
+                int[] lineOneIndex = new int[5];
+                lineOneIndex[0] = line[index].getPosx();
+                lineOneIndex[1] = line[index].getPosy();
+                lineOneIndex[2] = line[index + 1].getPosx();
+                lineOneIndex[3] = line[index + 1].getPosy();
+                lineOneIndex[4] = GetDirectionInfo(lineOneIndex[0], lineOneIndex[1], lineOneIndex[2], lineOneIndex[3], 0);//起始点有箭头
+                lineLong.Add(lineOneIndex);
             }
-            return lineTxt;
+            return lineLong;
         }
         private int GetDirectionInfo(int x1, int y1, int x2, int y2 , int first)
         {

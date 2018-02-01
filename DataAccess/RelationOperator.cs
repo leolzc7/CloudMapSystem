@@ -52,24 +52,40 @@ namespace DataAccess
             //DataRow data = relation.Tables[RelationData.RELATION_TABLE].Rows[0];
             string nameSource = "'" + data[RelationData.SOURCENAME_FIELD ] + "'";
             string nameTarget = "'" + data[RelationData.TARGETNAME_FIELD] + "'";
+            string nameRelation = "'" + data[RelationData.NAME_FIELD] + "'";
             string cmdCheck = "SELECT count(*) FROM relation WHERE sourceName = " + nameSource + " and targetName =  " + nameTarget;
+            string cmdCheckR = "SELECT count(*) FROM relation WHERE rname = " + nameRelation;
             using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
             {
                 conn.Open();
                 using (SQLiteCommand cmdReader = new SQLiteCommand(cmdCheck, conn))
                 {
-                    using (SQLiteDataReader reader = cmdReader.ExecuteReader())
+                    using (SQLiteCommand cmdReader2 = new SQLiteCommand(cmdCheckR, conn))
                     {
-                        while (reader.Read())
+                        using (SQLiteDataReader reader2 = cmdReader2.ExecuteReader())
                         {
-                            if (reader.GetInt32(0) == 0)
+                            using (SQLiteDataReader reader = cmdReader.ExecuteReader())
                             {
+                                while (reader.Read())
+                                {
+                                    if (reader.GetInt32(0) != 0)
+                                    {
+                                        conn.Close();
+                                        return false;
+                                    }
+                                }
+                                while (reader2.Read())
+                                {
+                                    if (reader2.GetInt32(0) != 0)
+                                    {
+                                        conn.Close();
+                                        return false;
+                                    }
+                                }
                                 conn.Close();
                                 return true;
                             }
                         }
-                        conn.Close();
-                        return false;
                     }
                 }
             }

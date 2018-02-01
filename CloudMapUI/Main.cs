@@ -619,7 +619,7 @@ namespace CloudMapUI
         public void DrawModuleAndLines()
         {
             List<Module> modPosition = DrawModules();
-            ModuleOne.LineInfo[] line = new ModuleOne.LineInfo[1000];
+            List<ModuleOne.LineInfo> line = new List<ModuleOne.LineInfo>();
             if (comboBox_level.Text != null && comboBox_level.Text != "")
             {
                 switch (comboBox_level.Text)
@@ -644,16 +644,16 @@ namespace CloudMapUI
                 else
                     line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 3);
             }
-            int LineCount = 0;
-            for (int i = 0; i < line.Length; i++)
-            {
-                if (line[i].line != null)
-                {
-                    LineCount++;
-                }
+            int LineCount = line.Count;
+            //for (int i = 0; i < line.Count; i++)
+            //{
+            //    if (line[i].line != null)
+            //    {
+            //        LineCount++;
+            //    }
 
-            }
-            for (int i = 0; i < LineCount; i++)
+            //}
+            for (int i = 0; i < line.Count; i++)
             {
                 if (line[i].line[0] > line[i].line[2] || line[i].line[1] > line[i].line[3])
                 {
