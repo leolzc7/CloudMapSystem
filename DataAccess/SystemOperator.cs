@@ -210,8 +210,6 @@ namespace DataAccess
         }
         public static void WriteTypeXML(List<string> typeList)
         {
-            //if (typeList.Count == 0)
-            //    return;
             XmlDocument xmlDoc = new XmlDocument();
             //创建类型声明节点  
             XmlNode node=xmlDoc.CreateXmlDeclaration("1.0","utf-8","");  
@@ -233,7 +231,10 @@ namespace DataAccess
             CreateNode(xmlDoc, fontNode, fontList[2], "");
             CreateNode(xmlDoc, fontNode, fontList[3], "");
             CreateNode(xmlDoc, fontNode, fontList[4], "");
+            CreateNode(xmlDoc, fontNode, fontList[5], "");
+            CreateNode(xmlDoc, fontNode, fontList[6], "");
             root.AppendChild(fontNode);
+
             try
             {
                 xmlDoc.Save(globalParameters.xmlFilePath);
@@ -296,7 +297,7 @@ namespace DataAccess
             }
         }
         public static List<string> fontList = new List<string>(){
-            "moduleFontColor", "moduleColor","borderColor","lineColor","lineWidth" };
+            "moduleFontColor", "moduleColor","borderColor","lineColor","lineWidth","fontName","fontSize" };
         public static List<string> GetColor()
         {
             List<string> colorList = new List<string>();
@@ -312,7 +313,9 @@ namespace DataAccess
             foreach (string font in fontList)
             {
                 XmlNodeList strType = ((XmlElement)node).GetElementsByTagName(font);   //获取name属性值  
-                colorList.Add(strType[0].InnerText);
+                if(strType.Count == 1)
+                    colorList.Add(strType[0].InnerText);
+                
             }
             return colorList;
         }

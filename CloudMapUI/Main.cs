@@ -182,6 +182,7 @@ namespace CloudMapUI
                 if (result == DialogResult.OK)
                 {
                     SystemOperator.SaveBackupDb();
+                    MessageBox.Show("保存成功");
                 }
             }
             openFileDialog_OpenProject.ShowDialog();
@@ -202,13 +203,17 @@ namespace CloudMapUI
                 this.comboBox_type.Items.AddRange(new object[] { "aa","bb","cc" });//将控件中的内容设置为默认值
             }
             List<string> color = SystemOperator.GetColor();
-            if (color.Count == 5)
+            if (color.Count == 7)
             {
                 moduleFontColor.Color = ColorTranslator.FromHtml(color[0]);
                 ModuleColor.Color = ColorTranslator.FromHtml(color[1]);
                 BorderColor.Color = ColorTranslator.FromHtml(color[2]);
                 LineColor.Color = ColorTranslator.FromHtml(color[3]);
                 penWidth = Convert.ToInt32(color[4]);
+                float size = Convert.ToSingle(color[6]);
+                Font newFont = new Font(color[5],size);
+                fontDialog1.Font = newFont;
+                    
             }
             mainFormStatus();
         }
@@ -226,6 +231,10 @@ namespace CloudMapUI
             string lColor = ColorTranslator.ToHtml(LineColor.Color);
             SystemOperator.ChangeFondConfig("lineColor", lColor);
             SystemOperator.ChangeFondConfig("lineWidth", penWidth.ToString());
+            string fontName = fontDialog1.Font.Name;
+            SystemOperator.ChangeFondConfig("fontName", fontName);
+            string fontSize = fontDialog1.Font.Size.ToString();
+            SystemOperator.ChangeFondConfig("fontSize", fontSize);
 
             MessageBox.Show("保存成功！", "关于云图", MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
@@ -469,22 +478,21 @@ namespace CloudMapUI
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            string[] text1 = globalParameters.dbPath.Split('=');
-            string backupFile = text1[1];
-            string[] text2 = globalParameters.backupDbPath.Split('=');
-            string sourceFile = text2[1];
-            if (!fileCompare(backupFile, sourceFile))
-            {
+            //string[] text1 = globalParameters.dbPath.Split('=');
+            //string backupFile = text1[1];
+            //string[] text2 = globalParameters.backupDbPath.Split('=');
+            //string sourceFile = text2[1];
+            //if (!fileCompare(backupFile, sourceFile))
+            //{
                 DialogResult result = MessageBox.Show("是否保存?","保存文件", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
                 {
                     SystemOperator.SaveBackupDb();
                     MessageBox.Show("保存成功");
                 } 
-            }
+            //}
             SystemOperator.WriteHistory();
         }
-
 
         private void ToolStripMenuItem_File_Click(object sender, EventArgs e)
         {
