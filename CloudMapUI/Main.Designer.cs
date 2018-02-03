@@ -1064,6 +1064,7 @@
             // 
             // ModuleColor
             // 
+            this.ModuleColor.AnyColor = true;
             this.ModuleColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(238)))), ((int)(((byte)(255)))));
             this.ModuleColor.ShowHelp = true;
             // 

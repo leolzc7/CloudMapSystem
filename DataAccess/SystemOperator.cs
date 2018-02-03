@@ -210,13 +210,9 @@ namespace DataAccess
         }
         public static void WriteTypeXML(List<string> typeList)
         {
-            if (typeList.Count == 0)
-                return;
+            //if (typeList.Count == 0)
+            //    return;
             XmlDocument xmlDoc = new XmlDocument();
-            //if (File.Exists(globalParameters.xmlFilePath))
-            //{
-            //    xmlDoc.Load(globalParameters.xmlFilePath);
-            //}
             //创建类型声明节点  
             XmlNode node=xmlDoc.CreateXmlDeclaration("1.0","utf-8","");  
             xmlDoc.AppendChild(node);  
@@ -230,6 +226,14 @@ namespace DataAccess
                 CreateNode(xmlDoc, node1, "type", typeList[i]);
             }
             root.AppendChild(node1);
+
+            XmlNode fontNode = xmlDoc.CreateNode(XmlNodeType.Element, "Font", null);
+            CreateNode(xmlDoc, fontNode, fontList[0], "");
+            CreateNode(xmlDoc, fontNode,fontList[1] , "");
+            CreateNode(xmlDoc, fontNode, fontList[2], "");
+            CreateNode(xmlDoc, fontNode, fontList[3], "");
+            CreateNode(xmlDoc, fontNode, fontList[4], "");
+            root.AppendChild(fontNode);
             try
             {
                 xmlDoc.Save(globalParameters.xmlFilePath);
@@ -240,12 +244,29 @@ namespace DataAccess
                 Console.WriteLine(e.Message);
             }  
         }
-        public static void AddFondConfig(string nodeName, string nodeValue)
+        public static void ChangeFondConfig(string nodeName, string nodeValue)
         {
             if (!File.Exists(globalParameters.xmlFilePath))
             {
+                List<string> lll = new List<string>();
+                WriteTypeXML(lll);
                 return;
             }
+            XmlDocument doc = new XmlDocument();
+            doc.Load(globalParameters.xmlFilePath);    //加载Xml文件  
+            XmlElement rootElem = doc.DocumentElement;   //获取根节点  
+            XmlNodeList fontNodeList = rootElem.GetElementsByTagName("Font"); //获取fond子节点集合 ,默认情况下应该只有一个节点 
+            XmlNode fontNode = fontNodeList[0];
+            XmlNodeList fontName = ((XmlElement)fontNode).GetElementsByTagName(nodeName);   //获取name属性值  
+            fontName[0].InnerText = nodeValue;
+            try
+            {
+                doc.Save(globalParameters.xmlFilePath);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }  
         }
         private static void CreateNode(XmlDocument xmlDoc,XmlNode parentNode,string name,string value)  
         {  
@@ -263,7 +284,7 @@ namespace DataAccess
             XmlDocument doc = new XmlDocument();
             doc.Load(globalParameters.xmlFilePath);    //加载Xml文件  
             XmlElement rootElem = doc.DocumentElement;   //获取根节点  
-            XmlNodeList userNodes = rootElem.GetElementsByTagName("User2"); //获取person子节点集合  
+            XmlNodeList userNodes = rootElem.GetElementsByTagName("Type"); //获取person子节点集合  
             foreach (XmlNode node in userNodes)
             {
                 XmlNodeList strType = ((XmlElement)node).GetElementsByTagName("type");   //获取name属性值  
@@ -274,7 +295,27 @@ namespace DataAccess
                 }
             }
         }
-    }
-
+        public static List<string> fontList = new List<string>(){
+            "moduleFontColor", "moduleColor","borderColor","lineColor","lineWidth" };
+        public static List<string> GetColor()
+        {
+            List<string> colorList = new List<string>();
+            if (!File.Exists(globalParameters.xmlFilePath))
+            {
+                return colorList;
+            }
+            XmlDocument doc = new XmlDocument();
+            doc.Load(globalParameters.xmlFilePath);    //加载Xml文件  
+            XmlElement rootElem = doc.DocumentElement;   //获取根节点  
+            XmlNodeList fontNodes = rootElem.GetElementsByTagName("Font"); //获取person子节点集合  
+            XmlNode node = fontNodes[0];
+            foreach (string font in fontList)
+            {
+                XmlNodeList strType = ((XmlElement)node).GetElementsByTagName(font);   //获取name属性值  
+                colorList.Add(strType[0].InnerText);
+            }
+            return colorList;
+        }
     
+    }   
 }
