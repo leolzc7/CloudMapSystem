@@ -14,6 +14,8 @@ using DrawLineRules;
 using System.IO;
 using System.Threading;
 
+
+
 namespace CloudMapUI
 {
     public partial class MainForm : Form
@@ -213,8 +215,13 @@ namespace CloudMapUI
 
         private void 保存云图ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            saveFileDialog_saveImage.ShowDialog();
-            SaveFileToImage(saveFileDialog_saveImage.FileName);
+            DialogResult result = saveFileDialog_saveImage.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                SaveFileToImage(saveFileDialog_saveImage.FileName);
+            }
+            else
+                return;   
         }
 
         private void ToolStripMenuItem_Print_Click(object sender, EventArgs e)
@@ -306,6 +313,19 @@ namespace CloudMapUI
             }
         }
 
+        private void 模块字体颜色ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            moduleFontColor.ShowDialog();
+            Control.ControlCollection Cons = panel4.Controls;
+            foreach (Control con in Cons)
+            {
+                if (con is Button)
+                {
+                    ((Button)con).ForeColor = moduleFontColor.Color;
+                }
+            }
+        }
+
         private void ToolStripMenuItem_LineColor_Click(object sender, EventArgs e)
         {
             LineColor.ShowDialog();
@@ -380,10 +400,52 @@ namespace CloudMapUI
                 "界面操作指南", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        
-
+        private bool fileCompare(string file1,string file2)
+       {          
+            if(file1 == file2)
+            {
+                return true;
+            }
+            int file1byte = 0;
+            int file2byte = 0;
+            using(FileStream fs1 = new FileStream(file1,FileMode.Open))
+            {
+                using(FileStream fs2 = new FileStream(file2,FileMode.Open))
+                {
+                    if(fs1.Length != fs2.Length)
+                    {
+                        fs1.Close();
+                        fs2.Close();
+                        return false;
+                    }
+                    do
+                    {
+                        file1byte = fs1.ReadByte();
+                        file2byte = fs2.ReadByte();
+                    }
+                    while ((file1byte == file2byte) && (file1byte != -1));
+                    fs1.Close();
+                    fs2.Close();
+                    return ((file1byte - file2byte) == 0);
+                }
+            }           
+        }
+      
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            string[] text1 = globalParameters.dbPath.Split('=');
+            string backupFile = text1[1];
+            string[] text2 = globalParameters.backupDbPath.Split('=');
+            string sourceFile = text2[1];
+            if (false==fileCompare(backupFile, sourceFile))
+            {
+                DialogResult result = MessageBox.Show("文件尚未保存,是否保存?","保存文件", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    SystemOperator.SaveBackupDb();
+                    //MessageBox.Show("保存成功");
+                } 
+            }
             SystemOperator.WriteHistory();
         }
 
@@ -409,6 +471,10 @@ namespace CloudMapUI
             ToolStripMenuItem_OpenProject_Click(sender, e);
         }
 
+        private void toolStripButton_moduleFontColor_Click(object sender, EventArgs e)
+        {
+            模块字体颜色ToolStripMenuItem_Click(sender, e);
+        }
         private void toolStripButton_saveProject_Click(object sender, EventArgs e)
         {
             ToolStripMenuItem_SaveProject_Click(sender, e);
@@ -448,6 +514,12 @@ namespace CloudMapUI
         {
             ToolStripMenuItem_About_Click(sender, e);
         }
+
+        private void toolStripButton_stream_Click(object sender, EventArgs e)
+        {
+            添加业务流ToolStripMenuItem_Click(sender, e);
+        }
+
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
@@ -1057,6 +1129,8 @@ namespace CloudMapUI
         //点击左侧datagrid中的模块，使面板中对应模块高亮显示
         private void dataGridView_module_CellClick(object sender, System.Windows.Forms.DataGridViewCellEventArgs e)
         {
+            if (dataGridView_module.CurrentRow == null)
+                return;
             string selectModule = dataGridView_module.CurrentCell.Value.ToString();
             Control.ControlCollection Cons = panel4.Controls;
             //恢复面板上所有之前选中模块
@@ -1086,6 +1160,8 @@ namespace CloudMapUI
         //点击左侧datagrid中的关系，使面板中对应关系线高亮显示
         private void dataGridView_relation_CellClick(object sender, System.Windows.Forms.DataGridViewCellEventArgs e)
         {
+            if (dataGridView_relation.CurrentRow == null)
+                return;
             //string selectModule = dataGridView_module.CurrentCell.Value.ToString();
             string selectRelation = dataGridView_relation.CurrentCell.Value.ToString();
             Control.ControlCollection Cons = panel4.Controls;
@@ -1145,6 +1221,6 @@ namespace CloudMapUI
         {
             configForm config = new configForm(this);
             config.ShowDialog();
-        }
+        } 
     }
 }

@@ -315,8 +315,7 @@ namespace CloudMapUI
                     saveRelation.Tables[RelationData.RELATION_TABLE].Rows.Add(dr);
                     if (RelationOperator.InsertRelationInfo(saveRelation))
                     {
-                        RelationEditForm_Load(sender, e);
-                        MessageBox.Show("添加成功！");
+                        RelationEditForm_Load(sender, e);                        
                     }
                     else
                     {
@@ -350,6 +349,8 @@ namespace CloudMapUI
         //查看关系
         private void dataGridView_relation_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (dataGridView_relation.CurrentRow == null)
+                return;
             selectSource = dataGridView_relation.CurrentRow.Cells[1].Value.ToString();
             selectTarget = dataGridView_relation.CurrentRow.Cells[2].Value.ToString();
             DataRow dr = relationdata.Tables[RelationData.RELATION_TABLE].Select(RelationData.SOURCENAME_FIELD + "='" + selectSource + "' and  " + RelationData.TARGETNAME_FIELD + "='" + selectTarget + "'")[0];

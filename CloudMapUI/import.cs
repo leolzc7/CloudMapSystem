@@ -116,6 +116,8 @@ namespace CloudMapUI
         //选中模块
         private void dgv_importModule_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (dgv_importModule.CurrentRow == null)
+                return;
             //如果选中点击则取消，反而逆之
             if (dgv_importModule.Rows[e.RowIndex].Cells[0].Value != null)
             {
@@ -157,6 +159,8 @@ namespace CloudMapUI
         //选中关系
         private void dgv_importRelation_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (dgv_importRelation.CurrentRow == null)
+                return;
             //如果选中点击则取消，反而逆之
             if(dgv_importRelation.Rows[e.RowIndex].Cells[0].Value!=null)
             {
@@ -253,6 +257,11 @@ namespace CloudMapUI
         }
 
         private void panel11_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void dgv_importModule_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }

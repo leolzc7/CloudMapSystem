@@ -292,6 +292,7 @@
             this.dgv_importModule.Size = new System.Drawing.Size(187, 241);
             this.dgv_importModule.TabIndex = 1;
             this.dgv_importModule.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_importModule_CellClick);
+            this.dgv_importModule.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_importModule_CellContentClick);
             // 
             // dgvCheckBoxModule
             // 
