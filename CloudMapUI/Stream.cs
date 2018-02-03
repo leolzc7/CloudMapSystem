@@ -18,7 +18,7 @@ namespace CloudMapUI
         RecordStatus pageStatus;
         public StreamData streamdata;
         public StreamData selectData=new StreamData();
-        ModuleData modulesNameTable;
+        ModuleData moduledata;
         string selectStream;
 
         public StreamForm(MainForm parent)
@@ -35,7 +35,9 @@ namespace CloudMapUI
 
             streamdata = StreamOperator.LoadStreamInfo();
 
-
+            dgv_allModule.AutoGenerateColumns = false;
+            moduledata = ModulesOperator.LoadModulesInfo();
+            dgv_allModule.DataSource = moduledata.Tables[ModuleData.MODULES_TABLE].DefaultView;
             //dgv_selectModule.AutoGenerateColumns = false;
             //dgv_selectModule.DataSource = selectData.Tables[StreamData.STREAM_TABLE].DefaultView;                        
            
@@ -82,26 +84,26 @@ namespace CloudMapUI
                 streamName.Text = "";
                 dgv_selectModule.AutoGenerateColumns = false;
                 dgv_selectModule.DataSource = selectData.Tables[StreamData.STREAM_TABLE].DefaultView;
-                modulesNameTable = deleteDuplicateModule();
+                //modulesNameTable = deleteDuplicateModule();
             }
         }
 
-        private ModuleData deleteDuplicateModule()
-        {
-            using (ModuleData modulesNameTable = ModulesOperator.LoadModulesInfo())
-            {
-                for (int i = 0; i <= this.selectData.Tables[StreamData.STREAM_TABLE].Rows.Count - 1; i++)
-                {
-                    string name = selectData.Tables[StreamData.STREAM_TABLE].Rows[i][2].ToString();
-                    DataRow[] dr = modulesNameTable.Tables[ModuleData.MODULES_TABLE].Select(ModuleData.NAME_FIELD + " = '" + name + "'");
-                    modulesNameTable.Tables[ModuleData.MODULES_TABLE].Rows.Remove(dr[0]);
-                }
-                dgv_allModule.AutoGenerateColumns = false;
-                dgv_allModule.DataSource = modulesNameTable.Tables[ModuleData.MODULES_TABLE].DefaultView;
-                dgv_allModule.Refresh();
-                return modulesNameTable;
-            }
-        }
+        //private ModuleData deleteDuplicateModule()
+        //{
+        //    using (ModuleData modulesNameTable = ModulesOperator.LoadModulesInfo())
+        //    {
+        //        for (int i = 0; i <= this.selectData.Tables[StreamData.STREAM_TABLE].Rows.Count - 1; i++)
+        //        {
+        //            string name = selectData.Tables[StreamData.STREAM_TABLE].Rows[i][2].ToString();
+        //            DataRow[] dr = modulesNameTable.Tables[ModuleData.MODULES_TABLE].Select(ModuleData.NAME_FIELD + " = '" + name + "'");
+        //            modulesNameTable.Tables[ModuleData.MODULES_TABLE].Rows.Remove(dr[0]);
+        //        }
+        //        dgv_allModule.AutoGenerateColumns = false;
+        //        dgv_allModule.DataSource = modulesNameTable.Tables[ModuleData.MODULES_TABLE].DefaultView;
+        //        dgv_allModule.Refresh();
+        //        return modulesNameTable;
+        //    }
+        //}
         private void btnAdd_Click(object sender, EventArgs e)
         {
             pageStatus = RecordStatus.Add;
@@ -149,25 +151,25 @@ namespace CloudMapUI
                         dr[StreamData.NUM_FIELD]=0;
                         dr[StreamData.MODULES_NAME_FIELD]=dgv_allModule.Rows[i].Cells[0].Value.ToString();
                         selectData.Tables[StreamData.STREAM_TABLE].Rows.Add(dr.ItemArray);
-                        modulesNameTable.Tables[ModuleData.MODULES_TABLE].Rows.RemoveAt(i);
+                        //modulesNameTable.Tables[ModuleData.MODULES_TABLE].Rows.RemoveAt(i);
                     }
-                dgv_allModule.Refresh();
-                dgv_selectModule.Refresh();
+                //dgv_allModule.Refresh();
+                //dgv_selectModule.Refresh();
             }
         }
 
         private void btnToLeft_Click(object sender, EventArgs e)
         {
-            int count = dgv_selectModule.RowCount;
+            //int count = dgv_selectModule.RowCount;
             if (IsDataChecked())
             {
                 for (int i = this.dgv_selectModule.RowCount - 1; i >= 0; i--)
                     if (dgv_selectModule.Rows[i].Cells[0].Selected)
                     {
-                        DataRow dr = modulesNameTable.Tables[ModuleData.MODULES_TABLE].NewRow();      
-                        string mname = selectData.Tables[StreamData.STREAM_TABLE].Rows[i][2].ToString();
-                        dr[ModuleData.NAME_FIELD] = mname;
-                        modulesNameTable.Tables[ModuleData.MODULES_TABLE].Rows.Add(dr.ItemArray);
+                        //DataRow dr = modulesNameTable.Tables[ModuleData.MODULES_TABLE].NewRow();      
+                        //string mname = selectData.Tables[StreamData.STREAM_TABLE].Rows[i][2].ToString();
+                        //dr[ModuleData.NAME_FIELD] = mname;
+                        //modulesNameTable.Tables[ModuleData.MODULES_TABLE].Rows.Add(dr.ItemArray);
                         selectData.Tables[StreamData.STREAM_TABLE].Rows.RemoveAt(i);
                     }
                 dgv_selectModule.Refresh();
@@ -244,6 +246,8 @@ namespace CloudMapUI
      
         private void dgv_stream_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (dgv_stream.CurrentRow == null)
+                return;
             selectData = new StreamData();
             selectStream = dgv_stream.CurrentCell.Value.ToString();
             streamName.Text = selectStream;
@@ -255,7 +259,7 @@ namespace CloudMapUI
                 
             dgv_selectModule.AutoGenerateColumns = false;
             dgv_selectModule.DataSource = selectData.Tables[StreamData.STREAM_TABLE].DefaultView;
-            modulesNameTable = deleteDuplicateModule();
+            //modulesNameTable = deleteDuplicateModule();
         }
 
         private void btnFinish_Click(object sender, EventArgs e)

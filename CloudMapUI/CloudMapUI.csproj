@@ -186,6 +186,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icons\1192268.gif" />
+    <Content Include="icons\301977418182611142.png" />
+    <Content Include="icons\838502085883557957.jpg" />
     <Content Include="icons\add_project.gif" />
     <Content Include="icons\BlueSmoke256.png" />
     <Content Include="icons\borderColor.png" />

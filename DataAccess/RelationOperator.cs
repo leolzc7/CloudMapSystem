@@ -270,12 +270,12 @@ namespace DataAccess
                 relationOne.bidirection = relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.BIDIRECTION_FIELD].ToString();
                 relationOne.relationName = relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.NAME_FIELD].ToString();
                 relationOne.comment = relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.COMMENT_FIELD].ToString();
-                if(relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.SHOW_FIELD].ToString() == "0"){
-                    relationOne.show = 0;
+                if(relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.SHOW_FIELD].ToString() == "1"){
+                    relationOne.show = 1;
                 }
                 else
                 {
-                    relationOne.show = 1;
+                    relationOne.show = 0;
                 }
                 relationArray.Add(relationOne);
             }
@@ -294,13 +294,13 @@ namespace DataAccess
                 relationOne.bidirection = relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.BIDIRECTION_FIELD].ToString();
                 relationOne.relationName = relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.NAME_FIELD].ToString();
                 relationOne.comment = relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.COMMENT_FIELD].ToString();
-                if (relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.SHOW_FIELD].ToString() == "0")
+                if (relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.SHOW_FIELD].ToString() == "1")
                 {
-                    relationOne.show = 0;
+                    relationOne.show = 1;
                 }
                 else
                 {
-                    relationOne.show = 1;
+                    relationOne.show = 0;
                 } 
                 relationArray.Add(relationOne);
             }

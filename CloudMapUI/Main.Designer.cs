@@ -64,6 +64,7 @@
             this.ToolStripMenuItem_BorderColor = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_colorFilling = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_BorderWidth = new System.Windows.Forms.ToolStripMenuItem();
+            this.模块字体颜色ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Line = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_LineColor = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_LineWidth = new System.Windows.Forms.ToolStripMenuItem();
@@ -92,6 +93,7 @@
             this.toolStripButton_import = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_addModule = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_addRelation = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_stream = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripDropDownButton_colorFilling = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripDropDownButton_borderLIne = new System.Windows.Forms.ToolStripDropDownButton();
@@ -101,6 +103,7 @@
             this.磅ToolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripDropDownButton_lineColor = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripDropDownButton_comment = new System.Windows.Forms.ToolStripDropDownButton();
+            this.toolStripButton_moduleFontColor = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
@@ -128,6 +131,7 @@
             this.saveFileDialog_saveImage = new System.Windows.Forms.SaveFileDialog();
             this.ModuleColor = new System.Windows.Forms.ColorDialog();
             this.contextMenuStrip_RightKey = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.moduleFontColor = new System.Windows.Forms.ColorDialog();
             this.menuStrip2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -362,7 +366,8 @@
             this.ToolStripMenuItem_Border.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_BorderColor,
             this.ToolStripMenuItem_colorFilling,
-            this.ToolStripMenuItem_BorderWidth});
+            this.ToolStripMenuItem_BorderWidth,
+            this.模块字体颜色ToolStripMenuItem});
             this.ToolStripMenuItem_Border.Name = "ToolStripMenuItem_Border";
             this.ToolStripMenuItem_Border.Size = new System.Drawing.Size(124, 22);
             this.ToolStripMenuItem_Border.Text = "模块";
@@ -370,23 +375,30 @@
             // ToolStripMenuItem_BorderColor
             // 
             this.ToolStripMenuItem_BorderColor.Name = "ToolStripMenuItem_BorderColor";
-            this.ToolStripMenuItem_BorderColor.Size = new System.Drawing.Size(124, 22);
+            this.ToolStripMenuItem_BorderColor.Size = new System.Drawing.Size(148, 22);
             this.ToolStripMenuItem_BorderColor.Text = "边框颜色";
             this.ToolStripMenuItem_BorderColor.Click += new System.EventHandler(this.ToolStripMenuItem_BorderColor_Click);
             // 
             // ToolStripMenuItem_colorFilling
             // 
             this.ToolStripMenuItem_colorFilling.Name = "ToolStripMenuItem_colorFilling";
-            this.ToolStripMenuItem_colorFilling.Size = new System.Drawing.Size(124, 22);
+            this.ToolStripMenuItem_colorFilling.Size = new System.Drawing.Size(148, 22);
             this.ToolStripMenuItem_colorFilling.Text = "填充颜色";
             this.ToolStripMenuItem_colorFilling.Click += new System.EventHandler(this.ToolStripMenuItem_colorFilling_Click);
             // 
             // ToolStripMenuItem_BorderWidth
             // 
             this.ToolStripMenuItem_BorderWidth.Name = "ToolStripMenuItem_BorderWidth";
-            this.ToolStripMenuItem_BorderWidth.Size = new System.Drawing.Size(124, 22);
+            this.ToolStripMenuItem_BorderWidth.Size = new System.Drawing.Size(148, 22);
             this.ToolStripMenuItem_BorderWidth.Text = "模块字体";
             this.ToolStripMenuItem_BorderWidth.Click += new System.EventHandler(this.注释ToolStripMenuItem_Click);
+            // 
+            // 模块字体颜色ToolStripMenuItem
+            // 
+            this.模块字体颜色ToolStripMenuItem.Name = "模块字体颜色ToolStripMenuItem";
+            this.模块字体颜色ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.模块字体颜色ToolStripMenuItem.Text = "模块字体颜色";
+            this.模块字体颜色ToolStripMenuItem.Click += new System.EventHandler(this.模块字体颜色ToolStripMenuItem_Click);
             // 
             // ToolStripMenuItem_Line
             // 
@@ -517,6 +529,10 @@
             // 
             this.LineColor.ShowHelp = true;
             // 
+            // fontDialog1
+            // 
+            this.fontDialog1.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            // 
             // toolStrip1
             // 
             this.toolStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
@@ -531,12 +547,14 @@
             this.toolStripButton_import,
             this.toolStripButton_addModule,
             this.toolStripButton_addRelation,
+            this.toolStripButton_stream,
             this.toolStripSeparator5,
             this.toolStripDropDownButton_colorFilling,
             this.toolStripDropDownButton_borderLIne,
             this.toolStripDropDownButton_lineWidth,
             this.toolStripDropDownButton_lineColor,
             this.toolStripDropDownButton_comment,
+            this.toolStripButton_moduleFontColor,
             this.toolStripSeparator6,
             this.toolStripButton1,
             this.toolStripSeparator7,
@@ -649,6 +667,16 @@
             this.toolStripButton_addRelation.ToolTipText = "添加关系";
             this.toolStripButton_addRelation.Click += new System.EventHandler(this.toolStripButton_addRelation_Click);
             // 
+            // toolStripButton_stream
+            // 
+            this.toolStripButton_stream.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_stream.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_stream.Image")));
+            this.toolStripButton_stream.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_stream.Name = "toolStripButton_stream";
+            this.toolStripButton_stream.Size = new System.Drawing.Size(36, 40);
+            this.toolStripButton_stream.Text = "业务流";
+            this.toolStripButton_stream.Click += new System.EventHandler(this.toolStripButton_stream_Click);
+            // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
@@ -734,6 +762,16 @@
             this.toolStripDropDownButton_comment.Text = "toolStripDropDownButton1";
             this.toolStripDropDownButton_comment.ToolTipText = "字体设置";
             this.toolStripDropDownButton_comment.Click += new System.EventHandler(this.toolStripDropDownButton_comment_Click);
+            // 
+            // toolStripButton_moduleFontColor
+            // 
+            this.toolStripButton_moduleFontColor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_moduleFontColor.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_moduleFontColor.Image")));
+            this.toolStripButton_moduleFontColor.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_moduleFontColor.Name = "toolStripButton_moduleFontColor";
+            this.toolStripButton_moduleFontColor.Size = new System.Drawing.Size(36, 40);
+            this.toolStripButton_moduleFontColor.Text = "模块字体颜色";
+            this.toolStripButton_moduleFontColor.Click += new System.EventHandler(this.toolStripButton_moduleFontColor_Click);
             // 
             // toolStripSeparator6
             // 
@@ -837,6 +875,7 @@
             // 
             // label2
             // 
+            this.label2.ForeColor = System.Drawing.Color.Black;
             this.label2.Location = new System.Drawing.Point(245, 12);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 20);
@@ -861,6 +900,8 @@
             // btn_generateMap
             // 
             this.btn_generateMap.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(211)))), ((int)(((byte)(233)))));
+            this.btn_generateMap.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_generateMap.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btn_generateMap.Location = new System.Drawing.Point(485, 10);
             this.btn_generateMap.Name = "btn_generateMap";
             this.btn_generateMap.Size = new System.Drawing.Size(68, 24);
@@ -1023,6 +1064,7 @@
             // 
             // ModuleColor
             // 
+            this.ModuleColor.AnyColor = true;
             this.ModuleColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(238)))), ((int)(((byte)(255)))));
             this.ModuleColor.ShowHelp = true;
             // 
@@ -1163,6 +1205,10 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip_RightKey;
         private System.Windows.Forms.ToolStripMenuItem 类型配置ToolStripMenuItem;
         public System.Windows.Forms.ComboBox comboBox_type;
+        private System.Windows.Forms.ToolStripMenuItem 模块字体颜色ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton toolStripButton_moduleFontColor;
+        private System.Windows.Forms.ColorDialog moduleFontColor;
+        private System.Windows.Forms.ToolStripButton toolStripButton_stream;
     }
 }
 

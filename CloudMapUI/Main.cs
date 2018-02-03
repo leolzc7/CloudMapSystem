@@ -18,7 +18,7 @@ namespace CloudMapUI
 {
     public partial class MainForm : Form
     {
-        public static int penWidth = 1;
+        public static int penWidth=1;
         public static ModuleData moduledata;
         public static RelationData relationdata;
         public static MainForm mainform;
@@ -45,6 +45,7 @@ namespace CloudMapUI
                 ToolStripMenuItem_SaveProject.Enabled = false;
                 添加业务流ToolStripMenuItem.Enabled = false;
                 类型配置ToolStripMenuItem.Enabled = true;
+                toolStripButton_stream.Enabled = false;
 
                 toolStripButton_saveProject.Enabled = false;
                 toolStripButton_saveImage.Enabled = false;
@@ -69,6 +70,7 @@ namespace CloudMapUI
                 ToolStripMenuItem_SaveProject.Enabled = true;
                 添加业务流ToolStripMenuItem.Enabled = true;
                 类型配置ToolStripMenuItem.Enabled = false;
+                toolStripButton_stream.Enabled = true;
 
                 toolStripButton_saveProject.Enabled = true;
                 toolStripButton_saveImage.Enabled = true;
@@ -184,13 +186,47 @@ namespace CloudMapUI
             }
             openFileDialog_OpenProject.ShowDialog();
             SystemOperator.OpenProject(openFileDialog_OpenProject.FileName, true);
+
+            SystemOperator.getXmlValue(); //读取xml中的类型文件
+            if (globalParameters.TypeList.Count > 0)
+            {
+                this.comboBox_type.Items.Clear();
+                foreach (string type in globalParameters.TypeList)
+                {
+                    this.comboBox_type.Items.AddRange(new object[] { type });
+                }
+            }
+            else
+            {
+                this.comboBox_type.Items.Clear();
+                this.comboBox_type.Items.AddRange(new object[] { "aa","bb","cc" });//将控件中的内容设置为默认值
+            }
+            List<string> color = SystemOperator.GetColor();
+            if (color.Count == 5)
+            {
+                moduleFontColor.Color = ColorTranslator.FromHtml(color[0]);
+                ModuleColor.Color = ColorTranslator.FromHtml(color[1]);
+                BorderColor.Color = ColorTranslator.FromHtml(color[2]);
+                LineColor.Color = ColorTranslator.FromHtml(color[3]);
+                penWidth = Convert.ToInt32(color[4]);
+            }
             mainFormStatus();
-            //btn_generateMap_Click(sender,e);
         }
 
         private void ToolStripMenuItem_SaveProject_Click(object sender, EventArgs e)
         {
             SystemOperator.SaveBackupDb();
+            //将画图上的颜色配置保存下来
+            string mfColor = ColorTranslator.ToHtml(moduleFontColor.Color);
+            SystemOperator.ChangeFondConfig("moduleFontColor", mfColor);
+            string mColor = ColorTranslator.ToHtml(ModuleColor.Color);
+            SystemOperator.ChangeFondConfig("moduleColor", mColor);
+            string bColor = ColorTranslator.ToHtml(BorderColor.Color);
+            SystemOperator.ChangeFondConfig("borderColor", bColor);
+            string lColor = ColorTranslator.ToHtml(LineColor.Color);
+            SystemOperator.ChangeFondConfig("lineColor", lColor);
+            SystemOperator.ChangeFondConfig("lineWidth", penWidth.ToString());
+
             MessageBox.Show("保存成功！", "关于云图", MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
         }
@@ -214,19 +250,8 @@ namespace CloudMapUI
 
         private void 保存云图ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult result = saveFileDialog_saveImage.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                if (saveFileDialog_saveImage.FileName!=null || saveFileDialog_saveImage.FileName!="")
-                {
-                    SaveFileToImage(saveFileDialog_saveImage.FileName);
-                }
-                else
-                {
-                    MessageBox.Show("路径为空！", "保存云图", MessageBoxButtons.OK,
-                               MessageBoxIcon.Information);
-                }
-            }
+            saveFileDialog_saveImage.ShowDialog();
+            SaveFileToImage(saveFileDialog_saveImage.FileName);
         }
 
         private void ToolStripMenuItem_Print_Click(object sender, EventArgs e)
@@ -237,6 +262,8 @@ namespace CloudMapUI
             printDoc.PrintPage += new PrintPageEventHandler(this.PrintDocument_PrintPage);
             printPreviewDialog1.Document = printDoc;
             DialogResult result = printDialog1.ShowDialog();
+            //if (result == DialogResult.OK)
+            //    printDoc.Print();
         }
         private void ToolStripMenuItem_PrePrint_Click(object sender, EventArgs e)
         {
@@ -246,11 +273,14 @@ namespace CloudMapUI
             printDoc.PrintPage += new PrintPageEventHandler(this.PrintDocument_PrintPage);
             printPreviewDialog1.Document = printDoc; 
             DialogResult result= printPreviewDialog1.ShowDialog();
+            //if (result == DialogResult.OK)
+            //    printDoc.Print();
         }
         //设置打印内容
         private void PrintDocument_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
             Rectangle rect = new Rectangle(0, 0, panel4.Width, panel4.Height);
+            //Rectangle rect = new Rectangle(0, 0, 210, 297);
             using (Bitmap bmp = new Bitmap(rect.Width, rect.Height))
             {
                 this.panel4.DrawToBitmap(bmp, rect);
@@ -309,6 +339,19 @@ namespace CloudMapUI
                 if (con is Button)
                 {
                     ((Button)con).BackColor = ModuleColor.Color;
+                }
+            }
+        }
+
+        private void 模块字体颜色ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            moduleFontColor.ShowDialog();
+            Control.ControlCollection Cons = panel4.Controls;
+            foreach (Control con in Cons)
+            {
+                if (con is Button)
+                {
+                    ((Button)con).ForeColor = moduleFontColor.Color;
                 }
             }
         }
@@ -376,7 +419,7 @@ namespace CloudMapUI
         private void 磅ToolStripMenuItem6_Click(object sender, EventArgs e)
         {
             ChangeLineWidth(4);
-            penWidth = 3;
+            penWidth = 4;
         }
         private void ToolStripMenuItem_About_Click(object sender, EventArgs e)
         {
@@ -390,10 +433,55 @@ namespace CloudMapUI
                 "界面操作指南", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        private bool fileCompare(string file1,string file2)
+       {          
+            if(file1 == file2)
+            {
+                return true;
+            }
+            int file1byte = 0;
+            int file2byte = 0;
+            using(FileStream fs1 = new FileStream(file1,FileMode.Open))
+            {
+                using(FileStream fs2 = new FileStream(file2,FileMode.Open))
+                {
+                    if(fs1.Length != fs2.Length)
+                    {
+                        fs1.Close();
+                        fs2.Close();
+                        return false;
+                    }
+                    do
+                    {
+                        file1byte = fs1.ReadByte();
+                        file2byte = fs2.ReadByte();
+                    }
+                    while ((file1byte == file2byte) && (file1byte != -1));
+                    fs1.Close();
+                    fs2.Close();
+                }
+            }
+            return ((file1byte - file2byte) == 0);
+        }
+
+
         
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            string[] text1 = globalParameters.dbPath.Split('=');
+            string backupFile = text1[1];
+            string[] text2 = globalParameters.backupDbPath.Split('=');
+            string sourceFile = text2[1];
+            if (!fileCompare(backupFile, sourceFile))
+            {
+                DialogResult result = MessageBox.Show("是否保存?","保存文件", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    SystemOperator.SaveBackupDb();
+                    MessageBox.Show("保存成功");
+                } 
+            }
             SystemOperator.WriteHistory();
         }
 
@@ -419,6 +507,10 @@ namespace CloudMapUI
             ToolStripMenuItem_OpenProject_Click(sender, e);
         }
 
+        private void toolStripButton_moduleFontColor_Click(object sender, EventArgs e)
+        {
+            模块字体颜色ToolStripMenuItem_Click(sender, e);
+        }
         private void toolStripButton_saveProject_Click(object sender, EventArgs e)
         {
             ToolStripMenuItem_SaveProject_Click(sender, e);
@@ -458,6 +550,12 @@ namespace CloudMapUI
         {
             ToolStripMenuItem_About_Click(sender, e);
         }
+
+        private void toolStripButton_stream_Click(object sender, EventArgs e)
+        {
+            添加业务流ToolStripMenuItem_Click(sender, e);
+        }
+
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
@@ -661,6 +759,8 @@ namespace CloudMapUI
                     line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 3);
             }
             int LineCount = line.Count;
+            if (LineCount == 0)
+                return;
             //对所有线段坐标重新排列，从上到下或者从左到右
             for (int i = 0; i < line.Count; i++)
             {
