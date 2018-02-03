@@ -402,6 +402,5 @@ namespace CloudMapUI
         {
 
         }
-
     }
 }

@@ -511,7 +511,6 @@
             // 
             // BorderColor
             // 
-            this.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.BorderColor.ShowHelp = true;
             // 
             // LineColor
@@ -862,7 +861,6 @@
             // btn_generateMap
             // 
             this.btn_generateMap.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(211)))), ((int)(((byte)(233)))));
-            this.btn_generateMap.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_generateMap.Location = new System.Drawing.Point(485, 10);
             this.btn_generateMap.Name = "btn_generateMap";
             this.btn_generateMap.Size = new System.Drawing.Size(68, 24);
@@ -914,6 +912,7 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(760, 418);
             this.panel4.TabIndex = 14;
+            this.panel4.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel4_MouseUp);
             // 
             // tabControl1
             // 

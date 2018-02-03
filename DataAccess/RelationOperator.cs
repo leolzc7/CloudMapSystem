@@ -182,8 +182,9 @@ namespace DataAccess
             string target = "'" + data[RelationData.TARGETNAME_FIELD] + "',";
             string bidirection = "'" + data[RelationData.BIDIRECTION_FIELD] + "',";
             string type = "'" + data[RelationData.TYPE_FIELD] + "',";
-            string comment = "'" + data[RelationData.COMMENT_FIELD] + "'";
-            cmdInsert = "INSERT INTO relation VALUES(" + source + target + name + bidirection + type + comment + ")";
+            string comment = "'" + data[RelationData.COMMENT_FIELD] + "',";
+            string show = "'" + data[RelationData.SHOW_FIELD] + "'";
+            cmdInsert = "INSERT INTO relation VALUES(" + source + target + name + bidirection + type + comment + show + ")";
             return cmdInsert;
         }
         public static bool UpdateRelationInfo(RelationData relation, string selectSource, string selectTarget)
@@ -221,7 +222,7 @@ namespace DataAccess
         {
             DataRow data = relation.Tables[RelationData.RELATION_TABLE].Rows[0];
             string cmdUpdate;
-            string change = @"sourceName = '" + data[RelationData.SOURCENAME_FIELD] + "'," + "targetName = '" + data[RelationData.TARGETNAME_FIELD] + "'," + "rname = '" + data[RelationData.NAME_FIELD] + "'," + "type = '" + data[RelationData.TYPE_FIELD] + "'," + "bidirection = '" + data[RelationData.BIDIRECTION_FIELD] + "'," + "comment = '" + data[RelationData.COMMENT_FIELD] + "'";
+            string change = @"sourceName = '" + data[RelationData.SOURCENAME_FIELD] + "'," + "targetName = '" + data[RelationData.TARGETNAME_FIELD] + "'," + "rname = '" + data[RelationData.NAME_FIELD] + "'," + "type = '" + data[RelationData.TYPE_FIELD] + "'," + "bidirection = '" + data[RelationData.BIDIRECTION_FIELD] + "'," + "comment = '" + data[RelationData.COMMENT_FIELD] + "'," + "show ='" + data[RelationData.SHOW_FIELD] + "'";
             string condition1 = @"sourceName = '" + selectSource + "'";
             string condition2 = @"targetName = '" + selectTarget + "'";
             cmdUpdate = "UPDATE relation SET " + change + " WHERE " + condition1 + " and " + condition2;
@@ -268,6 +269,14 @@ namespace DataAccess
                 relationOne.targetName = relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.TARGETNAME_FIELD].ToString();
                 relationOne.bidirection = relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.BIDIRECTION_FIELD].ToString();
                 relationOne.relationName = relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.NAME_FIELD].ToString();
+                relationOne.comment = relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.COMMENT_FIELD].ToString();
+                if(relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.SHOW_FIELD].ToString() == "0"){
+                    relationOne.show = 0;
+                }
+                else
+                {
+                    relationOne.show = 1;
+                }
                 relationArray.Add(relationOne);
             }
             return relationArray;
@@ -284,6 +293,15 @@ namespace DataAccess
                 relationOne.targetName = relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.TARGETNAME_FIELD].ToString();
                 relationOne.bidirection = relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.BIDIRECTION_FIELD].ToString();
                 relationOne.relationName = relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.NAME_FIELD].ToString();
+                relationOne.comment = relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.COMMENT_FIELD].ToString();
+                if (relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.SHOW_FIELD].ToString() == "0")
+                {
+                    relationOne.show = 0;
+                }
+                else
+                {
+                    relationOne.show = 1;
+                } 
                 relationArray.Add(relationOne);
             }
             return relationArray;
@@ -315,9 +333,13 @@ namespace DataAccess
             public string targetName;
             public string bidirection;
             public string relationName;
+            public string comment;
+            public int show;
         }
         public static string GetString(List<string> modulesName)
         {
+            if (modulesName.Count == 0)
+                return null;
             string nameString = @"(";
             if (modulesName.Count > 0)
             {

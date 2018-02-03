@@ -18,7 +18,7 @@ namespace CloudMapUI
 {
     public partial class MainForm : Form
     {
-        public static int penWidth=1;
+        public static int penWidth = 1;
         public static ModuleData moduledata;
         public static RelationData relationdata;
         public static MainForm mainform;
@@ -185,6 +185,7 @@ namespace CloudMapUI
             openFileDialog_OpenProject.ShowDialog();
             SystemOperator.OpenProject(openFileDialog_OpenProject.FileName, true);
             mainFormStatus();
+            //btn_generateMap_Click(sender,e);
         }
 
         private void ToolStripMenuItem_SaveProject_Click(object sender, EventArgs e)
@@ -213,8 +214,19 @@ namespace CloudMapUI
 
         private void 保存云图ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            saveFileDialog_saveImage.ShowDialog();
-            SaveFileToImage(saveFileDialog_saveImage.FileName);
+            DialogResult result = saveFileDialog_saveImage.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                if (saveFileDialog_saveImage.FileName!=null || saveFileDialog_saveImage.FileName!="")
+                {
+                    SaveFileToImage(saveFileDialog_saveImage.FileName);
+                }
+                else
+                {
+                    MessageBox.Show("路径为空！", "保存云图", MessageBoxButtons.OK,
+                               MessageBoxIcon.Information);
+                }
+            }
         }
 
         private void ToolStripMenuItem_Print_Click(object sender, EventArgs e)
@@ -225,8 +237,6 @@ namespace CloudMapUI
             printDoc.PrintPage += new PrintPageEventHandler(this.PrintDocument_PrintPage);
             printPreviewDialog1.Document = printDoc;
             DialogResult result = printDialog1.ShowDialog();
-            //if (result == DialogResult.OK)
-            //    printDoc.Print();
         }
         private void ToolStripMenuItem_PrePrint_Click(object sender, EventArgs e)
         {
@@ -236,14 +246,11 @@ namespace CloudMapUI
             printDoc.PrintPage += new PrintPageEventHandler(this.PrintDocument_PrintPage);
             printPreviewDialog1.Document = printDoc; 
             DialogResult result= printPreviewDialog1.ShowDialog();
-            //if (result == DialogResult.OK)
-            //    printDoc.Print();
         }
         //设置打印内容
         private void PrintDocument_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
             Rectangle rect = new Rectangle(0, 0, panel4.Width, panel4.Height);
-            //Rectangle rect = new Rectangle(0, 0, 210, 297);
             using (Bitmap bmp = new Bitmap(rect.Width, rect.Height))
             {
                 this.panel4.DrawToBitmap(bmp, rect);
@@ -358,15 +365,18 @@ namespace CloudMapUI
         private void 磅ToolStripMenuItem3_Click(object sender, EventArgs e)
         {
             ChangeLineWidth(1);
+            penWidth = 1;
         }
         private void 磅ToolStripMenuItem5_Click(object sender, EventArgs e)
         {
             ChangeLineWidth(2);
+            penWidth = 2;
         }
 
         private void 磅ToolStripMenuItem6_Click(object sender, EventArgs e)
         {
             ChangeLineWidth(4);
+            penWidth = 3;
         }
         private void ToolStripMenuItem_About_Click(object sender, EventArgs e)
         {
@@ -512,7 +522,6 @@ namespace CloudMapUI
             {
                 if (con is MyButton)
                 {
-                    ((MyButton)con).FlatAppearance.BorderColor = BorderColor.Color;
                     ((MyButton)con).FlatAppearance.BorderSize = 1;
                     ((MyButton)con).BackColor = ModuleColor.Color;
                 }
@@ -547,7 +556,6 @@ namespace CloudMapUI
                 {
                     if (con is MyButton && ((MyButton)con).Text == modules[i] && ((MyButton)con).InvokeRequired)
                     {
-                        ((MyButton)con).FlatAppearance.BorderColor = Color.LightCyan;
                         ((MyButton)con).FlatAppearance.BorderSize = 3;
                         ((MyButton)con).BackColor = Color.LightGreen;
                     }
@@ -653,14 +661,7 @@ namespace CloudMapUI
                     line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 3);
             }
             int LineCount = line.Count;
-            //for (int i = 0; i < line.Count; i++)
-            //{
-            //    if (line[i].line != null)
-            //    {
-            //        LineCount++;
-            //    }
-
-            //}
+            //对所有线段坐标重新排列，从上到下或者从左到右
             for (int i = 0; i < line.Count; i++)
             {
                 if (line[i].line[0] > line[i].line[2] || line[i].line[1] > line[i].line[3])
@@ -676,25 +677,34 @@ namespace CloudMapUI
             ALine[] aline = new ALine[LineCount];
             for (int i = 0; i < LineCount; i++)
             {
-                //g1.DrawLine(linePen, line[i][0], line[i][1], line[i][2], line[i][3]);
                 aline[i] = new ALine();
                 aline[i].Points = line[i].line;
                 aline[i].Penwidth = penWidth;
                 aline[i].Pencolor = LineColor.Color;
+                aline[i].Name = line[i].lineComment;//name 记录线段描述
                 if (line[i].line[0] == line[i].line[2])
                 {
                     aline[i].Location = new Point(line[i].line[0] - 4 * aline[i].Penwidth, line[i].line[1]);
                 }
                 else
                     aline[i].Location = new Point(line[i].line[0], line[i].line[1] - 4 * aline[i].Penwidth);
-                aline[i].Text = line[i].lineName;
+                aline[i].Text = line[i].lineName;//text 记录线段名字
                 aline[i].MouseHover += new EventHandler(this.AlineHover);//悬浮事件
                 aline[i].Click += new EventHandler(this.AlineClick);//单击事件
                 aline[i].DoubleClick += new EventHandler(this.AlineDoubleClick);//双击事件
-                //aline[i].MouseDown += new MouseEventHandler(this.AlineDown);
-                //aline[i].MouseUp += new MouseEventHandler(this.AlineUp);
-                //aline[i].MouseHover += (e, a) => AlineHover(line[i].lineName);
                 panel4.Controls.Add(aline[i]);
+            }
+            //如果默认要显示关系名称则显示。
+            if (line[0].show == 1)
+            {
+                WriteLabel(aline[0]);
+            }
+            for (int i = 1; i < LineCount; i++)
+            {
+                if (line[i].show==1 && line[i].lineName != line[i - 1].lineName)
+                {
+                    WriteLabel(aline[i]);
+                }
             }
         }
         #endregion
@@ -709,7 +719,6 @@ namespace CloudMapUI
             {
                 if (con is MyButton)
                 {
-                    ((MyButton)con).FlatAppearance.BorderColor = this.BorderColor.Color;
                     ((MyButton)con).FlatAppearance.BorderSize = 1;
                     ((MyButton)con).BackColor = this.ModuleColor.Color;
                 }
@@ -752,9 +761,8 @@ namespace CloudMapUI
                 if (con is MyButton)
                 {
                     btnList.Add((MyButton)con);
-                    ((MyButton)con).FlatAppearance.BorderColor = BorderColor.Color;
-                    ((MyButton)con).FlatAppearance.BorderSize = 1;
-                    ((MyButton)con).BackColor = ModuleColor.Color;
+                    ((MyButton)con).FlatAppearance.BorderSize = 0;
+                    ((MyButton)con).BackColor = Color.WhiteSmoke;
                 }
             }
             //每个关系线恢复原样
@@ -763,7 +771,7 @@ namespace CloudMapUI
                 if (con is ALine)
                 {
                     alineList.Add((ALine)con);
-                    ((ALine)con).Pencolor = LineColor.Color;
+                    ((ALine)con).Pencolor = Color.WhiteSmoke;
                 }
             }
             //关系线与模块相连则变红色
@@ -787,39 +795,26 @@ namespace CloudMapUI
                 }
             }
             //选中的这模块高亮显示
-            select.FlatAppearance.BorderColor = Color.LightBlue;
             select.FlatAppearance.BorderSize = 3;
-            select.BackColor = Color.LightYellow;
+            select.BackColor = Color.LightSkyBlue;
         }
         #endregion
 
         #region LineUIOperations
 
-        //单击关系线
-        private void AlineClick(object sender, EventArgs e)
+        private void WriteLabel(ALine aline)
         {
             List<ALine> singleline = new List<ALine>();
+            Control.ControlCollection Cons = panel4.Controls;
             ALine longline = new ALine();
             longline.Points = new int[] { 0, 0, 0, 0, 0 };
-            string selectRelation = ((ALine)sender).Text;
-            Control.ControlCollection Cons = panel4.Controls;
-            //恢复所有线原来的颜色
             foreach (Control con in Cons)
             {
                 if (con is ALine)
                 {
-                    ((ALine)con).Pencolor = LineColor.Color;
-                }
-            }
-            //点击关系线高亮显示
-            foreach (Control con in Cons)
-            {
-                if (con is ALine)
-                {
-                    if ((con.Text).Equals(selectRelation))
+                    if ((con.Text).Equals(aline.Text))
                     {
                         singleline.Add((ALine)con);
-                        ((ALine)con).Pencolor = Color.Red;
                     }
                 }
             }
@@ -838,34 +833,54 @@ namespace CloudMapUI
 
             label_longline.BackColor = Color.Transparent;
             label_longline.AutoSize = false;
-            label_longline.Text = selectRelation;
-            label_longline.BringToFront();
+            label_longline.Text = aline.Name;//记录关系描述信息
+            int fontsize = (int)label_longline.Font.Size;
+            int width, height;
             //判断最长的线是横着还是竖着的，横竖size和location不一样
             if (longline.Points[0] == longline.Points[2])//竖线
             {
-                labelX = longline.Location.X + longline.Size.Width;
-                labelY = longline.Location.Y + (int)(longline.Size.Height / 3);
-                label_longline.Size = new Size(20, 200);
+                width = aline.Name.Length * (fontsize + 5);
+                height = fontsize + 5;
+                label_longline.Size = new Size(height, width);
+                labelX = longline.Location.X + 10;
+                labelY = longline.Location.Y + (int)(longline.Size.Height / 2) - width / 2;
             }
             else//横线
             {
-                labelX = longline.Location.X + (int)(longline.Size.Width / 3);
+                width = aline.Name.Length * (fontsize + 5);
+                height = fontsize + 5;
+                labelX = longline.Location.X + (int)(longline.Size.Width / 2) - width / 2;
                 labelY = longline.Location.Y - 10;
-                label_longline.Size = new Size(200, 20);
+                label_longline.Size = new Size(width, height);
             }
             label_longline.Location = new Point(labelX, labelY);
             LabelTransparent labelTransparent = new LabelTransparent(label_longline);
-            labelTransparent.BringToFront();
             labelTransparent.DoubleClick += new EventHandler(this.LabelTransp_DoubleClick);
             panel4.Controls.Add(labelTransparent);
-
-
+            labelTransparent.BringToFront();
+        }
+        //单击关系线
+        private void AlineClick(object sender, EventArgs e)
+        {
+            string selectRelation = ((ALine)sender).Text;
+            WriteLabel((ALine)sender);
+            Control.ControlCollection Cons = panel4.Controls;
+            //点击关系线高亮显示
+            foreach (Control con in Cons)
+            {
+                if (con is ALine)
+                {
+                    if ((con.Text).Equals(selectRelation))
+                    {
+                        ((ALine)con).Pencolor = Color.Red;
+                    }
+                }
+            }
             //在左侧datagridview_relation中选中
-            string seleteName = ((ALine)sender).Text;
             int index=0;
             for (int i = 0; i < dataGridView_relation.RowCount ; i++)//遍历所有选中的行
             {
-                if(dataGridView_relation.Rows[i].Cells[0].Value.Equals(seleteName))
+                if (dataGridView_relation.Rows[i].Cells[0].Value.Equals(selectRelation))
                 {
                     index=i;
                     break;
@@ -1057,6 +1072,10 @@ namespace CloudMapUI
         //点击左侧datagrid中的模块，使面板中对应模块高亮显示
         private void dataGridView_module_CellClick(object sender, System.Windows.Forms.DataGridViewCellEventArgs e)
         {
+            if (dataGridView_module.CurrentRow == null)
+            {
+                return;
+            }
             string selectModule = dataGridView_module.CurrentCell.Value.ToString();
             Control.ControlCollection Cons = panel4.Controls;
             //恢复面板上所有之前选中模块
@@ -1064,7 +1083,7 @@ namespace CloudMapUI
             {
                 if (con is MyButton)
                 {
-                    ((MyButton)con).FlatAppearance.BorderColor = BorderColor.Color;
+                    //((MyButton)con).FlatAppearance.BorderColor = BorderColor.Color;
                     ((MyButton)con).FlatAppearance.BorderSize = 1;
                     ((MyButton)con).BackColor = ModuleColor.Color;
                 }
@@ -1076,7 +1095,7 @@ namespace CloudMapUI
                 {
                     if (((MyButton)con).Text == selectModule)
                     {
-                        ((MyButton)con).FlatAppearance.BorderColor = Color.LightBlue;
+                        //((MyButton)con).FlatAppearance.BorderColor = Color.LightBlue;
                         ((MyButton)con).FlatAppearance.BorderSize = 3;
                         ((MyButton)con).BackColor = Color.LightYellow;
                     }
@@ -1086,6 +1105,10 @@ namespace CloudMapUI
         //点击左侧datagrid中的关系，使面板中对应关系线高亮显示
         private void dataGridView_relation_CellClick(object sender, System.Windows.Forms.DataGridViewCellEventArgs e)
         {
+            if (dataGridView_relation.CurrentRow==null)
+            {
+                return;
+            }
             //string selectModule = dataGridView_module.CurrentCell.Value.ToString();
             string selectRelation = dataGridView_relation.CurrentCell.Value.ToString();
             Control.ControlCollection Cons = panel4.Controls;
@@ -1113,7 +1136,6 @@ namespace CloudMapUI
         private void LabelTransp_DoubleClick(object sender, EventArgs e)
         {
             panel4.Controls.Remove((LabelTransparent)sender);
-            ((LabelTransparent)sender).Visible = false;
         }
 
         private void 添加业务流ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1145,6 +1167,35 @@ namespace CloudMapUI
         {
             configForm config = new configForm(this);
             config.ShowDialog();
+        }
+
+        private void panel4_MouseUp(object sender, MouseEventArgs e)
+        {
+            bool isInCons = false;
+            Control.ControlCollection Con = panel4.Controls;
+            foreach (Control con in Con)
+            {
+                if(con.ClientRectangle.Contains(e.Location))
+                {
+                    isInCons = true;
+                }
+            }
+            if (!isInCons)
+            {
+                foreach (Control con in Con)
+                {
+                    if (con is ALine)
+                    {
+                        ((ALine)con).Pencolor = LineColor.Color;
+                    }
+                    if (con is MyButton)
+                    {
+                        //((MyButton)con).FlatAppearance.BorderColor = BorderColor.Color;
+                        ((MyButton)con).FlatAppearance.BorderSize = 1;
+                        ((MyButton)con).BackColor = ModuleColor.Color;
+                    }
+                }
+            }
         }
     }
 }

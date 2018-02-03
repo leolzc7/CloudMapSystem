@@ -251,7 +251,6 @@ namespace CloudMapUI
         }
         protected override void OnLocationChanged(EventArgs e)
         {
-            //base.OnLocationChanged(e);
             Visible = false;
             Visible = true;
         }
@@ -260,10 +259,8 @@ namespace CloudMapUI
         {
             get
             {
-                //return base.CreateParams;
                 CreateParams cp = base.CreateParams;
                 cp.ExStyle |= 0x00000020;
-                //cp.Style |= 0x00040000; 
                 return cp;
             }
         }
