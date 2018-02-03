@@ -97,6 +97,8 @@ namespace DataAccess
         }
         public static bool importModules(List<string> modulesName)
         {
+            if (modulesName.Count == 0)
+                return false;
             bool check = CheckAllModule(modulesName);
             if (!check)
                 return false;
@@ -158,9 +160,6 @@ namespace DataAccess
         }
         public static bool UpdateModulesInfo(ModuleData module, string selectModule)
         {
-            bool check = CheckDuplication(module);
-            if (!check)
-                return false;
             string updateCommand = GetUpdateCommand(module, selectModule);
             using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
             {

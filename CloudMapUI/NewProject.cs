@@ -68,5 +68,12 @@ namespace CloudMapUI
         {
             this.Hide();
         }
+
+        private void NewProjectForm_Load(object sender, EventArgs e)
+        {
+            folderBrowserDialog1.SelectedPath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            dbSelfPath = folderBrowserDialog1.SelectedPath;
+            textBox2.Text = folderBrowserDialog1.SelectedPath;
+        }
     }
 }

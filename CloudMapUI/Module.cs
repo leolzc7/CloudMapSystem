@@ -278,6 +278,8 @@ namespace CloudMapUI
         //选中列表中的模块
         private void dataGridView_module_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (dataGridView_module.CurrentRow == null)
+                return;
             selectModule = dataGridView_module.CurrentCell.Value.ToString();
             DataRow odr = moduledata.Tables[ModuleData.MODULES_TABLE].Select(ModuleData.NAME_FIELD + "='" + selectModule + "'")[0];
             name.Text = odr[ModuleData.NAME_FIELD].ToString();

@@ -267,6 +267,8 @@ namespace DrawLineRules
         {
             public int[] line;
             public string lineName;
+            public string lineComment;
+            public int show;
         }
     }
 }
