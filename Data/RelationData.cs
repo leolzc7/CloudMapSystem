@@ -17,6 +17,7 @@ namespace Data
         public const string BIDIRECTION_FIELD = "bidirection";
         public const string TYPE_FIELD = "type";
         public const string COMMENT_FIELD = "comment";
+        public const string SHOW_FIELD = "show";
 
         public RelationData()
         {
@@ -33,6 +34,7 @@ namespace Data
             columns.Add(BIDIRECTION_FIELD, typeof(string));
             columns.Add(TYPE_FIELD, typeof(string));
             columns.Add(COMMENT_FIELD, typeof(string));
+            columns.Add(SHOW_FIELD, typeof(int));
 
             this.Tables.Add(newTable);
         }

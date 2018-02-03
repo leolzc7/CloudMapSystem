@@ -44,10 +44,12 @@ namespace CloudMapUI
                     dr[3] = odr[RelationData.BIDIRECTION_FIELD].ToString();
                     dr[4] = odr[RelationData.TYPE_FIELD].ToString();
                     dr[5] = odr[RelationData.COMMENT_FIELD].ToString();
+                    dr[6] = odr[RelationData.SHOW_FIELD];
                     selectRelation.Tables[RelationData.RELATION_TABLE].Rows.Add(dr);
                 }
             if (IsModuleChecked())
             {
+                GetModulesList();
                 if (ModulesOperator.importModules(selectModule))
                     MessageBox.Show("模块导入成功！");
             }
@@ -76,8 +78,6 @@ namespace CloudMapUI
 
         private void importForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            //string sql = "DETACH DATABASE 'secondDb'";
-            //SystemOperator.ExecuteSql(sql);
             this.Hide();
         }
 
@@ -242,26 +242,24 @@ namespace CloudMapUI
         {            
             if (IsModuleChecked())
             {
-                selectModule=new List<string>();
-                for (int i = 0; i <= this.dgv_importModule.RowCount - 1; i++)
-                    if(dgv_importModule.Rows[i].Cells[0].Value!=null)
-                    {
-                        if ((bool)dgv_importModule.Rows[i].Cells[0].Value == true)
-                            selectModule.Add(dgv_importModule.Rows[i].Cells[1].Value.ToString());
-                    }
+                GetModulesList();
                 relation = new RelationData();
                 relation=RelationOperator.GetRelationInfoForImport(selectModule);
                 dgv_importRelation.AutoGenerateColumns = false;
                 dgv_importRelation.DataSource = relation.Tables[RelationData.RELATION_TABLE].DefaultView;
             }
         }
-
-        private void panel11_Paint(object sender, PaintEventArgs e)
+        private void GetModulesList()
         {
-
+            selectModule = new List<string>();
+            for (int i = 0; i <= this.dgv_importModule.RowCount - 1; i++)
+                if (dgv_importModule.Rows[i].Cells[0].Value != null)
+                {
+                    if ((bool)dgv_importModule.Rows[i].Cells[0].Value == true)
+                        selectModule.Add(dgv_importModule.Rows[i].Cells[1].Value.ToString());
+                }
         }
-
-        private void dgv_importModule_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void panel11_Paint(object sender, PaintEventArgs e)
         {
 
         }

@@ -178,7 +178,6 @@ namespace CloudMapUI
 
         private bool IsModuleChecked()
         {
-
             for (int i = 0; i <= this.dgv_allModule.RowCount - 1; i++)
             {
                 if (dgv_allModule.Rows[i].Cells[0].Selected)

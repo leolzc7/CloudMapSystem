@@ -30,10 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.ToolStripMenuItem_File = new System.Windows.Forms.ToolStripMenuItem();
             this.NToolStripMenuItem_newProject = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -93,6 +93,7 @@
             this.toolStripButton_import = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_addModule = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_addRelation = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_stream = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripDropDownButton_colorFilling = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripDropDownButton_borderLIne = new System.Windows.Forms.ToolStripDropDownButton();
@@ -131,7 +132,6 @@
             this.ModuleColor = new System.Windows.Forms.ColorDialog();
             this.contextMenuStrip_RightKey = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.moduleFontColor = new System.Windows.Forms.ColorDialog();
-            this.toolStripButton_stream = new System.Windows.Forms.ToolStripButton();
             this.menuStrip2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -199,6 +199,7 @@
             // ToolStripMenuItem_saveImage
             // 
             this.ToolStripMenuItem_saveImage.Name = "ToolStripMenuItem_saveImage";
+            this.ToolStripMenuItem_saveImage.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.ToolStripMenuItem_saveImage.Size = new System.Drawing.Size(189, 22);
             this.ToolStripMenuItem_saveImage.Text = "保存云图";
             this.ToolStripMenuItem_saveImage.Click += new System.EventHandler(this.保存云图ToolStripMenuItem_Click);
@@ -666,6 +667,16 @@
             this.toolStripButton_addRelation.ToolTipText = "添加关系";
             this.toolStripButton_addRelation.Click += new System.EventHandler(this.toolStripButton_addRelation_Click);
             // 
+            // toolStripButton_stream
+            // 
+            this.toolStripButton_stream.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_stream.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_stream.Image")));
+            this.toolStripButton_stream.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_stream.Name = "toolStripButton_stream";
+            this.toolStripButton_stream.Size = new System.Drawing.Size(36, 40);
+            this.toolStripButton_stream.Text = "业务流";
+            this.toolStripButton_stream.Click += new System.EventHandler(this.toolStripButton_stream_Click);
+            // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
@@ -942,6 +953,7 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(760, 418);
             this.panel4.TabIndex = 14;
+            this.panel4.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel4_MouseUp);
             // 
             // tabControl1
             // 
@@ -972,9 +984,9 @@
             this.dataGridView_module.AllowUserToDeleteRows = false;
             this.dataGridView_module.AllowUserToResizeColumns = false;
             this.dataGridView_module.AllowUserToResizeRows = false;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
-            this.dataGridView_module.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
+            this.dataGridView_module.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView_module.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.dataGridView_module.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_module.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -984,9 +996,9 @@
             this.dataGridView_module.Name = "dataGridView_module";
             this.dataGridView_module.ReadOnly = true;
             this.dataGridView_module.RowHeadersVisible = false;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(238)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
-            this.dataGridView_module.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(238)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
+            this.dataGridView_module.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView_module.RowTemplate.Height = 23;
             this.dataGridView_module.Size = new System.Drawing.Size(186, 454);
             this.dataGridView_module.TabIndex = 0;
@@ -1017,9 +1029,9 @@
             this.dataGridView_relation.AllowUserToDeleteRows = false;
             this.dataGridView_relation.AllowUserToResizeColumns = false;
             this.dataGridView_relation.AllowUserToResizeRows = false;
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
-            this.dataGridView_relation.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
+            this.dataGridView_relation.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView_relation.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.dataGridView_relation.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_relation.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -1030,9 +1042,9 @@
             this.dataGridView_relation.Name = "dataGridView_relation";
             this.dataGridView_relation.ReadOnly = true;
             this.dataGridView_relation.RowHeadersVisible = false;
-            dataGridViewCellStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(238)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
-            this.dataGridView_relation.RowsDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(238)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
+            this.dataGridView_relation.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridView_relation.RowTemplate.Height = 23;
             this.dataGridView_relation.Size = new System.Drawing.Size(186, 454);
             this.dataGridView_relation.TabIndex = 0;
@@ -1048,11 +1060,11 @@
             // 
             // saveFileDialog_saveImage
             // 
-            this.saveFileDialog_saveImage.CreatePrompt = true;
             this.saveFileDialog_saveImage.Filter = "BMP 文件|*.bmp|JPG 文件|*.jpg|JPEG 文件|*.jpeg|Gif 文件|*.gif";
             // 
             // ModuleColor
             // 
+            this.ModuleColor.AnyColor = true;
             this.ModuleColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(238)))), ((int)(((byte)(255)))));
             this.ModuleColor.ShowHelp = true;
             // 
@@ -1060,16 +1072,6 @@
             // 
             this.contextMenuStrip_RightKey.Name = "contextMenuStrip_RightKey";
             this.contextMenuStrip_RightKey.Size = new System.Drawing.Size(61, 4);
-            // 
-            // toolStripButton_stream
-            // 
-            this.toolStripButton_stream.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_stream.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_stream.Image")));
-            this.toolStripButton_stream.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_stream.Name = "toolStripButton_stream";
-            this.toolStripButton_stream.Size = new System.Drawing.Size(36, 40);
-            this.toolStripButton_stream.Text = "业务流";
-            this.toolStripButton_stream.Click += new System.EventHandler(this.toolStripButton_stream_Click);
             // 
             // MainForm
             // 
@@ -1184,8 +1186,10 @@
         public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_history;
         public System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_colorFilling;
         private System.Windows.Forms.DataGridView dataGridView_module;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridView dataGridView_relation;
         private System.Windows.Forms.ColorDialog ModuleColor;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_SaveProject;
         public System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel2;
@@ -1201,8 +1205,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip_RightKey;
         private System.Windows.Forms.ToolStripMenuItem 类型配置ToolStripMenuItem;
         public System.Windows.Forms.ComboBox comboBox_type;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.ToolStripMenuItem 模块字体颜色ToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton toolStripButton_moduleFontColor;
         private System.Windows.Forms.ColorDialog moduleFontColor;

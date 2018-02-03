@@ -88,6 +88,8 @@ namespace DrawLineRules
                 ModuleOne moduleTarget = modules[ModuleOne.GetIndex(modules, relationOne.targetName)];
                 string bidirection = relationOne.bidirection;
                 string relationName = relationOne.relationName;
+                string comment = relationOne.comment;
+                int show = relationOne.show;
                 int com = moduleSource.compareModuleAdd(moduleTarget);
                 switch (com)
                 {
@@ -130,7 +132,7 @@ namespace DrawLineRules
                         break;
                 }
                 List<int[]> lineOnePath = Route(start, target, com, rows, columns, r, c, step_row, step_column, moduleSource, moduleTarget, bidirection);
-                saveLine(lineOnePath, allLine, relationName);
+                saveLine(lineOnePath, allLine, relationName,comment,show);
             }     
         }
 
@@ -348,7 +350,7 @@ namespace DrawLineRules
             }
             return line;
         }
-        public int saveLine(List<int[]> lineOne, List<ModuleOne.LineInfo> lineAll, string relationName)
+        public int saveLine(List<int[]> lineOne, List<ModuleOne.LineInfo> lineAll, string relationName,string comment, int show)
         {
             //for (int i = 0; i < lineAll.Count; i++)
             //{
@@ -366,6 +368,8 @@ namespace DrawLineRules
                             ModuleOne.LineInfo lineRoute = new ModuleOne.LineInfo();
                             lineRoute.line = lineOne[j];
                             lineRoute.lineName = relationName;
+                            lineRoute.lineComment = comment;
+                            lineRoute.show = show;
                             lineAll.Add(lineRoute);
                             
                         }

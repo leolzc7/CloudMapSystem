@@ -160,6 +160,10 @@ namespace CloudMapUI
                         radioButton_single.Checked = false;
                         radioButton_bidirection.Checked = true;
                     }
+                    if (dr[RelationData.SHOW_FIELD].ToString() == "1")
+                        checkBox_showRelationName.Checked = true;
+                    else
+                        checkBox_showRelationName.Checked = false;
                 }
                 else
                 {
@@ -192,6 +196,10 @@ namespace CloudMapUI
                     radioButton_single.Checked = false;
                     radioButton_bidirection.Checked = true;
                 }
+                if (dr[RelationData.SHOW_FIELD].ToString() == "1")
+                    checkBox_showRelationName.Checked = true;
+                else
+                    checkBox_showRelationName.Checked = false;
             }
             else if (pageStatus == RecordStatus.Add)
             {
@@ -202,6 +210,7 @@ namespace CloudMapUI
                 comment.Text = "";
                 radioButton_single.Checked = true;
                 radioButton_bidirection.Checked = false;
+                checkBox_showRelationName.Checked = false;
             }
         }
 
@@ -259,6 +268,10 @@ namespace CloudMapUI
                     radioButton_single.Checked = false;
                     radioButton_bidirection.Checked = true;
                 }
+                if (dr[RelationData.SHOW_FIELD].ToString() == "1")
+                    checkBox_showRelationName.Checked = true;
+                else
+                    checkBox_showRelationName.Checked = false;
             }
         }
 
@@ -283,6 +296,11 @@ namespace CloudMapUI
                         dr[RelationData.BIDIRECTION_FIELD] = "1";
                     else
                         dr[RelationData.BIDIRECTION_FIELD] = "0";
+
+                    if (checkBox_showRelationName.Checked)
+                        dr[RelationData.SHOW_FIELD] = 1;
+                    else
+                        dr[RelationData.SHOW_FIELD] = 0;
 
                     saveRelation.Tables[RelationData.RELATION_TABLE].Rows.Add(dr);
                     if (RelationOperator.UpdateRelationInfo(saveRelation, selectSource, selectTarget))
@@ -311,11 +329,15 @@ namespace CloudMapUI
                         dr[RelationData.BIDIRECTION_FIELD] = "1";
                     else
                         dr[RelationData.BIDIRECTION_FIELD] = "0";
+                    if (checkBox_showRelationName.Checked)
+                        dr[RelationData.SHOW_FIELD] = 1;
+                    else
+                        dr[RelationData.SHOW_FIELD] = 0;
 
                     saveRelation.Tables[RelationData.RELATION_TABLE].Rows.Add(dr);
                     if (RelationOperator.InsertRelationInfo(saveRelation))
                     {
-                        RelationEditForm_Load(sender, e);                        
+                        RelationEditForm_Load(sender, e);
                     }
                     else
                     {
@@ -370,6 +392,10 @@ namespace CloudMapUI
                 radioButton_single.Checked = false;
                 radioButton_bidirection.Checked = true;
             }
+            if (dr[RelationData.SHOW_FIELD].ToString() == "1")
+                checkBox_showRelationName.Checked = true;
+            else
+                checkBox_showRelationName.Checked = false;
         }
 
         //选择源
@@ -403,6 +429,5 @@ namespace CloudMapUI
         {
 
         }
-
     }
 }
