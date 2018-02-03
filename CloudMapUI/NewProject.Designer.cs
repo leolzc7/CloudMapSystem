@@ -130,6 +130,7 @@
             this.Name = "NewProjectForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "新建项目";
+            this.Load += new System.EventHandler(this.NewProjectForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

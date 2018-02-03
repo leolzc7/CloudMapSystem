@@ -235,6 +235,7 @@
             this.dgv_allModule.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column2});
             this.dgv_allModule.Location = new System.Drawing.Point(0, 33);
+            this.dgv_allModule.MultiSelect = false;
             this.dgv_allModule.Name = "dgv_allModule";
             this.dgv_allModule.ReadOnly = true;
             this.dgv_allModule.RowHeadersVisible = false;
