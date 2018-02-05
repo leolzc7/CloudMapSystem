@@ -196,7 +196,7 @@ namespace CloudMapUI
             }
             openFileDialog_OpenProject.ShowDialog();
             SystemOperator.OpenProject(openFileDialog_OpenProject.FileName, true);
-            isSaved = false;
+            isSaved = true;
             btn_generateMap_Click(sender, e);
 
             SystemOperator.getXmlValue(); //读取xml中的类型文件
@@ -345,6 +345,7 @@ namespace CloudMapUI
             ModuleEditForm newModuleEditForm = new ModuleEditForm(this);
             newModuleEditForm.ShowDialog();
             mainFormStatus();
+            isSaved = false;
         }
 
         private void ToolStripMenuItem_AddRelation_Click(object sender, EventArgs e)
@@ -352,6 +353,7 @@ namespace CloudMapUI
             RelationEditForm newRelationEditForm = new RelationEditForm(this);
             newRelationEditForm.ShowDialog();
             mainFormStatus();
+            isSaved = false;
         }
 
         private void ToolStripMenuItem_BorderColor_Click(object sender, EventArgs e)
@@ -465,7 +467,7 @@ namespace CloudMapUI
          
         private void 帮助ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("1. 单击系统：系统和与之相连的关系线高亮显示(系统背景边框颜色加深，关系线颜色变为红色）。\r\n2. 双击系统：弹出系统详细信息窗口，并恢复界面上所有系统关系线的默认属性。\r\n3. 单击关系线：红色显示该关系，并在合适位置显示关系名称。\r\n4. 双击关系线：弹出关系线详细信息窗口，并恢复界面上所有关系线的默认属性。\r\n5. 双击关系线上显示的关系名称：隐藏该名称显示。\r\n6. 系统等级与系统类型两个选项有约束条件，选择类型时，需保证等级为空。",
+            MessageBox.Show("1. 单击系统：系统和与之相连的关系线高亮显示(系统背景边框颜色加深，关系线颜色变为红色）。\r\n2. 双击系统：弹出系统详细信息窗口，并恢复界面上所有系统关系线的默认属性。\r\n3. 单击关系线：红色显示该关系，并在合适位置显示关系名称。\r\n4. 双击关系线：弹出关系线详细信息窗口，并恢复界面上所有关系线的默认属性。\r\n5. 双击关系线上显示的关系名称：隐藏该名称显示。",
                 "界面操作指南", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -499,9 +501,6 @@ namespace CloudMapUI
             }
             return ((file1byte - file2byte) == 0);
         }
-
-
-        
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
