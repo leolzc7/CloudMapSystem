@@ -208,26 +208,19 @@ namespace DataAccess
                 fs2.Close();
             }
         }
-        public static void WriteTypeXML(List<string> typeList)
+        private static void CreateXML()
         {
             XmlDocument xmlDoc = new XmlDocument();
             //创建类型声明节点  
-            XmlNode node=xmlDoc.CreateXmlDeclaration("1.0","utf-8","");  
-            xmlDoc.AppendChild(node);  
+            XmlNode node = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", "");
+            xmlDoc.AppendChild(node);
             //创建根节点  
             XmlNode root = xmlDoc.CreateElement("Config");
-            xmlDoc.AppendChild(root);  
-
-            XmlNode node1 = xmlDoc.CreateNode(XmlNodeType.Element, "TypeList", null);
-            for (int i = 0; i < typeList.Count; i++ )
-            {
-                CreateNode(xmlDoc, node1, "type", typeList[i]);
-            }
-            root.AppendChild(node1);
+            xmlDoc.AppendChild(root);
 
             XmlNode fontNode = xmlDoc.CreateNode(XmlNodeType.Element, "Font", null);
             CreateNode(xmlDoc, fontNode, fontList[0], "");
-            CreateNode(xmlDoc, fontNode,fontList[1] , "");
+            CreateNode(xmlDoc, fontNode, fontList[1], "");
             CreateNode(xmlDoc, fontNode, fontList[2], "");
             CreateNode(xmlDoc, fontNode, fontList[3], "");
             CreateNode(xmlDoc, fontNode, fontList[4], "");
@@ -245,13 +238,33 @@ namespace DataAccess
                 Console.WriteLine(e.Message);
             }  
         }
+        public static void WriteTypeXML(List<string> typeList)
+        {
+            CreateXML();
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(globalParameters.xmlFilePath);    //加载Xml文件  
+            XmlElement rootElem = xmlDoc.DocumentElement;   //获取根节点  
+            XmlNode typeNode = xmlDoc.CreateNode(XmlNodeType.Element, "TypeList", null);
+            for (int i = 0; i < typeList.Count; i++ )
+            {
+                CreateNode(xmlDoc, typeNode, "type", typeList[i]);
+            }
+            rootElem.AppendChild(typeNode);
+            try
+            {
+                xmlDoc.Save(globalParameters.xmlFilePath);
+            }
+            catch (Exception e)
+            {
+                //显示错误信息  
+                Console.WriteLine(e.Message);
+            }  
+        }
         public static void ChangeFondConfig(string nodeName, string nodeValue)
         {
             if (!File.Exists(globalParameters.xmlFilePath))
             {
-                List<string> lll = new List<string>();
-                WriteTypeXML(lll);
-                return;
+                CreateXML();
             }
             XmlDocument doc = new XmlDocument();
             doc.Load(globalParameters.xmlFilePath);    //加载Xml文件  

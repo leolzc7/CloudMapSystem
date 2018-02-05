@@ -71,7 +71,7 @@ namespace CloudMapUI
                 comment.ReadOnly = true;
 
                 btnAdd.Visible = true;
-                btnSave.Visible = true;
+                btnSave.Visible = false;
                 btnCancel.Visible = false;
                 if (relationdata.Tables[RelationData.RELATION_TABLE].Rows.Count > 0)
                 {

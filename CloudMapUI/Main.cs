@@ -47,6 +47,8 @@ namespace CloudMapUI
                 添加业务流ToolStripMenuItem.Enabled = false;
                 类型配置ToolStripMenuItem.Enabled = true;
                 toolStripButton_stream.Enabled = false;
+                ToolStripMenuItem_DisplayScale.Enabled = false;
+                ToolStripMenuItem_Refresh.Enabled = false;
 
                 toolStripButton_saveProject.Enabled = false;
                 toolStripButton_saveImage.Enabled = false;
@@ -54,6 +56,7 @@ namespace CloudMapUI
                 toolStripButton_import.Enabled = false;
                 toolStripButton_addModule.Enabled = false;
                 toolStripButton_addRelation.Enabled = false;
+                toolStripButton1.Enabled = false;
 
                 dataGridView_module.Visible = false;
                 dataGridView_relation.Visible = false;
@@ -72,6 +75,8 @@ namespace CloudMapUI
                 添加业务流ToolStripMenuItem.Enabled = true;
                 类型配置ToolStripMenuItem.Enabled = false;
                 toolStripButton_stream.Enabled = true;
+                ToolStripMenuItem_DisplayScale.Enabled = true;
+                ToolStripMenuItem_Refresh.Enabled = true;
 
                 toolStripButton_saveProject.Enabled = true;
                 toolStripButton_saveImage.Enabled = true;
@@ -79,6 +84,8 @@ namespace CloudMapUI
                 toolStripButton_import.Enabled = true;
                 toolStripButton_addModule.Enabled = true;
                 toolStripButton_addRelation.Enabled = true;
+                toolStripButton1.Enabled = true;
+
                 panel2.Visible = true;
 
                 dataGridView_module.Visible = true;
@@ -187,14 +194,15 @@ namespace CloudMapUI
         {
             if (globalParameters.dbPath != null && globalParameters.dbPath != "" && !isSaved)
             {
-                DialogResult result = MessageBox.Show("是否保存当前项目并打开新的项目！", "关于云图", MessageBoxButtons.OKCancel,
+                DialogResult result = MessageBox.Show("是否保存当前项目并打开新的项目?", "关于云图", MessageBoxButtons.OKCancel,
                                MessageBoxIcon.Information);
                 if (result == DialogResult.OK)
                 {
                     ToolStripMenuItem_SaveProject_Click(sender, e);
                 }
             }
-            openFileDialog_OpenProject.ShowDialog();
+            if (openFileDialog_OpenProject.ShowDialog() != DialogResult.OK)
+                return;
             SystemOperator.OpenProject(openFileDialog_OpenProject.FileName, true);
             isSaved = true;
             btn_generateMap_Click(sender, e);
@@ -240,7 +248,7 @@ namespace CloudMapUI
             BorderColor.Color = Color.Black;
             LineColor.Color = Color.Black;
             penWidth = 1;
-            float size = 9;
+            float size = 13;
             Font newFont = new Font("微软雅黑", size);
             fontDialog1.Font = newFont;
         }
@@ -367,6 +375,7 @@ namespace CloudMapUI
                     ((Button)con).FlatAppearance.BorderColor = BorderColor.Color;
                 }
             }
+            isSaved = false;
         }
         private void ToolStripMenuItem_colorFilling_Click(object sender, EventArgs e)
         {
@@ -392,6 +401,7 @@ namespace CloudMapUI
                     ((Button)con).ForeColor = moduleFontColor.Color;
                 }
             }
+            isSaved = false;
         }
 
         private void ToolStripMenuItem_LineColor_Click(object sender, EventArgs e)
@@ -405,13 +415,14 @@ namespace CloudMapUI
                     ((ALine)con).Pencolor = LineColor.Color;
                 }
             }
+            isSaved = false;
         }
 
         private void ToolStripMenuItem_DisplayScale_Click(object sender, EventArgs e)
         {
             DisplayScaleForm displayScaleForm = new DisplayScaleForm(this);
             displayScaleForm.ShowDialog();
-
+            isSaved = false;
         }
 
         private void 注释ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -425,6 +436,7 @@ namespace CloudMapUI
                     ((Button)con).Font = fontDialog1.Font;
                 }
             }
+            isSaved = false;
         }
         public void ChangeLineWidth(int penwidth)
         {
@@ -506,7 +518,7 @@ namespace CloudMapUI
         {
             if (globalParameters.dbPath != null && globalParameters.dbPath != "" && !isSaved)
             {
-                DialogResult result = MessageBox.Show("是否保存当前项目！", "关于云图", MessageBoxButtons.OKCancel,
+                DialogResult result = MessageBox.Show("是否保存当前项目?", "关于云图", MessageBoxButtons.OKCancel,
                                 MessageBoxIcon.Information);
                 if (result == DialogResult.OK)
                 {
@@ -1197,7 +1209,7 @@ namespace CloudMapUI
 
         private void toolStripDropDownButton_lineWidth_Click(object sender, EventArgs e)
         {
-
+            isSaved = false;
         }
 
         private void ToolStripMenuItem_Refresh_Click(object sender, EventArgs e)

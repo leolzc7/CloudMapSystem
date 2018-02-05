@@ -26,10 +26,12 @@ namespace CloudMapUI
         public MainForm parent { get; set; }
         private void btnSave_Click(object sender, EventArgs e)
         {
-
             paf.comboBox_type.Items.Clear();
             paf.comboBox_type.Items.AddRange(new object[] { "所有类型" });
-            globalParameters.TypeList.Add("所有类型");
+            if (richTextBox1.Lines.Length == 0)
+            {
+                paf.comboBox_type.Items.AddRange(new object[] { "aa","bb","cc" });
+            }
             for (int i = 0; i < richTextBox1.Lines.Length;i++ )
             {
                 for (int j = 0; j < i; j++)

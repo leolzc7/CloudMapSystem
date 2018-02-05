@@ -168,7 +168,7 @@ namespace CloudMapUI
                 comment.ReadOnly = true;
 
                 btnAdd.Visible = true;
-                btnSave.Visible = true;
+                btnSave.Visible = false;
                 btnCancel.Visible = false;
                 if (moduledata.Tables[ModuleData.MODULES_TABLE].Rows.Count > 0)
                 {

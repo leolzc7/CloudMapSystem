@@ -269,28 +269,28 @@
             // ToolStripMenuItem_AddModule
             // 
             this.ToolStripMenuItem_AddModule.Name = "ToolStripMenuItem_AddModule";
-            this.ToolStripMenuItem_AddModule.Size = new System.Drawing.Size(148, 22);
+            this.ToolStripMenuItem_AddModule.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_AddModule.Text = "编辑信息系统";
             this.ToolStripMenuItem_AddModule.Click += new System.EventHandler(this.ToolStripMenuItem_AddModule_Click);
             // 
             // ToolStripMenuItem_AddRelation
             // 
             this.ToolStripMenuItem_AddRelation.Name = "ToolStripMenuItem_AddRelation";
-            this.ToolStripMenuItem_AddRelation.Size = new System.Drawing.Size(148, 22);
+            this.ToolStripMenuItem_AddRelation.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_AddRelation.Text = "编辑关系";
             this.ToolStripMenuItem_AddRelation.Click += new System.EventHandler(this.ToolStripMenuItem_AddRelation_Click);
             // 
             // 添加业务流ToolStripMenuItem
             // 
             this.添加业务流ToolStripMenuItem.Name = "添加业务流ToolStripMenuItem";
-            this.添加业务流ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.添加业务流ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.添加业务流ToolStripMenuItem.Text = "编辑业务流";
             this.添加业务流ToolStripMenuItem.Click += new System.EventHandler(this.添加业务流ToolStripMenuItem_Click);
             // 
             // ToolStripMenuItem_import
             // 
             this.ToolStripMenuItem_import.Name = "ToolStripMenuItem_import";
-            this.ToolStripMenuItem_import.Size = new System.Drawing.Size(148, 22);
+            this.ToolStripMenuItem_import.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_import.Text = "导入";
             this.ToolStripMenuItem_import.Click += new System.EventHandler(this.ToolStripMenuItem_import_Click);
             // 
@@ -312,42 +312,42 @@
             this.ToolStripMenuItem_level2,
             this.ToolStripMenuItem_Level3});
             this.ToolStripMenuItem_SysLevel.Name = "ToolStripMenuItem_SysLevel";
-            this.ToolStripMenuItem_SysLevel.Size = new System.Drawing.Size(142, 22);
+            this.ToolStripMenuItem_SysLevel.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_SysLevel.Text = "系统等级";
             // 
             // ToolStripMenuItem_Level1
             // 
             this.ToolStripMenuItem_Level1.Name = "ToolStripMenuItem_Level1";
-            this.ToolStripMenuItem_Level1.Size = new System.Drawing.Size(100, 22);
-            this.ToolStripMenuItem_Level1.Text = "一级";
+            this.ToolStripMenuItem_Level1.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Level1.Text = "1";
             this.ToolStripMenuItem_Level1.Click += new System.EventHandler(this.ToolStripMenuItem_Level1_Click);
             // 
             // ToolStripMenuItem_level2
             // 
             this.ToolStripMenuItem_level2.Name = "ToolStripMenuItem_level2";
-            this.ToolStripMenuItem_level2.Size = new System.Drawing.Size(100, 22);
-            this.ToolStripMenuItem_level2.Text = "二级";
+            this.ToolStripMenuItem_level2.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_level2.Text = "2";
             this.ToolStripMenuItem_level2.Click += new System.EventHandler(this.ToolStripMenuItem_level2_Click);
             // 
             // ToolStripMenuItem_Level3
             // 
             this.ToolStripMenuItem_Level3.Name = "ToolStripMenuItem_Level3";
-            this.ToolStripMenuItem_Level3.Size = new System.Drawing.Size(100, 22);
-            this.ToolStripMenuItem_Level3.Text = "三级";
+            this.ToolStripMenuItem_Level3.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_Level3.Text = "3";
             this.ToolStripMenuItem_Level3.Click += new System.EventHandler(this.ToolStripMenuItem_Level3_Click);
             // 
             // ToolStripMenuItem_Refresh
             // 
             this.ToolStripMenuItem_Refresh.Name = "ToolStripMenuItem_Refresh";
             this.ToolStripMenuItem_Refresh.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.ToolStripMenuItem_Refresh.Size = new System.Drawing.Size(142, 22);
+            this.ToolStripMenuItem_Refresh.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_Refresh.Text = "刷新(&F5)";
             this.ToolStripMenuItem_Refresh.Click += new System.EventHandler(this.ToolStripMenuItem_Refresh_Click);
             // 
             // ToolStripMenuItem_DisplayScale
             // 
             this.ToolStripMenuItem_DisplayScale.Name = "ToolStripMenuItem_DisplayScale";
-            this.ToolStripMenuItem_DisplayScale.Size = new System.Drawing.Size(142, 22);
+            this.ToolStripMenuItem_DisplayScale.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_DisplayScale.Text = "显示比例";
             this.ToolStripMenuItem_DisplayScale.Click += new System.EventHandler(this.ToolStripMenuItem_DisplayScale_Click);
             // 
@@ -532,7 +532,7 @@
             // 
             // fontDialog1
             // 
-            this.fontDialog1.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.fontDialog1.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             // 
             // statusStrip1
             // 
