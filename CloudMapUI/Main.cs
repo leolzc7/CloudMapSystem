@@ -25,6 +25,7 @@ namespace CloudMapUI
         public static int panelWidth;
         public static int panelHeight;
         public static Color currentColor;
+        public static bool isSaved = false;
         public MainForm()
         {
             InitializeComponent();
@@ -79,7 +80,6 @@ namespace CloudMapUI
                 toolStripButton_addModule.Enabled = true;
                 toolStripButton_addRelation.Enabled = true;
                 panel2.Visible = true;
-                comboBox_type.Enabled = false;
 
                 dataGridView_module.Visible = true;
                 dataGridView_module.AutoGenerateColumns = false;
@@ -111,6 +111,8 @@ namespace CloudMapUI
             panel4.Size = panel1.Size;
             panelWidth = panel4.Size.Width;
             panelHeight = panel4.Size.Height;
+            this.comboBox_level.SelectedIndex = 2;
+            this.comboBox_type.SelectedIndex = 0;
         }
         private void AddHistoryItem()
         {
@@ -161,8 +163,16 @@ namespace CloudMapUI
         {
             if (MessageBox.Show("设置系统类型（否则使用默认值）", "系统提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK)
                 类型配置ToolStripMenuItem_Click(sender, e);
+            else
+            {
+                this.comboBox_type.Items.Clear();
+                this.comboBox_type.Items.AddRange(new object[] { "所有类型", "aa", "bb", "cc" });//将控件中的内容设置为默认值
+                this.comboBox_type.SelectedIndex = 0;
+            }
             NewProjectForm newProjrctFrom = new NewProjectForm(this);
-            newProjrctFrom.ShowDialog();  
+            newProjrctFrom.ShowDialog();
+            isSaved = false;
+            ResetColor();
         }
 
         //导入项目
@@ -175,23 +185,25 @@ namespace CloudMapUI
 
         private void ToolStripMenuItem_OpenProject_Click(object sender, EventArgs e)
         {
-            if (globalParameters.dbPath != null && globalParameters.dbPath != "")
+            if (globalParameters.dbPath != null && globalParameters.dbPath != "" && !isSaved)
             {
                 DialogResult result = MessageBox.Show("是否保存当前项目并打开新的项目！", "关于云图", MessageBoxButtons.OKCancel,
-                                MessageBoxIcon.Information);
+                               MessageBoxIcon.Information);
                 if (result == DialogResult.OK)
                 {
-                    SystemOperator.SaveBackupDb();
-                    MessageBox.Show("保存成功");
+                    ToolStripMenuItem_SaveProject_Click(sender, e);
                 }
             }
             openFileDialog_OpenProject.ShowDialog();
             SystemOperator.OpenProject(openFileDialog_OpenProject.FileName, true);
+            isSaved = false;
+            btn_generateMap_Click(sender, e);
 
             SystemOperator.getXmlValue(); //读取xml中的类型文件
             if (globalParameters.TypeList.Count > 0)
             {
                 this.comboBox_type.Items.Clear();
+                this.comboBox_type.Items.Add("所有类型");
                 foreach (string type in globalParameters.TypeList)
                 {
                     this.comboBox_type.Items.AddRange(new object[] { type });
@@ -200,10 +212,11 @@ namespace CloudMapUI
             else
             {
                 this.comboBox_type.Items.Clear();
-                this.comboBox_type.Items.AddRange(new object[] { "aa","bb","cc" });//将控件中的内容设置为默认值
+                this.comboBox_type.Items.AddRange(new object[] { "所有类型","aa","bb","cc" });//将控件中的内容设置为默认值
+                this.comboBox_type.SelectedIndex = 0;
             }
-            List<string> color = SystemOperator.GetColor();
-            if (color.Count == 7)
+            List<string> color = SystemOperator.GetColor();//读取xml中界面设置文件
+            if (color.Count == 7 && color[4] != "")
             {
                 moduleFontColor.Color = ColorTranslator.FromHtml(color[0]);
                 ModuleColor.Color = ColorTranslator.FromHtml(color[1]);
@@ -213,14 +226,29 @@ namespace CloudMapUI
                 float size = Convert.ToSingle(color[6]);
                 Font newFont = new Font(color[5],size);
                 fontDialog1.Font = newFont;
-                    
+            }
+            else
+            {
+                ResetColor();
             }
             mainFormStatus();
+        }
+        private void ResetColor()
+        {
+            moduleFontColor.Color = Color.Black;
+            ModuleColor.Color = Color.FromArgb( 213, 238, 255);
+            BorderColor.Color = Color.Black;
+            LineColor.Color = Color.Black;
+            penWidth = 1;
+            float size = 9;
+            Font newFont = new Font("微软雅黑", size);
+            fontDialog1.Font = newFont;
         }
 
         private void ToolStripMenuItem_SaveProject_Click(object sender, EventArgs e)
         {
             SystemOperator.SaveBackupDb();
+            isSaved = true;
             //将画图上的颜色配置保存下来
             string mfColor = ColorTranslator.ToHtml(moduleFontColor.Color);
             SystemOperator.ChangeFondConfig("moduleFontColor", mfColor);
@@ -239,7 +267,6 @@ namespace CloudMapUI
             MessageBox.Show("保存成功！", "关于云图", MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
         }
-
         private void ToolStripMenuItem_SaveAs_Click(object sender, EventArgs e)
         {
             saveFileDialog_SaveProject.ShowDialog();
@@ -478,19 +505,15 @@ namespace CloudMapUI
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //string[] text1 = globalParameters.dbPath.Split('=');
-            //string backupFile = text1[1];
-            //string[] text2 = globalParameters.backupDbPath.Split('=');
-            //string sourceFile = text2[1];
-            //if (!fileCompare(backupFile, sourceFile))
-            //{
-                DialogResult result = MessageBox.Show("是否保存?","保存文件", MessageBoxButtons.YesNo);
-                if (result == DialogResult.Yes)
+            if (globalParameters.dbPath != null && globalParameters.dbPath != "" && !isSaved)
+            {
+                DialogResult result = MessageBox.Show("是否保存当前项目！", "关于云图", MessageBoxButtons.OKCancel,
+                                MessageBoxIcon.Information);
+                if (result == DialogResult.OK)
                 {
-                    SystemOperator.SaveBackupDb();
-                    MessageBox.Show("保存成功");
-                } 
-            //}
+                    ToolStripMenuItem_SaveProject_Click(sender, e);
+                }
+            }
             SystemOperator.WriteHistory();
         }
 
@@ -687,30 +710,66 @@ namespace CloudMapUI
         public List<Module> DrawModules()
         {
             List<Module> modPosition = new List<Module>();
-            if (comboBox_level.Text != null && comboBox_level.Text != "")
+            if (comboBox_type.Text == "所有类型")
             {
                 switch (comboBox_level.Text)
                 {
-                    case "一级":
+                    case "1":
                         modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height, 1);
                         break;
-                    case "二级":
+                    case "2":
                         modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height, 2);
                         break;
-                    case "三级":
+                    case "3":
+                        modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height, 3);
+                        break;
+                    default:
                         modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height, 3);
                         break;
                 }
             }
             else
             {
-                if (comboBox_type.Text != null && comboBox_type.Text != "")
+                switch (comboBox_level.Text)
                 {
-                    modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height, comboBox_type.Text);
+                    case "1":
+                        modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height, 1, comboBox_type.Text);
+                        break;
+                    case "2":
+                        modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height, 2, comboBox_type.Text);
+                        break;
+                    case "3":
+                        modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height, 3, comboBox_type.Text);
+                        break;
+                    default:
+                        modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height, 3,comboBox_type.Text);
+                        break;
                 }
-                else
-                    modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height, 3);
             }
+            //if (comboBox_level.Text != null && comboBox_level.Text != "")
+            //{
+            //    switch (comboBox_level.Text)
+            //    {
+            //        case "一级":
+            //            modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height, 1);
+            //            break;
+            //        case "二级":
+            //            modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height, 2);
+            //            break;
+            //        case "三级":
+            //            modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height, 3);
+            //            break;
+            //    }
+            //}
+            //else
+            //{
+            //    if (comboBox_type.Text != null && comboBox_type.Text != "")
+            //    {
+            //        modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height, comboBox_type.Text);
+            //    }
+            //    else
+            //        modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height, 3);
+            //}
             int NumCount = modPosition.Count;
             MyButton[] btn = new MyButton[NumCount];
 
@@ -742,30 +801,66 @@ namespace CloudMapUI
                 return;
             }
             List<ModuleOne.LineInfo> line = new List<ModuleOne.LineInfo>();
-            if (comboBox_level.Text != null && comboBox_level.Text != "")
+            if (comboBox_type.Text == "所有类型")
             {
                 switch (comboBox_level.Text)
                 {
-                    case "一级":
+                    case "1":
                         line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 1);
                         break;
-                    case "二级":
+                    case "2":
                         line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 2);
                         break;
-                    case "三级":
+                    case "3":
+                        line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 3);
+                        break;
+                    default:
                         line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 3);
                         break;
                 }
             }
             else
             {
-                if (comboBox_type.Text != null && comboBox_type.Text != "")
+                switch (comboBox_level.Text)
                 {
-                    line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, comboBox_type.Text);
+                    case "1":
+                        line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 1, comboBox_type.Text);
+                        break;
+                    case "2":
+                        line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 2, comboBox_type.Text);
+                        break;
+                    case "3":
+                        line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 3, comboBox_type.Text);
+                        break;
+                    default:
+                        line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 3, comboBox_type.Text);
+                        break;
                 }
-                else
-                    line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 3);
             }
+            //if (comboBox_level.Text != null && comboBox_level.Text != "")
+            //{
+            //    switch (comboBox_level.Text)
+            //    {
+            //        case "一级":
+            //            line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 1);
+            //            break;
+            //        case "二级":
+            //            line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 2);
+            //            break;
+            //        case "三级":
+            //            line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 3);
+            //            break;
+            //    }
+            //}
+            //else
+            //{
+            //    if (comboBox_type.Text != null && comboBox_type.Text != "")
+            //    {
+            //        line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, comboBox_type.Text);
+            //    }
+            //    else
+            //        line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 3);
+            //}
             int LineCount = line.Count;
             if (LineCount == 0)
                 return;
@@ -1252,17 +1347,6 @@ namespace CloudMapUI
             stream.ShowDialog();
             mainFormStatus();          
         }
-        //添加两个filter的约束条件：level为空的时候才可以选择type
-
-        private void comboBox_level_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (comboBox_level.SelectedItem == null || (comboBox_level.SelectedItem) == "")
-            {
-                comboBox_type.Enabled = true;
-            }
-            else
-                comboBox_type.Enabled = false;
-        }
 
         public MouseEventHandler MyButton_MouseDown { get; set; }
 
@@ -1304,6 +1388,11 @@ namespace CloudMapUI
                     }
                 }
             }
+        }
+
+        private void ToolStripMenuItem_Setting_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

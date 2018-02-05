@@ -27,7 +27,7 @@ namespace CloudMapUI
             InitializeComponent();
             paf = parent;
             this.comboBox_Type.Items.Clear();
-            for (int i = 0; i < paf.comboBox_type.Items.Count; i++)
+            for (int i = 1; i < paf.comboBox_type.Items.Count; i++)
             {
                 this.comboBox_Type.Items.Add(paf.comboBox_type.GetItemText(paf.comboBox_type.Items[i]).ToString());
             }
@@ -73,8 +73,7 @@ namespace CloudMapUI
                 if (ModulesOperator.DeleteModulesInfo(selectModule))
                 {
                     DataRow rows = moduledata.Tables[ModuleData.MODULES_TABLE].Select(ModuleData.NAME_FIELD + "='" + selectModule + "'")[0];
-                    ModuleEditForm_Load(sender,e);
-                    //MessageBox.Show("删除成功！");                  
+                    ModuleEditForm_Load(sender,e);          
                 }
             }
             else
@@ -108,11 +107,10 @@ namespace CloudMapUI
                     if (ModulesOperator.UpdateModulesInfo(saveModule, selectModule))
                     {
                         ModuleEditForm_Load(sender, e);
-                        //MessageBox.Show("修改成功！");
                     }
                     else
                     {
-                        MessageBox.Show("该记录已经存在！");
+                        MessageBox.Show(" 该记录已存在！", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }                
             }
@@ -131,11 +129,10 @@ namespace CloudMapUI
                     if (ModulesOperator.InsertModulesInfo(saveModule))
                     {
                         ModuleEditForm_Load(sender, e);
-                        //MessageBox.Show("添加成功！");
                     }
                     else
                     {
-                        MessageBox.Show("该记录已经存在！");
+                        MessageBox.Show(" 该记录已存在！", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }                
             }
@@ -148,7 +145,7 @@ namespace CloudMapUI
                 return true;
             else
             {
-                MessageBox.Show("所有字段不能为空！");
+                MessageBox.Show(" 所有字段不能为空！", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
         }

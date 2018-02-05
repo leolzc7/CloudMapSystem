@@ -51,12 +51,12 @@ namespace CloudMapUI
             {
                 GetModulesList();
                 if (ModulesOperator.importModules(selectModule))
-                    MessageBox.Show("模块导入成功！");
+                    MessageBox.Show(" 信息系统导入成功！", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             if (IsRelationChecked())
             {
                 if(RelationOperator.ImportRelation(selectRelation))
-                    MessageBox.Show("关系导入成功！");
+                    MessageBox.Show(" 关系导入成功！", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 

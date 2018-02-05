@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
             this.textBox_ProjectName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -40,7 +40,6 @@
             this.btnSave = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
             this.dataGridView_module = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.comment = new System.Windows.Forms.TextBox();
@@ -52,6 +51,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btnUpdate = new System.Windows.Forms.Button();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -168,9 +168,9 @@
             this.dataGridView_module.AllowUserToDeleteRows = false;
             this.dataGridView_module.AllowUserToResizeColumns = false;
             this.dataGridView_module.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
-            this.dataGridView_module.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
+            this.dataGridView_module.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView_module.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.dataGridView_module.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_module.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -181,21 +181,13 @@
             this.dataGridView_module.Name = "dataGridView_module";
             this.dataGridView_module.ReadOnly = true;
             this.dataGridView_module.RowHeadersVisible = false;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(238)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
-            this.dataGridView_module.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(238)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
+            this.dataGridView_module.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridView_module.RowTemplate.Height = 23;
             this.dataGridView_module.Size = new System.Drawing.Size(235, 280);
             this.dataGridView_module.TabIndex = 32;
             this.dataGridView_module.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_module_CellClick);
-            // 
-            // Column1
-            // 
-            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column1.DataPropertyName = "name";
-            this.Column1.HeaderText = "系统";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
             // 
             // btnAdd
             // 
@@ -311,6 +303,14 @@
             this.btnUpdate.UseVisualStyleBackColor = false;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
+            // Column1
+            // 
+            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column1.DataPropertyName = "name";
+            this.Column1.HeaderText = "信息系统";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            // 
             // ModuleEditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -323,7 +323,7 @@
             this.MinimizeBox = false;
             this.Name = "ModuleEditForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "编辑模块";
+            this.Text = "编辑信息系统";
             this.Load += new System.EventHandler(this.ModuleEditForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -356,8 +356,8 @@
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.TextBox type;
         private System.Windows.Forms.TextBox level;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.Button btnCancel;
         public System.Windows.Forms.ComboBox comboBox_Type;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
     }
 }

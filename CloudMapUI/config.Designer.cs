@@ -29,37 +29,26 @@
         private void InitializeComponent()
         {
             this.label2 = new System.Windows.Forms.Label();
-            this.btnAdd = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // label2
             // 
             this.label2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold);
-            this.label2.Location = new System.Drawing.Point(35, 15);
+            this.label2.Location = new System.Drawing.Point(33, 18);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(231, 21);
+            this.label2.Size = new System.Drawing.Size(153, 21);
             this.label2.TabIndex = 2;
-            this.label2.Text = "系统等级选项（按添加继续）";
+            this.label2.Text = "信息系统类型选项";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // btnAdd
-            // 
-            this.btnAdd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(211)))), ((int)(((byte)(233)))));
-            this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAdd.Location = new System.Drawing.Point(290, 47);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(50, 24);
-            this.btnAdd.TabIndex = 33;
-            this.btnAdd.Text = "添加";
-            this.btnAdd.UseVisualStyleBackColor = false;
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // btnSave
             // 
             this.btnSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(211)))), ((int)(((byte)(233)))));
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSave.Location = new System.Drawing.Point(290, 83);
+            this.btnSave.Location = new System.Drawing.Point(305, 47);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(50, 24);
             this.btnSave.TabIndex = 34;
@@ -67,18 +56,28 @@
             this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(35, 47);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(249, 222);
+            this.richTextBox1.TabIndex = 35;
+            this.richTextBox1.Text = "";
+            // 
             // configForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.ClientSize = new System.Drawing.Size(381, 294);
+            this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.label2);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "configForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "config";
+            this.Text = "信息系统类型设置";
             this.ResumeLayout(false);
 
         }
@@ -86,8 +85,8 @@
         #endregion
 
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.RichTextBox richTextBox1;
 
     }
 }

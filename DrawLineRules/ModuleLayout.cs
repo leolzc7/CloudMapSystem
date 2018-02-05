@@ -77,9 +77,9 @@ namespace DrawLineRules
             modules = modules.OrderByDescending(module => module.count).ToList();
             return modules;
         }
-        public static List<ModulesOperator.ModulesList> SortModuleByCount(String type)
+        public static List<ModulesOperator.ModulesList> SortModuleByCount(int level,  String type)
         {
-            List<ModulesOperator.ModulesList> modules = ModulesOperator.CountModuleType(type);
+            List<ModulesOperator.ModulesList> modules = ModulesOperator.CountModuleLevelAndType(level, type);
             modules = modules.OrderByDescending(module => module.count).ToList();
             return modules;
         }
@@ -120,9 +120,9 @@ namespace DrawLineRules
             return modPosition;
         }
         //重载方法moduleposition
-        public static List<Module> ModulePosition(int panelWidth, int panelHeight, string type)
+        public static List<Module> ModulePosition(int panelWidth, int panelHeight, int level, string type)
         {
-            List<ModulesOperator.ModulesList> modules = SortModuleByCount(type);
+            List<ModulesOperator.ModulesList> modules = SortModuleByCount(level, type);
             
             List<Module> modPosition = new List<Module>();
             

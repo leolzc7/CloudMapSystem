@@ -285,7 +285,7 @@ namespace DataAccess
             XmlDocument doc = new XmlDocument();
             doc.Load(globalParameters.xmlFilePath);    //加载Xml文件  
             XmlElement rootElem = doc.DocumentElement;   //获取根节点  
-            XmlNodeList userNodes = rootElem.GetElementsByTagName("Type"); //获取person子节点集合  
+            XmlNodeList userNodes = rootElem.GetElementsByTagName("TypeList"); //获取person子节点集合  
             foreach (XmlNode node in userNodes)
             {
                 XmlNodeList strType = ((XmlElement)node).GetElementsByTagName("type");   //获取name属性值  

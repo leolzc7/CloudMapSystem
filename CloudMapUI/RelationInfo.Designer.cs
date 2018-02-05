@@ -116,21 +116,21 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label5.Location = new System.Drawing.Point(44, 52);
+            this.label5.Location = new System.Drawing.Point(22, 52);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(44, 12);
+            this.label5.Size = new System.Drawing.Size(70, 12);
             this.label5.TabIndex = 67;
-            this.label5.Text = "源系统";
+            this.label5.Text = "源信息系统";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label4.Location = new System.Drawing.Point(31, 79);
+            this.label4.Location = new System.Drawing.Point(8, 79);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(57, 12);
+            this.label4.Size = new System.Drawing.Size(83, 12);
             this.label4.TabIndex = 66;
-            this.label4.Text = "目的系统";
+            this.label4.Text = "目的信息系统";
             // 
             // label3
             // 

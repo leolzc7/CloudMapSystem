@@ -223,45 +223,6 @@ namespace DataAccess
                 }
             }
         }
-        public static List<string> ReadModulesForDiffType(string type)
-        {
-            List<string> modules = new List<string>();
-            string sql = "select name,type from modules";
-            using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
-            {
-                conn.Open();
-                using (SQLiteCommand cmdReader = new SQLiteCommand(sql, conn))
-                {
-                    using (SQLiteDataReader reader = cmdReader.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            if (reader.GetString(1) == type)
-                            {
-                                modules.Add(reader.GetString(0));
-                            }
-                        }
-                    }
-                    conn.Close();
-                    return modules;
-                }
-            }
-        }
-        public static List<ModulesList> CountModuleType(string type)
-        {
-            List<string> modulesName = ReadModulesForDiffType(type);
-            RelationData relation = RelationOperator.GetRelationInfoForDiffModList(modulesName);//Type为3
-            List<ModulesList> modules = new List<ModulesList>();
-            for (int i = 0; i < modulesName.Count; i++)
-            {
-                ModulesList module = new ModulesList();
-                DataRow[] rl = relation.Tables[RelationData.RELATION_TABLE].Select(RelationData.SOURCENAME_FIELD + " = '" + modulesName[i] + "' or " + RelationData.TARGETNAME_FIELD + "='" + modulesName[i] + "'");
-                module.name = modulesName[i];
-                module.count = rl.Length;
-                modules.Add(module);
-            }
-            return modules;
-        }
         public static List<string> ReadModulesForDiffLevel(int level)
         {
             List<string> modules = new List<string>();
@@ -301,6 +262,43 @@ namespace DataAccess
             }
             return modules;
         }
+         public static List<string> ReadModulesForDiffLevelAndType(int level,string type)
+        {
+            List<string> modules = new List<string>();
+            string sql = "select name,level from modules where type ='"+type+"'";
+            using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
+            {
+                conn.Open();
+                using (SQLiteCommand cmdReader = new SQLiteCommand(sql, conn))
+                {
+                    using (SQLiteDataReader reader = cmdReader.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader.GetInt32(1)<=level)
+                            modules.Add(reader.GetString(0));
+                        }
+                    }
+                    conn.Close();
+                    return modules;
+                }
+            }
+        }
+         public static List<ModulesList> CountModuleLevelAndType(int level,string type)
+         {
+             List<string> modulesName = ReadModulesForDiffLevelAndType(level,type);
+             RelationData relation = RelationOperator.GetRelationInfoForDiffModList(modulesName);//Type为3
+             List<ModulesList> modules = new List<ModulesList>();
+             for (int i = 0; i < modulesName.Count; i++)
+             {
+                 ModulesList module = new ModulesList();
+                 DataRow[] rl = relation.Tables[RelationData.RELATION_TABLE].Select(RelationData.SOURCENAME_FIELD + " = '" + modulesName[i] + "' or " + RelationData.TARGETNAME_FIELD + "='" + modulesName[i] + "'");
+                 module.name = modulesName[i];
+                 module.count = rl.Length;
+                 modules.Add(module);
+             }
+             return modules;
+         }
         public struct ModulesList
         {
             public string name;

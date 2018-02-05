@@ -126,11 +126,11 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.Location = new System.Drawing.Point(33, 37);
+            this.label2.Location = new System.Drawing.Point(23, 37);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(44, 12);
+            this.label2.Size = new System.Drawing.Size(57, 12);
             this.label2.TabIndex = 50;
-            this.label2.Text = "系统名";
+            this.label2.Text = "信息系统";
             // 
             // comment
             // 
@@ -170,7 +170,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Name = "ModuleInfo";
-            this.Text = "系统详情";
+            this.Text = "信息系统详情";
             this.ResumeLayout(false);
             this.PerformLayout();
 

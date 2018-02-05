@@ -129,8 +129,7 @@ namespace CloudMapUI
                 selectStream = dgv_stream.CurrentCell.Value.ToString();
                 if (StreamOperator.DeleteStreamInfo(selectStream))
                 {
-                    StreamForm_Load(sender, e);
-                    //MessageBox.Show("删除成功！");                  
+                    StreamForm_Load(sender, e);    
                 }
             }
         }
@@ -138,7 +137,7 @@ namespace CloudMapUI
         {
             if (streamName.Text == "")
             {
-                MessageBox.Show("请先输入数据流名称！");
+                MessageBox.Show(" 请先输入数据流名称！", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             if (IsModuleChecked())
@@ -209,8 +208,10 @@ namespace CloudMapUI
                     if (dgv_selectModule.Rows[i].Cells[0].Selected)
                     {
                         if (i <= 0){
-                            MessageBox.Show("已经在最顶端！");
-                        }else{
+                            MessageBox.Show(" 已经在最顶端！", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                        else
+                        {
                             object[] array = selectData.Tables[StreamData.STREAM_TABLE].Rows[i-1].ItemArray;
                             selectData.Tables[StreamData.STREAM_TABLE].Rows[i-1].ItemArray = selectData.Tables[StreamData.STREAM_TABLE].Rows[i].ItemArray;
                             selectData.Tables[StreamData.STREAM_TABLE].Rows[i].ItemArray = array;
@@ -219,7 +220,6 @@ namespace CloudMapUI
                 dgv_selectModule.Refresh();
             }
         }
-
         private void btnMoveDown_Click(object sender, EventArgs e)
         {
             if (IsDataChecked())
@@ -229,7 +229,7 @@ namespace CloudMapUI
                     {
                         if (i == this.dgv_selectModule.RowCount - 1)
                         {
-                            MessageBox.Show("已经在最底端！");
+                            MessageBox.Show(" 已经在最底端！", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                         }
                         else
@@ -242,8 +242,6 @@ namespace CloudMapUI
                 dgv_selectModule.Refresh();
             }
         }
-
-     
         private void dgv_stream_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (dgv_stream.CurrentRow == null)
@@ -268,7 +266,7 @@ namespace CloudMapUI
             {
                 if (!StreamOperator.InsertStreamInfo(selectData))
                 {
-                    MessageBox.Show("该数据流已经存在或相邻模块之间没有关系！");
+                    MessageBox.Show(" 该数据流已经存在或相邻模块之间没有关系！", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 else
                 {
@@ -281,7 +279,7 @@ namespace CloudMapUI
             {
                 if (!StreamOperator.UpdateStreamInfo(selectData, selectStream))
                 {
-                    MessageBox.Show("该数据流已经存在或相邻模块之间没有关系！");
+                    MessageBox.Show(" 该数据流已经存在或相邻模块之间没有关系！", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 else
                 {

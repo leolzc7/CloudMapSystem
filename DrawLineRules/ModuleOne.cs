@@ -248,7 +248,7 @@ namespace DrawLineRules
             Console.Write("successful!");
             return allLine;
         }
-        public static List<LineInfo> GetLineInfo(List<Module> modulesList, int X, int Y, string type)
+        public static List<LineInfo> GetLineInfo(List<Module> modulesList, int X, int Y, int level, string type)
         {
             Grid myGrid = new Grid(X, Y); // Grid class instance initialization
             ModuleOne[] modules = myGrid.readModule(modulesList);
@@ -257,7 +257,7 @@ namespace DrawLineRules
             int[] rows = new int[num_par];
             int[] columns = new int[num_par];
             // 调用DataAccess中的方法，读入关系表，包含源模块、目标模块和是否双向
-            List<RelationOperator.relation> relationArray = RelationOperator.GetRelationArray(type);
+            List<RelationOperator.relation> relationArray = RelationOperator.GetRelationArray(level,type);
             myGrid.getGlobalInfo(modules, relationArray, rows, columns);
             myGrid.setRouteForModules(modules, relationArray, rows, columns, allLine);
             Console.Write("successful!");

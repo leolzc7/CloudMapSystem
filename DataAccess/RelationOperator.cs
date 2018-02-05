@@ -281,9 +281,9 @@ namespace DataAccess
             }
             return relationArray;
         }
-        public static List<relation> GetRelationArray(string type) //得到不同type的模块对应的关系数组
+        public static List<relation> GetRelationArray(int level, string type) //得到不同level不同type的模块对应的关系数组
         {
-            List<string> modulesName = ModulesOperator.ReadModulesForDiffType(type);
+            List<string> modulesName = ModulesOperator.ReadModulesForDiffLevelAndType(level,type);
             RelationData relation = RelationOperator.GetRelationInfoForDiffModList(modulesName);
             List<relation> relationArray = new List<relation>();
             for (int i = 0; i < relation.Tables[RelationData.RELATION_TABLE].Rows.Count; i++)
@@ -301,7 +301,7 @@ namespace DataAccess
                 else
                 {
                     relationOne.show = 0;
-                } 
+                }
                 relationArray.Add(relationOne);
             }
             return relationArray;

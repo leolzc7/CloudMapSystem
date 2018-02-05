@@ -244,7 +244,6 @@ namespace CloudMapUI
                 if (RelationOperator.DeleteRelationInfo(selectSource,selectTarget))
                 {
                     RelationEditForm_Load(sender, e);
-                    MessageBox.Show("删除成功！");
                 }
             }
             else
@@ -306,11 +305,10 @@ namespace CloudMapUI
                     if (RelationOperator.UpdateRelationInfo(saveRelation, selectSource, selectTarget))
                     {
                         RelationEditForm_Load(sender, e);
-                        MessageBox.Show("修改成功！");
                     }
                     else
                     {
-                        MessageBox.Show("该记录已存在！");
+                        MessageBox.Show(" 该记录已存在！", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }                
             }
@@ -341,7 +339,7 @@ namespace CloudMapUI
                     }
                     else
                     {
-                        MessageBox.Show("该记录已存在！");
+                        MessageBox.Show(" 该记录已存在！", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }               
             }
@@ -355,7 +353,7 @@ namespace CloudMapUI
             {
                 if (source.Text == target.Text)
                 {
-                    MessageBox.Show("源和目标不能相同！");
+                    MessageBox.Show(" 源系统和目的系统不能相同！", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
                 else
@@ -363,7 +361,7 @@ namespace CloudMapUI
             }
             else
             {
-                MessageBox.Show("所有字段不能为空！");
+                MessageBox.Show(" 所有字段不能为空！", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
         }
