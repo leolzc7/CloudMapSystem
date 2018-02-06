@@ -96,10 +96,10 @@ namespace DataAccess
                                     {
                                         while (reader2.Read())
                                         {
-                                            if (reader2.GetInt32(0) == 0)
+                                            if (reader2.GetInt32(0) != 0)
                                             {
                                                 conn.Close();
-                                                return false;
+                                                return true;
                                             }
                                         }
                                     }
@@ -164,8 +164,39 @@ namespace DataAccess
         }
         public static bool UpdateStreamInfo(StreamData stream, string selectsname)
         {
-            DeleteStreamInfo(selectsname);
-            InsertStreamInfo(stream);
+            for (int i = 0; i < stream.Tables[StreamData.STREAM_TABLE].Rows.Count; i++)
+            {
+                DataRow data = stream.Tables[StreamData.STREAM_TABLE].Rows[i];
+                data[StreamData.NUM_FIELD] = i + 1;
+                if (i < stream.Tables[StreamData.STREAM_TABLE].Rows.Count - 1) //判断相邻的模块是否有关系
+                {
+                    DataRow dataSecond = stream.Tables[StreamData.STREAM_TABLE].Rows[i + 1];
+                    dataSecond[StreamData.NUM_FIELD] = i + 2;
+                    bool checkRelation = CheckRelation(data, dataSecond);
+                    if (!checkRelation)
+                        return false;
+                }
+            }
+            if (!DeleteStreamInfo(selectsname))
+                return false;
+            for (int i = 0; i < stream.Tables[StreamData.STREAM_TABLE].Rows.Count; i++)
+            {
+                DataRow data = stream.Tables[StreamData.STREAM_TABLE].Rows[i];
+                //data[StreamData.NUM_FIELD] = i + 1;
+                bool check = CheckDuplication(data);
+                if (!check)
+                    return false;
+                string insertCommand = GetInsertCommand(data);
+                using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
+                {
+                    conn.Open();
+                    using (SQLiteCommand cmd = new SQLiteCommand(insertCommand, conn))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                    conn.Close();
+                }
+            }
             if (stream.HasErrors)
             {
                 stream.Tables[StreamData.STREAM_TABLE].GetErrors()[0].ClearErrors();

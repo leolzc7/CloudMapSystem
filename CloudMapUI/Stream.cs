@@ -18,6 +18,7 @@ namespace CloudMapUI
         RecordStatus pageStatus;
         public StreamData streamdata;
         public StreamData selectData=new StreamData();
+        public StreamData selectRawData = new StreamData();
         ModuleData moduledata;
         string selectStream;
 
@@ -152,7 +153,7 @@ namespace CloudMapUI
                         selectData.Tables[StreamData.STREAM_TABLE].Rows.Add(dr.ItemArray);
                         //modulesNameTable.Tables[ModuleData.MODULES_TABLE].Rows.RemoveAt(i);
                     }
-                //dgv_allModule.Refresh();
+                dgv_allModule.Refresh();
                 //dgv_selectModule.Refresh();
             }
         }
@@ -254,7 +255,6 @@ namespace CloudMapUI
             {
                 selectData.Tables[StreamData.STREAM_TABLE].Rows.Add(row.ItemArray);
             }
-                
             dgv_selectModule.AutoGenerateColumns = false;
             dgv_selectModule.DataSource = selectData.Tables[StreamData.STREAM_TABLE].DefaultView;
             //modulesNameTable = deleteDuplicateModule();
@@ -268,28 +268,19 @@ namespace CloudMapUI
                 {
                     MessageBox.Show(" 该数据流已经存在或相邻模块之间没有关系！", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
-                else
-                {
-                    dgv_stream.DataSource = StreamOperator.GetStreamName().Tables[StreamData.STREAM_TABLE].DefaultView;
-                    streamdata = StreamOperator.LoadStreamInfo();
-                    pageStatus = RecordStatus.View;
-                }
             }
             else if (pageStatus == RecordStatus.Edit)
             {
                 if (!StreamOperator.UpdateStreamInfo(selectData, selectStream))
                 {
-                    MessageBox.Show(" 该数据流已经存在或相邻模块之间没有关系！", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-                else
-                {
-                    dgv_stream.DataSource = StreamOperator.GetStreamName().Tables[StreamData.STREAM_TABLE].DefaultView;
-                    streamdata = StreamOperator.LoadStreamInfo();
-                    pageStatus = RecordStatus.View;
+                    MessageBox.Show(" 该数据流已经存在或相邻模块之间没有关系！", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);                  
                 }
             }
+            ResetSelectData();
+            pageStatus = RecordStatus.View;
             SetFormControlerData();
             SetFormControlerStatus();
+           // dgv_selectModule.Refresh();
         }
 
         private void streamName_TextChanged(object sender, EventArgs e)
@@ -299,6 +290,23 @@ namespace CloudMapUI
                 DataRow dr = selectData.Tables[StreamData.STREAM_TABLE].Rows[i];
                 dr[StreamData.NAME_FIELD] = streamName.Text;
             }
+        }
+        private void ResetSelectData()
+        {
+            selectData = new StreamData();
+            dgv_stream.DataSource = StreamOperator.GetStreamName().Tables[StreamData.STREAM_TABLE].DefaultView;
+            streamdata = StreamOperator.LoadStreamInfo();
+            DataRow[] odr = streamdata.Tables[StreamData.STREAM_TABLE].Select(StreamData.NAME_FIELD + "='" + selectStream + "'");
+            foreach (DataRow row in odr)
+            {
+                selectData.Tables[StreamData.STREAM_TABLE].Rows.Add(row.ItemArray);
+            }
+            dgv_selectModule.AutoGenerateColumns = false;
+            dgv_selectModule.DataSource = selectData.Tables[StreamData.STREAM_TABLE].DefaultView;
+        }
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            ResetSelectData();
         }
     }
 }

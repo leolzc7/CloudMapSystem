@@ -169,7 +169,10 @@ namespace CloudMapUI
         private void NToolStripMenuItem_newProject_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("设置系统类型（否则使用默认值）", "系统提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK)
+            {
                 类型配置ToolStripMenuItem_Click(sender, e);
+                this.comboBox_type.SelectedIndex = 0;
+            }
             else
             {
                 this.comboBox_type.Items.Clear();
@@ -180,6 +183,10 @@ namespace CloudMapUI
             newProjrctFrom.ShowDialog();
             isSaved = false;
             ResetColor();
+            if (globalParameters.dbName != null)
+            {
+                this.Text = globalParameters.dbName + "-企业云图";
+            }
         }
 
         //导入项目
@@ -205,7 +212,6 @@ namespace CloudMapUI
                 return;
             SystemOperator.OpenProject(openFileDialog_OpenProject.FileName, true);
             isSaved = true;
-            btn_generateMap_Click(sender, e);
 
             SystemOperator.getXmlValue(); //读取xml中的类型文件
             if (globalParameters.TypeList.Count > 0)
@@ -238,6 +244,11 @@ namespace CloudMapUI
             else
             {
                 ResetColor();
+            }
+            btn_generateMap_Click(sender, e);
+            if (globalParameters.dbName != null)
+            {
+                this.Text = globalParameters.dbName + "-企业云图";
             }
             mainFormStatus();
         }
@@ -283,8 +294,7 @@ namespace CloudMapUI
             string oldFilePath = globalParameters.tempDb;
             if (filePath == null || filePath == "")
             {
-                MessageBox.Show("路径为空！", "关于云图", MessageBoxButtons.OK,
-                                MessageBoxIcon.Information);
+                return;
             }
             else
             {
@@ -295,6 +305,8 @@ namespace CloudMapUI
         private void 保存云图ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             saveFileDialog_saveImage.ShowDialog();
+            if (saveFileDialog_saveImage.FileName == null || saveFileDialog_saveImage.FileName == "")
+                return;
             SaveFileToImage(saveFileDialog_saveImage.FileName);
         }
 
@@ -388,6 +400,7 @@ namespace CloudMapUI
                     ((Button)con).BackColor = ModuleColor.Color;
                 }
             }
+            isSaved = false;
         }
 
         private void 模块字体颜色ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -454,6 +467,7 @@ namespace CloudMapUI
                         ((ALine)con).Location = new Point(((ALine)con).Points[0], ((ALine)con).Points[1] - 4 * ((ALine)con).Penwidth);
                 }
             }
+            isSaved = false;
         }
         private void 磅ToolStripMenuItem3_Click(object sender, EventArgs e)
         {

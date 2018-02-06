@@ -69,6 +69,8 @@ namespace CloudMapUI
         private void btnFolderBrowser_Click(object sender, EventArgs e)
         {
             openFileDialog_import.ShowDialog();
+            if (openFileDialog_import.FileName == null || openFileDialog_import.FileName == "")
+                return;
             SystemOperator.OpenProject(openFileDialog_import.FileName, false);
             textBox1.Text = globalParameters.secondDbName;
             dgv_importModule.AutoGenerateColumns = false;

@@ -45,7 +45,6 @@ namespace CloudMapUI
                 paf.comboBox_type.Items.AddRange(new object[] { richTextBox1.Lines[i] });
                 globalParameters.TypeList.Add(richTextBox1.Lines[i]);
             }
-
             MessageBox.Show(" 保存成功！", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.Hide();
         }
@@ -58,6 +57,18 @@ namespace CloudMapUI
         private void label2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            paf.comboBox_type.Items.Clear();
+            paf.comboBox_type.Items.AddRange(new object[] { "所有类型","aa","bb","cc" });
+            this.Hide();
+        }
+
+        private void configForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            button1_Click(sender, e);
         }
 
         
