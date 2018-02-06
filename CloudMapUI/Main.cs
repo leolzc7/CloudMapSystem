@@ -105,6 +105,7 @@ namespace CloudMapUI
             mainFormStatus();
             AddHistoryItem();
             SetCanvas();
+            Control.CheckForIllegalCrossThreadCalls = false;
         }
         
         private void SetCanvas()
@@ -658,7 +659,7 @@ namespace CloudMapUI
             this.contextMenuStrip_RightKey.Items.Clear();
             string moduleName = ((MyButton)sender).Text;
             streamsInfo = StreamOperator.GetStreamForModule(moduleName);
-            foreach(StreamOperator.streamList stream in streamsInfo)
+            foreach (StreamOperator.streamList stream in streamsInfo)
             {
                 ToolStripItem item = new ToolStripMenuItem();
                 item.Name = stream.streamName;
@@ -668,33 +669,19 @@ namespace CloudMapUI
             }
         }
         //点击右键菜单中某一行的触发函数
+        private delegate void myDelegate(ALine aline);//声明委托
+        private Thread thread1;
+        
         private void contextMenuStrip1_ItemClick(object sender, EventArgs e)
         {
-            Control.ControlCollection Cons = this.panel4.Controls;
-            //恢复所有模块属性
-            foreach (Control con in Cons)
-            {
-                if (con is MyButton)
-                {
-                    ((MyButton)con).FlatAppearance.BorderSize = 1;
-                    ((MyButton)con).BackColor = ModuleColor.Color;
-                }
-            }
-            //恢复所有关系线属性
-            foreach (Control con in Cons)
-            {
-                if (con is ALine)
-                {
-                    ((ALine)con).Pencolor = LineColor.Color;
-                }
-            }
             //调用带参数的线程更新界面
-            Thread thread1 = new Thread(new ParameterizedThreadStart(UpdateStream));
+            thread1 = new Thread(new ParameterizedThreadStart(UpdateStream));
             thread1.Start(sender);
         }
 
         private void UpdateStream(object sender)
         {
+            //panel4.Controls.CheckForIllegalCrossThreadCalls = false;
             List<string> modules = new List<string>();//业务流包含的模块的名字列表
             Control.ControlCollection Cons = this.panel4.Controls;
             foreach (StreamOperator.streamList stream in streamsInfo)
@@ -706,28 +693,123 @@ namespace CloudMapUI
             }
             for (int i = 0; i < modules.Count; i++)
             {
+                if (i > 0)
+                {
+                    foreach (Control con in Cons)
+                    {
+                        if (con is MyButton && ((MyButton)con).Text == modules[i-1])
+                        {
+                            ((MyButton)con).FlatAppearance.BorderSize = 1;
+                            ((MyButton)con).BackColor = Color.LightGray;
+                        }
+                    }
+                }
                 foreach (Control con in Cons)
                 {
                     if (con is MyButton && ((MyButton)con).Text == modules[i] && ((MyButton)con).InvokeRequired)
                     {
                         ((MyButton)con).FlatAppearance.BorderSize = 3;
                         ((MyButton)con).BackColor = Color.LightGreen;
+                        System.Threading.Thread.Sleep(300);
+                        ((MyButton)con).FlatAppearance.BorderSize = 1;
+                        ((MyButton)con).BackColor = Color.LightGray;
+                        System.Threading.Thread.Sleep(300);
+                        ((MyButton)con).FlatAppearance.BorderSize = 3;
+                        ((MyButton)con).BackColor = Color.LightGreen;
+                        System.Threading.Thread.Sleep(300);
+                        ((MyButton)con).FlatAppearance.BorderSize = 1;
+                        ((MyButton)con).BackColor = Color.LightGray;
+                        System.Threading.Thread.Sleep(300);
+                        ((MyButton)con).FlatAppearance.BorderSize = 3;
+                        ((MyButton)con).BackColor = Color.LightGreen;
+                        System.Threading.Thread.Sleep(300);
+                        ((MyButton)con).FlatAppearance.BorderSize = 1;
+                        ((MyButton)con).BackColor = Color.LightGray;
                     }
                 }
-                System.Threading.Thread.Sleep(777);//高亮显示完模块后，暂停时间长度
+                System.Threading.Thread.Sleep(700);//高亮显示完模块后，暂停时间长度
+                EventArgs e = new EventArgs();
                 if (i < modules.Count - 1)
                 {
                     string relationName = RelationOperator.GetRelationName(modules[i], modules[i + 1]);
-                    foreach (Control con in Cons)
+                    int sum = 0;
+                    for (int j = 0; j < Cons.Count; j++)
                     {
+                        Control con = Cons[j];
                         if (con is ALine && ((ALine)con).Text == relationName && ((ALine)con).InvokeRequired)
                         {
                             ((ALine)con).Pencolor = Color.Red;
                         }
+                        if (con is ALine && ((ALine)con).Text == relationName && ((ALine)con).InvokeRequired && sum == 0)
+                        {
+                            WriteLabel(((ALine)con));
+                            sum++;
+                        }
                     }
                 }
-                System.Threading.Thread.Sleep(777);//高亮显示关系线后，暂停同样时间，等待下一个循环显示下一个模块
+                System.Threading.Thread.Sleep(1);//高亮显示关系线后，暂停同样时间，等待下一个循环显示下一个模块
             }
+            List<MyButton> streamNamelist = new List<MyButton>();
+            foreach (Control con in Cons)
+            {
+                if (con is MyButton)
+                {
+                    if (modules.Contains(((MyButton)con).Text))
+                    {
+                        streamNamelist.Add(((MyButton)con));
+                        
+                    }
+                    
+                }
+            }
+            for (int i = 0; i < streamNamelist.Count; i++)
+            {
+                streamNamelist[i].FlatAppearance.BorderSize = 3;
+                streamNamelist[i].BackColor = Color.LightGreen;
+            }
+            System.Threading.Thread.Sleep(300);
+            for (int i = 0; i < streamNamelist.Count; i++)
+            {
+                streamNamelist[i].FlatAppearance.BorderSize = 1;
+                streamNamelist[i].BackColor = Color.LightGray;
+            }
+            System.Threading.Thread.Sleep(300);
+            for (int i = 0; i < streamNamelist.Count; i++)
+            {
+                streamNamelist[i].FlatAppearance.BorderSize = 3;
+                streamNamelist[i].BackColor = Color.LightGreen;
+            }
+            System.Threading.Thread.Sleep(300);
+            for (int i = 0; i < streamNamelist.Count; i++)
+            {
+                streamNamelist[i].FlatAppearance.BorderSize = 1;
+                streamNamelist[i].BackColor = Color.LightGray;
+            }
+            System.Threading.Thread.Sleep(300);
+            for (int i = 0; i < streamNamelist.Count; i++)
+            {
+                streamNamelist[i].FlatAppearance.BorderSize = 3;
+                streamNamelist[i].BackColor = Color.LightGreen;
+            }
+            System.Threading.Thread.Sleep(300);
+            for (int i = 0; i < streamNamelist.Count; i++)
+            {
+                streamNamelist[i].FlatAppearance.BorderSize = 1;
+                streamNamelist[i].BackColor = Color.LightGray;
+            }
+            System.Threading.Thread.Sleep(300);
+            for (int i = 0; i < streamNamelist.Count; i++)
+            {
+                streamNamelist[i].FlatAppearance.BorderSize = 3;
+                streamNamelist[i].BackColor = Color.LightGreen;
+            }
+            System.Threading.Thread.Sleep(300);
+            for (int i = 0; i < streamNamelist.Count; i++)
+            {
+                streamNamelist[i].FlatAppearance.BorderSize = 1;
+                streamNamelist[i].BackColor = Color.LightGray;
+            }
+            System.Threading.Thread.Sleep(300);
         }
         #endregion
 
@@ -771,30 +853,6 @@ namespace CloudMapUI
                         break;
                 }
             }
-            //if (comboBox_level.Text != null && comboBox_level.Text != "")
-            //{
-            //    switch (comboBox_level.Text)
-            //    {
-            //        case "一级":
-            //            modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height, 1);
-            //            break;
-            //        case "二级":
-            //            modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height, 2);
-            //            break;
-            //        case "三级":
-            //            modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height, 3);
-            //            break;
-            //    }
-            //}
-            //else
-            //{
-            //    if (comboBox_type.Text != null && comboBox_type.Text != "")
-            //    {
-            //        modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height, comboBox_type.Text);
-            //    }
-            //    else
-            //        modPosition = ModuleLayout.ModulePosition(this.panel4.Width, this.panel4.Height, 3);
-            //}
             int NumCount = modPosition.Count;
             MyButton[] btn = new MyButton[NumCount];
 
@@ -862,30 +920,7 @@ namespace CloudMapUI
                         break;
                 }
             }
-            //if (comboBox_level.Text != null && comboBox_level.Text != "")
-            //{
-            //    switch (comboBox_level.Text)
-            //    {
-            //        case "一级":
-            //            line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 1);
-            //            break;
-            //        case "二级":
-            //            line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 2);
-            //            break;
-            //        case "三级":
-            //            line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 3);
-            //            break;
-            //    }
-            //}
-            //else
-            //{
-            //    if (comboBox_type.Text != null && comboBox_type.Text != "")
-            //    {
-            //        line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, comboBox_type.Text);
-            //    }
-            //    else
-            //        line = ModuleOne.GetLineInfo(modPosition, this.panel4.Width, this.panel4.Height, 3);
-            //}
+           
             int LineCount = line.Count;
             if (LineCount == 0)
                 return;
@@ -1032,60 +1067,68 @@ namespace CloudMapUI
 
         private void WriteLabel(ALine aline)
         {
-            List<ALine> singleline = new List<ALine>();
-            Control.ControlCollection Cons = panel4.Controls;
-            ALine longline = new ALine();
-            longline.Points = new int[] { 0, 0, 0, 0, 0 };
-            foreach (Control con in Cons)
+            if (aline.InvokeRequired)
             {
-                if (con is ALine)
+                myDelegate myde = new myDelegate(WriteLabel);
+                this.BeginInvoke(myde, aline);
+            }
+            else
+            {
+                List<ALine> singleline = new List<ALine>();
+                Control.ControlCollection Cons = panel4.Controls;
+                ALine longline = new ALine();
+                longline.Points = new int[] { 0, 0, 0, 0, 0 };
+                foreach (Control con in Cons)
                 {
-                    if ((con.Text).Equals(aline.Text))
+                    if (con is ALine)
                     {
-                        singleline.Add((ALine)con);
+                        if ((con.Text).Equals(aline.Text))
+                        {
+                            singleline.Add((ALine)con);
+                        }
                     }
                 }
-            }
-            //找到这条关系中最长的线
-            foreach (ALine line in singleline)
-            {
-                int dertaX = Math.Abs(line.Points[0] - line.Points[2]);
-                int dertaY = Math.Abs(line.Points[1] - line.Points[3]);
-                int longderta = Math.Max(Math.Abs(longline.Points[0] - longline.Points[2]), Math.Abs(longline.Points[1] - longline.Points[3]));
-                if (Math.Max(dertaX, dertaY) > longderta)
-                    longline = line;
-            }
-            int labelX;
-            int labelY;
-            Label label_longline = new Label();
+                //找到这条关系中最长的线
+                foreach (ALine line in singleline)
+                {
+                    int dertaX = Math.Abs(line.Points[0] - line.Points[2]);
+                    int dertaY = Math.Abs(line.Points[1] - line.Points[3]);
+                    int longderta = Math.Max(Math.Abs(longline.Points[0] - longline.Points[2]), Math.Abs(longline.Points[1] - longline.Points[3]));
+                    if (Math.Max(dertaX, dertaY) > longderta)
+                        longline = line;
+                }
+                int labelX;
+                int labelY;
+                Label label_longline = new Label();
 
-            label_longline.BackColor = Color.Transparent;
-            label_longline.AutoSize = false;
-            label_longline.Text = aline.Name;//记录关系描述信息
-            int fontsize = (int)label_longline.Font.Size;
-            int width, height;
-            //判断最长的线是横着还是竖着的，横竖size和location不一样
-            if (longline.Points[0] == longline.Points[2])//竖线
-            {
-                width = aline.Name.Length * (fontsize + 5);
-                height = fontsize + 5;
-                label_longline.Size = new Size(height, width);
-                labelX = longline.Location.X + 10;
-                labelY = longline.Location.Y + (int)(longline.Size.Height / 2) - width / 2;
+                label_longline.BackColor = Color.Transparent;
+                label_longline.AutoSize = false;
+                label_longline.Text = aline.Name;//记录关系描述信息
+                int fontsize = (int)label_longline.Font.Size;
+                int width, height;
+                //判断最长的线是横着还是竖着的，横竖size和location不一样
+                if (longline.Points[0] == longline.Points[2])//竖线
+                {
+                    width = aline.Name.Length * (fontsize + 5);
+                    height = fontsize + 5;
+                    label_longline.Size = new Size(height, width);
+                    labelX = longline.Location.X + 10;
+                    labelY = longline.Location.Y + (int)(longline.Size.Height / 2) - width / 2;
+                }
+                else//横线
+                {
+                    width = aline.Name.Length * (fontsize + 5);
+                    height = fontsize + 5;
+                    labelX = longline.Location.X + (int)(longline.Size.Width / 2) - width / 2;
+                    labelY = longline.Location.Y - 10;
+                    label_longline.Size = new Size(width, height);
+                }
+                label_longline.Location = new Point(labelX, labelY);
+                LabelTransparent labelTransparent = new LabelTransparent(label_longline);
+                labelTransparent.DoubleClick += new EventHandler(this.LabelTransp_DoubleClick);
+                panel4.Controls.Add(labelTransparent);
+                labelTransparent.BringToFront();
             }
-            else//横线
-            {
-                width = aline.Name.Length * (fontsize + 5);
-                height = fontsize + 5;
-                labelX = longline.Location.X + (int)(longline.Size.Width / 2) - width / 2;
-                labelY = longline.Location.Y - 10;
-                label_longline.Size = new Size(width, height);
-            }
-            label_longline.Location = new Point(labelX, labelY);
-            LabelTransparent labelTransparent = new LabelTransparent(label_longline);
-            labelTransparent.DoubleClick += new EventHandler(this.LabelTransp_DoubleClick);
-            panel4.Controls.Add(labelTransparent);
-            labelTransparent.BringToFront();
         }
         //单击关系线
         private void AlineClick(object sender, EventArgs e)

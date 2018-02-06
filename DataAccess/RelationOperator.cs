@@ -313,6 +313,7 @@ namespace DataAccess
             {
                 conn.Open();
                 string sql = "SELECT rname FROM relation WHERE sourceName = '"+sourceName +"' and targetName = '"+targetName+"'";
+                string sql2 = "SELECT rname FROM relation WHERE sourceName = '" + targetName + "' and targetName =  '" + sourceName + "' and bidirection = '1'";
                 using (SQLiteCommand cmdReader = new SQLiteCommand(sql, conn))
                 {
                     using (SQLiteDataReader reader = cmdReader.ExecuteReader())
@@ -321,10 +322,20 @@ namespace DataAccess
                         {
                            relationName = reader.GetString(0);
                         }
-                        conn.Close();
-                        return relationName;
                     }
                 }
+                using (SQLiteCommand cmdReader2 = new SQLiteCommand(sql2, conn))
+                {
+                    using (SQLiteDataReader reader2 = cmdReader2.ExecuteReader())
+                    {
+                        while (reader2.Read())
+                        {
+                            relationName = reader2.GetString(0);
+                        }
+                    }
+                }
+                conn.Close();
+                return relationName;
             }
         }
         public struct relation

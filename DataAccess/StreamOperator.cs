@@ -240,13 +240,16 @@ namespace DataAccess
         {
             List<streamList> stream = new List<streamList>();
             StreamData streamData = LoadStreamInfo();
-            DataRow[] streamNameList = streamData.Tables[StreamData.STREAM_TABLE].Select(StreamData.MODULES_NAME_FIELD + " = '" + moduleName+"'");
-            foreach (DataRow row in streamNameList)
+            List<DataRow> streamNameList = streamData.Tables[StreamData.STREAM_TABLE].Select(StreamData.MODULES_NAME_FIELD + " = '" + moduleName + "'").Distinct().ToList();
+            for (int i = 0; i < streamNameList.Count; i++)
             {
+                DataRow row = streamNameList[i];
+                if (i > 0 && row[StreamData.NAME_FIELD].Equals(streamNameList[i - 1][StreamData.NAME_FIELD]))
+                    continue;
                 streamList oneStream = new streamList();
                 oneStream.modulesList = new List<string>();
                 oneStream.streamName = row[StreamData.NAME_FIELD].ToString();
-                DataRow[] oneStreamTable = streamData.Tables[StreamData.STREAM_TABLE].Select(StreamData.NAME_FIELD + "= '" + oneStream.streamName+"'");
+                DataRow[] oneStreamTable = streamData.Tables[StreamData.STREAM_TABLE].Select(StreamData.NAME_FIELD + "= '" + oneStream.streamName + "'");
                 foreach (DataRow streamRow in oneStreamTable)
                 {
                     string mod = streamRow[StreamData.MODULES_NAME_FIELD].ToString();
@@ -256,6 +259,7 @@ namespace DataAccess
             }
             return stream;
         }
+
         public struct streamList
         {
             public string streamName;
