@@ -48,7 +48,6 @@ namespace CloudMapUI
             }
             base.OnPaint(e);
         }
-        //protected override void 
         protected override void OnPaintBackground(PaintEventArgs pevent)
         {
 

@@ -166,7 +166,6 @@
             this.ToolStripMenuItem_File.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F)));
             this.ToolStripMenuItem_File.Size = new System.Drawing.Size(58, 21);
             this.ToolStripMenuItem_File.Text = "文件(&F)";
-            this.ToolStripMenuItem_File.Click += new System.EventHandler(this.ToolStripMenuItem_File_Click);
             // 
             // NToolStripMenuItem_newProject
             // 
@@ -243,7 +242,6 @@
             this.ToolStripMenuItem_history.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
             this.ToolStripMenuItem_history.Size = new System.Drawing.Size(189, 22);
             this.ToolStripMenuItem_history.Text = "历史记录";
-            this.ToolStripMenuItem_history.Click += new System.EventHandler(this.ToolStripMenuItem_history_Click);
             // 
             // ToolStripMenuItem_Exit
             // 
@@ -360,7 +358,6 @@
             this.ToolStripMenuItem_Setting.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.S)));
             this.ToolStripMenuItem_Setting.Size = new System.Drawing.Size(59, 21);
             this.ToolStripMenuItem_Setting.Text = "设置(&S)";
-            this.ToolStripMenuItem_Setting.Click += new System.EventHandler(this.ToolStripMenuItem_Setting_Click);
             // 
             // ToolStripMenuItem_Border
             // 
@@ -493,19 +490,16 @@
             this.menuStrip2.Size = new System.Drawing.Size(965, 25);
             this.menuStrip2.TabIndex = 1;
             this.menuStrip2.Text = "menuStrip2";
-            this.menuStrip2.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip2_ItemClicked);
             // 
             // openFileDialog_OpenProject
             // 
             this.openFileDialog_OpenProject.Filter = "(*.db)|*.db";
             this.openFileDialog_OpenProject.ShowHelp = true;
-            this.openFileDialog_OpenProject.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_OpenProject_FileOk);
             // 
             // saveFileDialog_SaveProject
             // 
             this.saveFileDialog_SaveProject.Filter = "(*.db)|*.db";
             this.saveFileDialog_SaveProject.RestoreDirectory = true;
-            this.saveFileDialog_SaveProject.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog_SaveProject_FileOk);
             // 
             // printPreviewDialog1
             // 
@@ -543,7 +537,6 @@
             this.statusStrip1.Size = new System.Drawing.Size(965, 22);
             this.statusStrip1.TabIndex = 7;
             this.statusStrip1.Text = "statusStrip1";
-            this.statusStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.statusStrip1_ItemClicked);
             // 
             // toolStripStatusLabel1
             // 

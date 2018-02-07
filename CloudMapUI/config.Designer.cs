@@ -43,7 +43,6 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "信息系统类型选项";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // btnSave
             // 
@@ -92,7 +91,6 @@
             this.Name = "configForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "信息系统类型设置";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.configForm_FormClosing);
             this.ResumeLayout(false);
 
         }

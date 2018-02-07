@@ -147,10 +147,9 @@ namespace CloudMapUI
             bool fileExist = SystemOperator.OpenProject(path,true);
             if (!fileExist)
             {
-                MessageBox.Show("该数据库已被删除", "关于云图", MessageBoxButtons.OK,
+                MessageBox.Show("该项目不存在！", "关于云图", MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
                 ((ToolStripMenuItem)sender).Visible = false;
-                //this.Controls.Remove(((ToolStripMenuItem)sender).Name);
             }
             mainFormStatus();
         }
@@ -161,10 +160,6 @@ namespace CloudMapUI
             panel4.Controls.Clear();//控件的清空
             this.panel4.Refresh();//Graphics的清空
             DrawModuleAndLines();//调用画控件函数
-        }
-        private void menuStrip2_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
         }
 
         private void NToolStripMenuItem_newProject_Click(object sender, EventArgs e)
@@ -319,8 +314,6 @@ namespace CloudMapUI
             printDoc.PrintPage += new PrintPageEventHandler(this.PrintDocument_PrintPage);
             printPreviewDialog1.Document = printDoc;
             DialogResult result = printDialog1.ShowDialog();
-            //if (result == DialogResult.OK)
-            //    printDoc.Print();
         }
         private void ToolStripMenuItem_PrePrint_Click(object sender, EventArgs e)
         {
@@ -330,14 +323,11 @@ namespace CloudMapUI
             printDoc.PrintPage += new PrintPageEventHandler(this.PrintDocument_PrintPage);
             printPreviewDialog1.Document = printDoc; 
             DialogResult result= printPreviewDialog1.ShowDialog();
-            //if (result == DialogResult.OK)
-            //    printDoc.Print();
         }
         //设置打印内容
         private void PrintDocument_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
             Rectangle rect = new Rectangle(0, 0, panel4.Width, panel4.Height);
-            //Rectangle rect = new Rectangle(0, 0, 210, 297);
             using (Bitmap bmp = new Bitmap(rect.Width, rect.Height))
             {
                 this.panel4.DrawToBitmap(bmp, rect);
@@ -357,8 +347,17 @@ namespace CloudMapUI
 
         private void ToolStripMenuItem_Exit_Click(object sender, EventArgs e)
         {
-            if (DialogResult.Yes == MessageBox.Show("确定退出系统？", "企业云图", MessageBoxButtons.YesNo, MessageBoxIcon.Information))
-                System.Environment.Exit(0);
+            if (globalParameters.dbPath != null && globalParameters.dbPath != "" && !isSaved)
+            {
+                DialogResult result = MessageBox.Show("是否保存当前项目?", "关于云图", MessageBoxButtons.OKCancel,
+                                MessageBoxIcon.Information);
+                if (result == DialogResult.OK)
+                {
+                    ToolStripMenuItem_SaveProject_Click(sender, e);
+                }
+            }
+            SystemOperator.WriteHistory();
+            System.Environment.Exit(0);
         }
    
         private void ToolStripMenuItem_AddModule_Click(object sender, EventArgs e)
@@ -498,37 +497,6 @@ namespace CloudMapUI
                 "界面操作指南", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private bool fileCompare(string file1,string file2)
-       {          
-            if(file1 == file2)
-            {
-                return true;
-            }
-            int file1byte = 0;
-            int file2byte = 0;
-            using(FileStream fs1 = new FileStream(file1,FileMode.Open))
-            {
-                using(FileStream fs2 = new FileStream(file2,FileMode.Open))
-                {
-                    if(fs1.Length != fs2.Length)
-                    {
-                        fs1.Close();
-                        fs2.Close();
-                        return false;
-                    }
-                    do
-                    {
-                        file1byte = fs1.ReadByte();
-                        file2byte = fs2.ReadByte();
-                    }
-                    while ((file1byte == file2byte) && (file1byte != -1));
-                    fs1.Close();
-                    fs2.Close();
-                }
-            }
-            return ((file1byte - file2byte) == 0);
-        }
-
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (globalParameters.dbPath != null && globalParameters.dbPath != "" && !isSaved)
@@ -542,17 +510,7 @@ namespace CloudMapUI
             }
             SystemOperator.WriteHistory();
         }
-
-        private void ToolStripMenuItem_File_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void openFileDialog_OpenProject_FileOk(object sender, CancelEventArgs e)
-        {
-
-        }
-        
+       
         // Icon click events
         private void toolStripButton_newProject_Click(object sender, EventArgs e)
         {
@@ -617,11 +575,6 @@ namespace CloudMapUI
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
             帮助ToolStripMenuItem_Click(sender, e);
-        }
-
-        private void saveFileDialog_SaveProject_FileOk(object sender, CancelEventArgs e)
-        {
-
         }
 
         private void toolStripButton_saveImage_Click(object sender, EventArgs e)
@@ -789,6 +742,7 @@ namespace CloudMapUI
                 System.Threading.Thread.Sleep(700);//高亮显示关系线后，暂停同样时间，等待下一个循环显示下一个模块
             }
             #endregion
+
             #region 全部闪烁
             foreach (Control con in Cons)
             {
@@ -1255,66 +1209,7 @@ namespace CloudMapUI
             RelationInfo relationinfo = new RelationInfo((ALine)sender);
             relationinfo.ShowDialog();
         }
-        public void AlineDown(object sender, EventArgs e)
-        {
-            currentColor = ((ALine)sender).Pencolor;
-            Control.ControlCollection Cons = this.panel4.Controls;
-            foreach (Control con in Cons)
-            {
-                if (con is ALine)
-                {
-                    if ((con.Text).Equals(((ALine)sender).Text))
-                    {
-                        ((ALine)con).Pencolor = Color.Red;
-                        ((ALine)con).Penwidth = ((ALine)con).Penwidth + 1;
-                        if (((ALine)con).Points[0] == ((ALine)con).Points[2])
-                        {
-                            ((ALine)con).Location = new Point(((ALine)con).Points[0] - 4 * ((ALine)con).Penwidth, ((ALine)con).Points[1]);
-                        }
-                        else
-                            ((ALine)con).Location = new Point(((ALine)con).Points[0], ((ALine)con).Points[1] - 4 * ((ALine)con).Penwidth);
-                    }
-                }
-            }
-            ((ALine)sender).Pencolor = Color.Red;
-            ((ALine)sender).Penwidth = ((ALine)sender).Penwidth + 1;
-            if (((ALine)sender).Points[0] == ((ALine)sender).Points[2])
-            {
-                ((ALine)sender).Location = new Point(((ALine)sender).Points[0] - 4 * ((ALine)sender).Penwidth, ((ALine)sender).Points[1]);
-            }
-            else
-                ((ALine)sender).Location = new Point(((ALine)sender).Points[0], ((ALine)sender).Points[1] - 4 * ((ALine)sender).Penwidth);
-        }
-        public void AlineUp(object sender, EventArgs e)
-        {
-            Control.ControlCollection Cons = this.panel4.Controls;
-            foreach (Control con in Cons)
-            {
-                if (con is ALine)
-                {
-                    if ((con.Text).Equals(((ALine)sender).Text))
-                    {
-                        ((ALine)con).Pencolor = currentColor;
-                        ((ALine)con).Penwidth = ((ALine)con).Penwidth - 1;
-                        if (((ALine)con).Points[0] == ((ALine)con).Points[2])
-                        {
-                            ((ALine)con).Location = new Point(((ALine)con).Points[0] - 4 * ((ALine)con).Penwidth, ((ALine)con).Points[1]);
-                        }
-                        else
-                            ((ALine)con).Location = new Point(((ALine)con).Points[0], ((ALine)con).Points[1] - 4 * ((ALine)con).Penwidth);
-                    }
-                }
-            }
-            ((ALine)sender).Pencolor = currentColor;
-            ((ALine)sender).Penwidth = ((ALine)sender).Penwidth - 1;
-            if (((ALine)sender).Points[0] == ((ALine)sender).Points[2])
-            {
-                ((ALine)sender).Location = new Point(((ALine)sender).Points[0] - 4 * ((ALine)sender).Penwidth, ((ALine)sender).Points[1]);
-            }
-            else
-                ((ALine)sender).Location = new Point(((ALine)sender).Points[0], ((ALine)sender).Points[1] - 4 * ((ALine)sender).Penwidth);
-        }
-
+       
         public void AlineHover(object sender, EventArgs e)
         {
             ToolTip p = new ToolTip();
@@ -1327,10 +1222,6 @@ namespace CloudMapUI
         private void ToolStripMenuItem_Level1_Click(object sender, EventArgs e)
         {
             comboBox_level.SelectedIndex = 0;
-        }
-        private void ToolStripMenuItem_BorderWidth_Click(object sender, EventArgs e)
-        {
-
         }
         //实现放大缩小窗口时自动调整图像大小
         private void Form_Changed(object sender, EventArgs e)
@@ -1364,11 +1255,6 @@ namespace CloudMapUI
         private void ToolStripMenuItem_Level3_Click(object sender, EventArgs e)
         {
             comboBox_level.SelectedIndex = 2;
-        }
-
-        private void statusStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
         }
 
         private void trackBar_displaySacle_Scroll(object sender, EventArgs e)
@@ -1498,13 +1384,6 @@ namespace CloudMapUI
             mainFormStatus();          
         }
 
-        public MouseEventHandler MyButton_MouseDown { get; set; }
-
-        private void ToolStripMenuItem_history_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void 类型配置ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             configForm config = new configForm(this);
@@ -1538,11 +1417,6 @@ namespace CloudMapUI
                     }
                 }
             }
-        }
-
-        private void ToolStripMenuItem_Setting_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
