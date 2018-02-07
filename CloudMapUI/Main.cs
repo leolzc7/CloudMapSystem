@@ -684,6 +684,8 @@ namespace CloudMapUI
             //panel4.Controls.CheckForIllegalCrossThreadCalls = false;
             List<string> modules = new List<string>();//业务流包含的模块的名字列表
             Control.ControlCollection Cons = this.panel4.Controls;
+            List<MyButton> streamNamelist = new List<MyButton>();
+            List<ALine> streamAlinelist = new List<ALine>();
             foreach (StreamOperator.streamList stream in streamsInfo)
             {
                 if (stream.streamName == ((ToolStripItem)sender).Name)
@@ -693,6 +695,7 @@ namespace CloudMapUI
             }
             for (int i = 0; i < modules.Count; i++)
             {
+                #region 显示完的模块变灰
                 if (i > 0)
                 {
                     foreach (Control con in Cons)
@@ -704,52 +707,89 @@ namespace CloudMapUI
                         }
                     }
                 }
+                #endregion
+
+                #region 模块闪烁
                 foreach (Control con in Cons)
                 {
                     if (con is MyButton && ((MyButton)con).Text == modules[i] && ((MyButton)con).InvokeRequired)
                     {
                         ((MyButton)con).FlatAppearance.BorderSize = 3;
-                        ((MyButton)con).BackColor = Color.LightGreen;
+                        ((MyButton)con).BackColor = Color.Red;
                         System.Threading.Thread.Sleep(300);
                         ((MyButton)con).FlatAppearance.BorderSize = 1;
                         ((MyButton)con).BackColor = Color.LightGray;
                         System.Threading.Thread.Sleep(300);
                         ((MyButton)con).FlatAppearance.BorderSize = 3;
-                        ((MyButton)con).BackColor = Color.LightGreen;
+                        ((MyButton)con).BackColor = Color.Red;
                         System.Threading.Thread.Sleep(300);
                         ((MyButton)con).FlatAppearance.BorderSize = 1;
                         ((MyButton)con).BackColor = Color.LightGray;
                         System.Threading.Thread.Sleep(300);
                         ((MyButton)con).FlatAppearance.BorderSize = 3;
-                        ((MyButton)con).BackColor = Color.LightGreen;
+                        ((MyButton)con).BackColor = Color.Red;
                         System.Threading.Thread.Sleep(300);
                         ((MyButton)con).FlatAppearance.BorderSize = 1;
                         ((MyButton)con).BackColor = Color.LightGray;
                     }
                 }
                 System.Threading.Thread.Sleep(700);//高亮显示完模块后，暂停时间长度
-                EventArgs e = new EventArgs();
+                #endregion
+
+                #region 线条闪烁
                 if (i < modules.Count - 1)
                 {
                     string relationName = RelationOperator.GetRelationName(modules[i], modules[i + 1]);
                     int sum = 0;
-                    for (int j = 0; j < Cons.Count; j++)
+                    List<ALine> relationNamelist = new List<ALine>();
+                   foreach(Control con in Cons)
+                   {
+                       if (con is ALine && ((ALine)con).Text == relationName)
+                       {
+                           relationNamelist.Add(((ALine)con));
+                           streamAlinelist.Add(((ALine)con));
+                       }
+                       
+                   }
+                    foreach (ALine aline in relationNamelist)
                     {
-                        Control con = Cons[j];
-                        if (con is ALine && ((ALine)con).Text == relationName && ((ALine)con).InvokeRequired)
+                        aline.Pencolor = Color.Red;
+                    }
+                    System.Threading.Thread.Sleep(300);
+                    foreach (ALine aline in relationNamelist)
+                    {
+                        aline.Pencolor = Color.LightGray;
+                    }
+                    System.Threading.Thread.Sleep(300);
+                    foreach (ALine aline in relationNamelist)
+                    {
+                        aline.Pencolor = Color.Red;
+                    }
+                    System.Threading.Thread.Sleep(300);
+                    foreach (ALine aline in relationNamelist)
+                    {
+                        aline.Pencolor = Color.LightGray;
+                    }
+                    System.Threading.Thread.Sleep(300);
+                    foreach (ALine aline in relationNamelist)
+                    {
+                        aline.Pencolor = Color.Red;
+                    }
+                    System.Threading.Thread.Sleep(300);
+                    foreach (ALine aline in relationNamelist)
+                    {
+                        aline.Pencolor = Color.LightGray;
+                        if (sum == 0)
                         {
-                            ((ALine)con).Pencolor = Color.Red;
-                        }
-                        if (con is ALine && ((ALine)con).Text == relationName && ((ALine)con).InvokeRequired && sum == 0)
-                        {
-                            WriteLabel(((ALine)con));
+                            WriteLabel(aline);
                             sum++;
                         }
                     }
                 }
-                System.Threading.Thread.Sleep(1);//高亮显示关系线后，暂停同样时间，等待下一个循环显示下一个模块
+                System.Threading.Thread.Sleep(700);//高亮显示关系线后，暂停同样时间，等待下一个循环显示下一个模块
             }
-            List<MyButton> streamNamelist = new List<MyButton>();
+            #endregion
+            #region 全部闪烁
             foreach (Control con in Cons)
             {
                 if (con is MyButton)
@@ -757,15 +797,18 @@ namespace CloudMapUI
                     if (modules.Contains(((MyButton)con).Text))
                     {
                         streamNamelist.Add(((MyButton)con));
-                        
                     }
-                    
                 }
             }
+
             for (int i = 0; i < streamNamelist.Count; i++)
             {
                 streamNamelist[i].FlatAppearance.BorderSize = 3;
-                streamNamelist[i].BackColor = Color.LightGreen;
+                streamNamelist[i].BackColor = Color.Red;
+            }
+            foreach (ALine aline in streamAlinelist)
+            {
+                aline.Pencolor = Color.Red;
             }
             System.Threading.Thread.Sleep(300);
             for (int i = 0; i < streamNamelist.Count; i++)
@@ -773,11 +816,19 @@ namespace CloudMapUI
                 streamNamelist[i].FlatAppearance.BorderSize = 1;
                 streamNamelist[i].BackColor = Color.LightGray;
             }
+            foreach (ALine aline in streamAlinelist)
+            {
+                aline.Pencolor = Color.LightGray;
+            }
             System.Threading.Thread.Sleep(300);
             for (int i = 0; i < streamNamelist.Count; i++)
             {
                 streamNamelist[i].FlatAppearance.BorderSize = 3;
-                streamNamelist[i].BackColor = Color.LightGreen;
+                streamNamelist[i].BackColor = Color.Red;
+            }
+            foreach (ALine aline in streamAlinelist)
+            {
+                aline.Pencolor = Color.Red;
             }
             System.Threading.Thread.Sleep(300);
             for (int i = 0; i < streamNamelist.Count; i++)
@@ -785,11 +836,19 @@ namespace CloudMapUI
                 streamNamelist[i].FlatAppearance.BorderSize = 1;
                 streamNamelist[i].BackColor = Color.LightGray;
             }
+            foreach (ALine aline in streamAlinelist)
+            {
+                aline.Pencolor = Color.LightGray;
+            }
             System.Threading.Thread.Sleep(300);
             for (int i = 0; i < streamNamelist.Count; i++)
             {
                 streamNamelist[i].FlatAppearance.BorderSize = 3;
-                streamNamelist[i].BackColor = Color.LightGreen;
+                streamNamelist[i].BackColor = Color.Red;
+            }
+            foreach (ALine aline in streamAlinelist)
+            {
+                aline.Pencolor = Color.Red;
             }
             System.Threading.Thread.Sleep(300);
             for (int i = 0; i < streamNamelist.Count; i++)
@@ -797,11 +856,19 @@ namespace CloudMapUI
                 streamNamelist[i].FlatAppearance.BorderSize = 1;
                 streamNamelist[i].BackColor = Color.LightGray;
             }
+            foreach (ALine aline in streamAlinelist)
+            {
+                aline.Pencolor = Color.LightGray;
+            }
             System.Threading.Thread.Sleep(300);
             for (int i = 0; i < streamNamelist.Count; i++)
             {
                 streamNamelist[i].FlatAppearance.BorderSize = 3;
-                streamNamelist[i].BackColor = Color.LightGreen;
+                streamNamelist[i].BackColor = Color.Red;
+            }
+            foreach (ALine aline in streamAlinelist)
+            {
+                aline.Pencolor = Color.Red;
             }
             System.Threading.Thread.Sleep(300);
             for (int i = 0; i < streamNamelist.Count; i++)
@@ -809,7 +876,12 @@ namespace CloudMapUI
                 streamNamelist[i].FlatAppearance.BorderSize = 1;
                 streamNamelist[i].BackColor = Color.LightGray;
             }
+            foreach (ALine aline in streamAlinelist)
+            {
+                aline.Pencolor = Color.LightGray;
+            }
             System.Threading.Thread.Sleep(300);
+            #endregion
         }
         #endregion
 
@@ -1126,6 +1198,16 @@ namespace CloudMapUI
                 label_longline.Location = new Point(labelX, labelY);
                 LabelTransparent labelTransparent = new LabelTransparent(label_longline);
                 labelTransparent.DoubleClick += new EventHandler(this.LabelTransp_DoubleClick);
+                foreach (Control con in Cons)
+                {
+                    if (con is LabelTransparent)
+                    {
+                        if ((((LabelTransparent)con).Location) == labelTransparent.Location)
+                        {
+                            return;
+                        }
+                    }
+                }
                 panel4.Controls.Add(labelTransparent);
                 labelTransparent.BringToFront();
             }

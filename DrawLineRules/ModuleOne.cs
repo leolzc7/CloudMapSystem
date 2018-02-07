@@ -40,12 +40,12 @@ namespace DrawLineRules
         {
             if (com == 1 || com == 5)
             {
-                moduleGrid.gridPointAt(posx + width - 15, posy).setRouted();
-                return moduleGrid.gridPointAt(posx + width - 15, posy);
+                moduleGrid.gridPointAt(posx + width - 13, posy).setRouted();
+                return moduleGrid.gridPointAt(posx + width - 13, posy);
             }
             else
             {
-                int x = 6; //人为的使竖线不在一起
+                int x = 5; //人为的使竖线不在一起
                 int step = width / (this.num_north + 1);
                 for (int i = 0; i < this.num_north; i++)
                 {
@@ -63,8 +63,8 @@ namespace DrawLineRules
         {
             if (com == 3 || com == 7)
             {
-                moduleGrid.gridPointAt(posx + getWidth() - 1, posy + 25).setRouted();
-                return moduleGrid.gridPointAt(posx + getWidth() - 1, posy + 25);
+                moduleGrid.gridPointAt(posx + getWidth() - 1, posy + getHeight() - 23).setRouted();
+                return moduleGrid.gridPointAt(posx + getWidth() - 1, posy + getHeight() - 23);
             }
             else
             {
@@ -85,8 +85,8 @@ namespace DrawLineRules
         {
             if (com == 1 || com == 5)
             {
-                moduleGrid.gridPointAt(posx + width - 15, posy + getHeight() - 1).setRouted();
-                return moduleGrid.gridPointAt(posx + width - 15, posy + getHeight() - 1);
+                moduleGrid.gridPointAt(posx + width - 13, posy + getHeight() - 1).setRouted();
+                return moduleGrid.gridPointAt(posx + width - 13, posy + getHeight() - 1);
             }
             else
             {
@@ -108,8 +108,8 @@ namespace DrawLineRules
         {
             if (com == 3 || com == 7)
             {
-                moduleGrid.gridPointAt(posx, posy + 25).setRouted();
-                return moduleGrid.gridPointAt(posx, posy + 25);
+                moduleGrid.gridPointAt(posx, posy + getHeight() - 23).setRouted();
+                return moduleGrid.gridPointAt(posx, posy + getHeight() - 23);
             }
             else
             {
