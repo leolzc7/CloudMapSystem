@@ -1151,7 +1151,9 @@ namespace CloudMapUI
                 }
                 label_longline.Location = new Point(labelX, labelY);
                 LabelTransparent labelTransparent = new LabelTransparent(label_longline);
-                labelTransparent.DoubleClick += new EventHandler(this.LabelTransp_DoubleClick);
+                //labelTransparent.DoubleClick += new EventHandler(this.LabelTransp_RightMouseDown);
+                labelTransparent.MouseDown += new MouseEventHandler(this.LabelTransp_MouseDown);
+                labelTransparent.MouseUp += new MouseEventHandler(this.LabelTransp_MouseUp);
                 foreach (Control con in Cons)
                 {
                     if (con is LabelTransparent)
@@ -1166,6 +1168,32 @@ namespace CloudMapUI
                 labelTransparent.BringToFront();
             }
         }
+        private Point mouse_offset;
+        private void LabelTransp_RightClick(object sender, EventArgs e)
+        {
+            panel4.Controls.Remove((LabelTransparent)sender);
+        }
+        private void LabelTransp_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                panel4.Controls.Remove((LabelTransparent)sender);
+            }
+            else
+            {
+                mouse_offset = new Point(-e.X, -e.Y);
+            }
+        }
+        private void LabelTransp_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                Point mousePos = Control.MousePosition;
+                mousePos.Offset(mouse_offset.X, mouse_offset.Y);
+                ((LabelTransparent)sender).Location = ((LabelTransparent)sender).Parent.PointToClient(mousePos);
+            }
+        }
+
         //单击关系线
         private void AlineClick(object sender, EventArgs e)
         {
@@ -1372,11 +1400,7 @@ namespace CloudMapUI
             }
         }
         //双击关系线名称，使其消失
-        private void LabelTransp_DoubleClick(object sender, EventArgs e)
-        {
-            panel4.Controls.Remove((LabelTransparent)sender);
-        }
-
+        
         private void 添加业务流ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             StreamForm stream = new StreamForm(this);
