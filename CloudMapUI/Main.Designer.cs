@@ -30,10 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
             this.ToolStripMenuItem_File = new System.Windows.Forms.ToolStripMenuItem();
             this.NToolStripMenuItem_newProject = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -117,11 +117,7 @@
             this.toolStripButton_addRelation = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_stream = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripDropDownButton_borderLIne = new System.Windows.Forms.ToolStripDropDownButton();
-            this.toolStripDropDownButton_colorFilling = new System.Windows.Forms.ToolStripDropDownButton();
-            this.toolStripDropDownButton_comment = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripButton_moduleFontColor = new System.Windows.Forms.ToolStripButton();
-            this.toolStripDropDownButton_lineColor = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripDropDownButton_lineWidth = new System.Windows.Forms.ToolStripDropDownButton();
             this.磅ToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.磅ToolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
@@ -135,6 +131,11 @@
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.contextMenuStrip_LineText = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.取消显示 = new System.Windows.Forms.ToolStripMenuItem();
+            this.旋转方向ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
             this.menuStrip2.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -697,9 +698,9 @@
             this.dataGridView_module.AllowUserToDeleteRows = false;
             this.dataGridView_module.AllowUserToResizeColumns = false;
             this.dataGridView_module.AllowUserToResizeRows = false;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
-            this.dataGridView_module.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle13.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
+            this.dataGridView_module.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle13;
             this.dataGridView_module.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.dataGridView_module.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_module.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -709,9 +710,9 @@
             this.dataGridView_module.Name = "dataGridView_module";
             this.dataGridView_module.ReadOnly = true;
             this.dataGridView_module.RowHeadersVisible = false;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(238)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
-            this.dataGridView_module.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle14.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(238)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
+            this.dataGridView_module.RowsDefaultCellStyle = dataGridViewCellStyle14;
             this.dataGridView_module.RowTemplate.Height = 23;
             this.dataGridView_module.Size = new System.Drawing.Size(186, 454);
             this.dataGridView_module.TabIndex = 0;
@@ -742,9 +743,9 @@
             this.dataGridView_relation.AllowUserToDeleteRows = false;
             this.dataGridView_relation.AllowUserToResizeColumns = false;
             this.dataGridView_relation.AllowUserToResizeRows = false;
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
-            this.dataGridView_relation.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle15.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
+            this.dataGridView_relation.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle15;
             this.dataGridView_relation.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(248)))));
             this.dataGridView_relation.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_relation.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -755,9 +756,9 @@
             this.dataGridView_relation.Name = "dataGridView_relation";
             this.dataGridView_relation.ReadOnly = true;
             this.dataGridView_relation.RowHeadersVisible = false;
-            dataGridViewCellStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(238)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
-            this.dataGridView_relation.RowsDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle16.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(238)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(182)))), ((int)(((byte)(221)))));
+            this.dataGridView_relation.RowsDefaultCellStyle = dataGridViewCellStyle16;
             this.dataGridView_relation.RowTemplate.Height = 23;
             this.dataGridView_relation.Size = new System.Drawing.Size(186, 454);
             this.dataGridView_relation.TabIndex = 0;
@@ -903,40 +904,6 @@
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(6, 43);
             // 
-            // toolStripDropDownButton_borderLIne
-            // 
-            this.toolStripDropDownButton_borderLIne.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripDropDownButton_borderLIne.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton_borderLIne.Image")));
-            this.toolStripDropDownButton_borderLIne.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton_borderLIne.Name = "toolStripDropDownButton_borderLIne";
-            this.toolStripDropDownButton_borderLIne.Size = new System.Drawing.Size(45, 40);
-            this.toolStripDropDownButton_borderLIne.Text = "toolStripDropDownButton1";
-            this.toolStripDropDownButton_borderLIne.ToolTipText = "云图边框设置";
-            this.toolStripDropDownButton_borderLIne.Click += new System.EventHandler(this.toolStripDropDownButton_borderLIne_Click);
-            // 
-            // toolStripDropDownButton_colorFilling
-            // 
-            this.toolStripDropDownButton_colorFilling.AutoSize = false;
-            this.toolStripDropDownButton_colorFilling.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripDropDownButton_colorFilling.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton_colorFilling.Image")));
-            this.toolStripDropDownButton_colorFilling.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton_colorFilling.Name = "toolStripDropDownButton_colorFilling";
-            this.toolStripDropDownButton_colorFilling.Size = new System.Drawing.Size(45, 40);
-            this.toolStripDropDownButton_colorFilling.Text = "toolStripDropDownButton1";
-            this.toolStripDropDownButton_colorFilling.ToolTipText = "信息系统填充颜色";
-            this.toolStripDropDownButton_colorFilling.Click += new System.EventHandler(this.toolStripDropDownButton_colorFilling_Click);
-            // 
-            // toolStripDropDownButton_comment
-            // 
-            this.toolStripDropDownButton_comment.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripDropDownButton_comment.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton_comment.Image")));
-            this.toolStripDropDownButton_comment.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton_comment.Name = "toolStripDropDownButton_comment";
-            this.toolStripDropDownButton_comment.Size = new System.Drawing.Size(45, 40);
-            this.toolStripDropDownButton_comment.Text = "toolStripDropDownButton1";
-            this.toolStripDropDownButton_comment.ToolTipText = "信息系统名称字体设置";
-            this.toolStripDropDownButton_comment.Click += new System.EventHandler(this.toolStripDropDownButton_comment_Click);
-            // 
             // toolStripButton_moduleFontColor
             // 
             this.toolStripButton_moduleFontColor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -947,17 +914,6 @@
             this.toolStripButton_moduleFontColor.Text = "模块字体颜色";
             this.toolStripButton_moduleFontColor.ToolTipText = "信息系统名称颜色设置";
             this.toolStripButton_moduleFontColor.Click += new System.EventHandler(this.toolStripButton_moduleFontColor_Click);
-            // 
-            // toolStripDropDownButton_lineColor
-            // 
-            this.toolStripDropDownButton_lineColor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripDropDownButton_lineColor.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton_lineColor.Image")));
-            this.toolStripDropDownButton_lineColor.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton_lineColor.Name = "toolStripDropDownButton_lineColor";
-            this.toolStripDropDownButton_lineColor.Size = new System.Drawing.Size(45, 40);
-            this.toolStripDropDownButton_lineColor.Text = "toolStripDropDownButton2";
-            this.toolStripDropDownButton_lineColor.ToolTipText = "关系线颜色";
-            this.toolStripDropDownButton_lineColor.Click += new System.EventHandler(this.toolStripDropDownButton_lineColor_Click);
             // 
             // toolStripDropDownButton_lineWidth
             // 
@@ -977,21 +933,21 @@
             // 磅ToolStripMenuItem3
             // 
             this.磅ToolStripMenuItem3.Name = "磅ToolStripMenuItem3";
-            this.磅ToolStripMenuItem3.Size = new System.Drawing.Size(99, 22);
+            this.磅ToolStripMenuItem3.Size = new System.Drawing.Size(152, 22);
             this.磅ToolStripMenuItem3.Text = "1 倍";
             this.磅ToolStripMenuItem3.Click += new System.EventHandler(this.磅ToolStripMenuItem3_Click);
             // 
             // 磅ToolStripMenuItem5
             // 
             this.磅ToolStripMenuItem5.Name = "磅ToolStripMenuItem5";
-            this.磅ToolStripMenuItem5.Size = new System.Drawing.Size(99, 22);
+            this.磅ToolStripMenuItem5.Size = new System.Drawing.Size(152, 22);
             this.磅ToolStripMenuItem5.Text = "2 倍";
             this.磅ToolStripMenuItem5.Click += new System.EventHandler(this.磅ToolStripMenuItem5_Click);
             // 
             // 磅ToolStripMenuItem6
             // 
             this.磅ToolStripMenuItem6.Name = "磅ToolStripMenuItem6";
-            this.磅ToolStripMenuItem6.Size = new System.Drawing.Size(99, 22);
+            this.磅ToolStripMenuItem6.Size = new System.Drawing.Size(152, 22);
             this.磅ToolStripMenuItem6.Text = "5 倍";
             this.磅ToolStripMenuItem6.Click += new System.EventHandler(this.磅ToolStripMenuItem6_Click);
             // 
@@ -1053,12 +1009,12 @@
             this.toolStripButton_addRelation,
             this.toolStripButton_stream,
             this.toolStripSeparator5,
-            this.toolStripDropDownButton_borderLIne,
-            this.toolStripDropDownButton_colorFilling,
-            this.toolStripDropDownButton_comment,
+            this.toolStripButton5,
+            this.toolStripButton6,
+            this.toolStripButton4,
             this.toolStripButton_moduleFontColor,
             this.toolStripSeparator8,
-            this.toolStripDropDownButton_lineColor,
+            this.toolStripButton3,
             this.toolStripDropDownButton_lineWidth,
             this.toolStripSeparator6,
             this.toolStripButton1,
@@ -1079,16 +1035,68 @@
             // contextMenuStrip_LineText
             // 
             this.contextMenuStrip_LineText.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.取消显示});
+            this.取消显示,
+            this.旋转方向ToolStripMenuItem});
             this.contextMenuStrip_LineText.Name = "contextMenuStrip_LineText";
-            this.contextMenuStrip_LineText.Size = new System.Drawing.Size(125, 26);
+            this.contextMenuStrip_LineText.Size = new System.Drawing.Size(101, 48);
             // 
             // 取消显示
             // 
             this.取消显示.Name = "取消显示";
-            this.取消显示.Size = new System.Drawing.Size(124, 22);
-            this.取消显示.Text = "取消显示";
-            this.取消显示.Click += new System.EventHandler(this.LabelTransp_RightClick);
+            this.取消显示.Size = new System.Drawing.Size(100, 22);
+            this.取消显示.Text = "取消";
+            this.取消显示.Click += new System.EventHandler(this.LabelTransp_Item_Click);
+            // 
+            // 旋转方向ToolStripMenuItem
+            // 
+            this.旋转方向ToolStripMenuItem.Name = "旋转方向ToolStripMenuItem";
+            this.旋转方向ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.旋转方向ToolStripMenuItem.Text = "旋转";
+            this.旋转方向ToolStripMenuItem.Click += new System.EventHandler(this.LabelTransp_Item_Click);
+            // 
+            // toolStripButton3
+            // 
+            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(36, 40);
+            this.toolStripButton3.Text = "toolStripButton3";
+            this.toolStripButton3.ToolTipText = "关系线颜色";
+            this.toolStripButton3.Click += new System.EventHandler(this.toolStripDropDownButton_lineColor_Click);
+            // 
+            // toolStripButton4
+            // 
+            this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
+            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton4.Name = "toolStripButton4";
+            this.toolStripButton4.Size = new System.Drawing.Size(36, 40);
+            this.toolStripButton4.Text = "toolStripButton4";
+            this.toolStripButton4.ToolTipText = "信息系统名称字体设置";
+            this.toolStripButton4.Click += new System.EventHandler(this.toolStripDropDownButton_comment_Click);
+            // 
+            // toolStripButton5
+            // 
+            this.toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
+            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton5.Name = "toolStripButton5";
+            this.toolStripButton5.Size = new System.Drawing.Size(36, 40);
+            this.toolStripButton5.Text = "toolStripButton5";
+            this.toolStripButton5.ToolTipText = "云图边框设置";
+            this.toolStripButton5.Click += new System.EventHandler(this.toolStripDropDownButton_borderLIne_Click);
+            // 
+            // toolStripButton6
+            // 
+            this.toolStripButton6.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton6.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton6.Image")));
+            this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton6.Name = "toolStripButton6";
+            this.toolStripButton6.Size = new System.Drawing.Size(36, 40);
+            this.toolStripButton6.Text = "toolStripButton6";
+            this.toolStripButton6.ToolTipText = "信息系统填充颜色";
+            this.toolStripButton6.Click += new System.EventHandler(this.toolStripDropDownButton_colorFilling_Click);
             // 
             // MainForm
             // 
@@ -1212,11 +1220,7 @@
         public System.Windows.Forms.ToolStripButton toolStripButton_addRelation;
         private System.Windows.Forms.ToolStripButton toolStripButton_stream;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-        public System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton_borderLIne;
-        public System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton_colorFilling;
-        public System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton_comment;
         private System.Windows.Forms.ToolStripButton toolStripButton_moduleFontColor;
-        public System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton_lineColor;
         public System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton_lineWidth;
         private System.Windows.Forms.ToolStripMenuItem 磅ToolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem 磅ToolStripMenuItem5;
@@ -1230,6 +1234,11 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip_LineText;
         private System.Windows.Forms.ToolStripMenuItem 取消显示;
+        private System.Windows.Forms.ToolStripMenuItem 旋转方向ToolStripMenuItem;
+        public System.Windows.Forms.ToolStripButton toolStripButton3;
+        public System.Windows.Forms.ToolStripButton toolStripButton5;
+        public System.Windows.Forms.ToolStripButton toolStripButton6;
+        private System.Windows.Forms.ToolStripButton toolStripButton4;
     }
 }
 

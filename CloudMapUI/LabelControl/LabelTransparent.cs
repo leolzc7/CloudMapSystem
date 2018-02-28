@@ -19,6 +19,7 @@ namespace CloudMapUI
             Bounds = label.Bounds;
             Location = label.Location;
             ClientSize = label.ClientSize;
+            Text = label.Text;
             
         }
         public LabelTransparent()

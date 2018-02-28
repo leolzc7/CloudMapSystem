@@ -493,7 +493,14 @@ namespace CloudMapUI
          
         private void 帮助ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("1. 单击系统：系统和与之相连的关系线高亮显示(系统背景边框颜色加深，关系线颜色变为红色）。\r\n2. 双击系统：弹出系统详细信息窗口，并恢复界面上所有系统关系线的默认属性。\r\n3. 单击关系线：红色显示该关系，并在合适位置显示关系名称。\r\n4. 双击关系线：弹出关系线详细信息窗口，并恢复界面上所有关系线的默认属性。\r\n5. 双击关系线上显示的关系名称：隐藏该名称显示。",
+            MessageBox.Show(@"1. 单击系统：系统和与之相连的关系线高亮显示。
+2. 双击系统：弹出系统详细信息窗口。
+3. 单击关系线：红色显示该关系，并在合适位置显示关系名称。
+4. 双击关系线：弹出关系线详细信息窗口。
+5. 右击系统显示流经该系统所有业务流，选择某业务流，闪烁显示该流流经过程。
+6. 右击关系线名称选择取消：隐藏该名称显示。
+7. 右击关系线名称选择旋转：切换关系线名称显示方向。
+8. 关系线上显示的关系名称可任意拖动。",
                 "界面操作指南", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -1002,24 +1009,6 @@ namespace CloudMapUI
         //双击模块，恢复默认样式，并显示系统详细信息
         private void MyButton_DoubleClick(object sender, EventArgs e)
         {
-            //恢复模块原有样式
-            Control.ControlCollection Cons = this.panel4.Controls;
-            foreach (Control con in Cons)
-            {
-                if (con is MyButton)
-                {
-                    ((MyButton)con).FlatAppearance.BorderSize = 1;
-                    ((MyButton)con).BackColor = this.ModuleColor.Color;
-                }
-            }
-            //恢复关系线原有样式
-            foreach (Control con in Cons)
-            {
-                if (con is ALine)
-                {
-                    ((ALine)con).Pencolor = this.LineColor.Color;
-                }
-            }
             ModuleInfo moduleinfo = new ModuleInfo((MyButton)sender);
             moduleinfo.ShowDialog();
         }
@@ -1154,11 +1143,12 @@ namespace CloudMapUI
                 //labelTransparent.DoubleClick += new EventHandler(this.LabelTransp_RightMouseDown);
                 labelTransparent.MouseDown += new MouseEventHandler(this.LabelTransp_MouseDown);
                 labelTransparent.MouseUp += new MouseEventHandler(this.LabelTransp_MouseUp);
+                labelTransparent.ContextMenuStrip = this.contextMenuStrip_LineText;
                 foreach (Control con in Cons)
                 {
                     if (con is LabelTransparent)
                     {
-                        if ((((LabelTransparent)con).Location) == labelTransparent.Location)
+                        if ((((LabelTransparent)con).Text) == labelTransparent.Text)
                         {
                             return;
                         }
@@ -1169,15 +1159,22 @@ namespace CloudMapUI
             }
         }
         private Point mouse_offset;
-        private void LabelTransp_RightClick(object sender, EventArgs e)
+        private LabelTransparent selectLabel;
+        private void LabelTransp_Item_Click(object sender, EventArgs e)
         {
-            panel4.Controls.Remove((LabelTransparent)sender);
+            if(((ToolStripItem)sender).Name=="取消显示")
+                panel4.Controls.Remove(selectLabel);
+            else
+            {
+                Size sizeOld = selectLabel.Size;
+                selectLabel.Size = new Size(sizeOld.Height, sizeOld.Width);
+            }
         }
         private void LabelTransp_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
             {
-                panel4.Controls.Remove((LabelTransparent)sender);
+                selectLabel = (LabelTransparent)sender;
             }
             else
             {
@@ -1226,14 +1223,6 @@ namespace CloudMapUI
 
         private void AlineDoubleClick(object sender, EventArgs e)
         {
-            Control.ControlCollection Cons = panel4.Controls;
-            foreach (Control con in Cons)
-            {
-                if (con is ALine)
-                {
-                    ((ALine)con).Pencolor = LineColor.Color;
-                }
-            }
             RelationInfo relationinfo = new RelationInfo((ALine)sender);
             relationinfo.ShowDialog();
         }
@@ -1442,5 +1431,7 @@ namespace CloudMapUI
                 }
             }
         }
+
+
     }
 }
