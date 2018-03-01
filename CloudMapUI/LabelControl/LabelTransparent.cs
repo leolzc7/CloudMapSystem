@@ -20,7 +20,6 @@ namespace CloudMapUI
             Location = label.Location;
             ClientSize = label.ClientSize;
             Text = label.Text;
-            
         }
         public LabelTransparent()
         {

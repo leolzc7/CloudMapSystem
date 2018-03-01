@@ -38,7 +38,8 @@ namespace DataAccess
 
                 string sq2 = "CREATE TABLE IF NOT EXISTS relation(sourceName STRING NOT NULL, " +
                     "targetName STRING NOT NULL, rname varchar(50), bidirection varchar(20), type varchar(50), " +
-                    "comment varchar(100), show varchar(20), PRIMARY KEY(sourceName, targetName),FOREIGN KEY (sourceName) " +
+                    "comment varchar(100), show varchar(20), sizeX INTERGER  default(0), sizeY INTERGER default(0), locX INTERGER default(0), locY INTERGER default(0), locDeltaX INTERGER default(0), locDeltaY INTERGER default(0)," +
+                    "PRIMARY KEY(sourceName, targetName),FOREIGN KEY (sourceName) " +
                     "REFERENCES modules(name) on delete cascade on update cascade, " +
                     "FOREIGN KEY(targetName) REFERENCES modules(name) on delete cascade on update cascade); ";//建表语句
                 using (SQLiteCommand cmd = new SQLiteCommand(sq2, conn))

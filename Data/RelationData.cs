@@ -18,6 +18,12 @@ namespace Data
         public const string TYPE_FIELD = "type";
         public const string COMMENT_FIELD = "comment";
         public const string SHOW_FIELD = "show";
+        public const string SIZE_X_FIELD = "sizeX";
+        public const string SIZE_Y_FIELD = "sizeY";
+        public const string LOC_X_FIELD = "locX";
+        public const string LOC_Y_FIELD = "locY";
+        public const string LOC_DELTA_X_FIELD = "locDeltaX";
+        public const string LOC_DELTA_Y_FIELD = "locDeltaY";
 
         public RelationData()
         {
@@ -35,6 +41,13 @@ namespace Data
             columns.Add(TYPE_FIELD, typeof(string));
             columns.Add(COMMENT_FIELD, typeof(string));
             columns.Add(SHOW_FIELD, typeof(int));
+
+            columns.Add(SIZE_X_FIELD, typeof(int));
+            columns.Add(SIZE_Y_FIELD, typeof(int));
+            columns.Add(LOC_X_FIELD, typeof(int));
+            columns.Add(LOC_Y_FIELD, typeof(int));
+            columns.Add(LOC_DELTA_X_FIELD, typeof(int));
+            columns.Add(LOC_DELTA_Y_FIELD, typeof(int));
 
             this.Tables.Add(newTable);
         }

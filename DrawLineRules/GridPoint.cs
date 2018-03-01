@@ -51,7 +51,7 @@ namespace DrawLineRules
 
         public GridPoint verticalStepVertex(int i)
         {
-            return myGrid.gridPointAt(posx, posy - i);
+            return myGrid.gridPointAt(posx, posy + i);
         }
 
         public GridPoint horizontalStepVertex(int i)

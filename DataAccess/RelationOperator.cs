@@ -114,7 +114,7 @@ namespace DataAccess
                     return false;
                 string sourceName = "'" + relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.SOURCENAME_FIELD].ToString() + "'";
                 string targetName = "'" + relation.Tables[RelationData.RELATION_TABLE].Rows[i][RelationData.TARGETNAME_FIELD].ToString() + "'";
-                string sql1 = "insert into relation select * from secondDb.relation where sourceName = " + sourceName + " and targetName = " + targetName;
+                string sql1 = "insert into relation(sourceName,targetName,rname,bidirection,type,comment,show) select sourceName,targetName,rname,bidirection,type,comment,show from secondDb.relation where sourceName = " + sourceName + " and targetName = " + targetName;
                 string sql00 = "ATTACH DATABASE '" + globalParameters.secondDbPath + "' as 'secondDb'";
                 using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
                 {
@@ -184,14 +184,11 @@ namespace DataAccess
             string type = "'" + data[RelationData.TYPE_FIELD] + "',";
             string comment = "'" + data[RelationData.COMMENT_FIELD] + "',";
             string show = "'" + data[RelationData.SHOW_FIELD] + "'";
-            cmdInsert = "INSERT INTO relation VALUES(" + source + target + name + bidirection + type + comment + show + ")";
+            cmdInsert = "INSERT INTO relation(sourceName,targetName,rname,bidirection,type,comment,show) VALUES(" + source + target + name + bidirection + type + comment + show + ")";
             return cmdInsert;
         }
         public static bool UpdateRelationInfo(RelationData relation, string selectSource, string selectTarget)
         {
-            //bool check = CheckDuplication(relation);
-            //if (!check)
-            //    return false;
             string updateCommand = GetUpdateCommand(relation, selectSource, selectTarget);
             using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
             {
@@ -396,6 +393,45 @@ namespace DataAccess
             nameString = nameString + ")";
             return nameString;
         }
+
+        public static bool UpdateRelationCommentInfo(RelationData relation)
+        {
+            using (SQLiteConnection conn = new SQLiteConnection(globalParameters.dbPath))
+            {
+                conn.Open();
+                for (int i = 0; i < relation.Tables[RelationData.RELATION_TABLE].Rows.Count; i++)
+                {
+                    DataRow data = relation.Tables[RelationData.RELATION_TABLE].Rows[i];
+                    string updateCommand = GetUpdateCommentCommand(data);
+                    using (SQLiteCommand cmd = new SQLiteCommand(updateCommand, conn))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                conn.Close();
+            }
+            if (relation.HasErrors)
+            {
+                relation.Tables[RelationData.RELATION_TABLE].GetErrors()[0].ClearErrors();
+                return false;
+            }
+            else
+            {
+                relation.AcceptChanges();
+                return true;
+            }
+        }
+        private static string GetUpdateCommentCommand(DataRow data)
+        {
+            string cmdUpdate;
+            string change = @"sizeX = " + data[RelationData.SIZE_X_FIELD] + ", sizeY = " + data[RelationData.SIZE_Y_FIELD] + ", locX = " + data[RelationData.LOC_X_FIELD] + ", locY = " + data[RelationData.LOC_Y_FIELD] + ", locDeltaX = " + data[RelationData.LOC_DELTA_X_FIELD] + ", locDeltaY = " + data[RelationData.LOC_DELTA_Y_FIELD];
+            string condition1 = @"sourceName = '" + data[RelationData.SOURCENAME_FIELD] + "'";
+            string condition2 = @"targetName = '" + data[RelationData.TARGETNAME_FIELD] + "'";
+            cmdUpdate = "UPDATE relation SET " + change + " WHERE " + condition1 + " and " + condition2;
+            return cmdUpdate;
+        }
+
+
     }
 }
 

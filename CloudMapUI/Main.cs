@@ -21,6 +21,7 @@ namespace CloudMapUI
         public static int penWidth=1;
         public static ModuleData moduledata;
         public static RelationData relationdata;
+        public static RelationData relationdataRepire=new RelationData();
         public static MainForm mainform;
         public static int panelWidth;
         public static int panelHeight;
@@ -241,12 +242,12 @@ namespace CloudMapUI
             {
                 ResetColor();
             }
+            mainFormStatus();
             btn_generateMap_Click(sender, e);
             if (globalParameters.dbName != null)
             {
                 this.Text = globalParameters.dbName + "-企业云图";
             }
-            mainFormStatus();
         }
         private void ResetColor()
         {
@@ -262,6 +263,7 @@ namespace CloudMapUI
 
         private void ToolStripMenuItem_SaveProject_Click(object sender, EventArgs e)
         {
+            RelationOperator.UpdateRelationCommentInfo(relationdataRepire);
             SystemOperator.SaveBackupDb();
             isSaved = true;
             //将画图上的颜色配置保存下来
@@ -1119,6 +1121,8 @@ namespace CloudMapUI
                 label_longline.BackColor = Color.Transparent;
                 label_longline.AutoSize = false;
                 label_longline.Text = aline.Name;//记录关系描述信息
+
+                DataRow[] selectRow = relationdata.Tables[RelationData.RELATION_TABLE].Select("rname = '" + aline.Text + "'");
                 int fontsize = (int)label_longline.Font.Size;
                 int width, height;
                 //判断最长的线是横着还是竖着的，横竖size和location不一样
@@ -1138,9 +1142,9 @@ namespace CloudMapUI
                     labelY = longline.Location.Y - 10;
                     label_longline.Size = new Size(width, height);
                 }
+                
                 label_longline.Location = new Point(labelX, labelY);
                 LabelTransparent labelTransparent = new LabelTransparent(label_longline);
-                //labelTransparent.DoubleClick += new EventHandler(this.LabelTransp_RightMouseDown);
                 labelTransparent.MouseDown += new MouseEventHandler(this.LabelTransp_MouseDown);
                 labelTransparent.MouseUp += new MouseEventHandler(this.LabelTransp_MouseUp);
                 labelTransparent.ContextMenuStrip = this.contextMenuStrip_LineText;
@@ -1156,6 +1160,56 @@ namespace CloudMapUI
                 }
                 panel4.Controls.Add(labelTransparent);
                 labelTransparent.BringToFront();
+                if ((int)selectRow[0][RelationData.LOC_DELTA_X_FIELD] != 0 || (int)selectRow[0][RelationData.LOC_DELTA_Y_FIELD] != 0)
+                {
+                    Point point = new Point((int)selectRow[0][RelationData.LOC_DELTA_X_FIELD], (int)selectRow[0][RelationData.LOC_DELTA_Y_FIELD]);
+                    Point pointDisplaySacle = new Point();
+                    switch (this.trackBar_displaySacle.Value)
+                    {
+                        case 0:
+                            pointDisplaySacle.X = (int)(point.X * 0.7);
+                            pointDisplaySacle.Y = (int)(point.Y * 0.7);
+                            break;
+                        case 1:
+                            pointDisplaySacle.X = point.X;
+                            pointDisplaySacle.Y = point.Y;
+                            break;
+                        case 2:
+                            pointDisplaySacle.X = (int)(point.X * 1.2);
+                            pointDisplaySacle.Y = (int)(point.Y * 1.2);
+                            break;
+                        case 3:
+                            pointDisplaySacle.X = (int)(point.X * 1.5);
+                            pointDisplaySacle.Y = (int)(point.Y * 1.5);
+                            break;
+                        case 4:
+                            pointDisplaySacle.X = (int)(point.X * 2);
+                            pointDisplaySacle.Y = (int)(point.Y * 2);
+                            break;
+                        case 5:
+                            pointDisplaySacle.X = (int)(point.X * 3);
+                            pointDisplaySacle.Y = (int)(point.Y * 3);
+                            break;
+                    }
+                    labelTransparent.Location = labelTransparent.Parent.PointToClient(pointDisplaySacle);
+                }
+                if ((int)selectRow[0][RelationData.SIZE_X_FIELD] != 0 || (int)selectRow[0][RelationData.SIZE_Y_FIELD] != 0)
+                {
+                    labelTransparent.Size = new Size((int)selectRow[0][RelationData.SIZE_X_FIELD], (int)selectRow[0][RelationData.SIZE_Y_FIELD]);
+                }
+                DataRow[] rowTemp = relationdataRepire.Tables[RelationData.RELATION_TABLE].Select("rname = '" + aline.Text + "'");
+                DataRow[] rows = relationdata.Tables[RelationData.RELATION_TABLE].Select("rname = '" + aline.Text + "'");
+                if (rowTemp.Count() != 0)
+                {
+                    relationdataRepire.Tables[RelationData.RELATION_TABLE].Rows.Remove(rowTemp[0]);
+                }
+                rows[0][RelationData.SIZE_X_FIELD] = labelTransparent.Size.Width;
+                rows[0][RelationData.SIZE_Y_FIELD] = labelTransparent.Size.Height;
+                rows[0][RelationData.LOC_X_FIELD] = labelX;
+                rows[0][RelationData.LOC_Y_FIELD] = labelY;
+                rows[0][RelationData.LOC_DELTA_X_FIELD] = (int)selectRow[0][RelationData.LOC_DELTA_X_FIELD];
+                rows[0][RelationData.LOC_DELTA_Y_FIELD] = (int)selectRow[0][RelationData.LOC_DELTA_Y_FIELD];
+                relationdataRepire.Tables[RelationData.RELATION_TABLE].Rows.Add(rows[0].ItemArray);
             }
         }
         private Point mouse_offset;
@@ -1168,6 +1222,19 @@ namespace CloudMapUI
             {
                 Size sizeOld = selectLabel.Size;
                 selectLabel.Size = new Size(sizeOld.Height, sizeOld.Width);
+                DataRow[] rowTemp = relationdataRepire.Tables[RelationData.RELATION_TABLE].Select("comment = '" + selectLabel.Text + "'");
+                DataRow[] rows = relationdata.Tables[RelationData.RELATION_TABLE].Select("comment ='" + selectLabel.Text + "'");
+                if (rowTemp.Count() != 0)
+                {
+                    rows[0][RelationData.LOC_X_FIELD] = rowTemp[0][RelationData.LOC_X_FIELD];
+                    rows[0][RelationData.LOC_Y_FIELD] = rowTemp[0][RelationData.LOC_Y_FIELD];
+                    rows[0][RelationData.LOC_DELTA_X_FIELD] = rowTemp[0][RelationData.LOC_DELTA_X_FIELD];
+                    rows[0][RelationData.LOC_DELTA_Y_FIELD] = rowTemp[0][RelationData.LOC_DELTA_Y_FIELD];
+                    relationdataRepire.Tables[RelationData.RELATION_TABLE].Rows.Remove(rowTemp[0]);
+                }
+                rows[0][RelationData.SIZE_X_FIELD] = selectLabel.Size.Width;
+                rows[0][RelationData.SIZE_Y_FIELD] = selectLabel.Size.Height;
+                relationdataRepire.Tables[RelationData.RELATION_TABLE].Rows.Add(rows[0].ItemArray);
             }
         }
         private void LabelTransp_MouseDown(object sender, MouseEventArgs e)
@@ -1188,6 +1255,20 @@ namespace CloudMapUI
                 Point mousePos = Control.MousePosition;
                 mousePos.Offset(mouse_offset.X, mouse_offset.Y);
                 ((LabelTransparent)sender).Location = ((LabelTransparent)sender).Parent.PointToClient(mousePos);
+                DataRow[] rowTemp = relationdataRepire.Tables[RelationData.RELATION_TABLE].Select("comment = '" + ((LabelTransparent)sender).Text + "'");
+                DataRow[] rows = relationdata.Tables[RelationData.RELATION_TABLE].Select("comment ='" + ((LabelTransparent)sender).Text + "'");
+                if (rowTemp.Count() != 0)
+                {
+                    rows[0][RelationData.LOC_X_FIELD] = rowTemp[0][RelationData.LOC_X_FIELD];
+                    rows[0][RelationData.LOC_Y_FIELD] = rowTemp[0][RelationData.LOC_Y_FIELD];
+                    rows[0][RelationData.SIZE_X_FIELD] = rowTemp[0][RelationData.SIZE_X_FIELD];
+                    rows[0][RelationData.SIZE_Y_FIELD] = rowTemp[0][RelationData.SIZE_Y_FIELD];
+                    relationdataRepire.Tables[RelationData.RELATION_TABLE].Rows.Remove(rowTemp[0]);
+                }
+                rows[0][RelationData.LOC_DELTA_X_FIELD] = mousePos.X;
+                rows[0][RelationData.LOC_DELTA_Y_FIELD] = mousePos.Y;
+                relationdataRepire.Tables[RelationData.RELATION_TABLE].Rows.Add(rows[0].ItemArray);
+                
             }
         }
 

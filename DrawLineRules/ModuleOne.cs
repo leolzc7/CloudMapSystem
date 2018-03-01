@@ -18,7 +18,7 @@ namespace DrawLineRules
         public static int gapy;
         private static int width; //定义模块的大小
         private static int height;
-        private int num_north;
+        private int num_north; //定义模块北边引脚的数量
         private int num_south;
         private int num_east;
         private int num_west;
@@ -36,12 +36,14 @@ namespace DrawLineRules
             posy = y;
         }
 
-        public GridPoint northPin(Grid moduleGrid, int com)
+        public GridPoint northPin(Grid moduleGrid, int com, int numMax)
         {
             if (com == 1 || com == 5)
             {
-                moduleGrid.gridPointAt(posx + width - 13, posy).setRouted();
-                return moduleGrid.gridPointAt(posx + width - 13, posy);
+                //moduleGrid.gridPointAt(posx + width - 13, posy).setRouted();
+                //return moduleGrid.gridPointAt(posx + width - 13, posy);
+                moduleGrid.gridPointAt(posx + numMax * width / (numMax + 1), posy).setRouted();
+                return moduleGrid.gridPointAt(posx + numMax * width / (numMax + 1), posy);
             }
             else
             {
@@ -59,12 +61,14 @@ namespace DrawLineRules
             return moduleGrid.gridPointAt(0, 0);
         }
 
-        public GridPoint eastPin(Grid moduleGrid, int com)
+        public GridPoint eastPin(Grid moduleGrid, int com, int numMax)
         {
             if (com == 3 || com == 7)
             {
-                moduleGrid.gridPointAt(posx + getWidth() - 1, posy + getHeight() - 23).setRouted();
-                return moduleGrid.gridPointAt(posx + getWidth() - 1, posy + getHeight() - 23);
+                //moduleGrid.gridPointAt(posx + getWidth() - 1, posy + getHeight() - 13).setRouted();
+                //return moduleGrid.gridPointAt(posx + getWidth() - 1, posy + getHeight() - 13);
+                moduleGrid.gridPointAt(posx + getWidth() - 1, posy + numMax * height / (numMax + 1)).setRouted();
+                return moduleGrid.gridPointAt(posx + getWidth() - 1, posy + numMax * height / (numMax + 1));
             }
             else
             {
@@ -81,12 +85,14 @@ namespace DrawLineRules
             return moduleGrid.gridPointAt(0, 0);
         }
 
-        public GridPoint southPin(Grid moduleGrid, int com)
+        public GridPoint southPin(Grid moduleGrid, int com, int numMax)
         {
             if (com == 1 || com == 5)
             {
-                moduleGrid.gridPointAt(posx + width - 13, posy + getHeight() - 1).setRouted();
-                return moduleGrid.gridPointAt(posx + width - 13, posy + getHeight() - 1);
+                //moduleGrid.gridPointAt(posx + width - 13, posy + getHeight() - 1).setRouted();
+                //return moduleGrid.gridPointAt(posx + width - 13, posy + getHeight() - 1);
+                moduleGrid.gridPointAt(posx + numMax * width / (numMax + 1), posy + getHeight() - 1).setRouted();
+                return moduleGrid.gridPointAt(posx + numMax * width / (numMax + 1), posy + getHeight() - 1);
             }
             else
             {
@@ -104,28 +110,31 @@ namespace DrawLineRules
             return moduleGrid.gridPointAt(0, 0);
         }
 
-        public GridPoint westPin(Grid moduleGrid, int com)
+        public GridPoint westPin(Grid moduleGrid, int com, int numMax)
         {
             if (com == 3 || com == 7)
             {
-                moduleGrid.gridPointAt(posx, posy + getHeight() - 23).setRouted();
-                return moduleGrid.gridPointAt(posx, posy + getHeight() - 23);
+                //moduleGrid.gridPointAt(posx, posy + getHeight() - 13).setRouted();
+                //return moduleGrid.gridPointAt(posx, posy + getHeight() - 13);
+                moduleGrid.gridPointAt(posx , posy + numMax * height / (numMax + 1)).setRouted();
+                return moduleGrid.gridPointAt(posx , posy + numMax * height / (numMax + 1));
             }
             else
             {
+                int y = 5;
                 int step = height / (this.num_west + 1);
                 for (int i = 0; i < this.num_west; i++)
                 {
-                    if (!moduleGrid.gridPointAt(posx, posy + (i + 1) * step).isRouted())
+                    if (!moduleGrid.gridPointAt(posx, posy + (i + 1) * step + y).isRouted())
                     {
-                        moduleGrid.gridPointAt(posx, posy + (i + 1) * step).setRouted();
-                        return moduleGrid.gridPointAt(posx, posy + (i + 1) * step);
+                        moduleGrid.gridPointAt(posx, posy + (i + 1) * step + y).setRouted();
+                        return moduleGrid.gridPointAt(posx, posy + (i + 1) * step + y );
                     }
                 }
             }
             return moduleGrid.gridPointAt(0, 0);
         }
-        public int compareModuleAdd(ModuleOne gp)
+        public int compareModuleAdd(ModuleOne gp)//比较两个模块的位置并范围对应的位置类型
         {
             if (posx == gp.getPosx())
             {
@@ -149,7 +158,12 @@ namespace DrawLineRules
                 if (posy > gp.getPosy())
                 {
                     if (posy - gp.getPosy() > mody)
-                        return 11;
+                    {
+                        if (gp.getPosx() - posx > modx)
+                            return 18;
+                        else
+                            return 11;
+                    }
                     else
                         return 2;
                 }
@@ -163,7 +177,12 @@ namespace DrawLineRules
                 if (posy < gp.getPosy())
                 {
                     if (gp.getPosy() - posy > mody)
-                        return 13;
+                    {
+                        if (gp.getPosx() - posx > modx)
+                            return 19;
+                        else
+                            return 13;
+                    }
                     else
                         return 4;
                 }
@@ -173,7 +192,12 @@ namespace DrawLineRules
                 if (posy < gp.getPosy())
                 {
                     if (gp.getPosy() - posy > mody)
-                        return 15;
+                    {
+                        if (posx - gp.getPosx() > modx)
+                            return 20;
+                        else
+                            return 15;
+                    }
                     else
                         return 6;
                 }
@@ -187,7 +211,12 @@ namespace DrawLineRules
                 if (posy > gp.getPosy())
                 {
                     if (posy - gp.getPosy() > mody)
-                        return 9;
+                    {
+                        if (posx - gp.getPosx() > modx)
+                            return 17;
+                        else
+                            return 9;
+                    }
                     else
                         return 8;
                 }
@@ -213,6 +242,22 @@ namespace DrawLineRules
         public void addNumEastOne()
         {
             this.num_east += 1;
+        }
+        public int getNumNorth()
+        {
+            return this.num_north;
+        }
+        public int getNumSouth()
+        {
+            return this.num_south;
+        }
+        public int getNumEast()
+        {
+            return this.num_east;
+        }
+        public int getNumWest()
+        {
+            return this.num_west;
         }
 
         public static int getWidth() { return width; }
