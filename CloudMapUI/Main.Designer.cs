@@ -579,14 +579,14 @@
             // 
             this.trackBar_displaySacle.AutoSize = false;
             this.trackBar_displaySacle.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.trackBar_displaySacle.LargeChange = 10;
+            this.trackBar_displaySacle.LargeChange = 1;
             this.trackBar_displaySacle.Location = new System.Drawing.Point(611, 11);
             this.trackBar_displaySacle.Maximum = 5;
             this.trackBar_displaySacle.Name = "trackBar_displaySacle";
             this.trackBar_displaySacle.Size = new System.Drawing.Size(139, 37);
             this.trackBar_displaySacle.TabIndex = 0;
             this.trackBar_displaySacle.Value = 1;
-            this.trackBar_displaySacle.Scroll += new System.EventHandler(this.trackBar_displaySacle_Scroll);
+            this.trackBar_displaySacle.ValueChanged += new System.EventHandler(this.trackBar_displaySacle_Scroll);
             // 
             // label2
             // 

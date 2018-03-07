@@ -27,6 +27,9 @@ namespace CloudMapUI
         public static int panelHeight;
         public static Color currentColor;
         public static bool isSaved = false;
+        public static bool isScale;
+        public int ScaleOld;
+        public int ScaleNew;
         public MainForm()
         {
             InitializeComponent();
@@ -122,6 +125,7 @@ namespace CloudMapUI
             panelHeight = panel4.Size.Height;
             this.comboBox_level.SelectedIndex = 2;
             this.comboBox_type.SelectedIndex = 0;
+            ScaleOld = this.trackBar_displaySacle.Value;
         }
         private void AddHistoryItem()
         {
@@ -161,6 +165,8 @@ namespace CloudMapUI
             panel4.Controls.Clear();//控件的清空
             this.panel4.Refresh();//Graphics的清空
             DrawModuleAndLines();//调用画控件函数
+            isScale = false;
+            ScaleOld = this.trackBar_displaySacle.Value;
         }
 
         private void NToolStripMenuItem_newProject_Click(object sender, EventArgs e)
@@ -1163,35 +1169,90 @@ namespace CloudMapUI
                 if ((int)selectRow[0][RelationData.LOC_DELTA_X_FIELD] != 0 || (int)selectRow[0][RelationData.LOC_DELTA_Y_FIELD] != 0)
                 {
                     Point point = new Point((int)selectRow[0][RelationData.LOC_DELTA_X_FIELD], (int)selectRow[0][RelationData.LOC_DELTA_Y_FIELD]);
-                    Point pointDisplaySacle = new Point();
-                    switch (this.trackBar_displaySacle.Value)
+                    if (isScale)
                     {
-                        case 0:
-                            pointDisplaySacle.X = (int)(point.X * 0.7);
-                            pointDisplaySacle.Y = (int)(point.Y * 0.7);
-                            break;
-                        case 1:
-                            pointDisplaySacle.X = point.X;
-                            pointDisplaySacle.Y = point.Y;
-                            break;
-                        case 2:
-                            pointDisplaySacle.X = (int)(point.X * 1.2);
-                            pointDisplaySacle.Y = (int)(point.Y * 1.2);
-                            break;
-                        case 3:
-                            pointDisplaySacle.X = (int)(point.X * 1.5);
-                            pointDisplaySacle.Y = (int)(point.Y * 1.5);
-                            break;
-                        case 4:
-                            pointDisplaySacle.X = (int)(point.X * 2);
-                            pointDisplaySacle.Y = (int)(point.Y * 2);
-                            break;
-                        case 5:
-                            pointDisplaySacle.X = (int)(point.X * 3);
-                            pointDisplaySacle.Y = (int)(point.Y * 3);
-                            break;
+                        Point pointDisplaySacle = new Point();
+                        if (ScaleNew > ScaleOld)
+                        {
+                            switch (this.trackBar_displaySacle.Value)
+                            {
+                                case 1:
+                                    {
+                                        pointDisplaySacle.X = (int)(point.X / 0.7);
+                                        pointDisplaySacle.Y = (int)(point.Y / 0.7);
+                                    }
+                                    break;
+                                case 2:
+                                    {
+                                        pointDisplaySacle.X = (int)(point.X *1.2);
+                                        pointDisplaySacle.Y = (int)(point.Y *1.2);
+                                    }
+                                    break;
+                                case 3:
+                                    {
+                                        pointDisplaySacle.X = (int)(point.X * 1.25);
+                                        pointDisplaySacle.Y = (int)(point.Y * 1.25);
+                                    }
+                                    break;
+                                case 4:
+                                    {
+                                        pointDisplaySacle.X = (int)(point.X * 1.33333);
+                                        pointDisplaySacle.Y = (int)(point.Y * 1.33333);
+                                    }
+                                    break;
+                                case 5:
+                                    {
+                                        pointDisplaySacle.X = (int)(point.X * 1.5);
+                                        pointDisplaySacle.Y = (int)(point.Y * 1.5);
+                                    }
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            switch (this.trackBar_displaySacle.Value)
+                            {
+                                case 1:
+                                    {
+                                        pointDisplaySacle.X = (int)(point.X / 1.2);
+                                        pointDisplaySacle.Y = (int)(point.Y / 1.2);
+                                    }
+                                    break;
+                                case 2:
+                                    {
+                                        pointDisplaySacle.X = (int)(point.X / 1.25);
+                                        pointDisplaySacle.Y = (int)(point.Y / 1.25);
+                                    }
+                                    break;
+                                case 3:
+                                    {
+                                        pointDisplaySacle.X = (int)(point.X / 1.33333);
+                                        pointDisplaySacle.Y = (int)(point.Y / 1.33333);
+                                    }
+                                    break;
+                                case 4:
+                                    {
+                                        pointDisplaySacle.X = (int)(point.X / 1.5);
+                                        pointDisplaySacle.Y = (int)(point.Y / 1.5);
+                                    }
+                                    break;
+                                case 0:
+                                    {
+                                        pointDisplaySacle.X = (int)(point.X * 0.7);
+                                        pointDisplaySacle.Y = (int)(point.Y * 0.7);
+                                    }
+                                    break;
+                            }
+                        }
+                        labelTransparent.Location = new Point(labelTransparent.Location.X + pointDisplaySacle.X, labelTransparent.Location.Y + pointDisplaySacle.Y);
+                        //labelTransparent.Location = labelTransparent.Parent.PointToClient(pointDisplaySacle);
+                        selectRow[0][RelationData.LOC_DELTA_X_FIELD] = pointDisplaySacle.X;
+                        selectRow[0][RelationData.LOC_DELTA_Y_FIELD] = pointDisplaySacle.Y;
                     }
-                    labelTransparent.Location = labelTransparent.Parent.PointToClient(pointDisplaySacle);
+                    else
+                    {
+                        labelTransparent.Location = new Point(labelTransparent.Location.X + point.X, labelTransparent.Location.Y + point.Y);
+                    }
                 }
                 if ((int)selectRow[0][RelationData.SIZE_X_FIELD] != 0 || (int)selectRow[0][RelationData.SIZE_Y_FIELD] != 0)
                 {
@@ -1245,7 +1306,7 @@ namespace CloudMapUI
             }
             else
             {
-                mouse_offset = new Point(-e.X, -e.Y);
+                mouse_offset = Control.MousePosition;
             }
         }
         private void LabelTransp_MouseUp(object sender, MouseEventArgs e)
@@ -1253,8 +1314,9 @@ namespace CloudMapUI
             if (e.Button == MouseButtons.Left)
             {
                 Point mousePos = Control.MousePosition;
-                mousePos.Offset(mouse_offset.X, mouse_offset.Y);
-                ((LabelTransparent)sender).Location = ((LabelTransparent)sender).Parent.PointToClient(mousePos);
+                mousePos.Offset(-mouse_offset.X, -mouse_offset.Y);
+                //((LabelTransparent)sender).Location = ((LabelTransparent)sender).Parent.PointToClient(mousePos);
+                ((LabelTransparent)sender).Location = new Point(((LabelTransparent)sender).Location.X + mousePos.X, ((LabelTransparent)sender).Location.Y + mousePos.Y);
                 DataRow[] rowTemp = relationdataRepire.Tables[RelationData.RELATION_TABLE].Select("comment = '" + ((LabelTransparent)sender).Text + "'");
                 DataRow[] rows = relationdata.Tables[RelationData.RELATION_TABLE].Select("comment ='" + ((LabelTransparent)sender).Text + "'");
                 if (rowTemp.Count() != 0)
@@ -1357,6 +1419,9 @@ namespace CloudMapUI
 
         private void trackBar_displaySacle_Scroll(object sender, EventArgs e)
         {
+            isScale = true;
+            ScaleOld = ScaleNew;
+            ScaleNew = this.trackBar_displaySacle.Value;
             int newPanelWidth = panelWidth;
             int newPanelHeight = panelHeight;
             switch (this.trackBar_displaySacle.Value)
