@@ -57,6 +57,7 @@ namespace CloudMapUI
             {
                 if(RelationOperator.ImportRelation(selectRelation))
                     MessageBox.Show(" 关系导入成功！", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MainForm.isSaved = false;
             }
         }
 

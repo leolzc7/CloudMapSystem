@@ -1327,8 +1327,8 @@ namespace CloudMapUI
                     rows[0][RelationData.SIZE_Y_FIELD] = rowTemp[0][RelationData.SIZE_Y_FIELD];
                     relationdataRepire.Tables[RelationData.RELATION_TABLE].Rows.Remove(rowTemp[0]);
                 }
-                rows[0][RelationData.LOC_DELTA_X_FIELD] = mousePos.X;
-                rows[0][RelationData.LOC_DELTA_Y_FIELD] = mousePos.Y;
+                rows[0][RelationData.LOC_DELTA_X_FIELD] = (int)rows[0][RelationData.LOC_DELTA_X_FIELD]+mousePos.X;
+                rows[0][RelationData.LOC_DELTA_Y_FIELD] = (int)rows[0][RelationData.LOC_DELTA_Y_FIELD]+mousePos.Y;
                 relationdataRepire.Tables[RelationData.RELATION_TABLE].Rows.Add(rows[0].ItemArray);
                 
             }
