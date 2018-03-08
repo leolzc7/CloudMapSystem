@@ -388,6 +388,7 @@
             this.checkBox_showRelationName.TabIndex = 99;
             this.checkBox_showRelationName.Text = "是否默认显示";
             this.checkBox_showRelationName.UseVisualStyleBackColor = true;
+            this.checkBox_showRelationName.MouseClick += new System.Windows.Forms.MouseEventHandler(this.checkBox_showRelationName_MouseClick);
             // 
             // target
             // 

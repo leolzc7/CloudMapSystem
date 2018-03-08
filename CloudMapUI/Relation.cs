@@ -424,5 +424,15 @@ namespace CloudMapUI
         {
 
         }
+
+        private void checkBox_showRelationName_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (pageStatus == RecordStatus.View)
+            {
+                bool check = checkBox_showRelationName.Checked;
+                checkBox_showRelationName.Checked = !check;
+                MessageBox.Show(" 请点击修改后再修改！", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
     }
 }

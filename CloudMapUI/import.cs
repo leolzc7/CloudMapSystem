@@ -266,5 +266,15 @@ namespace CloudMapUI
         {
 
         }
+
+        private void selectedAllModules_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (textBox1.Text == null || textBox1.Text == "")
+            {
+                selectedAllModules.Checked = false;
+                selectedAllRelation.Checked = false;
+                MessageBox.Show(" 请先选择要导入的数据库！", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
     }
 }
